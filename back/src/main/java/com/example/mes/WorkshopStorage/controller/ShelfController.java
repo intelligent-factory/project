@@ -1,0 +1,81 @@
+package com.example.mes.WorkshopStorage.controller;
+
+import com.example.mes.WorkshopStorage.para.GoodsUpdatePara;
+import com.example.mes.WorkshopStorage.service.ShelfService;
+import com.example.mes.WorkshopStorage.vo.PageVo;
+import com.example.mes.WorkshopStorage.vo.Result;
+import com.example.mes.WorkshopStorage.vo.ShelfVo;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/shelf")
+public class ShelfController {
+    @Autowired
+    private ShelfService shelfservice;
+
+    @GetMapping(value = "shelfItemById")
+    public Result<PageVo<ShelfVo>> shelfItemById(String storage_id, String user, String current, String pages){
+        Result<PageVo<ShelfVo>> result = new Result<>();
+        try {
+            result = shelfservice.shelfItemById(storage_id, current, pages);
+        }catch (Exception e){
+            e.printStackTrace();
+            LoggerFactory.getLogger(this.getClass()).error(""+e.getMessage());
+            result.error500(e.getMessage());
+        }
+        return result;
+    }
+
+    @GetMapping(value = "search")
+    public Result<List<ShelfVo>> searchShelf(String storage_id, String id){
+        Result<List<ShelfVo>> result = new Result<>();
+        try {
+            result = shelfservice.search(storage_id, id);
+        }catch (Exception e){
+            e.printStackTrace();
+            LoggerFactory.getLogger(this.getClass()).error(""+e.getMessage());
+            result.error500(e.getMessage());
+        }
+        return result;
+    }
+
+
+    @GetMapping(value="move")
+    public Result<?> move(GoodsUpdatePara params){
+        try {
+            shelfservice.move(params);
+        } catch (Exception e) {
+            LoggerFactory.getLogger(this.getClass()).error("转移失败",e.getMessage());
+            return Result.error("转移失败!");
+        }
+        return Result.ok("转移成功!");
+    }
+
+    @GetMapping(value = "insert")
+    public Result<?> insert(String storage_id, String id, String user){
+        try {
+            shelfservice.insert(storage_id, id, user);
+        } catch (Exception e) {
+            LoggerFactory.getLogger(this.getClass()).error("添加失败",e.getMessage());
+            return Result.error("添加失败!");
+        }
+        return Result.ok("添加成功!");
+    }
+
+    @GetMapping(value = "delete")
+    public Result<?> delete(String storage_id, String id, String user){
+        try {
+            shelfservice.delete(storage_id, id, user);
+        } catch (Exception e) {
+            LoggerFactory.getLogger(this.getClass()).error("删除失败",e.getMessage());
+            return Result.error("删除失败!");
+        }
+        return Result.ok("删除成功!");
+    }
+}
