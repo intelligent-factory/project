@@ -14,7 +14,7 @@ MySQL - 8.0.19 : Database - mes0
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 CREATE DATABASE /*!32312 IF NOT EXISTS*/`mes0` /*!40100 DEFAULT CHARACTER SET utf8 */ /*!80016 DEFAULT ENCRYPTION='N' */;
 
-USE `mes0`;
+USE `mes`;
 
 /*Table structure for table `access` */
 
