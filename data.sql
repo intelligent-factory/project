@@ -14,7 +14,7 @@ MySQL - 8.0.19 : Database - mes0
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 CREATE DATABASE /*!32312 IF NOT EXISTS*/`mes0` /*!40100 DEFAULT CHARACTER SET utf8 */ /*!80016 DEFAULT ENCRYPTION='N' */;
 
-USE `mes`;
+USE `mes0`;
 
 /*Table structure for table `access` */
 
@@ -190,7 +190,8 @@ DROP TABLE IF EXISTS `equipment_template`;
 CREATE TABLE `equipment_template` (
   `equipment_id` int DEFAULT NULL,
   `name` varchar(45) DEFAULT NULL,
-  `attribute` varchar(45) DEFAULT NULL
+  `attribute` varchar(45) DEFAULT NULL,
+  `company_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `equipment_template` */
@@ -226,10 +227,13 @@ DROP TABLE IF EXISTS `material_template`;
 CREATE TABLE `material_template` (
   `material_id` int DEFAULT NULL,
   `name` varchar(45) DEFAULT NULL,
-  `attribute` varchar(45) DEFAULT NULL
+  `attribute` varchar(45) DEFAULT NULL,
+  `company_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `material_template` */
+
+insert  into `material_template`(`material_id`,`name`,`attribute`,`company_id`) values (1,'拉链','规格',NULL),(1,'拉链','颜色',NULL),(2,'把手','颜色',NULL),(2,'把手','状态',NULL),(2,'把手','描述',NULL);
 
 /*Table structure for table `permission` */
 
@@ -701,6 +705,7 @@ CREATE TABLE `template_equipment` (
   `name` varchar(45) DEFAULT NULL,
   `attribute` varchar(45) DEFAULT NULL,
   `attribute_value` varchar(45) DEFAULT NULL,
+  `company_id` int DEFAULT NULL,
   PRIMARY KEY (`equipment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -715,6 +720,7 @@ CREATE TABLE `template_material` (
   `name` varchar(45) DEFAULT NULL,
   `attribute` varchar(45) DEFAULT NULL,
   `attribute_value` varchar(45) DEFAULT NULL,
+  `company_id` int DEFAULT NULL,
   PRIMARY KEY (`material_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
