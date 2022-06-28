@@ -1,10 +1,7 @@
 package com.example.mes.template.entity;
 
-import java.io.Serializable;
-
-//数据库实体，关系表中一条记录
-public class MaterialTemplate implements Serializable {
-    int material_id;
+public class EquipmentTemplate {
+    int equipment_id;
     String name;
     String attribute;
     int company_id;
@@ -17,12 +14,12 @@ public class MaterialTemplate implements Serializable {
         this.company_id = company_id;
     }
 
-    public int getMaterial_id() {
-        return material_id;
+    public int getEquipment_id() {
+        return equipment_id;
     }
 
-    public void setMaterial_id(int material_id) {
-        this.material_id = material_id;
+    public void setEquipment_id(int equipment_id) {
+        this.equipment_id = equipment_id;
     }
 
     public String getName() {
@@ -40,12 +37,4 @@ public class MaterialTemplate implements Serializable {
     public void setAttribute(String attribute) {
         this.attribute = attribute;
     }
-
-
-
-    public int getMaterialCode() {
-        return  material_id;
-    }
-
-
 }
