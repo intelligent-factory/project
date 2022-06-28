@@ -1,20 +1,15 @@
-package com.example.mes.template.entity;
+package com.example.mes.template.vo;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 
-public class EquipmentTemplate implements Serializable {
+public class EquipmentTemplateVO {
     int equipment_id;
+
     String name;
-    String attribute;
+
+    ArrayList<String> attribute;
+
     int company_id;
-
-    public int getCompany_id() {
-        return company_id;
-    }
-
-    public void setCompany_id(int company_id) {
-        this.company_id = company_id;
-    }
 
     public int getEquipment_id() {
         return equipment_id;
@@ -32,24 +27,28 @@ public class EquipmentTemplate implements Serializable {
         this.name = name;
     }
 
-    public String getAttribute() {
+    public ArrayList<String> getAttribute() {
         return attribute;
     }
 
-    public void setAttribute(String attribute) {
+    public void setAttribute(ArrayList<String> attribute) {
         this.attribute = attribute;
     }
 
-    public int getEquipmentCode() {
-        return  equipment_id;
+    public int getCompany_id() {
+        return company_id;
+    }
+
+    public void setCompany_id(int company_id) {
+        this.company_id = company_id;
     }
 
     @Override
     public String toString() {
-        return "EquipmentTemplate{" +
+        return "EquipmentTemplateVO{" +
                 "equipment_id=" + equipment_id +
                 ", name='" + name + '\'' +
-                ", attribute='" + attribute + '\'' +
+                ", attribute=" + attribute +
                 ", company_id=" + company_id +
                 '}';
     }

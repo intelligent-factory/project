@@ -6,6 +6,7 @@ import com.example.mes.process.Vo.MaterialVo.QueryMaterialVo;
 import com.example.mes.process.Vo.MaterialVo.UpdateMaterialVo;
 import com.example.mes.template.entity.EquipmentTemplate;
 import com.example.mes.template.entity.MaterialTemplate;
+import com.example.mes.template.vo.EquipmentTemplateVO;
 import com.example.mes.template.vo.MaterialTemplateVo;
 import org.springframework.stereotype.Component;
 
@@ -25,13 +26,17 @@ public interface TemplateServiceImpl {
 
 
 
-        public List<EquipmentTemplate> getEquipmentTemplateByID(int equipment_id);
+        public List<EquipmentTemplate> getEquipmentTemplateByID(int equipment_id,String company_id);
 
-        public List<EquipmentTemplate> getEquipmentTemplateByName(String name);
+        public List<EquipmentTemplate> getEquipmentTemplateByName(String name,String company_id);
 
-        public List<EquipmentTemplate> getAllEquipment();
+        public List<EquipmentTemplate> getAllEquipment(String company_id);
 
+        String addEquipmentTemplate(EquipmentTemplateVO equipmentTemplateVO);
 
+        String deleteEquipmentTemplate(EquipmentTemplateVO equipmentTemplateVO);
+
+        String updateEquipmentTemplate(EquipmentTemplateVO equipmentTemplateVO);
 
 
 }
