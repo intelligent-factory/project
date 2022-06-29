@@ -7,6 +7,7 @@ import com.example.mes.process.Vo.OptionsVo.OptionMaterial;
 import com.example.mes.template.entity.EquipmentTemplate;
 import com.example.mes.template.entity.MaterialTemplate;
 import com.example.mes.template.mapper.TemplateMapper;
+import com.example.mes.template.vo.EquipmentTemplateVO;
 import com.example.mes.template.vo.MaterialTemplateVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -109,20 +110,90 @@ public class TemplateService implements TemplateServiceImpl{
     /*
     以下为设备模板的service
      */
-
-    public List<EquipmentTemplate> getAllEquipment() {
-        return templateMapper.getEquipmentInfo();
+    @Override
+    public List<EquipmentTemplate> getAllEquipment(String company_id) {
+        return templateMapper.getEquipmentInfo(company_id);
     }
 
     @Override
-    public List<EquipmentTemplate> getEquipmentTemplateByName(String name) {
-        return templateMapper.selectEquipmentTemplateByName(name);
+    public List<EquipmentTemplate> getEquipmentTemplateByName(String name,String company_id) {
+        return templateMapper.selectEquipmentTemplateByName(name, company_id);
     }
 
     @Override
-    public List<EquipmentTemplate> getEquipmentTemplateByID(int equipment_id) {
-        return templateMapper.selectEquipmentTemplateById(equipment_id);
+    public List<EquipmentTemplate> getEquipmentTemplateByID(int equipment_id,String company_id) {
+        return templateMapper.selectEquipmentTemplateById(equipment_id,company_id);
     }
+
+    @Transactional
+    @Override
+    public String addEquipmentTemplate(EquipmentTemplateVO equipmentTemplateVO){
+        try {
+
+            templateMapper.deleteEquipmentTemplateByName(equipmentTemplateVO.getName(),Integer.toString(equipmentTemplateVO.getCompany_id()));
+
+
+            for(String attribute : equipmentTemplateVO.getAttribute()){
+
+                EquipmentTemplate equipmentTemplate = new EquipmentTemplate();
+                equipmentTemplate.setEquipment_id(equipmentTemplateVO.getEquipment_id());
+                equipmentTemplate.setCompany_id(equipmentTemplateVO.getCompany_id());
+                equipmentTemplate.setAttribute(attribute);
+                equipmentTemplate.setName(equipmentTemplateVO.getName());
+                templateMapper.addEquipmentTemplate(equipmentTemplate);
+            }
+            return "yes";
+
+        }catch (Exception e){
+            e.printStackTrace();
+
+            return "no";
+        }
+    }
+
+    @Override
+    public String deleteEquipmentTemplate(EquipmentTemplateVO equipmentTemplateVO) {
+        try {
+
+            templateMapper.deleteEquipmentTemplateByName(equipmentTemplateVO.getName(),Integer.toString(equipmentTemplateVO.getCompany_id()));
+
+            return "yes";
+
+        }catch (Exception e){
+            e.printStackTrace();
+
+            return "no";
+        }
+
+    }
+
+    @Transactional
+    @Override
+    public String updateEquipmentTemplate(EquipmentTemplateVO equipmentTemplateVO) {
+        try {
+
+            templateMapper.deleteEquipmentTemplateByName(equipmentTemplateVO.getName(),Integer.toString(equipmentTemplateVO.getCompany_id()));
+
+
+            for(String attribute : equipmentTemplateVO.getAttribute()){
+
+                EquipmentTemplate equipmentTemplate = new EquipmentTemplate();
+                equipmentTemplate.setEquipment_id(equipmentTemplateVO.getEquipment_id());
+                equipmentTemplate.setCompany_id(equipmentTemplateVO.getCompany_id());
+                equipmentTemplate.setAttribute(attribute);
+                equipmentTemplate.setName(equipmentTemplateVO.getName());
+                templateMapper.addEquipmentTemplate(equipmentTemplate);
+            }
+            return "yes";
+
+        }catch (Exception e){
+            e.printStackTrace();
+
+            return "no";
+        }
+    }
+
+
 
 
 
