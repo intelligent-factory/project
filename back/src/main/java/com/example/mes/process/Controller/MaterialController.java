@@ -2,10 +2,7 @@ package com.example.mes.process.Controller;
 
 import com.alibaba.fastjson.JSON;
 import com.example.mes.process.Service.IMaterialService;
-import com.example.mes.process.Vo.MaterialVo.DeleteMaterialVo;
-import com.example.mes.process.Vo.MaterialVo.InsertMaterialVo;
-import com.example.mes.process.Vo.MaterialVo.QueryMaterialVo;
-import com.example.mes.process.Vo.MaterialVo.UpdateMaterialVo;
+import com.example.mes.process.Vo.MaterialVo.*;
 import com.example.mes.process.Vo.PageVo.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +19,23 @@ public class MaterialController {
 
     @Autowired
     IMaterialService service;
+
+    @GetMapping("/getTemplateMaterials")
+    public String getTemplateMaterials(String company_id){
+        try {
+            //PageVo pageVo = new PageVo(pageOffset,pageSize);
+            HashMap<String,Object> data = new HashMap<>();
+            //int count = service.getCount();
+            List<TemplateMaterialVo> materials = service.getTemplateMaterials(company_id);
+            //data.put("count",count);
+            data.put("materials",materials);
+            return JSON.toJSONString(data);
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("controller:查询物料信息失败");
+            return "";
+        }
+    }
 
     //从物料表material中查询全部物料信息，id、name、size、color、comments、status
     @GetMapping("/getMaterials")

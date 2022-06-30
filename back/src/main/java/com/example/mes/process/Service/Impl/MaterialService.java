@@ -1,15 +1,17 @@
 package com.example.mes.process.Service.Impl;
 
+import com.example.mes.process.Entity.TemplateMaterial;
 import com.example.mes.process.Mapper.MaterialMapper;
 import com.example.mes.process.Service.IMaterialService;
-import com.example.mes.process.Vo.MaterialVo.DeleteMaterialVo;
-import com.example.mes.process.Vo.MaterialVo.InsertMaterialVo;
-import com.example.mes.process.Vo.MaterialVo.QueryMaterialVo;
-import com.example.mes.process.Vo.MaterialVo.UpdateMaterialVo;
+import com.example.mes.process.Vo.MaterialVo.*;
 import com.example.mes.process.Vo.PageVo.PageVo;
+import com.example.mes.template.entity.MaterialTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -17,6 +19,43 @@ public class MaterialService implements IMaterialService {
 
     @Autowired(required = false)
     MaterialMapper mapper;
+
+    @Override
+    public List<TemplateMaterialVo> getTemplateMaterials(String company_id) {
+        try {
+            HashMap<Integer,TemplateMaterialVo> map = new HashMap<>();//结果
+            List<TemplateMaterial> list = mapper.getTemplateMaterials(company_id);//数据库记录列表
+
+            for(TemplateMaterial m : list) {
+                HashMap<String,String> attribute=new HashMap<>();
+
+                if(map.containsKey(m.getMaterial_id())){
+                    map.get(m.getMaterial_id()).getAttribute().put(m.getAttribute(),m.getAttribute_value());
+                }else{
+                    attribute = new HashMap<>();
+                    TemplateMaterialVo t =new TemplateMaterialVo();
+                    t.setMaterial_id(m.getMaterial_id());
+                    t.setName(m.getName());
+                    t.setAttribute(attribute);
+                    t.getAttribute().put(m.getAttribute(),m.getAttribute_value());
+                    map.put(m.getMaterial_id(),t);
+                }
+                attribute.put(m.getAttribute(),m.getAttribute_value());
+
+
+
+            }
+            List<TemplateMaterialVo> templateMaterialVo =new ArrayList(map.values());
+
+
+
+            return templateMaterialVo;
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("service：查询模板物料信息失败！");
+            return null;
+        }
+    }
 
     //从物料表material中查询全部物料信息，id、name、size、color、comments、status
     @Override
