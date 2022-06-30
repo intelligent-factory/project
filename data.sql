@@ -233,7 +233,7 @@ CREATE TABLE `material_template` (
 
 /*Data for the table `material_template` */
 
-insert  into `material_template`(`material_id`,`name`,`attribute`,`company_id`) values (1,'拉链','规格',NULL),(1,'拉链','颜色',NULL),(2,'把手','颜色',NULL),(2,'把手','状态',NULL),(2,'把手','描述',NULL);
+insert  into `material_template`(`material_id`,`name`,`attribute`,`company_id`) values (1,'拉链','规格',1),(1,'拉链','颜色',1),(1,'鞋带','颜色',2),(1,'鞋带','长度',NULL),(1,'把手','大小',1),(1,'把手','款式',1);
 
 /*Table structure for table `permission` */
 
@@ -701,12 +701,11 @@ insert  into `storage_storage`(`uuid`,`id`,`status`,`is_deleted`,`created_time`,
 DROP TABLE IF EXISTS `template_equipment`;
 
 CREATE TABLE `template_equipment` (
-  `equipment_id` int NOT NULL,
+  `equipment_id` int DEFAULT NULL,
   `name` varchar(45) DEFAULT NULL,
   `attribute` varchar(45) DEFAULT NULL,
   `attribute_value` varchar(45) DEFAULT NULL,
-  `company_id` int DEFAULT NULL,
-  PRIMARY KEY (`equipment_id`)
+  `company_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `template_equipment` */
@@ -716,15 +715,16 @@ CREATE TABLE `template_equipment` (
 DROP TABLE IF EXISTS `template_material`;
 
 CREATE TABLE `template_material` (
-  `material_id` int NOT NULL,
+  `material_id` int DEFAULT NULL,
   `name` varchar(45) DEFAULT NULL,
   `attribute` varchar(45) DEFAULT NULL,
   `attribute_value` varchar(45) DEFAULT NULL,
-  `company_id` int DEFAULT NULL,
-  PRIMARY KEY (`material_id`)
+  `company_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `template_material` */
+
+insert  into `template_material`(`material_id`,`name`,`attribute`,`attribute_value`,`company_id`) values (1,'拉链','规格','大号',1),(1,'拉链','颜色','红色',1),(2,'把手','描述','无',1),(2,'把手','描述','无',1),(2,'把手','形状','方形',1),(2,'把手','颜色','黑色',1),(2,'把手','规格','小号',1);
 
 /*Table structure for table `user` */
 
@@ -778,7 +778,7 @@ CREATE TABLE `working_procedure` (
 
 /*Data for the table `working_procedure` */
 
-insert  into `working_procedure`(`procedure_id`,`name`,`cost`,`comments`,`status`,`is_deleted`,`created_time`,`created_by`,`modified_time`,`modified_by`,`company_id`) values (1,'开料','7.00','这是开料工序','正常','0','2000-01-01 00:00:00','test','2000-01-01 00:00:00','test',NULL),(2,'贴合','2.00','这是贴合工序','正常','0','2000-01-02 00:00:00','test','2000-01-01 00:00:00','test',NULL),(3,'散件油边','4.00','这是散件油边工序','正常','0','2000-01-03 00:00:00','test','2000-01-01 00:00:00','test',NULL),(4,'折边','8.00','这是折边工序','正常','0','2000-01-04 00:00:00','test','2000-01-01 00:00:00','test',NULL),(5,'车内格','9.00','这是车内格工序','正常','0','2000-01-05 00:00:00','test','2000-01-01 00:00:00','test',NULL),(6,'套拉链','2.00','这是套拉链工序','正常','0','2000-01-06 00:00:00','test','2000-01-01 00:00:00','test',NULL),(7,'打五金','8.00','这是打五金工序','正常','0','2000-01-07 00:00:00','test','2000-01-01 00:00:00','test',NULL),(8,'大面贴合','2.00','这是大面贴合工序','正常','0','2000-01-08 00:00:00','test','2000-01-01 00:00:00','test',NULL),(9,'大面折边','9.00','这是大面折边工序','正常','0','2000-01-09 00:00:00','test','2000-01-01 00:00:00','test',NULL),(10,'套袋','5.00','这是套带工序','正常','0','2000-01-10 00:00:00','test','2000-01-01 00:00:00','test',NULL),(11,'套袋2','2.00','这是套带2工序','正常','0','2000-01-11 00:00:00','test','2000-01-01 00:00:00','test',NULL),(12,'合袋','1.00','这是合袋工序','正常','0','2000-01-12 00:00:00','test','2000-01-01 00:00:00','test',NULL),(13,'检查','6.00','这是检查工序','正常','0','2000-01-13 00:00:00','test','2000-01-01 00:00:00','test',NULL),(14,'包装','5.00','这是包装工序','正常','0','2000-01-14 00:00:00','test','2000-01-01 00:00:00','test',NULL);
+insert  into `working_procedure`(`procedure_id`,`name`,`cost`,`comments`,`status`,`is_deleted`,`created_time`,`created_by`,`modified_time`,`modified_by`,`company_id`) values (1,'开料','7.00','这是开料','正常','0','2000-01-01 00:00:00','test','2022-06-28 09:45:17','100001',NULL),(2,'贴合','2.00','这是贴合工序','正常','0','2000-01-02 00:00:00','test','2000-01-01 00:00:00','test',NULL),(3,'散件油边','4.00','这是散件油边工序','正常','0','2000-01-03 00:00:00','test','2000-01-01 00:00:00','test',NULL),(4,'折边','8.00','这是折边工序','正常','0','2000-01-04 00:00:00','test','2000-01-01 00:00:00','test',NULL),(5,'车内格','9.00','这是车内格工序','正常','0','2000-01-05 00:00:00','test','2000-01-01 00:00:00','test',NULL),(6,'套拉链','2.00','这是套拉链工序','正常','0','2000-01-06 00:00:00','test','2000-01-01 00:00:00','test',NULL),(7,'打五金','8.00','这是打五金工序','正常','0','2000-01-07 00:00:00','test','2000-01-01 00:00:00','test',NULL),(8,'大面贴合','2.00','这是大面贴合工序','正常','0','2000-01-08 00:00:00','test','2000-01-01 00:00:00','test',NULL),(9,'大面折边','9.00','这是大面折边工序','正常','0','2000-01-09 00:00:00','test','2000-01-01 00:00:00','test',NULL),(10,'套袋','5.00','这是套带工序','正常','0','2000-01-10 00:00:00','test','2000-01-01 00:00:00','test',NULL),(11,'套袋2','2.00','这是套带2工序','正常','0','2000-01-11 00:00:00','test','2000-01-01 00:00:00','test',NULL),(12,'合袋','1.00','这是合袋工序','正常','0','2000-01-12 00:00:00','test','2000-01-01 00:00:00','test',NULL),(13,'检查','6.00','这是检查工序','正常','0','2000-01-13 00:00:00','test','2000-01-01 00:00:00','test',NULL),(14,'包装','5.00','这是包装工序','正常','0','2000-01-14 00:00:00','test','2000-01-01 00:00:00','test',NULL);
 
 /*Table structure for table `workshop_equip` */
 
