@@ -1,14 +1,17 @@
 package com.example.mes.process.Mapper;
 
+import com.example.mes.process.Entity.TemplateMaterial;
 import com.example.mes.process.Vo.MaterialVo.*;
 import com.example.mes.process.Vo.PageVo.PageVo;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public interface MaterialMapper {
-
+    @Select("select * from template_material where ( company_id = #{company_id} )")
+    List<TemplateMaterial> getTemplateMaterials( @Param("company_id")String company_id);
     //从物料表material中查询全部物料信息，id、name、size、color、comments、status
     List<QueryMaterialVo> getMaterials(@Param("pageVo")PageVo pageVo);
     //跟据物料id查询对应物料的信息

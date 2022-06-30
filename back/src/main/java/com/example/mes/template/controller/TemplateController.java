@@ -35,7 +35,7 @@ public class TemplateController {
             lst.add(t.getAttribute());
             map.put(t.getName(),lst);
         }
-        System.out.println(company_id);
+
         return map;
     }
 
