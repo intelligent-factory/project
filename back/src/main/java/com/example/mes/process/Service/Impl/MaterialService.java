@@ -5,6 +5,7 @@ import com.example.mes.process.Mapper.MaterialMapper;
 import com.example.mes.process.Service.IMaterialService;
 import com.example.mes.process.Vo.MaterialVo.*;
 import com.example.mes.process.Vo.PageVo.PageVo;
+import com.example.mes.template.entity.MaterialTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -88,6 +89,76 @@ public class MaterialService implements IMaterialService {
             e.printStackTrace();
             System.out.println("service：查询模板物料信息失败！");
             return null;
+        }
+    }
+
+    //增加模板物料
+    @Override
+    public String addTemplateMaterialVo(TemplateMaterialVo templateMaterialVo) {
+        try {
+
+            for(String attribute : templateMaterialVo.getAttribute().keySet()){
+
+                TemplateMaterial templateMaterial = new TemplateMaterial();
+                templateMaterial.setMaterial_id(templateMaterialVo.getMaterial_id());
+                templateMaterial.setAttribute(attribute);
+                templateMaterial.setAttribute_value(templateMaterialVo.getAttribute().get(attribute));
+                templateMaterial.setCompany_id(templateMaterialVo.getCompany_id());
+                templateMaterial.setName(templateMaterialVo.getName());
+
+//                System.out.println(materialTemplate.getMaterial_id());
+//                System.out.println(materialTemplate.getName());
+                mapper.addTemplateMaterial(templateMaterial);
+            }
+            return "yes";
+
+        }catch (Exception e){
+            e.printStackTrace();
+
+            return "no";
+        }
+    }
+
+    @Override
+    public String deleteTemplateMaterialByName(TemplateMaterialVo templateMaterialVo) {
+        try {
+
+                mapper.deleteTemplateMaterialByName(templateMaterialVo.getName(),Integer.toString(templateMaterialVo.getCompany_id()));
+
+            return "yes";
+
+        }catch (Exception e){
+            e.printStackTrace();
+
+            return "no";
+        }
+    }
+
+    @Override
+    public String updateMaterial(TemplateMaterialVo templateMaterialVo) {
+        try {
+
+            mapper.deleteTemplateMaterialByName(templateMaterialVo.getName(),Integer.toString(templateMaterialVo.getCompany_id()));
+
+            for(String attribute : templateMaterialVo.getAttribute().keySet()){
+
+                TemplateMaterial templateMaterial = new TemplateMaterial();
+                templateMaterial.setMaterial_id(templateMaterialVo.getMaterial_id());
+                templateMaterial.setAttribute(attribute);
+                templateMaterial.setAttribute_value(templateMaterialVo.getAttribute().get(attribute));
+                templateMaterial.setCompany_id(templateMaterialVo.getCompany_id());
+                templateMaterial.setName(templateMaterialVo.getName());
+
+//                System.out.println(materialTemplate.getMaterial_id());
+//                System.out.println(materialTemplate.getName());
+                mapper.addTemplateMaterial(templateMaterial);
+            }
+            return "yes";
+
+        }catch (Exception e){
+            e.printStackTrace();
+
+            return "no";
         }
     }
 

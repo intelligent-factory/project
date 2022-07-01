@@ -54,6 +54,44 @@ public class MaterialController {
         }
     }
 
+    //增加一个模板物料
+    @PostMapping("/addTemplateMaterial")
+    public String addTemplateMaterial(@RequestBody TemplateMaterialVo templateMaterialVo){
+        try {
+
+            return service.addTemplateMaterialVo(templateMaterialVo);
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("controller:添加物料失败");
+            return "添加失败";
+        }
+    }
+    //根据物料id删除一个模板物料
+    @PostMapping("/deleteTemplateMaterial")
+    public String deleteTemplateMaterial(@RequestBody TemplateMaterialVo templateMaterialVo){
+        try {
+
+            return service.deleteTemplateMaterialByName(templateMaterialVo);
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("controller:删除物料失败");
+            return "删除失败";
+        }
+    }
+
+    //修改一个物料，status与comments
+    @PostMapping("/updateTemplateMaterial")
+    public String updateTemplateMaterial(@RequestBody TemplateMaterialVo templateMaterialVo){
+        try {
+
+            return service.updateMaterial(templateMaterialVo);
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("controller:更新物料失败");
+            return "更新失败";
+        }
+    }
+
     //从物料表material中查询全部物料信息，id、name、size、color、comments、status
     @GetMapping("/getMaterials")
     public String getMaterials(int pageOffset,int pageSize){
