@@ -26,11 +26,11 @@ public interface TemplateServiceImpl {
 
 
 
-        public List<EquipmentTemplate> getEquipmentTemplateByID(int equipment_id,String company_id);
+        public List<EquipmentTemplateVO> getEquipmentTemplateByID(int equipment_id,String company_id);
 
-        public List<EquipmentTemplate> getEquipmentTemplateByName(String name,String company_id);
+        public List<EquipmentTemplateVO> getEquipmentTemplateByName(String name,String company_id);
 
-        public List<EquipmentTemplate> getAllEquipment(String company_id);
+        public List<EquipmentTemplateVO> getAllEquipment(String company_id);
 
         String addEquipmentTemplate(EquipmentTemplateVO equipmentTemplateVO);
 

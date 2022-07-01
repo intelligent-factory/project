@@ -1,15 +1,18 @@
 package com.example.mes.process.Service.Impl;
 
+import com.example.mes.process.Entity.TemplateEquipment;
 import com.example.mes.process.Mapper.EquipmentMapper;
 import com.example.mes.process.Service.IEquipmentService;
-import com.example.mes.process.Vo.EquipmentVo.DeleteEquipmentVo;
-import com.example.mes.process.Vo.EquipmentVo.InsertEquipmentVo;
-import com.example.mes.process.Vo.EquipmentVo.QueryEquipmentVo;
-import com.example.mes.process.Vo.EquipmentVo.UpdateEquipmentVo;
+import com.example.mes.process.Vo.EquipmentVo.*;
+import com.example.mes.process.Vo.MaterialVo.TemplateMaterialVo;
 import com.example.mes.process.Vo.PageVo.PageVo;
+import com.example.mes.template.entity.EquipmentTemplate;
+import com.example.mes.template.vo.EquipmentTemplateVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -17,6 +20,43 @@ public class EquipmentService implements IEquipmentService {
 
     @Autowired(required = false)
     EquipmentMapper mapper;
+
+    @Override
+    public List<TemplateEquipmentVo> getTemplateEquipments(String company_id) {
+        try {
+            HashMap<Integer, TemplateEquipmentVo> map = new HashMap<>();//结果
+            List<TemplateEquipment> list = mapper.getTemplateEquipments(company_id);//数据库记录列表
+
+            for(TemplateEquipment m : list) {
+                HashMap<String,String> attribute=new HashMap<>();
+
+                if(map.containsKey(m.getEquipment_id())){
+                    map.get(m.getEquipment_id()).getAttribute().put(m.getAttribute(),m.getAttribute_value());
+                }else{
+                    attribute = new HashMap<>();
+                    TemplateEquipmentVo t =new TemplateEquipmentVo();
+                    t.setEquipment_id(m.getEquipment_id());
+                    t.setName(m.getName());
+                    t.setAttribute(attribute);
+                    t.getAttribute().put(m.getAttribute(),m.getAttribute_value());
+                    map.put(m.getEquipment_id(),t);
+                }
+                attribute.put(m.getAttribute(),m.getAttribute_value());
+
+
+
+            }
+            List<TemplateEquipmentVo> templateEquipmentVos =new ArrayList(map.values());
+
+
+
+            return templateEquipmentVos;
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("service：查询模板设备信息失败！");
+            return null;
+        }
+    }
 
     @Override
     public List<QueryEquipmentVo> getEquipments(PageVo pageVo) {

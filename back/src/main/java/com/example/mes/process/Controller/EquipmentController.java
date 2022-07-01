@@ -3,10 +3,7 @@ package com.example.mes.process.Controller;
 
 import com.alibaba.fastjson.JSON;
 import com.example.mes.process.Service.IEquipmentService;
-import com.example.mes.process.Vo.EquipmentVo.DeleteEquipmentVo;
-import com.example.mes.process.Vo.EquipmentVo.InsertEquipmentVo;
-import com.example.mes.process.Vo.EquipmentVo.QueryEquipmentVo;
-import com.example.mes.process.Vo.EquipmentVo.UpdateEquipmentVo;
+import com.example.mes.process.Vo.EquipmentVo.*;
 import com.example.mes.process.Vo.PageVo.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +19,23 @@ public class EquipmentController {
 
     @Autowired
     IEquipmentService service;
+
+    @GetMapping("/getTemplateEquipments")
+    public String getTemplateEquipments(String company_id){
+        try {
+            //PageVo pageVo = new PageVo(pageOffset,pageSize);
+            HashMap<String,Object> data = new HashMap<>();
+            //int count = service.getCount();
+            List<TemplateEquipmentVo> equipments = service.getTemplateEquipments(company_id);
+            //data.put("count",count);
+            data.put("equipments",equipments);
+            return JSON.toJSONString(data);
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("controller:查询设备信息失败");
+            return "";
+        }
+    }
 
     @GetMapping("/getEquipments")
     public String getEquipments(int pageOffset,int pageSize){
