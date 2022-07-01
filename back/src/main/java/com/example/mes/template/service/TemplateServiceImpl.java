@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 @Component
 public interface TemplateServiceImpl {
-        List<MaterialTemplate> getAllMaterial(String company_id);
-        List<MaterialTemplate> getMaterialTemplateByName(String name,String company_id);
+        List<MaterialTemplateVo> getAllMaterial(String company_id);
+        List<MaterialTemplateVo> getMaterialTemplateByName(String name,String company_id);
         //跟据物料模板id查询对应物料的信息
         List<MaterialTemplate> getMaterialTemplateByID(int material_id,String company_id);
         //增加一个物料模板

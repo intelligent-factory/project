@@ -8,7 +8,10 @@ import java.util.List;
 public interface IMaterialService {
 
     List<TemplateMaterialVo> getTemplateMaterials(String company_id);
-    //从物料表material中查询全部物料信息，id、name、size、color、comments、status
+    //从物料表material中查询全部物料信息，id、name、size、color、comments、
+    //跟据物料id查询对应物料的信息
+    List<TemplateMaterialVo> getTemplateMaterialByID(String company_id,String material_id);
+
     List<QueryMaterialVo> getMaterials(PageVo pageVo);
     //跟据物料id查询对应物料的信息
     QueryMaterialVo getMaterialByID(String material_id);

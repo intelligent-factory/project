@@ -1,6 +1,8 @@
 package com.example.mes.template.service;
 
+import com.example.mes.process.Entity.TemplateMaterial;
 import com.example.mes.process.Vo.MaterialVo.DeleteMaterialVo;
+import com.example.mes.process.Vo.MaterialVo.TemplateMaterialVo;
 import com.example.mes.process.Vo.MaterialVo.UpdateMaterialVo;
 
 import com.example.mes.process.Vo.OptionsVo.OptionMaterial;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 @Service
 public class TemplateService implements TemplateServiceImpl{
@@ -21,13 +24,77 @@ public class TemplateService implements TemplateServiceImpl{
     @Autowired
     private TemplateMapper templateMapper;
 
-    public List<MaterialTemplate> getAllMaterial(String company_id) {
-        return templateMapper.getInfo(company_id);
+    public List<MaterialTemplateVo> getAllMaterial(String company_id) {
+
+            try {
+                HashMap<Integer,MaterialTemplateVo> map = new HashMap<>();//结果
+                List<MaterialTemplate> list = templateMapper.getInfo(company_id);//数据库记录列表
+
+                for(MaterialTemplate m : list) {
+                    ArrayList<String> attribute=new ArrayList<>();
+
+                    if(map.containsKey(m.getMaterial_id())){
+                        map.get(m.getMaterial_id()).getAttribute().add(m.getAttribute());
+                    }else{
+                        attribute = new ArrayList<>();
+                        MaterialTemplateVo t =new MaterialTemplateVo();
+                        t.setMaterial_id(m.getMaterial_id());
+                        t.setName(m.getName());
+                        t.setAttribute(attribute);
+                        t.getAttribute().add(m.getAttribute());
+                        t.setCompany_id(m.getCompany_id());
+                        map.put(m.getMaterial_id(),t);
+                        //attribute.add(m.getAttribute());
+                    }
+
+
+
+
+                }
+                List<MaterialTemplateVo> materialTemplateVo =new ArrayList(map.values());
+
+                return materialTemplateVo;
+            }catch (Exception e){
+                e.printStackTrace();
+                System.out.println("service：查询模板物料信息失败！");
+                return null;
+            }
     }
 
     @Override
-    public List<MaterialTemplate> getMaterialTemplateByName(String name,String company_id) {
-        return templateMapper.selectMaterialTemplateByName(name,company_id);
+    public List<MaterialTemplateVo> getMaterialTemplateByName(String name,String company_id) {
+        try {
+            HashMap<Integer,MaterialTemplateVo> map = new HashMap<>();//结果
+            List<MaterialTemplate> list = templateMapper.selectMaterialTemplateByName(name,company_id);//数据库记录列表
+
+            for(MaterialTemplate m : list) {
+                ArrayList<String> attribute=new ArrayList<>();
+
+                if(map.containsKey(m.getMaterial_id())){
+                    map.get(m.getMaterial_id()).getAttribute().add(m.getAttribute());
+                }else{
+                    attribute = new ArrayList<>();
+                    MaterialTemplateVo t =new MaterialTemplateVo();
+                    t.setMaterial_id(m.getMaterial_id());
+                    t.setName(m.getName());
+                    t.setAttribute(attribute);
+                    t.getAttribute().add(m.getAttribute());
+                    t.setCompany_id(m.getCompany_id());
+                    map.put(m.getMaterial_id(),t);
+                }
+                //attribute.add(m.getAttribute());
+
+
+
+            }
+            List<MaterialTemplateVo> materialTemplateVo =new ArrayList(map.values());
+
+            return materialTemplateVo;
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("service：查询模板物料信息失败！");
+            return null;
+        }
     }
 
     @Override

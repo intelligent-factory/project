@@ -19,6 +19,10 @@ public class MaterialTemplateVo {
         this.company_id = company_id;
     }
 
+    public MaterialTemplateVo() {
+
+    }
+
     @Override
     public String toString() {
         return "MaterialTemplateVo{" +
