@@ -123,43 +123,37 @@ public class TemplateController {
     @CrossOrigin
     @GetMapping("/equipment/all")
     public Object equipmentAll(String company_id) throws Exception {
-        System.out.println(company_id);
-        List<EquipmentTemplate> equipmentTemplates = templateService.getAllEquipment(company_id);
-        //map的key为设备名，value为对应属性名称列表，如：{"切割机":["价格","功率"],"打卡机":["输入电压"]}
-        HashMap<String,Object> map = new HashMap<>();
-        for(EquipmentTemplate t : equipmentTemplates) {
-            List<String> lst;
-            if(map.containsKey(t.getName())){
-                lst = (List<String>) map.get(t.getName());
-            }else{
-                lst = new LinkedList<>();
-            }
-            lst.add(t.getAttribute());
-            map.put(t.getName(),lst);
+        try {
+            //PageVo pageVo = new PageVo(pageOffset,pageSize);
+            HashMap<String,Object> data = new HashMap<>();
+            //int count = service.getCount();
+            List<EquipmentTemplateVO> equipments = templateService.getAllEquipment(company_id);
+            //data.put("count",count);
+            data.put("equipments",equipments);
+            return JSON.toJSONString(data);
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("controller:查询设备模板信息失败");
+            return "";
         }
-        for(String a : map.keySet()){
-            System.out.println(a + map.get(a));
-        }
-        return map;
     }
 
     @CrossOrigin
     @GetMapping("/equipment/getEquipmentTemplateByName")  //全部物料模板信息 格式在下方注释
     public Object getEquipmentTemplateByName(String name,String company_id) throws Exception {
-        List<EquipmentTemplate> equipmentTemplates = templateService.getEquipmentTemplateByName(name,company_id);
-        //map的key为设备名，value为对应属性名称列表，如：{"切割机":["价格","功率"],"打卡机":["输入电压"]}
-        HashMap<String,Object> map = new HashMap<>();
-        for(EquipmentTemplate t : equipmentTemplates) {
-            List<String> lst;
-            if(map.containsKey(t.getName())){
-                lst = (List<String>) map.get(t.getName());
-            }else{
-                lst = new LinkedList<>();
-            }
-            lst.add(t.getAttribute());
-            map.put(t.getName(),lst);
+        try {
+            //PageVo pageVo = new PageVo(pageOffset,pageSize);
+            HashMap<String,Object> data = new HashMap<>();
+            //int count = service.getCount();
+            List<EquipmentTemplateVO> equipments = templateService.getEquipmentTemplateByName(name,company_id);
+            //data.put("count",count);
+            data.put("equipments",equipments);
+            return JSON.toJSONString(data);
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("controller:查询设备模板信息失败");
+            return "";
         }
-        return map;
     }
 
     @CrossOrigin

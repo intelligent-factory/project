@@ -1,15 +1,24 @@
 package com.example.mes.process.Mapper;
 
+import com.example.mes.process.Entity.TemplateEquipment;
+import com.example.mes.process.Entity.TemplateMaterial;
 import com.example.mes.process.Vo.EquipmentVo.DeleteEquipmentVo;
 import com.example.mes.process.Vo.EquipmentVo.InsertEquipmentVo;
 import com.example.mes.process.Vo.EquipmentVo.QueryEquipmentVo;
 import com.example.mes.process.Vo.EquipmentVo.UpdateEquipmentVo;
 import com.example.mes.process.Vo.PageVo.PageVo;
+import com.example.mes.template.entity.EquipmentTemplate;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
 public interface EquipmentMapper {
+
+    @Select("select * from template_equipment where ( company_id = #{company_id} )")
+    List<TemplateEquipment> getTemplateEquipments(@Param("company_id")String company_id);
+    @Select("select * from template_equipment where  company_id = #{company_id}  and equipment_id = #{equipment_id} ")
+    List<TemplateEquipment> getTemplateEquipmentsByID(@Param("company_id")String company_id,@Param("equipment_id") String equipment_id);
 
     List<QueryEquipmentVo> getEquipments(@Param("pageVo") PageVo pageVo);
 

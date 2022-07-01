@@ -178,18 +178,97 @@ public class TemplateService implements TemplateServiceImpl{
     以下为设备模板的service
      */
     @Override
-    public List<EquipmentTemplate> getAllEquipment(String company_id) {
-        return templateMapper.getEquipmentInfo(company_id);
+    public List<EquipmentTemplateVO> getAllEquipment(String company_id) {
+        try {
+            HashMap<Integer,EquipmentTemplateVO> map = new HashMap<>();//结果
+            List<EquipmentTemplate> list = templateMapper.getEquipmentInfo(company_id);//数据库记录列表
+
+            for(EquipmentTemplate m : list) {
+                ArrayList<String> attribute=new ArrayList<>();
+
+                if(map.containsKey(m.getEquipment_id())){
+                    map.get(m.getEquipment_id()).getAttribute().add(m.getAttribute());
+                }else{
+                    attribute = new ArrayList<>();
+                    EquipmentTemplateVO t =new EquipmentTemplateVO();
+                    t.setEquipment_id(m.getEquipment_id());
+                    t.setName(m.getName());
+                    t.setAttribute(attribute);
+                    t.getAttribute().add(m.getAttribute());
+                    t.setCompany_id(m.getCompany_id());
+                    map.put(m.getEquipment_id(),t);
+                }
+            }
+            List<EquipmentTemplateVO> equipmentTemplateVO =new ArrayList(map.values());
+
+            return equipmentTemplateVO;
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("service：查询模板设备信息失败！");
+            return null;
+        }
     }
 
     @Override
-    public List<EquipmentTemplate> getEquipmentTemplateByName(String name,String company_id) {
-        return templateMapper.selectEquipmentTemplateByName(name, company_id);
+    public List<EquipmentTemplateVO> getEquipmentTemplateByName(String name,String company_id) {
+        try {
+            HashMap<Integer,EquipmentTemplateVO> map = new HashMap<>();//结果
+            List<EquipmentTemplate> list = templateMapper.selectEquipmentTemplateByName(name,company_id);//数据库记录列表
+            for(EquipmentTemplate m : list) {
+                ArrayList<String> attribute=new ArrayList<>();
+
+                if(map.containsKey(m.getEquipment_id())){
+                    map.get(m.getEquipment_id()).getAttribute().add(m.getAttribute());
+                }else{
+                    attribute = new ArrayList<>();
+                    EquipmentTemplateVO t =new EquipmentTemplateVO();
+                    t.setEquipment_id(m.getEquipment_id());
+                    t.setName(m.getName());
+                    t.setAttribute(attribute);
+                    t.getAttribute().add(m.getAttribute());
+                    t.setCompany_id(m.getCompany_id());
+                    map.put(m.getEquipment_id(),t);
+                }
+            }
+            List<EquipmentTemplateVO> equipmentTemplateVO =new ArrayList(map.values());
+            return equipmentTemplateVO;
+    }catch (Exception e){
+        e.printStackTrace();
+        System.out.println("service：查询模板设备信息失败！");
+        return null;
+    }
     }
 
     @Override
-    public List<EquipmentTemplate> getEquipmentTemplateByID(int equipment_id,String company_id) {
-        return templateMapper.selectEquipmentTemplateById(equipment_id,company_id);
+    public List<EquipmentTemplateVO> getEquipmentTemplateByID(int equipment_id,String company_id) {
+        try {
+            HashMap<Integer,EquipmentTemplateVO> map = new HashMap<>();//结果
+            List<EquipmentTemplate> list = templateMapper.selectEquipmentTemplateById(equipment_id,company_id);//数据库记录列表
+
+            for(EquipmentTemplate m : list) {
+                ArrayList<String> attribute=new ArrayList<>();
+
+                if(map.containsKey(m.getEquipment_id())){
+                    map.get(m.getEquipment_id()).getAttribute().add(m.getAttribute());
+                }else{
+                    attribute = new ArrayList<>();
+                    EquipmentTemplateVO t =new EquipmentTemplateVO();
+                    t.setEquipment_id(m.getEquipment_id());
+                    t.setName(m.getName());
+                    t.setAttribute(attribute);
+                    t.getAttribute().add(m.getAttribute());
+                    t.setCompany_id(m.getCompany_id());
+                    map.put(m.getEquipment_id(),t);
+                }
+            }
+            List<EquipmentTemplateVO> equipmentTemplateVO =new ArrayList(map.values());
+
+            return equipmentTemplateVO;
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("service：查询模板设备信息失败！");
+            return null;
+        }
     }
 
     @Transactional

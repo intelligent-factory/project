@@ -28,9 +28,6 @@ public class TemplateTest {
 
     @Test
     public void equipmentTemplateAddTest(){
-        List<EquipmentTemplate> lst = templateService.getAllEquipment("3");
-        for(EquipmentTemplate e : lst){
-            System.out.println(e);
-        }
+
     }
 }

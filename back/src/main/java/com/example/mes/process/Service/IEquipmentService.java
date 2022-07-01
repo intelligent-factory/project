@@ -1,14 +1,13 @@
 package com.example.mes.process.Service;
 
-import com.example.mes.process.Vo.EquipmentVo.DeleteEquipmentVo;
-import com.example.mes.process.Vo.EquipmentVo.InsertEquipmentVo;
-import com.example.mes.process.Vo.EquipmentVo.QueryEquipmentVo;
-import com.example.mes.process.Vo.EquipmentVo.UpdateEquipmentVo;
+import com.example.mes.process.Vo.EquipmentVo.*;
 import com.example.mes.process.Vo.PageVo.PageVo;
 
 import java.util.List;
 
 public interface IEquipmentService {
+
+    List<TemplateEquipmentVo> getTemplateEquipments(String company_id);
 
     List<QueryEquipmentVo> getEquipments(PageVo pageVo);
 
