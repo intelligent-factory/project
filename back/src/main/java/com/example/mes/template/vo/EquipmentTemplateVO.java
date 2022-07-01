@@ -3,7 +3,7 @@ package com.example.mes.template.vo;
 import java.util.ArrayList;
 
 public class EquipmentTemplateVO {
-    int equipment_id;
+    int id;
 
     String name;
 
@@ -12,11 +12,11 @@ public class EquipmentTemplateVO {
     int company_id;
 
     public int getEquipment_id() {
-        return equipment_id;
+        return id;
     }
 
     public void setEquipment_id(int equipment_id) {
-        this.equipment_id = equipment_id;
+        this.id = equipment_id;
     }
 
     public String getName() {
@@ -46,7 +46,7 @@ public class EquipmentTemplateVO {
     @Override
     public String toString() {
         return "EquipmentTemplateVO{" +
-                "equipment_id=" + equipment_id +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", attribute=" + attribute +
                 ", company_id=" + company_id +
