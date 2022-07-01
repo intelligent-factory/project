@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 //对应前端返回的一个定义好的模板
 public class MaterialTemplateVo {
-    int material_id;
+    int id;
 
     String name;
 
@@ -12,8 +12,8 @@ public class MaterialTemplateVo {
 
     int company_id;
 
-    public MaterialTemplateVo(int material_id, String name, ArrayList<String> attribute, int company_id) {
-        this.material_id = material_id;
+    public MaterialTemplateVo(int id, String name, ArrayList<String> attribute, int company_id) {
+        this.id = id;
         this.name = name;
         this.attribute = attribute;
         this.company_id = company_id;
@@ -26,7 +26,7 @@ public class MaterialTemplateVo {
     @Override
     public String toString() {
         return "MaterialTemplateVo{" +
-                "material_id=" + material_id +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", attribute=" + attribute +
                 ", company_id=" + company_id +
@@ -34,11 +34,11 @@ public class MaterialTemplateVo {
     }
 
     public int getMaterial_id() {
-        return material_id;
+        return id;
     }
 
-    public void setMaterial_id(int material_id) {
-        this.material_id = material_id;
+    public void setMaterial_id(int id) {
+        this.id = id;
     }
 
     public String getName() {
