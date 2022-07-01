@@ -11,7 +11,7 @@ public class TemplateMaterial {
         return material_id;
     }
 
-    public void setEquipment_id(int material_id) {
+    public void setMaterial_id(int material_id) {
         this.material_id = material_id;
     }
 
