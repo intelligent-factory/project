@@ -37,6 +37,23 @@ public class MaterialController {
         }
     }
 
+    @GetMapping("/getTemplateMaterialByID")
+    public String getTemplateMaterialByID(String company_id,String material_id){
+        try {
+            //PageVo pageVo = new PageVo(pageOffset,pageSize);
+            HashMap<String,Object> data = new HashMap<>();
+            //int count = service.getCount();
+            List<TemplateMaterialVo> materials = service.getTemplateMaterialByID(company_id,material_id);
+            //data.put("count",count);
+            data.put("materials",materials);
+            return JSON.toJSONString(data);
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("controller:查询物料信息失败");
+            return "";
+        }
+    }
+
     //从物料表material中查询全部物料信息，id、name、size、color、comments、status
     @GetMapping("/getMaterials")
     public String getMaterials(int pageOffset,int pageSize){

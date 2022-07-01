@@ -1,4 +1,6 @@
 package com.example.mes.template.controller;
+import com.alibaba.fastjson.JSON;
+import com.example.mes.process.Vo.MaterialVo.TemplateMaterialVo;
 import com.example.mes.quality.bean.DefectBean;
 import com.example.mes.template.entity.EquipmentTemplate;
 import com.example.mes.template.entity.MaterialTemplate;
@@ -20,46 +22,75 @@ public class TemplateController {
     @CrossOrigin
     @GetMapping("/material/all")  //全部物料模板信息 格式在下方注释
     public Object materialAll(String company_id) throws Exception {
-        List<MaterialTemplate> materialTemplate = templateService.getAllMaterial(company_id);
-        HashMap<String,Object> map = new HashMap<>();
-        //key为物料名，value为物料属性数组，如：{"拉链":["规格","颜色"],"把手":["颜色","状态","描述"]}
 
-        //id与上一记录不一样就是另一模板，清空list重新加入key value
-        for(MaterialTemplate t : materialTemplate) {
-            List<String> lst;
-            if(map.containsKey(t.getName())){
-                lst = (List<String>) map.get(t.getName());
-            }else{
-                lst = new LinkedList<>();
-            }
-            lst.add(t.getAttribute());
-            map.put(t.getName(),lst);
+        try {
+            //PageVo pageVo = new PageVo(pageOffset,pageSize);
+            HashMap<String,Object> data = new HashMap<>();
+            //int count = service.getCount();
+            List<MaterialTemplateVo> materials = templateService.getAllMaterial(company_id);
+            //data.put("count",count);
+            data.put("materials",materials);
+            return JSON.toJSONString(data);
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("controller:查询物料信息失败");
+            return "";
         }
-
-        return map;
+//        List<MaterialTemplate> materialTemplate = templateService.getAllMaterial(company_id);
+//        HashMap<String,Object> map = new HashMap<>();
+//        //key为物料名，value为物料属性数组，如：{"拉链":["规格","颜色"],"把手":["颜色","状态","描述"]}
+//
+//        //id与上一记录不一样就是另一模板，清空list重新加入key value
+//        for(MaterialTemplate t : materialTemplate) {
+//            List<String> lst;
+//            if(map.containsKey(t.getName())){
+//                lst = (List<String>) map.get(t.getName());
+//            }else{
+//                lst = new LinkedList<>();
+//            }
+//            lst.add(t.getAttribute());
+//            map.put(t.getName(),lst);
+//        }
+//
+//
+//        return map;
     }
 
     @CrossOrigin
     @GetMapping("/material/getMaterialTemplateByName")  //全部物料模板信息 格式在下方注释
     public Object getMaterialTemplateByName(String name,String company_id) throws Exception {
 
-        List<MaterialTemplate> materialTemplate = templateService.getMaterialTemplateByName(name,company_id);
-        HashMap<String,Object> map = new HashMap<>();
-
-        //key为物料名，value为物料属性数组，如：{"拉链":["规格","颜色"],"把手":["颜色","状态","描述"]}
-
-        for(MaterialTemplate t : materialTemplate) {
-            List<String> lst;
-            if(map.containsKey(t.getName())){
-                lst = (List<String>) map.get(t.getName());
-            }else{
-                lst = new LinkedList<>();
-            }
-            lst.add(t.getAttribute());
-            map.put(t.getName(),lst);
+        try {
+            //PageVo pageVo = new PageVo(pageOffset,pageSize);
+            HashMap<String,Object> data = new HashMap<>();
+            //int count = service.getCount();
+            List<MaterialTemplateVo> materials = templateService.getMaterialTemplateByName(name,company_id);
+            //data.put("count",count);
+            data.put("materials",materials);
+            return JSON.toJSONString(data);
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("controller:查询物料信息失败");
+            return "";
         }
-        System.out.println(company_id);
-        return map;
+
+//        List<MaterialTemplate> materialTemplate = templateService.getMaterialTemplateByName(name,company_id);
+//        HashMap<String,Object> map = new HashMap<>();
+//
+//        //key为物料名，value为物料属性数组，如：{"拉链":["规格","颜色"],"把手":["颜色","状态","描述"]}
+//
+//        for(MaterialTemplate t : materialTemplate) {
+//            List<String> lst;
+//            if(map.containsKey(t.getName())){
+//                lst = (List<String>) map.get(t.getName());
+//            }else{
+//                lst = new LinkedList<>();
+//            }
+//            lst.add(t.getAttribute());
+//            map.put(t.getName(),lst);
+//        }
+//        System.out.println(company_id);
+//        return map;
     }
 
 

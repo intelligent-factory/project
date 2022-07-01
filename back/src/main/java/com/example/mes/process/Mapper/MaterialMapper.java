@@ -12,6 +12,8 @@ import java.util.List;
 public interface MaterialMapper {
     @Select("select * from template_material where ( company_id = #{company_id} )")
     List<TemplateMaterial> getTemplateMaterials( @Param("company_id")String company_id);
+    @Select("select * from template_material where  company_id = #{company_id}  and material_id = #{material_id} ")
+    List<TemplateMaterial> getTemplateMaterialByID(@Param("company_id")String company_id,@Param("material_id") String material_id);
     //从物料表material中查询全部物料信息，id、name、size、color、comments、status
     List<QueryMaterialVo> getMaterials(@Param("pageVo")PageVo pageVo);
     //跟据物料id查询对应物料的信息

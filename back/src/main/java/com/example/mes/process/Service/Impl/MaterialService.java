@@ -5,13 +5,11 @@ import com.example.mes.process.Mapper.MaterialMapper;
 import com.example.mes.process.Service.IMaterialService;
 import com.example.mes.process.Vo.MaterialVo.*;
 import com.example.mes.process.Vo.PageVo.PageVo;
-import com.example.mes.template.entity.MaterialTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -47,9 +45,45 @@ public class MaterialService implements IMaterialService {
             }
             List<TemplateMaterialVo> templateMaterialVo =new ArrayList(map.values());
 
-
-
             return templateMaterialVo;
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("service：查询模板物料信息失败！");
+            return null;
+        }
+    }
+
+    @Override
+    public List<TemplateMaterialVo> getTemplateMaterialByID(String company_id, String material_id) {
+        try {
+
+                HashMap<Integer,TemplateMaterialVo> map = new HashMap<>();//结果
+                List<TemplateMaterial> list = mapper.getTemplateMaterialByID(company_id,material_id);//数据库记录列表
+
+                for(TemplateMaterial m : list) {
+                    HashMap<String,String> attribute=new HashMap<>();
+
+                    if(map.containsKey(m.getMaterial_id())){
+                        map.get(m.getMaterial_id()).getAttribute().put(m.getAttribute(),m.getAttribute_value());
+                    }else{
+                        attribute = new HashMap<>();
+                        TemplateMaterialVo t =new TemplateMaterialVo();
+                        t.setMaterial_id(m.getMaterial_id());
+                        t.setName(m.getName());
+                        t.setAttribute(attribute);
+                        t.getAttribute().put(m.getAttribute(),m.getAttribute_value());
+                        map.put(m.getMaterial_id(),t);
+                    }
+                    attribute.put(m.getAttribute(),m.getAttribute_value());
+
+
+
+                }
+                List<TemplateMaterialVo> templateMaterialVo =new ArrayList(map.values());
+
+                return templateMaterialVo;
+
+
         }catch (Exception e){
             e.printStackTrace();
             System.out.println("service：查询模板物料信息失败！");
