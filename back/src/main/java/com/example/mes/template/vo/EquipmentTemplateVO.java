@@ -7,6 +7,16 @@ public class EquipmentTemplateVO {
 
     String name;
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    String type = "equipment";
+
     public int getId() {
         return id;
     }
@@ -52,6 +62,7 @@ public class EquipmentTemplateVO {
                 ", name='" + name + '\'' +
                 ", attribute=" + attribute +
                 ", company_id=" + company_id +
+                ", type=" + type +
                 '}';
     }
 }
