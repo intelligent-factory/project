@@ -7,16 +7,12 @@ public class EquipmentTemplateVO {
 
     String name;
 
-    ArrayList<String> attribute;
-
-    int company_id;
-
-    public int getEquipment_id() {
+    public int getId() {
         return id;
     }
 
-    public void setEquipment_id(int equipment_id) {
-        this.id = equipment_id;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -42,6 +38,12 @@ public class EquipmentTemplateVO {
     public void setCompany_id(int company_id) {
         this.company_id = company_id;
     }
+
+    ArrayList<String> attribute;
+
+    int company_id;
+
+
 
     @Override
     public String toString() {

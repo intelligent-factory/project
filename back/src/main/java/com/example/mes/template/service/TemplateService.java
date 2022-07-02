@@ -38,7 +38,7 @@ public class TemplateService implements TemplateServiceImpl{
                     }else{
                         attribute = new ArrayList<>();
                         MaterialTemplateVo t =new MaterialTemplateVo();
-                        t.setMaterial_id(m.getMaterial_id());
+                        t.setId(m.getMaterial_id());
                         t.setName(m.getName());
                         t.setAttribute(attribute);
                         t.getAttribute().add(m.getAttribute());
@@ -52,7 +52,7 @@ public class TemplateService implements TemplateServiceImpl{
 
                 }
                 List<MaterialTemplateVo> materialTemplateVo =new ArrayList(map.values());
-
+                //System.out.println(materialTemplateVo.get(0));
                 return materialTemplateVo;
             }catch (Exception e){
                 e.printStackTrace();
@@ -75,7 +75,7 @@ public class TemplateService implements TemplateServiceImpl{
                 }else{
                     attribute = new ArrayList<>();
                     MaterialTemplateVo t =new MaterialTemplateVo();
-                    t.setMaterial_id(m.getMaterial_id());
+                    t.setId(m.getMaterial_id());
                     t.setName(m.getName());
                     t.setAttribute(attribute);
                     t.getAttribute().add(m.getAttribute());
@@ -111,7 +111,7 @@ public class TemplateService implements TemplateServiceImpl{
             for(String attribute : materialTemplateVo.getAttribute()){
 
                 MaterialTemplate materialTemplate = new MaterialTemplate();
-                materialTemplate.setMaterial_id(materialTemplateVo.getMaterial_id());
+                materialTemplate.setMaterial_id(materialTemplateVo.getId());
                 materialTemplate.setCompany_id(materialTemplateVo.getCompany_id());
                 materialTemplate.setAttribute(attribute);
                 materialTemplate.setName(materialTemplateVo.getName());
@@ -158,7 +158,7 @@ public class TemplateService implements TemplateServiceImpl{
             for(String attribute : materialTemplateVo.getAttribute()){
 
                 MaterialTemplate materialTemplate = new MaterialTemplate();
-                materialTemplate.setMaterial_id(materialTemplateVo.getMaterial_id());
+                materialTemplate.setMaterial_id(materialTemplateVo.getId());
                 materialTemplate.setCompany_id(materialTemplateVo.getCompany_id());
                 materialTemplate.setAttribute(attribute);
                 materialTemplate.setName(materialTemplateVo.getName());
@@ -191,7 +191,7 @@ public class TemplateService implements TemplateServiceImpl{
                 }else{
                     attribute = new ArrayList<>();
                     EquipmentTemplateVO t =new EquipmentTemplateVO();
-                    t.setEquipment_id(m.getEquipment_id());
+                    t.setId(m.getEquipment_id());
                     t.setName(m.getName());
                     t.setAttribute(attribute);
                     t.getAttribute().add(m.getAttribute());
@@ -222,7 +222,7 @@ public class TemplateService implements TemplateServiceImpl{
                 }else{
                     attribute = new ArrayList<>();
                     EquipmentTemplateVO t =new EquipmentTemplateVO();
-                    t.setEquipment_id(m.getEquipment_id());
+                    t.setId(m.getEquipment_id());
                     t.setName(m.getName());
                     t.setAttribute(attribute);
                     t.getAttribute().add(m.getAttribute());
@@ -253,7 +253,7 @@ public class TemplateService implements TemplateServiceImpl{
                 }else{
                     attribute = new ArrayList<>();
                     EquipmentTemplateVO t =new EquipmentTemplateVO();
-                    t.setEquipment_id(m.getEquipment_id());
+                    t.setId(m.getEquipment_id());
                     t.setName(m.getName());
                     t.setAttribute(attribute);
                     t.getAttribute().add(m.getAttribute());
@@ -282,7 +282,7 @@ public class TemplateService implements TemplateServiceImpl{
             for(String attribute : equipmentTemplateVO.getAttribute()){
 
                 EquipmentTemplate equipmentTemplate = new EquipmentTemplate();
-                equipmentTemplate.setEquipment_id(equipmentTemplateVO.getEquipment_id());
+                equipmentTemplate.setEquipment_id(equipmentTemplateVO.getId());
                 equipmentTemplate.setCompany_id(equipmentTemplateVO.getCompany_id());
                 equipmentTemplate.setAttribute(attribute);
                 equipmentTemplate.setName(equipmentTemplateVO.getName());
@@ -324,7 +324,7 @@ public class TemplateService implements TemplateServiceImpl{
             for(String attribute : equipmentTemplateVO.getAttribute()){
 
                 EquipmentTemplate equipmentTemplate = new EquipmentTemplate();
-                equipmentTemplate.setEquipment_id(equipmentTemplateVO.getEquipment_id());
+                equipmentTemplate.setEquipment_id(equipmentTemplateVO.getId());
                 equipmentTemplate.setCompany_id(equipmentTemplateVO.getCompany_id());
                 equipmentTemplate.setAttribute(attribute);
                 equipmentTemplate.setName(equipmentTemplateVO.getName());

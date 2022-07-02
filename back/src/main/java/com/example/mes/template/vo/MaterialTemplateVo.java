@@ -33,11 +33,11 @@ public class MaterialTemplateVo {
                 '}';
     }
 
-    public int getMaterial_id() {
+    public int getId() {
         return id;
     }
 
-    public void setMaterial_id(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 

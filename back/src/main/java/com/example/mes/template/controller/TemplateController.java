@@ -30,6 +30,8 @@ public class TemplateController {
             List<MaterialTemplateVo> materials = templateService.getAllMaterial(company_id);
             //data.put("count",count);
             data.put("materials",materials);
+//            System.out.println(materials);
+//            System.out.println(JSON.toJSONString(data));
             return JSON.toJSONString(data);
         }catch (Exception e){
             e.printStackTrace();

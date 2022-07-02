@@ -3,7 +3,7 @@ package com.example.mes.template.entity;
 import java.io.Serializable;
 
 public class EquipmentTemplate implements Serializable {
-    int equipment_id;
+    int id;
     String name;
     String attribute;
     int company_id;
@@ -17,11 +17,11 @@ public class EquipmentTemplate implements Serializable {
     }
 
     public int getEquipment_id() {
-        return equipment_id;
+        return id;
     }
 
     public void setEquipment_id(int equipment_id) {
-        this.equipment_id = equipment_id;
+        this.id = equipment_id;
     }
 
     public String getName() {
@@ -41,13 +41,13 @@ public class EquipmentTemplate implements Serializable {
     }
 
     public int getEquipmentCode() {
-        return  equipment_id;
+        return  id;
     }
 
     @Override
     public String toString() {
         return "EquipmentTemplate{" +
-                "equipment_id=" + equipment_id +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", attribute='" + attribute + '\'' +
                 ", company_id=" + company_id +
