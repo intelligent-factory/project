@@ -7,16 +7,22 @@ public class EquipmentTemplateVO {
 
     String name;
 
-    ArrayList<String> attribute;
+    public String getType() {
+        return type;
+    }
 
-    int company_id;
+    public void setType(String type) {
+        this.type = type;
+    }
 
-    public int getEquipment_id() {
+    String type = "equipment";
+
+    public int getId() {
         return id;
     }
 
-    public void setEquipment_id(int equipment_id) {
-        this.id = equipment_id;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -43,6 +49,12 @@ public class EquipmentTemplateVO {
         this.company_id = company_id;
     }
 
+    ArrayList<String> attribute;
+
+    int company_id;
+
+
+
     @Override
     public String toString() {
         return "EquipmentTemplateVO{" +
@@ -50,6 +62,7 @@ public class EquipmentTemplateVO {
                 ", name='" + name + '\'' +
                 ", attribute=" + attribute +
                 ", company_id=" + company_id +
+                ", type=" + type +
                 '}';
     }
 }

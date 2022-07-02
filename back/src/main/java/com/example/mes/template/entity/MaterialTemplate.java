@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 //数据库实体，关系表中一条记录
 public class MaterialTemplate implements Serializable {
-    int material_id;
+    int id;
     String name;
     String attribute;
     int company_id;
@@ -18,11 +18,11 @@ public class MaterialTemplate implements Serializable {
     }
 
     public int getMaterial_id() {
-        return material_id;
+        return id;
     }
 
     public void setMaterial_id(int material_id) {
-        this.material_id = material_id;
+        this.id = material_id;
     }
 
     public String getName() {
@@ -44,7 +44,7 @@ public class MaterialTemplate implements Serializable {
 
 
     public int getMaterialCode() {
-        return  material_id;
+        return  id;
     }
 
 

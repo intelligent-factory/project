@@ -12,6 +12,16 @@ public class MaterialTemplateVo {
 
     int company_id;
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    String type = "material";
+
     public MaterialTemplateVo(int id, String name, ArrayList<String> attribute, int company_id) {
         this.id = id;
         this.name = name;
@@ -30,14 +40,15 @@ public class MaterialTemplateVo {
                 ", name='" + name + '\'' +
                 ", attribute=" + attribute +
                 ", company_id=" + company_id +
+                ", type=" + type +
                 '}';
     }
 
-    public int getMaterial_id() {
+    public int getId() {
         return id;
     }
 
-    public void setMaterial_id(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
