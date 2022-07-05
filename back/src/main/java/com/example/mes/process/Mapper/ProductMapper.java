@@ -13,6 +13,8 @@ public interface ProductMapper {
 
     //查询所有的产品概述
     List<QueryProductVo> getProducts(@Param("pageVo") PageVo pageVo);
+    //查询所有的产品概述
+    List<QueryProductVo> getProductsByCompany(@Param("pageVo") PageVo pageVo,@Param("company_id")String company_id);
     //根据id查询产品概述
     QueryProductVo getProductByID(@Param("product_id") String product_id);
     //增加一个产品的概述信息

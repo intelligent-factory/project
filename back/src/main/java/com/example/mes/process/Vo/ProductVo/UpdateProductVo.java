@@ -15,6 +15,16 @@ public class UpdateProductVo {
     //修改时间，使用set赋值
     Timestamp modified_time;
 
+    public String getCompany_id() {
+        return company_id;
+    }
+
+    public void setCompany_id(String company_id) {
+        this.company_id = company_id;
+    }
+
+    String company_id;
+
     public UpdateProductVo() {
     }
 
@@ -73,6 +83,7 @@ public class UpdateProductVo {
                 ", status='" + status + '\'' +
                 ", comments='" + comments + '\'' +
                 ", modified_time=" + modified_time +
+                ", company_id='" + company_id + '\'' +
                 '}';
     }
 }

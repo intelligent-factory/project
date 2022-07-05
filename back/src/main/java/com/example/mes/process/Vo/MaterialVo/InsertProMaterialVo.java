@@ -6,6 +6,24 @@ public class InsertProMaterialVo {
     String material_id;
     int count;
 
+    public String getCompany_id() {
+        return company_id;
+    }
+
+    public InsertProMaterialVo(String product_id, String material_id, int count, String company_id) {
+        this.product_id = product_id;
+        this.material_id = material_id;
+        this.count = count;
+        this.company_id = company_id;
+    }
+
+    public void setCompany_id(String company_id) {
+        this.company_id = company_id;
+    }
+
+    String company_id;
+
+
     public InsertProMaterialVo() {
     }
 
