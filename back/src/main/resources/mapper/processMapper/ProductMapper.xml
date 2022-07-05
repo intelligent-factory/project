@@ -7,11 +7,20 @@
 
 <!--    查询所有的产品概述-->
     <select id="getProducts" resultType="com.example.mes.process.Vo.ProductVo.QueryProductVo" parameterType="com.example.mes.process.Vo.PageVo.PageVo">
-        SELECT p.product_id, p.type, p.brand, p.season, p.color, p.comments, p.status,customer_id,company_id
+        SELECT p.product_id, p.type, p.brand, p.season, p.color, p.comments, p.status,customer_id,company
         FROM product p
         WHERE is_deleted='0'
         ORDER BY brand,season
         LIMIT ${pageVo.startOffset}, ${pageVo.pageSize}
+    </select>
+
+    <!-- 本公司   查询所有的产品概述-->
+    <select id="getProductsByCompany" resultType="com.example.mes.process.Vo.ProductVo.QueryProductVo" parameterType="com.example.mes.process.Vo.PageVo.PageVo">
+        SELECT p.product_id, p.type, p.brand, p.season, p.color, p.comments, p.status,customer_id,company
+        FROM product p
+        WHERE is_deleted='0' and p.company_id=#{company_id}
+        ORDER BY brand,season
+            LIMIT ${pageVo.startOffset}, ${pageVo.pageSize}
     </select>
 <!--    查询记录条数-->
     <select id="getCount" resultType="java.lang.Integer">
@@ -26,7 +35,7 @@
     </select>
 <!--    根据id查询产品概述-->
     <select id="getProductByID" resultType="com.example.mes.process.Vo.ProductVo.QueryProductVo">
-        SELECT p.product_id, p.type, p.brand, p.season, p.color, p.comments, p.status,customer_id,company_id
+        SELECT p.product_id, p.type, p.brand, p.season, p.color, p.comments, p.status,customer_id,company
         FROM product p
         WHERE product_id = #{product_id}
     </select>
@@ -35,11 +44,11 @@
     <!--    增加一个产品的概述信息，is_deleted默认为0-->
     <insert id="addProduct" parameterType="com.example.mes.process.Vo.ProductVo.InsertProductVo">
         INSERT INTO product(product_id, product.status, is_deleted, created_time, created_by, modified_time,
-                            modified_by, product.type, brand, season, color,customer_id,company_id,comments)
+                            modified_by, product.type, brand, season, color,customer_id,company,comments,company_id)
         VALUE(#{insertProductVo.product_id}, #{insertProductVo.status}, '0', #{insertProductVo.created_time},
             #{insertProductVo.operator_id}, #{insertProductVo.created_time}, #{insertProductVo.operator_id},
             #{insertProductVo.type}, #{insertProductVo.brand}, #{insertProductVo.season},#{insertProductVo.color},
-            #{insertProductVo.customer_id},#{insertProductVo.company_id},#{insertProductVo.comments})
+            #{insertProductVo.customer_id},#{insertProductVo.company},#{insertProductVo.comments},#{insertProductVo.company_id})
     </insert>
 
 <!--    逻辑删除一个产品-->

@@ -9,6 +9,23 @@ public class InsertRoutingProcedureVo {
     //顺序
     int order;
 
+    public InsertRoutingProcedureVo(String routing_id, String procedure_id, int order, String company_id) {
+        this.routing_id = routing_id;
+        this.procedure_id = procedure_id;
+        this.order = order;
+        this.company_id = company_id;
+    }
+
+    public String getCompany_id() {
+        return company_id;
+    }
+
+    public void setCompany_id(String company_id) {
+        this.company_id = company_id;
+    }
+
+    String company_id;
+
     public InsertRoutingProcedureVo() {
     }
 

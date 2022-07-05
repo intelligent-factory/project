@@ -12,10 +12,19 @@ public class QueryProductVo {
     String season;
     //产品颜色
     String color;
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
     //客户款号
     String customer_id;
     //公司款号
-    String company_id;
+    String company;
     //产品描述
     String comments;
     //产品状态
@@ -24,14 +33,14 @@ public class QueryProductVo {
     public QueryProductVo() {
     }
 
-    public QueryProductVo(String product_id, String type, String brand, String season, String color, String customer_id, String company_id, String comments, String status) {
+    public QueryProductVo(String product_id, String type, String brand, String season, String color, String customer_id, String company, String comments, String status) {
         this.product_id = product_id;
         this.type = type;
         this.brand = brand;
         this.season = season;
         this.color = color;
         this.customer_id = customer_id;
-        this.company_id = company_id;
+        this.company = company;
         this.comments = comments;
         this.status = status;
     }
@@ -84,13 +93,7 @@ public class QueryProductVo {
         this.customer_id = customer_id;
     }
 
-    public String getCompany_id() {
-        return company_id;
-    }
 
-    public void setCompany_id(String company_id) {
-        this.company_id = company_id;
-    }
 
     public String getComments() {
         return comments;
@@ -117,7 +120,7 @@ public class QueryProductVo {
                 ", season='" + season + '\'' +
                 ", color='" + color + '\'' +
                 ", customer_id='" + customer_id + '\'' +
-                ", company_id='" + company_id + '\'' +
+                ", company='" + company + '\'' +
                 ", comments='" + comments + '\'' +
                 ", status='" + status + '\'' +
                 '}';

@@ -5,6 +5,22 @@ public class InsertRoutingProcedureVo {
     String id;
     String content;
 
+    public String getCompany_id() {
+        return company_id;
+    }
+
+    public void setCompany_id(String company_id) {
+        this.company_id = company_id;
+    }
+
+    public InsertRoutingProcedureVo(String id, String content, String company_id) {
+        this.id = id;
+        this.content = content;
+        this.company_id = company_id;
+    }
+
+    String company_id;
+
     public InsertRoutingProcedureVo() {
     }
 
@@ -34,6 +50,7 @@ public class InsertRoutingProcedureVo {
         return "InsertRoutingProcedureVo{" +
                 "id='" + id + '\'' +
                 ", content='" + content + '\'' +
+                ", company_id='" + company_id + '\'' +
                 '}';
     }
 }

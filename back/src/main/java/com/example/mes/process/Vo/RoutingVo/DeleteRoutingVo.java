@@ -11,6 +11,16 @@ public class DeleteRoutingVo {
     //删除时间，使用set赋值
     Timestamp modified_time;
 
+    String company_id;
+
+    public String getCompany_id() {
+        return company_id;
+    }
+
+    public void setCompany_id(String company_id) {
+        this.company_id = company_id;
+    }
+
     public DeleteRoutingVo() {
     }
 

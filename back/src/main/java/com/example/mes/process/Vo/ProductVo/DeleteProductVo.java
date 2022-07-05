@@ -6,6 +6,16 @@ public class DeleteProductVo {
 
     //要删除的产品的id
     String product_id;
+
+    public String getCompany_id() {
+        return company_id;
+    }
+
+    public void setCompany_id(String company_id) {
+        this.company_id = company_id;
+    }
+
+    String company_id;
     //删除人id
     String operator_id;
     //删除时间，使用set赋值

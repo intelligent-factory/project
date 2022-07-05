@@ -35,6 +35,18 @@ public class TemplateMaterialVo {
 
     int company_id;
 
+
+    //用于产品添加物料
+    int count;
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+
     public int getCompany_id() {
         return company_id;
     }
