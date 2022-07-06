@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 
 
 @Service
@@ -21,11 +22,11 @@ public class ProcedureService implements IProcedureService {
 
     //查询所有的工序信息
     @Override
-    public HashMap<String,Object> getProceduresInfo(PageVo pageVo) {
+    public HashMap<String,Object> getProceduresInfo(PageVo pageVo,int company_id) {
         try {
             HashMap<String,Object> map = new HashMap<>();
-            map.put("count",mapper.getCount());
-            map.put("procedures",mapper.getProceduresInfo(pageVo));
+            map.put("count",mapper.getCount(company_id));
+            map.put("procedures",mapper.getProceduresInfo(pageVo,company_id));
             return map;
         }catch (Exception e){
             e.printStackTrace();
@@ -36,9 +37,9 @@ public class ProcedureService implements IProcedureService {
 
     //根据工序id查询工序信息
     @Override
-    public QueryProcedureVo getProcedureInfoByID(String procedure_id) {
+    public QueryProcedureVo getProcedureInfoByID(String procedure_id,int company_id) {
         try {
-            return mapper.getProcedureInfoByID(procedure_id);
+            return mapper.getProcedureInfoByID(procedure_id, company_id);
         }catch (Exception e){
             e.printStackTrace();
             System.out.println("service:根据id查询工序信息失败！");
@@ -91,13 +92,24 @@ public class ProcedureService implements IProcedureService {
     }
 
     @Override
-    public int getCount(){
-        return mapper.getCount();
+    public int getCount(int company_id){
+        return mapper.getCount(company_id);
     }
 
     @Override
-    public int getIndex() {
-        return mapper.getIndex();
+    public int getIndex(int company_id) {
+        return mapper.getIndex(company_id);
     }
 
+    @Override
+    public List<QueryProcedureVo> getProceduresInfoByName(String name, int company_id) {
+        try{
+            return mapper.getProceduresInfoByName(name, company_id);
+        }catch (Exception e){
+            System.out.println("getProceduresInfoByName service error");
+            System.out.println(e.getStackTrace());
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
 }

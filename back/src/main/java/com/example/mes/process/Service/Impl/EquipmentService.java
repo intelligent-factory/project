@@ -1,6 +1,7 @@
 package com.example.mes.process.Service.Impl;
 
 import com.example.mes.process.Entity.TemplateEquipment;
+import com.example.mes.process.Entity.TemplateMaterial;
 import com.example.mes.process.Mapper.EquipmentMapper;
 import com.example.mes.process.Service.IEquipmentService;
 import com.example.mes.process.Vo.EquipmentVo.*;
@@ -39,6 +40,7 @@ public class EquipmentService implements IEquipmentService {
                     t.setName(m.getName());
                     t.setAttribute(attribute);
                     t.getAttribute().put(m.getAttribute(),m.getAttribute_value());
+                    t.setCompany_id(m.getCompany_id());
                     map.put(m.getEquipment_id(),t);
                 }
                 attribute.put(m.getAttribute(),m.getAttribute_value());
@@ -55,6 +57,112 @@ public class EquipmentService implements IEquipmentService {
             e.printStackTrace();
             System.out.println("service：查询模板设备信息失败！");
             return null;
+        }
+    }
+
+    @Override
+    public List<TemplateEquipmentVo> getTemplateEquipmentByID(String company_id, String equipment_id) {
+        try {
+            HashMap<Integer, TemplateEquipmentVo> map = new HashMap<>();//结果
+            List<TemplateEquipment> list = mapper.getTemplateEquipmentsByID(company_id,equipment_id);//数据库记录列表
+            for(TemplateEquipment m : list) {
+                HashMap<String,String> attribute=new HashMap<>();
+
+                if(map.containsKey(m.getEquipment_id())){
+                    map.get(m.getEquipment_id()).getAttribute().put(m.getAttribute(),m.getAttribute_value());
+                }else{
+                    attribute = new HashMap<>();
+                    TemplateEquipmentVo t =new TemplateEquipmentVo();
+                    t.setEquipment_id(m.getEquipment_id());
+                    t.setName(m.getName());
+                    t.setAttribute(attribute);
+                    t.getAttribute().put(m.getAttribute(),m.getAttribute_value());
+                    t.setCompany_id(m.getCompany_id());
+                    map.put(m.getEquipment_id(),t);
+                }
+                attribute.put(m.getAttribute(),m.getAttribute_value());
+
+
+
+            }
+            List<TemplateEquipmentVo> templateEquipmentVos =new ArrayList(map.values());
+
+
+
+            return templateEquipmentVos;
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("service：查询模板设备信息失败！");
+            return null;
+        }
+    }
+
+    @Override
+    public String addTemplateEquipmentVo(TemplateEquipmentVo templateEquipmentVo) {
+        try {
+
+            for(String attribute : templateEquipmentVo.getAttribute().keySet()){
+
+                TemplateEquipment templateEquipment = new TemplateEquipment();
+                templateEquipment.setEquipment_id(templateEquipmentVo.getEquipment_id());
+                templateEquipment.setAttribute(attribute);
+                templateEquipment.setAttribute_value(templateEquipmentVo.getAttribute().get(attribute));
+                templateEquipment.setCompany_id(templateEquipmentVo.getCompany_id());
+                templateEquipment.setName(templateEquipmentVo.getName());
+
+//                System.out.println(materialTemplate.getMaterial_id());
+//                System.out.println(materialTemplate.getName());
+                mapper.addTemplateEquipment(templateEquipment);
+            }
+            return "yes";
+
+        }catch (Exception e){
+            e.printStackTrace();
+
+            return "no";
+        }
+    }
+
+    @Override
+    public String deleteTemplateEquipmentByName(TemplateEquipmentVo templateEquipmentVo) {
+        try {
+
+            mapper.deleteTemplateEquipmentByName(templateEquipmentVo.getName(),Integer.toString(templateEquipmentVo.getCompany_id()));
+
+            return "yes";
+
+        }catch (Exception e){
+            e.printStackTrace();
+
+            return "no";
+        }
+    }
+
+    @Override
+    public String updateEquipment(TemplateEquipmentVo templateEquipmentVo) {
+        try {
+
+            mapper.deleteTemplateEquipmentByName(templateEquipmentVo.getName(),Integer.toString(templateEquipmentVo.getCompany_id()));
+
+            for(String attribute : templateEquipmentVo.getAttribute().keySet()){
+
+                TemplateEquipment templateEquipment = new TemplateEquipment();
+                templateEquipment.setEquipment_id(templateEquipmentVo.getEquipment_id());
+                templateEquipment.setAttribute(attribute);
+                templateEquipment.setAttribute_value(templateEquipmentVo.getAttribute().get(attribute));
+                templateEquipment.setCompany_id(templateEquipmentVo.getCompany_id());
+                templateEquipment.setName(templateEquipmentVo.getName());
+
+//                System.out.println(materialTemplate.getMaterial_id());
+//                System.out.println(materialTemplate.getName());
+                mapper.addTemplateEquipment(templateEquipment);
+            }
+            return "yes";
+
+        }catch (Exception e){
+            e.printStackTrace();
+
+            return "no";
         }
     }
 

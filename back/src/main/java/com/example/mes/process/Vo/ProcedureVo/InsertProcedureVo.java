@@ -19,15 +19,7 @@ public class InsertProcedureVo {
     //创建时间，使用set赋值
     Timestamp created_time;
 
-    public InsertProcedureVo() {
-    }
-
-    public InsertProcedureVo(String name, double cost, String comments, String operator_id) {
-        this.name = name;
-        this.cost = cost;
-        this.comments = comments;
-        this.operator_id = operator_id;
-    }
+    int company_id;
 
     public String getProcedure_id() {
         return procedure_id;
@@ -85,6 +77,14 @@ public class InsertProcedureVo {
         this.created_time = created_time;
     }
 
+    public int getCompany_id() {
+        return company_id;
+    }
+
+    public void setCompany_id(int company_id) {
+        this.company_id = company_id;
+    }
+
     @Override
     public String toString() {
         return "InsertProcedureVo{" +
@@ -95,6 +95,7 @@ public class InsertProcedureVo {
                 ", operator_id='" + operator_id + '\'' +
                 ", status='" + status + '\'' +
                 ", created_time=" + created_time +
+                ", company_id=" + company_id +
                 '}';
     }
 }
