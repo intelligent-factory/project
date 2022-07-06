@@ -10,7 +10,7 @@ public class QueryProMaterialVo {
     String name;
     //颜色
     String color;
-    //规格
+    //规格    //属性集合
     String size;
     //描述
     String comments;

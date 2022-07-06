@@ -42,6 +42,19 @@ public class ProductController {
         }
     }
 
+
+
+    @GetMapping("/getProductsByCompanyAndType")
+    public String getProductsByCompanyAndType(int pageOffset,int pageSize,String company_id,String type){
+        try {
+            return JSON.toJSONString(service.getProductsByType(new PageVo(pageOffset,pageSize),company_id,type));
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("controller:查询产品信息失败");
+            return "";
+        }
+    }
+
 //    @Transactional
 //    @PostMapping("/deleteProductByCompanyAndID")
 //    public String deleteProductByByCompanyAndID(@RequestBody DeleteProductVo deleteProductVo,String company_id){
