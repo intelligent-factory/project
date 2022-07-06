@@ -69,12 +69,12 @@
     <select id="getProductByCompanyID" resultType="java.lang.String" parameterType="java.lang.String">
         SELECT concat(brand,',',season,',',p.type,',',color)
         FROM product p
-        WHERE company_id=#{company_id} AND is_deleted='0'
+        WHERE company=#{company} AND is_deleted='0'
 
     </select>
     
     <select id="getCompanyIDs" resultType="java.lang.String" parameterType="java.lang.String">
-        SELECT distinct company_id
+        SELECT distinct company
         FROM product
         WHERE is_deleted='0'
     </select>

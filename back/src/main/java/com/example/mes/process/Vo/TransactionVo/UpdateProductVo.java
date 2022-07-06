@@ -2,13 +2,24 @@ package com.example.mes.process.Vo.TransactionVo;
 
 public class UpdateProductVo {
 
+
     String product_id;
     String brand;
     String name;
     String style;
     String color;
+
+    public String getCompany_id() {
+        return company_id;
+    }
+
+    public void setCompany_id(String company_id) {
+        this.company_id = company_id;
+    }
+
     String status;
     String comments;
+    String company_id;
 
     public UpdateProductVo() {
     }
@@ -91,6 +102,8 @@ public class UpdateProductVo {
                 ", comments='" + comments + '\'' +
                 '}';
     }
+
+
 }
 
 

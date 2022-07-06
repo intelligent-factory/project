@@ -10,6 +10,8 @@ public interface IProductService {
 
     //查询所有的产品概述
     HashMap<String,Object> getProducts(PageVo pageVo);
+    //查询所有的产品概述
+    HashMap<String,Object> getProducts(PageVo pageVo,String company_id);
     //逻辑删除一个产品
     String deleteProductByID(DeleteProductVo deleteProductVo);
     //test

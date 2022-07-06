@@ -30,6 +30,7 @@ public interface TransactionMapper {
     boolean addRouting(@Param("insertRoutingVo") InsertRoutingVo insertRoutingVo);
     //插入工艺路线具体信息
     boolean addRoutingInfos(@Param("list")ArrayList<InsertRoutingProcedureVo> list);
+
     //更新工艺路线信息，可以更新status跟comments
     boolean updateRoutingByID(@Param("updateRoutingVo") UpdateRoutingVo updateRoutingVo);
     //删除联系表中的工艺路线与工序的记录，用于更新

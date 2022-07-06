@@ -29,7 +29,9 @@ public interface OptionsMapper {
 
     List<String> getColorByBrandStyle(@Param("brand") String brand,@Param("style") String style);
 
-    List<String> getProductByCompanyID(@Param("company_id") String company_id);
+    //款号
+    List<String> getProductByCompanyID(@Param("company") String company);
 
+    //款号
     List<String> getCompanyIDs();
 }

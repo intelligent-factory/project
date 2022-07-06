@@ -15,6 +15,16 @@ public class InsertRoutingVo {
     //创建时间，使用set赋值
     Timestamp created_time;
 
+    public String getCompany_id() {
+        return company_id;
+    }
+
+    public void setCompany_id(String company_id) {
+        this.company_id = company_id;
+    }
+
+    String company_id;
+
     public InsertRoutingVo() {
     }
 
@@ -71,6 +81,7 @@ public class InsertRoutingVo {
                 ", status='" + status + '\'' +
                 ", operator_id='" + operator_id + '\'' +
                 ", created_time=" + created_time +
+                ", company_id='" + company_id + '\'' +
                 '}';
     }
 }

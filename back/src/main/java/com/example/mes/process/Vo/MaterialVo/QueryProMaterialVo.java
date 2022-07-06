@@ -2,7 +2,9 @@ package com.example.mes.process.Vo.MaterialVo;
 
 public class QueryProMaterialVo {
 
-    //工序id
+    //  TODO:修改物料的属性显示，size预计为json格式属性集合
+
+    //物料id
     String material_id;
     //名称
     String name;
