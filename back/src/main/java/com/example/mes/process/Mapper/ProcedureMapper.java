@@ -7,6 +7,7 @@ import com.example.mes.process.Vo.ProcedureVo.QueryProcedureVo;
 import com.example.mes.process.Vo.ProcedureVo.UpdateProcedureVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -27,5 +28,7 @@ public interface ProcedureMapper {
     int getCount(@Param("company_id") int company_id);
 
     int getIndex(@Param("company_id") int company_id);
+
+    public List<QueryProcedureVo> getProceduresInfoByName(@Param("name") String name,@Param("company_id") int company_id);
 
 }

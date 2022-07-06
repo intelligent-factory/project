@@ -56,4 +56,10 @@
         WHERE procedure_id=#{deleteProcedureVo.procedure_id} and (company_id = #{deleteProcedureVo.company_id} or #{deleteProcedureVo.company_id} = 0)
     </update>
 
+    <select id="getProceduresInfoByName" resultType="com.example.mes.process.Vo.ProcedureVo.QueryProcedureVo">
+        SELECT p.procedure_id, p.name, p.cost, p.comments, p.status, p.company_id
+        FROM working_procedure p
+        WHERE p.name=#{name} AND is_deleted='0' and (company_id = #{company_id} or #{company_id} = 0)
+    </select>
+
 </mapper>

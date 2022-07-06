@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 
 
 @Service
@@ -100,4 +101,15 @@ public class ProcedureService implements IProcedureService {
         return mapper.getIndex(company_id);
     }
 
+    @Override
+    public List<QueryProcedureVo> getProceduresInfoByName(String name, int company_id) {
+        try{
+            return mapper.getProceduresInfoByName(name, company_id);
+        }catch (Exception e){
+            System.out.println("getProceduresInfoByName service error");
+            System.out.println(e.getStackTrace());
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
 }

@@ -7,6 +7,7 @@ import com.example.mes.process.Vo.ProcedureVo.QueryProcedureVo;
 import com.example.mes.process.Vo.ProcedureVo.UpdateProcedureVo;
 
 import java.util.HashMap;
+import java.util.List;
 
 public interface IProcedureService {
 
@@ -20,6 +21,8 @@ public interface IProcedureService {
     public String updateProcedureByID(UpdateProcedureVo updateProcedureVo);
     //根据deleteProcedureVo的procedure_id，将is_deleted设置为1，逻辑删除，将会同步更新modified_time与modified_by
     public String deleteProcedureByID(DeleteProcedureVo deleteProcedureVo);
+
+    public List<QueryProcedureVo> getProceduresInfoByName(String name,int company_id);
 
     int getCount(int company_id);
 

@@ -82,4 +82,16 @@ public class ProcedureController {
             return "更新失败";
         }
     }
+
+
+    @GetMapping("/getProcedureInfoByName")
+    public String getProcedureInfoByName(String name,int company_id){
+        try {
+            return JSON.toJSONString(service.getProceduresInfoByName(name,company_id));
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("controller:根据name查询工序信息失败");
+            return "";
+        }
+    }
 }
