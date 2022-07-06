@@ -47,11 +47,23 @@
         FROM working_procedure p
         WHERE is_deleted='0'
     </select>
+    <!--    获得所有可选工序的名称-->
+    <select id="getProceduresByCompany" resultType="java.lang.String">
+        SELECT p.name
+        FROM working_procedure p
+        WHERE is_deleted='0' and company_id=#{company_id}
+    </select>
 <!--    获得所有可选物料的名称-->
     <select id="getMaterials" resultType="java.lang.String">
         SELECT distinct m.name
         FROM material m
         WHERE is_deleted='0'
+    </select>
+
+    <select id="getMaterialsByCompany" resultType="java.lang.String">
+        SELECT distinct m.name
+        FROM material m
+        WHERE is_deleted='0' and company_id=#{company_id}
     </select>
 <!--    根据选择的物料名称获得可选的型号名称-->
     <select id="getSizeByName" resultType="java.lang.String">

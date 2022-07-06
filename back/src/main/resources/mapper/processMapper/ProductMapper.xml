@@ -22,6 +22,17 @@
         ORDER BY brand,season
             LIMIT ${pageVo.startOffset}, ${pageVo.pageSize}
     </select>
+
+
+
+    <!-- 本公司   查询所有的产品概述-->
+    <select id="getProductsByCompanyAndType" resultType="com.example.mes.process.Vo.ProductVo.QueryProductVo" parameterType="com.example.mes.process.Vo.PageVo.PageVo">
+        SELECT p.product_id, p.type, p.brand, p.season, p.color, p.comments, p.status,customer_id,company
+        FROM product p
+        WHERE is_deleted='0' and p.company_id=#{company_id} and  p.type=#{type}
+        ORDER BY brand,season
+            LIMIT ${pageVo.startOffset}, ${pageVo.pageSize}
+    </select>
 <!--    查询记录条数-->
     <select id="getCount" resultType="java.lang.Integer">
         SELECT count(*)

@@ -30,4 +30,6 @@ public interface ProductMapper {
 
     int checkDuplicate(@Param("name") String name,@Param("brand") String brand,
                        @Param("style") String style,@Param("color") String color);
+
+    List<QueryProductVo> getProductsByCompanyAndType(@Param("pageVo")PageVo pageVo, @Param("company_id")String company_id, @Param("type")String type);
 }

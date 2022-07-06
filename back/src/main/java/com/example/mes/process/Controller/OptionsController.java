@@ -114,11 +114,34 @@ public class OptionsController {
         }
     }
 
+    //为工序下拉框提供数据
+    @GetMapping("/getProceduresByCompany")
+    public String getProceduresByCompany(String company_id){
+        try {
+            return JSON.toJSONString(iOptionsService.getProceduresByCompany(company_id));
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("工序下拉框生成失败！");
+            return "";
+        }
+    }
+
     //为物料三级下拉框准备数据
     @GetMapping("/getOptionMaterial")
     public String getOptionMaterial(){
         try {
             return iOptionsService.getOptionMaterial().toString();
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("物料三级下拉框生成失败！");
+            return "";
+        }
+    }
+
+    @GetMapping("/getOptionMaterialByCompany")
+    public String getOptionMaterialByCompany(String company_id){
+        try {
+            return iOptionsService.getOptionMaterialByCompany(company_id).toString();
         }catch (Exception e){
             e.printStackTrace();
             System.out.println("物料三级下拉框生成失败！");
