@@ -18,8 +18,11 @@ public interface OptionsMapper {
     List<String> getSizes();
     //获得所有可选工序
     List<String> getProcedures();
+    List<String> getProceduresByCompany(@Param("company_id")String company_id);
     //获得所有物料名称
     List<String> getMaterials();
+
+    List<String> getMaterialsByCompany(@Param("company_id")String company_id);
     //根据物料名称获得可选型号
     List<String> getSizeByName(@Param("name") String name);
     //根据物料名称、型号获得可选颜色
@@ -34,4 +37,7 @@ public interface OptionsMapper {
 
     //款号
     List<String> getCompanyIDs();
+
+
+
 }

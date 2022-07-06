@@ -146,6 +146,61 @@ public class TransactionService implements ITransactionService {
         }
     }
 
+    @Override
+    public String add3(InsertVo insertVo) {
+        try {
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            String status = "正常";
+            String operator_id = insertVo.getOperator_id();
+            String uuid = UUID.randomUUID().toString().replace("-","");
+            //添加产品信息
+            InsertProductVo product = insertVo.getProduct();
+//            if (productMapper.checkDuplicate(product.getName(),product.getBrand(),product.getStyle(),product.getColor())!=0){
+//                return "添加失败";
+//            }
+            product.setProduct_id(uuid);
+            product.setCreated_time(timestamp);
+            product.setOperator_id(operator_id);
+            product.setStatus("正常");
+            mapper.addProduct(product);
+            //添加工艺路线概述信息
+            InsertProcessVo process = insertVo.getProcess();
+            InsertRoutingVo insertRoutingVo = new InsertRoutingVo(process.getComments(),operator_id);
+            insertRoutingVo.setRouting_id(uuid);
+            insertRoutingVo.setCreated_time(timestamp);
+            insertRoutingVo.setStatus(status);
+            //设置公司id
+            insertRoutingVo.setCompany_id(product.getCompany_id());
+            mapper.addRouting(insertRoutingVo);
+            //添加工艺路线详细信息
+            ArrayList<InsertRoutingProcedureVo> data = process.getData();
+            ArrayList<com.example.mes.process.Vo.RoutingVo.InsertRoutingProcedureVo> insertRoutingProcedureVos = new ArrayList<>();
+            int order = 1;
+            for(InsertRoutingProcedureVo item:data){
+                String procedure_id = nameIDMapper.getProcedureIDByName(item.getContent());
+                insertRoutingProcedureVos.add(new com.example.mes.process.Vo.RoutingVo.InsertRoutingProcedureVo(uuid,procedure_id,order++,product.getCompany_id()));
+            }
+            mapper.addRoutingInfos(insertRoutingProcedureVos);
+
+            //添加物料清单信息
+            //**********   修改属性 去掉color
+
+            ArrayList<InsertProMaterialVo> material = insertVo.getMaterial();
+            ArrayList<com.example.mes.process.Vo.MaterialVo.InsertProMaterialVo> insertProMaterialVos = new ArrayList<>();
+            for(InsertProMaterialVo item:material){
+
+                String material_id = nameIDMapper.getMaterialIDByNameSize(item.getName(),item.getSize());
+                insertProMaterialVos.add(new com.example.mes.process.Vo.MaterialVo.InsertProMaterialVo(uuid,material_id,item.getCount(),product.getCompany_id()));
+            }
+            mapper.addProMaterialLists(insertProMaterialVos);
+            return "添加成功";
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("service:添加产品详细信息失败！");
+            return "添加失败";
+        }
+    }
+
 
     @Override
     public QueryVo getInfosByID(String product_id) {

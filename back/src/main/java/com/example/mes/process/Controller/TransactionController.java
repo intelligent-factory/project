@@ -56,6 +56,20 @@ public class TransactionController {
         }
     }
 
+
+    //适应不同模板
+    @Transactional
+    @PostMapping("/add3")
+    public String add3(@RequestBody InsertVo insertVo){
+        try {
+            return service.add3(insertVo);
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("controller:添加产品详细信息失败！");
+            return "添加失败";
+        }
+    }
+
     @Transactional
     @PostMapping("update")
     public String update(@RequestBody UpdateVo updateVo){

@@ -21,8 +21,12 @@ public interface IOptionsService {
     List<String> getSizes();
     //获得所有可选工序
     List<String> getProcedures();
+    //获得所有可选工序
+    List<String> getProceduresByCompany(String company_id);
     //获取物料信息
     List<OptionMaterial> getOptionMaterial();
+
+    List<OptionMaterial> getOptionMaterialByCompany(String company_id);
 
     List<String> getStyleByBrand(String brand);
 
@@ -30,9 +34,11 @@ public interface IOptionsService {
 
     ArrayList<HashMap<String,Object> > getRoutingInfosByID(String routing_id);
 
+    //此处是公司款号  不是本公司id
     List<String> getProductByCompanyID(String company_id);
 
     List<String> getCompanyIDs();
+
 
 
 }
