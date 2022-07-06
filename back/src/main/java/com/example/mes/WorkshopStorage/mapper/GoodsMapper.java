@@ -5,6 +5,7 @@ import com.example.mes.WorkshopStorage.vo.GoodsVo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -22,6 +23,7 @@ public interface GoodsMapper {
     String getEquipment(String id);
     void addApply(ApplyVo applyVo);
     List<ApplyVo> selectAll(long start,long num);
+    List<ApplyVo> selectAll_search(long start,long num, String goods_id, String goods_name, Date time1, Date time2, String type);
     List<ApplyVo> selectsetAll(long start,long num);
     List<ApplyVo> selectConfirmAll(long start,long num);
     List<ApplyVo> selectMessageAll(long start,long num);
@@ -31,6 +33,7 @@ public interface GoodsMapper {
     List<ApplyVo> getOrderByTime(String uuid);
     Integer searchQuantity(String goods_id, String types);
     Integer getApplyCount();
+    Integer getApplyCount_search(String goods_id, String goods_name, Date time1, Date time2, String type);
     Integer getsetApplyCount();
     Integer getConfirmCount();
     Integer getMessageCount();

@@ -250,6 +250,10 @@ public class WorkshopService {
         return workshopVoResult;
     }
 
+    public List<WorkshopVo> all_workshop(){
+        return workshopMapper.all_workshop();
+    }
+
     public Result<List<WorkshopVo>> update_delete_Info(String workshopId, String lineId, String stationId){
         Result<List<WorkshopVo>> listResult = new Result<>();
         List<WorkshopVo> workshopVoList = new LinkedList<>();

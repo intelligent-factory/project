@@ -1,5 +1,6 @@
 package com.example.mes.WorkshopStorage.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.example.mes.WorkshopStorage.para.WorkshopUpdatePara;
 import com.example.mes.WorkshopStorage.service.LineService;
 import com.example.mes.WorkshopStorage.service.StationService;
@@ -9,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -95,6 +97,20 @@ public class WorkshopController {
             result.error500(e.getMessage());
         }
         return result;
+    }
+
+    @GetMapping(value = "all_workshop")
+    public String all_workshop(){
+        try {
+            HashMap<String, Object> data = new HashMap<>();
+            List<WorkshopVo> workshop = workshopService.all_workshop();
+            data.put("workshop", workshop);
+            return(JSON.toJSONString(workshop));
+        }catch (Exception e){
+            e.printStackTrace();
+            LoggerFactory.getLogger(this.getClass()).error(""+e.getMessage());
+            return "";
+        }
     }
 
     @GetMapping(value = "applyWorkshop")

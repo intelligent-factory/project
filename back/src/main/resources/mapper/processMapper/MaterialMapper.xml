@@ -26,6 +26,13 @@
         FROM material m
         WHERE material_id=#{material_id} AND is_deleted='0'
     </select>
+
+    <select id="getMaterialByName" resultType="com.example.mes.process.Vo.MaterialVo.QueryMaterialVo" parameterType="java.lang.String">
+        SELECT m.material_id, m.name, m.size, m.color, m.comments,m.status
+        FROM material m
+        WHERE m.name=#{name} AND is_deleted='0'
+    </select>
+
     <select id="getCount" resultType="java.lang.Integer">
         SELECT count(*)
         FROM material
