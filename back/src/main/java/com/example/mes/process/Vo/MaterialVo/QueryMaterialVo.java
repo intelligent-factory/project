@@ -77,6 +77,9 @@ public class QueryMaterialVo {
 
     @Override
     public String toString() {
+        size=size.replace("\"", "");
+        size=size.replace("{", "");
+        size=size.replace("}", "");
         return "QueryMaterialVo{" +
                 "material_id='" + material_id + '\'' +
                 ", name='" + name + '\'' +

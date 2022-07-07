@@ -20,7 +20,7 @@
     <select id="getMaterialIDByNameSize" resultType="java.lang.String">
         SELECT material_id
         FROM material m
-        WHERE m.name=#{name} AND m.size=#{size}
+        WHERE m.name=#{name} AND m.size like "%"#{size}"%"
     </select>
 
 
