@@ -122,6 +122,19 @@ public class MaterialController {
         }
     }
 
+    @GetMapping("/getMaterialByName")
+    public String getMaterialByName(String name){
+        try {
+            HashMap<String,Object> data = new HashMap<>();
+            List<QueryMaterialVo> materials = service.getMaterialByName(name);
+            data.put("materials",materials);
+            return JSON.toJSONString(data);
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("controller:根据name查询物料信息失败");
+            return "";
+        }
+    }
     //增加一个物料
     @PostMapping("/addMaterial")
     public String addMaterial(@RequestBody InsertMaterialVo insertMaterialVo){

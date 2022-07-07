@@ -108,6 +108,20 @@ public class EquipmentController {
         }
     }
 
+    @GetMapping("/getEquipmentsByName")
+    public String getEquipmentsByName(String name){
+        try {
+            HashMap<String,Object> data = new HashMap<>();
+            List<QueryEquipmentVo> equipments = service.getEquipmentsByName(name);
+            data.put("equipments",equipments);
+            return JSON.toJSONString(data);
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("service:查询设备信息列表失败！");
+            return "";
+        }
+    }
+
     @GetMapping("/getEquipmentByID")
     public String getEquipmentByID(String equipment_id){
         try {

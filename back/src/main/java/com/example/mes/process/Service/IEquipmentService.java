@@ -20,6 +20,8 @@ public interface IEquipmentService {
 
     List<QueryEquipmentVo> getEquipments(PageVo pageVo);
 
+    List<QueryEquipmentVo> getEquipmentsByName(String name);
+
     QueryEquipmentVo getEquipmentByID(String equipment_id);
 
     String addEquipment(InsertEquipmentVo insertEquipmentVo);

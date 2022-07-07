@@ -1,5 +1,6 @@
 package com.example.mes.WorkshopStorage.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.example.mes.WorkshopStorage.para.StoragePara;
 import com.example.mes.WorkshopStorage.service.StorageService;
 import com.example.mes.WorkshopStorage.vo.PageVo;
@@ -8,6 +9,9 @@ import com.example.mes.WorkshopStorage.vo.StorageVo;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
 
 @RestController
 @RequestMapping("/storage")
@@ -26,6 +30,20 @@ public class StorageController {
             result.error500(e.getMessage());
         }
         return result;
+    }
+
+    @GetMapping(value = "all_storage")
+    public String all_storage(){
+        try {
+            HashMap<String, Object> data = new HashMap<>();
+            List<StorageVo> storage = storageService.all_storage();
+            data.put("storage", storage);
+            return(JSON.toJSONString(storage));
+        }catch (Exception e){
+            e.printStackTrace();
+            LoggerFactory.getLogger(this.getClass()).error(""+e.getMessage());
+            return "";
+        }
     }
 
     @GetMapping(value = "delete")

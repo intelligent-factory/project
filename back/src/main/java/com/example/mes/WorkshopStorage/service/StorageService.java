@@ -66,6 +66,11 @@ public class StorageService {
         }
     }
 
+    public List<StorageVo> all_storage(){
+        List<StorageVo> list = storageMapper.all_storage();
+        return list;
+    }
+
     public Result<StorageVo> search(String storage_id){
         Result<StorageVo> storageVoResult = new Result<>();
         StorageVo storageVo = storageMapper.search(storage_id);
