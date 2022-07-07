@@ -15,6 +15,7 @@ public interface ShelfMapper {
     Integer getCountById(@Param("storage_id") String storage_id);
     void insert(ShelfVo shelfVo);
     void delete(String storage_id, String id, String user, Timestamp modified_time);
+    List<ShelfVo> shelfById(@Param("storage_id") String storage_id);
     List<ShelfVo> selectAll (@Param("start") long start, @Param("num") long num);
     List<ShelfVo> selectAllById (@Param("storage_id") String storage_id, @Param("start") long start, @Param("num") long num);
 }

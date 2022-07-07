@@ -19,6 +19,19 @@ public class ApplyVo {
     private String created_by;
     private Timestamp modified_time;
     private String modified_by;
+    private int quantity_sum;
+    private String in_out;
+
+    public String getIn_out(){return in_out;}
+    public void setIn_out(String in_out){this.in_out = in_out;}
+
+    public int getQuantity_sum() {
+        return quantity_sum;
+    }
+
+    public void setQuantity_sum(int quantity_sum) {
+        this.quantity_sum = quantity_sum;
+    }
 
     public String getStorage_id() {
         return storage_id;

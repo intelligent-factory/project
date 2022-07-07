@@ -14,6 +14,10 @@
     <select id="selectAllById"  resultType="com.example.mes.WorkshopStorage.vo.ShelfVo">
         select id,created_by,created_time,types from storage_shelf where is_deleted="0" and storage_id=#{storage_id} order by id limit #{start},#{num}
     </select>
+    <select id="shelfById"  resultType="com.example.mes.WorkshopStorage.vo.ShelfVo">
+        select id,created_by,created_time,types from storage_shelf where is_deleted="0" and storage_id=#{storage_id} order by id
+    </select>
+
     <select id="getShelfNumByStorageId" resultType="java.lang.Integer">
         select count(*) from storage_shelf where is_deleted="0" and storage_id=#{storage_id}
     </select>

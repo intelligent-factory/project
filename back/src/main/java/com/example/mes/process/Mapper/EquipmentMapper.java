@@ -28,6 +28,8 @@ public interface EquipmentMapper {
 
     List<QueryEquipmentVo> getEquipments(@Param("pageVo") PageVo pageVo);
 
+    List<QueryEquipmentVo> getEquipmentsByName(@Param("name") String name);
+
     QueryEquipmentVo getEquipmentByID(@Param("equipment_id") String equipment_id);
 
     boolean addEquipment(@Param("insertEquipmentVo") InsertEquipmentVo insertEquipmentVo);

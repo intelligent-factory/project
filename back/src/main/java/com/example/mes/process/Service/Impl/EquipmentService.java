@@ -179,6 +179,18 @@ public class EquipmentService implements IEquipmentService {
     }
 
     @Override
+    public List<QueryEquipmentVo> getEquipmentsByName(String name) {
+        try {
+            return mapper.getEquipmentsByName(name);
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("controller:获取设备信息列表失败！");
+            return null;
+        }
+
+    }
+
+    @Override
     public QueryEquipmentVo getEquipmentByID(String equipment_id) {
         try {
             return mapper.getEquipmentByID(equipment_id);
