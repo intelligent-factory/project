@@ -38,12 +38,16 @@
     </select>
 
     <insert id="addApply" parameterType="com.example.mes.WorkshopStorage.vo.ApplyVo">
-        insert into storage_apply(uuid,workshop_id,storage_id,shelf_id,location,goods_id,goods_name,types,quantity,permit,status,is_deleted,created_time,created_by,modified_time,modified_by)
-        values(#{uuid}, #{workshop_id},#{storage_id},#{shelf_id},#{location}, #{goods_id},#{goods_name}, #{types},#{quantity},#{permit}, #{status},#{is_deleted},#{created_time},#{created_by},#{modified_time},#{modified_by})
+        insert into storage_apply(uuid,workshop_id,storage_id,shelf_id,location,goods_id,goods_name,types,quantity,permit,status,is_deleted,created_time,created_by,modified_time,modified_by,in_out)
+        values(#{uuid}, #{workshop_id},#{storage_id},#{shelf_id},#{location}, #{goods_id},#{goods_name}, #{types},#{quantity},#{permit}, #{status},#{is_deleted},#{created_time},#{created_by},#{modified_time},#{modified_by},#{in_out})
     </insert>
 
     <select id="getApplyCount" resultType="java.lang.Integer">
         select count(*) from storage_apply where is_deleted="0" and permit="0"
+    </select>
+
+    <select id="getApplyCount_search" resultType="java.lang.Integer">
+        select count(*) from storage_apply where is_deleted="0" and permit="0" and (goods_id = #{goods_id} or #{goods_id}='')and (goods_name = #{goods_name} or #{goods_name}='') and ((DATE(created_time) between #{time1} and #{time2}) or (#{time1}='2022-01-01' and #{time2}='2022-01-01')) and (types = #{type} or #{type}='')
     </select>
 
     <select id="getsetApplyCount" resultType="java.lang.Integer">
@@ -69,11 +73,15 @@
     </select>
 
     <select id="selectAll"  resultType="com.example.mes.WorkshopStorage.vo.ApplyVo">
-        select uuid,workshop_id,goods_id,goods_name,quantity,created_time,created_by,types from storage_apply where is_deleted="0" and permit="0" order by created_time desc limit #{start},#{num}
+        With g1 as(select sum(quantity) as quantity_sum, goods_id,types from storage_goods where is_deleted="0" GROUP BY goods_id,types) select a.uuid,a.workshop_id,a.goods_id,a.goods_name,a.quantity,a.created_time,a.created_by,a.types, a.in_out, g.quantity_sum from g1 g RIGHT OUTER JOIN storage_apply a ON g.goods_id = a.goods_id and g.types = a.types where a.is_deleted="0" and a.permit="0" order by a.created_time desc limit #{start},#{num}
+    </select>
+
+    <select id="selectAll_search"  resultType="com.example.mes.WorkshopStorage.vo.ApplyVo">
+        With g1 as(select sum(quantity) as quantity_sum, goods_id,types from storage_goods where is_deleted="0" GROUP BY goods_id,types) select a.uuid,a.workshop_id,a.goods_id,a.goods_name,a.quantity,a.created_time,a.created_by,a.types, a.in_out, g.quantity_sum from g1 g RIGHT OUTER JOIN storage_apply a ON g.goods_id = a.goods_id and g.types = a.types where a.is_deleted="0" and a.permit="0" and (a.goods_id = #{goods_id} or #{goods_id}='')and ( a.goods_name = #{goods_name} or #{goods_name}='') and ((DATE(a.created_time) between #{time1} and #{time2}) or (#{time1}='2022-01-01' and #{time2}='2022-01-01')) and (a.types = #{type} or #{type}='') order by a.created_time desc limit #{start},#{num}
     </select>
 
     <select id="selectsetAll"  resultType="com.example.mes.WorkshopStorage.vo.ApplyVo">
-        select uuid,workshop_id,goods_id,goods_name,quantity,created_time,created_by,modified_by,types from storage_apply where is_deleted="0" and permit="1" order by workshop_id limit #{start},#{num}
+        select uuid,workshop_id,goods_id,goods_name,quantity,created_time,created_by,modified_by,types,in_out from storage_apply where is_deleted="0" and permit="1" order by workshop_id limit #{start},#{num}
     </select>
 
     <select id="selectConfirmAll"  resultType="com.example.mes.WorkshopStorage.vo.ApplyVo">
@@ -93,7 +101,7 @@
     </select>
 
     <select id="selectAddAll"  resultType="com.example.mes.WorkshopStorage.vo.ApplyVo">
-        select uuid,storage_id,shelf_id,location,goods_id,goods_name,quantity,created_time,created_by,modified_by,types from storage_apply where is_deleted="0" and permit="100" order by workshop_id limit #{start},#{num}
+        select uuid,storage_id,shelf_id,location,goods_id,goods_name,quantity,created_time,created_by,modified_by,types,in_out from storage_apply where is_deleted="0" and permit="100" order by workshop_id limit #{start},#{num}
     </select>
 
     <select id="searchQuantity"  resultType="java.lang.Integer">

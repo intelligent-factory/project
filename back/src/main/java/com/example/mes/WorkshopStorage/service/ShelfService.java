@@ -69,6 +69,10 @@ public class ShelfService {
         return shelfVoResult;
     }
 
+    public List<ShelfVo> shelfById(String storage_id){
+        return shelfMapper.shelfById(storage_id);
+    }
+
     public void move(GoodsUpdatePara params) throws SQLException {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         List<GoodsVo> goodsVoList = goodsMapper.getByShelfId(params.getStorage_id(), params.getShelf_id());

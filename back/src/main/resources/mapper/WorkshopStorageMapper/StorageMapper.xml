@@ -8,6 +8,9 @@
     <select id="selectAll"  resultType="com.example.mes.WorkshopStorage.vo.StorageVo">
         select id,created_by,created_time from storage_storage where is_deleted="0" order by id limit #{start},#{num}
     </select>
+    <select id="all_storage"  resultType="com.example.mes.WorkshopStorage.vo.StorageVo">
+        select id,created_by,created_time from storage_storage where is_deleted="0" order by id
+    </select>
     <select id="search"  resultType="com.example.mes.WorkshopStorage.vo.StorageVo">
         select id,created_by,created_time from storage_storage where is_deleted="0" and id=#{storage_id}
     </select>

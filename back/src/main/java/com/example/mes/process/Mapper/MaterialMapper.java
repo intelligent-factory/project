@@ -26,6 +26,7 @@ public interface MaterialMapper {
     //跟据物料id查询对应物料的信息
     QueryMaterialVo getMaterialByID(@Param("material_id") String material_id);
     //增加一个物料
+    List<QueryMaterialVo> getMaterialByName(@Param("name") String name);
     boolean addMaterial(@Param("insertMaterialVo") InsertMaterialVo insertMaterialVo);
     //根据物料id删除一个物料
     boolean deleteMaterialByID(@Param("deleteMaterialVo") DeleteMaterialVo deleteMaterialVo);

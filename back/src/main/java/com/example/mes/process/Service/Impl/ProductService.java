@@ -50,6 +50,20 @@ public class ProductService implements IProductService {
         }
     }
 
+    @Override
+    public HashMap<String, Object> getProductsByType(PageVo pageVo, String company_id, String type) {
+        try {
+            HashMap<String,Object> map = new HashMap<>();
+            map.put("count", mapper.getCount());
+            map.put("products",mapper.getProductsByCompanyAndType(pageVo,company_id,type));
+            return map;
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("service:获取产品信息失败！");
+            return null;
+        }
+    }
+
     //逻辑删除产品，同步逻辑删除工艺路线
     @Transactional
     @Override
