@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.mes.quality.mapper.QualityListMapper">
+
+
+    <select id="selectAll" resultType="com.example.mes.quality.bean.QualityListBean">
+        SELECT * FROM quality_list
+    </select>
+
+    <select id="selectListByStatus" resultType="com.example.mes.quality.bean.QualityListBean">
+        SELECT * FROM quality_list WHERE status = #{status}
+    </select>
+
+    <select id="selectListByLine" resultType="com.example.mes.quality.bean.QualityListBean">
+        SELECT * FROM quality_list WHERE line_id = #{line_id}
+    </select>
+
+    <select id="selectListByWorkShop" resultType="com.example.mes.quality.bean.QualityListBean">
+        SELECT * FROM quality_list WHERE workshop_id = #{workshop_id}
+    </select>
+
+    <select id="selectListNum" resultType="java.lang.Integer">
+        SELECT num FROM quality_list WHERE line_id = #{line_id}
+    </select>
+
+    <select id="queryQualityList" resultType="com.example.mes.quality.bean.QualityListBean">
+        select SQL_CALC_FOUND_ROWS * from quality_list
+        <where>
+            (workshop_id like '%${qualityListVo.filter_workshopID}%' or #{qualityListVo.filter_workshopID} = '')
+            and (line_id like '%${qualityListVo.filter_lineID}%' or #{qualityListVo.filter_lineID} = '')
+            and (status like '%${qualityListVo.filter_status}%' or #{qualityListVo.filter_status} = '未选择')
+
+            limit #{numStart}, #{numEnd}
+        </where>
+    </select>
+
+    <update id="updateQualityListStatus">
+        update quality_list set status = '1' where list_id = #{list_id}
+    </update>
+
+    <select id="queryQualityByListID" resultType="com.example.mes.quality.bean.QualityListBean">
+        select  * from quality_list where list_id = #{list_id}
+    </select>
+
+    <select id="getLastCount" resultType="java.lang.Integer">
+        select FOUND_ROWS()
+    </select>
+
+    <select id="getAllWorkshop" resultType="java.lang.String">
+        select distinct workshop_id from quality_list
+    </select>
+
+    <select id="getAllLine" resultType="java.lang.String">
+        select distinct line_id from quality_list
+    </select>
+
+    <select id="getAllLinesByWorkshop" resultType="java.lang.String">
+        select distinct line_id from quality_list where workshop_id = #{workshop_id}
+    </select>
+
+</mapper>

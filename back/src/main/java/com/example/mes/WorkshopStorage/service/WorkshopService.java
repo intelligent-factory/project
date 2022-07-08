@@ -26,15 +26,17 @@ public class WorkshopService {
     @Autowired
     private StationMapper stationMapper;
 
-    public Result<WorkshopVo> getById(String workshopId) {
-        Result<WorkshopVo> result = new Result<>();
-        WorkshopVo workshop = workshopMapper.getById(workshopId);
-        List<LineVo> lineList = lineMapper.getByWorkshop(workshopId);
+    public Result<newWorkshopVo> getById(String workshopId) {
+        Result<newWorkshopVo> result = new Result<>();
+        newWorkshopVo workshop = workshopMapper.getWorkshopById(workshopId);
+//        List<newLineVo> lineList = lineMapper.getByWorkshop(workshopId);
+        List<newLineVo> lineList = lineMapper.getLinesByWorkshop(workshopId);
+//        System.out.println(workshopId);
         if(workshop == null){
             return result;
         }
-        for (LineVo line : lineList) {
-            List<StationVo> stationList = stationMapper.getByLine(workshopId, line.getId());
+        for (newLineVo line : lineList) {
+            List<newStationVo> stationList = stationMapper.getByLine(workshopId, line.getId());
             if(stationList != null){
                 line.setStationNum(stationList.size());
                 line.setStations(stationList);
@@ -56,6 +58,8 @@ public class WorkshopService {
         return result;
     }
 
+
+
     public void setTime(Workshop workshop) {
         String uuid = UUID.randomUUID().toString().replace("-", "");
         workshop.setUuid(uuid);
@@ -72,17 +76,21 @@ public class WorkshopService {
         //要修改的车间不在数据库里或者已经有其他申请 除修改以外
         WorkshopVo workshop_ = workshopMapper.getById(params.getWorkshopId());
         if (workshop_ == null || "".equals(workshop_) || !workshop_.getVerify().equals("normal")) {
+            System.out.println("要修改的车间不在数据库里或者已经有其他申请 除修改以外");
             throw new SQLException();
         }
         //要修改的车间已经有修改申请
         workshop_ = workshopMapper.checkByPre_id(params.getWorkshopId());
         if (workshop_ != null) {
+            System.out.println("要修改的车间已经有修改申请");
             throw new SQLException();
         }
         //修改后的车间已经存在
         if (params.getNewWorkshopId() != null && !params.getNewWorkshopId().equals("") && workshopMapper.checkById(params.getNewWorkshopId()) != null) {
+            System.out.println("修改后的车间已经存在");
             throw new SQLException();
         }
+
         Workshop workshop = new Workshop();
         if (StringUtils.isEmpty(params.getNewFactory())) {
             params.setNewFactory(workshopMapper.getById(params.getWorkshopId()).getFactory_name());
@@ -93,37 +101,40 @@ public class WorkshopService {
         if (StringUtils.isEmpty(params.getNewWorkshopName())) {
             params.setNewWorkshopName(workshopMapper.getById(params.getWorkshopId()).getName());
         }
+        workshop.setCompany_id(params.getCompany_id());
         workshop.setId(params.getNewWorkshopId());
         workshop.setName(params.getNewWorkshopName());
         workshop.setFactory_name(params.getNewFactory());
         workshop.setVerify("insert");
         workshop.setPre_uuid(params.getWorkshopId());
         setTime(workshop);
+
         workshopMapper.insert(workshop);
     }
 
-    //    @GetMapping(value = "/getworkshop")
-//    public Result<List<WorkshopVo>> selectAll() {
-//        return workshopMapper.selectAll();
-//    }
+
+
     public void deleteWorkshop(String workshopId) throws SQLException {
         List<LineVo> linelist = lineMapper.checkByWorkshop(workshopId);
-        if (linelist.size() > 0) {
-            throw new SQLException();
-        }
+//        if (linelist.size() > 0) {
+//            throw new SQLException();
+//        }
         if(workshopMapper.checkByPre_id(workshopId) != null){
+            System.out.println("车间修改过");
             throw new SQLException();
         }
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         workshopMapper.deleteWorkshop(workshopId, timestamp);
     }
 
+    //新建车间
     public String create(WorkshopVo params) throws SQLException {
         WorkshopVo workshop_ = workshopMapper.checkById(params.getId());
         if (workshop_ != null) {
             throw new SQLException();
         }
         Workshop workshop = new Workshop();
+        workshop.setCompany_id(params.getCompany_id());
         workshop.setId(params.getId());
         workshop.setName(params.getName());
         workshop.setFactory_name(params.getFactory_name());
@@ -132,6 +143,8 @@ public class WorkshopService {
         workshopMapper.insert(workshop);
         return params.getId();
     }
+
+
 
     public Result<WorkshopVo> search(String workshopId) {
         Result<WorkshopVo> result = new Result<>();
@@ -328,9 +341,10 @@ public class WorkshopService {
         return listResult;
     }
 
-    public void confirm(String user, String info, String workshopId, String lindId, String stationId){
+    public void confirm(String user, String info, String workshopId, String lineId, String stationId){
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        if(lindId == null){
+        if(lineId == null){
+            //车间申请
             WorkshopVo workshopVo = workshopMapper.getApplyById(workshopId);
             if(info.equals("1")){
                 if(workshopVo.getVerify().equals("create")){
@@ -359,64 +373,77 @@ public class WorkshopService {
                 }
                 if(workshopVo.getVerify().equals("delete")){
                     workshopMapper.setNormal(workshopId, workshopVo.getCreated_time(), user);
+                    lineMapper.setNormalByWorkshop2(workshopId, timestamp, user);
+                    stationMapper.setNormalByWorkshop2(workshopId, timestamp, user);
                 }
             }
         }else
         if(stationId == null){
-            LineVo lineVo = lineMapper.getApplyById(workshopId, lindId);
+            //产线申请
+            LineVo lineVo = lineMapper.getApplyById(workshopId, lineId);
             if(info.equals("1")){
                 if(lineVo.getVerify().equals("delete")){
-                    lineMapper.setNormal(workshopId, lindId, timestamp, user);
-                    lineMapper.setDelete(workshopId, lindId, timestamp, user);
+                    lineMapper.setNormal(workshopId, lineId, timestamp, user);
+                    lineMapper.setDelete(workshopId, lineId, timestamp, user);
                 }
                 if(lineVo.getVerify().equals("insert") && lineVo.getPre_id() == null){
-                    lineMapper.setNormal(workshopId, lindId, timestamp, user);
+                    lineMapper.setNormal(workshopId, lineId, timestamp, user);
                 }
                 if(lineVo.getVerify().equals("insert") && lineVo.getPre_id() != null){
                     lineMapper.setDelete(workshopId, lineVo.getPre_id(), timestamp, user);
-                    lineMapper.setNormal(workshopId, lindId, timestamp, user);
-                    stationMapper.updateByLine(workshopId, lindId, lineVo.getPre_id());
+                    lineMapper.setNormal(workshopId, lineId, timestamp, user);
+                    stationMapper.updateByLine(workshopId, lineId, lineVo.getPre_id());
                 }
             }else{
                 if(lineVo.getVerify().equals("insert") && lineVo.getPre_id() == null){
-                    lineMapper.setNormal(workshopId, lindId, timestamp, user);
-                    lineMapper.setDelete(workshopId, lindId, timestamp, user);
+                    //增加产线
+                    lineMapper.setNormal(workshopId, lineId, timestamp, user);
+                    lineMapper.setDelete(workshopId, lineId, timestamp, user);
+                    stationMapper.setNormal2(workshopId, lineId, timestamp, user);
                 }
                 if (lineVo.getVerify().equals("insert") && lineVo.getPre_id() != null) {
-                    lineMapper.setNormalDelete(workshopId, lindId, timestamp, user);
+                    //修改产线
+                    lineMapper.setNormalDelete(workshopId, lineId, timestamp, user);
                 }
                 if(lineVo.getVerify().equals("delete")){
-                    lineMapper.setNormal(workshopId, lindId, lineVo.getCreated_time(), user);
+                    //删除产线
+                    lineMapper.setNormal(workshopId, lineId, lineVo.getCreated_time(), user);
+                    stationMapper.setNormal2(workshopId, lineId, timestamp, user);
                 }
             }
         }
         else{
-            StationVo stationVo = stationMapper.getApplyById(workshopId, lindId, stationId);
+            //工位申请
+            StationVo stationVo = stationMapper.getApplyById(workshopId, lineId, stationId);
             if(info.equals("1")){
                 if(stationVo.getVerify().equals("delete")){
-                    stationMapper.setNormal(workshopId, lindId, stationId, timestamp, user);
-                    stationMapper.setDelete(workshopId, lindId, stationId, timestamp, user);
+                    stationMapper.setNormal(workshopId, lineId, stationId, timestamp, user);
+                    stationMapper.setDelete(workshopId, lineId, stationId, timestamp, user);
                 }
                 if(stationVo.getVerify().equals("insert") && stationVo.getPre_id() == null){
-                    stationMapper.setNormal(workshopId, lindId, stationId, timestamp, user);
+                    stationMapper.setNormal(workshopId, lineId, stationId, timestamp, user);
                 }
                 if(stationVo.getVerify().equals("insert") && stationVo.getPre_id() != null){
-                    stationMapper.setDelete(workshopId, lindId, stationVo.getPre_id(), timestamp, user);
-                    stationMapper.setNormal(workshopId, lindId, stationVo.getPre_id(), timestamp, user);
+                    stationMapper.setDelete(workshopId, lineId, stationVo.getPre_id(), timestamp, user);
+                    stationMapper.setNormal(workshopId, lineId, stationVo.getPre_id(), timestamp, user);
                 }
             }else{
                 if(stationVo.getVerify().equals("insert") && stationVo.getPre_id() == null){
-                    stationMapper.setNormal(workshopId, lindId, stationId, timestamp, user);
-                    stationMapper.setDelete(workshopId, lindId, stationId, timestamp, user);
+                    stationMapper.setNormal(workshopId, lineId, stationId, timestamp, user);
+                    stationMapper.setDelete(workshopId, lineId, stationId, timestamp, user);
                 }
                 if (stationVo.getVerify().equals("insert") && stationVo.getPre_id() != null) {
-                    stationMapper.setNormalDelete(workshopId, lindId, stationId, timestamp, user);
+                    stationMapper.setNormalDelete(workshopId, lineId, stationId, timestamp, user);
                 }
                 if(stationVo.getVerify().equals("delete")){
-                    stationMapper.setNormal(workshopId, lindId, stationId, stationVo.getCreated_time(), user);
+                    stationMapper.setNormal(workshopId, lineId, stationId, stationVo.getCreated_time(), user);
                 }
             }
         }
     }
 
+    //一个车间的详情
+    public newWorkshopVo getWorkshopInfo(String workshopId) {
+        return workshopMapper.getWorkshopInfo(workshopId);
+    }
 }

@@ -27,9 +27,8 @@
     <select id="checkById" resultType="com.example.mes.WorkshopStorage.vo.LineVo">
         select id,workshop_id,name from workshop_line where workshop_id=#{workshopId} and id=#{lineId} and is_deleted="0"
     </select>
-
     <insert id="insert" parameterType="com.example.mes.WorkshopStorage.entity.Line">
-        insert into workshop_line values (#{uuid}, #{id}, #{workshop_id}, #{name},#{routing},#{verify},#{pre_id},#{status},#{is_deleted},#{created_time},#{created_by},#{modified_time},#{modified_by})
+        insert into workshop_line values (#{uuid}, #{id}, #{workshop_id}, #{name},#{routing},#{verify},#{pre_id},#{status},#{is_deleted},#{created_time},#{created_by},#{modified_time},#{modified_by},#{company_id})
     </insert>
     <update id="delete">
         update workshop_line set verify="delete",modified_time=#{modified_time} where id=#{lineId} and workshop_id=#{workshopId} and verify="normal" and is_deleted="0"
@@ -70,4 +69,33 @@
     <update id="setDeleteByWorkshop">
         update workshop_line set is_deleted="1",verify="normal",modified_time=#{modified_time},modified_by=#{user} where workshop_id=#{workshopId} and verify="create" and is_deleted="0"
     </update>
+
+    <select id="selectAllLine"  resultType="com.example.mes.WorkshopStorage.vo.LineVo">
+        select id,name,workshop_id,routing,created_time,modified_time,created_by,modified_by,verify,pre_id from workshop_line where is_deleted="0" and workshop_id = #{workshopId} and verify="normal"
+    </select>
+
+    <update id="deleteAllLine">
+        update workshop_line set is_deleted="1",verify="normal",modified_time=#{modified_time} where id=#{lineId} and workshop_id=#{workshopId} and verify="normal" and is_deleted="0"
+    </update>
+
+    <update id="setNormalByWorkshop2">
+        update workshop_line set is_deleted="0",verify="normal",modified_time=#{modified_time},modified_by=#{user} where workshop_id=#{workshopId} and verify="normal" and is_deleted="1"
+    </update>
+
+    <select id="searchProductId" resultType="com.example.mes.process.Vo.ProductVo.QueryProductVo">
+        SELECT product_id,type FROM product
+    </select>
+
+    <select id="getLinesByWorkshop"  resultType="com.example.mes.WorkshopStorage.vo.newLineVo">
+        select id,workshop_id,name,routing from workshop_line where workshop_id=#{workshopId} and is_deleted="0" and (verify="normal" or verify="delete")
+    </select>
+
+    <select id="selectPageLines"  resultType="com.example.mes.WorkshopStorage.vo.newLineVo">
+        select id,name,workshop_id,created_time,modified_time,routing from workshop_line where workshop_id =#{workshopId} and is_deleted="0" and (verify="normal" or verify="delete") order by id limit #{start},#{num}
+    </select>
+
+    <select id="getCountByWorkshopId" resultType="java.lang.Integer">
+        select count(*) from workshop_line where workshop_id=#{workshopId} and is_deleted="0" and (verify="normal" or verify="delete")
+    </select>
+
 </mapper>

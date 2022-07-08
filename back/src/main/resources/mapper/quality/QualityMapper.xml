@@ -3,6 +3,7 @@
 <mapper namespace="com.example.mes.quality.mapper.QualityMapper">
 
     <resultMap id="QualityBean" type="com.example.mes.quality.bean.QualityBean" >
+        <result column="list_id" property="list_id"/>
         <result column="check_order" property="checkOrder"/>
         <result column="check_time" property="checkTime"/>
         <result column="order_num" property="orderNum"/>
@@ -24,17 +25,21 @@
     </resultMap>
 
     <insert id="addQualityResults" parameterType="com.example.mes.quality.bean.QualityBean">
-        INSERT INTO quality_management(check_time,order_num,check_num,defect_num,defect_type,defect_code,
+        INSERT INTO quality_management(list_id,check_time,order_num,check_num,defect_num,defect_type,defect_code,
         defect_ratio,workshop,production_line,`procedure`,staff,status,is_deleted,created_time,created_by,
         modified_time,modified_by)
         VALUES
-        (#{checkTime},#{orderNum},#{checkNum},#{defectNum},#{defectType},#{defectCode},#{defectRatio},
+        (#{list_id},#{checkTime},#{orderNum},#{checkNum},#{defectNum},#{defectType},#{defectCode},#{defectRatio},
         #{workshop},#{productionLine},#{procedure},#{staff},#{status},#{isDeleted},
         #{createdTime},#{createdBy},#{modifiedTime},#{modifiedBy})
     </insert>
 
     <select id="getQualityResults" parameterType="String" resultMap="QualityBean">
         SELECT * FROM quality_management WHERE is_deleted = 0 ORDER BY check_order DESC
+    </select>
+
+    <select id="queryResultByList" parameterType="String" resultMap="QualityBean">
+        SELECT * FROM quality_management WHERE is_deleted = 0 and list_id = #{list_id}
     </select>
 
     <select id="getQualityResultsByDate" parameterType="String" resultMap="QualityBean">
@@ -50,7 +55,7 @@
 
     <select id="getQualityResultsByDefectTypePart" parameterType="String" resultMap="QualityBean">
         SELECT defect_type,COUNT(*) as defect_num FROM quality_management
-        where is_deleted = 0 AND check_time LIKE "%"#{list[0]}"%" AND workshop = #{list[1]} AND production_line = #{list[2]}
+        where is_deleted = 0 AND check_time LIKE concat(#{list[0]},'%')  AND workshop = #{list[1]} AND production_line = #{list[2]}
         GROUP BY defect_type;
     </select>
 
@@ -58,5 +63,15 @@
         SELECT defect_type,COUNT(*) as defect_num FROM quality_management
         where is_deleted = 0 AND workshop = #{list[0]} AND production_line = #{list[1]}
         GROUP BY defect_type;
+    </select>
+
+    <select id="getDefectCode"  resultType="java.lang.String">
+        select defect_code from defect_list
+        where defect_type in
+            <foreach item="item" index="index" collection="list"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+
     </select>
 </mapper>

@@ -2,74 +2,49 @@ package com.example.mes.WorkshopStorage.vo;
 
 import java.sql.Timestamp;
 
-public class StationVo {
-    /**
-     * uuid
-     */
+public class newStationVo {
+
     private String uuid;
-    /**
-     *id
-     */
+
     private String id;
 
-    /**
-     * line_uuid
-     */
     private String workshop_id;
-    /**
-     * line_uuid
-     */
+
     private String line_id;
-    /**
-     * user_id
-     */
-    private String user;
-    /**
-     * 设备id
-     */
+
+    private String user;//userid
+
     private String equip_id;
 
-    /**
-     * 顺序
-     */
     private String stationOrder;
 
-
-    /**
-     * verify
-     */
     private String verify;
 
-    /**
-     * pre_id
-     */
     private String pre_id;
-    /**
-     * 状态
-     */
+
     private String status;
-    /**
-     * 被删除
-     */
+
     private String is_deleted;
-    /**
-     * 创建时间
-     */
+
     private Timestamp created_time;
-    /**
-     * 创建人
-     */
+
     private String created_by;
-    /**
-     * 修改时间
-     */
+
     private Timestamp modified_time;
-    /**
-     * 修改人
-     */
+
     private String modified_by;
 
     private String company_id;
+
+    private String name;//工序名
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getUuid() {
         return uuid;

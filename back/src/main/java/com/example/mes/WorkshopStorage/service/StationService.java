@@ -38,14 +38,17 @@ public class StationService {
     public void create(String workshopId, String lineId, StationVo params, String type)throws SQLException {
         //车间不存在
         if(!type.equals("create") && workshopMapper.getById(workshopId) == null){
+            System.out.println("车间不存在");
             throw new SQLException();
         }
         //产线不存在
         if(!type.equals("create") && lineMapper.getById(workshopId, lineId) == null){
+            System.out.println("产线不存在");
             throw new SQLException();
         }
         //工位已经存在
         if(stationMapper.checkById(workshopId, lineId, params.getId()) != null && (params.getPre_id()==null || params.getPre_id().equals(""))){
+            System.out.println("工位已经存在");
             throw new SQLException();
         }
         StationVo stationVo = new StationVo();
@@ -54,17 +57,20 @@ public class StationService {
         stationVo.setLine_id(lineId);
         stationVo.setUser(params.getUser());
         stationVo.setEquip_id(params.getEquip_id());
-        stationVo.setEquip_name(params.getEquip_name());
         stationVo.setPre_id(params.getPre_id());
         stationVo.setStationOrder(params.getStationOrder());
         stationVo.setVerify(type);
+        stationVo.setCompany_id(params.getCompany_id());
         setTime(stationVo);
         stationMapper.insert(stationVo);
     }
 
+
+
     public void delete(String workshopId, String lineId, String stationId) throws SQLException {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         if(stationMapper.checkByPre_id(workshopId, lineId, stationId) != null){
+            System.out.println("工位正在修改中");
             throw new SQLException();
         }
         stationMapper.delete(workshopId, lineId, stationId, timestamp);
@@ -76,7 +82,7 @@ public class StationService {
         if(station_ == null || !station_.getVerify().equals("normal")){
             throw new SQLException();
         }
-//        要修改的车间已经有修改申请
+        //要修改的车间已经有修改申请
         StationVo station__ = stationMapper.getUpdate(station_.getUuid());
         if(station__ != null){
             throw new SQLException();
@@ -123,5 +129,10 @@ public class StationService {
         pageVo.setRecords(currentlist);
         result.setResult(pageVo);
         return result;
+    }
+
+    public List<StationVo> searchAllStation(String workshopId, String lineId) {
+        List<StationVo> station = stationMapper.selectAllStation(workshopId,lineId);
+        return station;
     }
 }
