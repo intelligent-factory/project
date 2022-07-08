@@ -6,6 +6,7 @@ import com.example.mes.WorkshopStorage.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
@@ -102,7 +103,7 @@ public class GoodsService {
         }
     }
 
-    public void apply(String workshop_id, String id, int quantity, String type, String user) throws SQLException {
+    public void apply(String workshop_id, String id, int quantity, String type, String user, String in_out) throws SQLException {
         if(workshopMapper.getById(workshop_id) == null){
             throw new SQLException();
         }
@@ -126,6 +127,7 @@ public class GoodsService {
         applyVo.setPermit("0");
         applyVo.setQuantity(quantity);
         applyVo.setTypes(type);
+        applyVo.setIn_out(in_out);
         goodsMapper.addApply(applyVo);
     }
 
@@ -150,6 +152,32 @@ public class GoodsService {
         }
         pageVo.setCurrent(Integer.parseInt(page));
         List<ApplyVo> currentlist = goodsMapper.selectAll((pageVo.getCurrent() - 1) * Integer.parseInt(page_size), pageVo.getPages());
+        pageVo.setRecords(currentlist);
+        result.setResult(pageVo);
+        return result;
+    }
+
+    public Result<PageVo<ApplyVo>> searchApply(String page, String page_size, String goods_id, String goods_name, Date time1, Date time2, String type) throws SQLException {
+        Result<PageVo<ApplyVo>> result = new Result<>();
+        PageVo<ApplyVo> pageVo = new PageVo();
+        Integer size = goodsMapper.getApplyCount_search(goods_id, goods_name, time1, time2, type);
+        if(size == null)
+            size = 0;
+        pageVo.setTotal(size);
+        pageVo.setSize((size - 1) / Integer.parseInt(page_size) + 1);
+        if (pageVo.getSize() < 0) {
+            pageVo.setSize(0);
+        }
+        if (Integer.parseInt(page) > pageVo.getSize()) {
+            throw new SQLException();
+        }
+        if (Integer.parseInt(page) == pageVo.getSize()) {
+            pageVo.setPages((size - 1) % Integer.parseInt(page_size) + 1);
+        } else {
+            pageVo.setPages(Integer.parseInt(page_size));
+        }
+        pageVo.setCurrent(Integer.parseInt(page));
+        List<ApplyVo> currentlist = goodsMapper.selectAll_search((pageVo.getCurrent() - 1) * Integer.parseInt(page_size), pageVo.getPages(), goods_id, goods_name, time1, time2, type);
         pageVo.setRecords(currentlist);
         result.setResult(pageVo);
         return result;

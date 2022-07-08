@@ -135,10 +135,31 @@ public class OptionsService implements IOptionsService {
         }
     }
 
+    //获得该公司所有可选工序
+    @Override
+    public List<String> getProceduresByCompany(String company_id) {
+        try {
+            return mapper.getProceduresByCompany(company_id);
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("获取工序列表失败！");
+            return null;
+        }
+    }
+
     //获得所有物料名称
     private List<String> getMaterials(){
         try {
             return mapper.getMaterials();
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private List<String> getMaterialsByCompany(String company_id){
+        try {
+            return mapper.getMaterialsByCompany(company_id);
         }catch (Exception e){
             e.printStackTrace();
             return null;
@@ -170,7 +191,29 @@ public class OptionsService implements IOptionsService {
             for(String name:getMaterials()){
                 ArrayList<OptionSize> optionSizes = new ArrayList<>();
                 for(String size:getSizeByName(name)){
-                    OptionSize optionSize = new OptionSize(size,(ArrayList<String>) getColorByNameSize(name,size));
+                    OptionSize optionSize = new OptionSize(size);
+                    optionSizes.add(optionSize);
+                }
+                OptionMaterial optionMaterial = new OptionMaterial(name,optionSizes);
+                optionMaterials.add(optionMaterial);
+            }
+            return optionMaterials;
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("获取物料信息三级下拉框失败！");
+            return null;
+        }
+    }
+
+    @Override
+    public List<OptionMaterial> getOptionMaterialByCompany(String company_id) {
+        try {
+            ArrayList<OptionMaterial> optionMaterials = new ArrayList<>();
+            //该公司的物料
+            for(String name:getMaterialsByCompany( company_id)){
+                ArrayList<OptionSize> optionSizes = new ArrayList<>();
+                for(String size:getSizeByName(name)){
+                    OptionSize optionSize = new OptionSize(size);
                     optionSizes.add(optionSize);
                 }
                 OptionMaterial optionMaterial = new OptionMaterial(name,optionSizes);

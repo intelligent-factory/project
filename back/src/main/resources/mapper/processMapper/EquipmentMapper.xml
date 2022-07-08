@@ -19,6 +19,12 @@
         WHERE equipment_id=#{equipment_id} AND is_deleted='0'
     </select>
 
+    <select id="getEquipmentsByName" resultType="com.example.mes.process.Vo.EquipmentVo.QueryEquipmentVo" parameterType="java.lang.String">
+        SELECT e.equipment_id, e.name, e.purpose, e.comments ,e.status
+        FROM equipment e
+        WHERE name=#{name} AND is_deleted='0'
+    </select>
+
     <select id="checkDuplicate" resultType="java.lang.Integer" parameterType="java.lang.String">
         SELECT count(*)
         FROM equipment e

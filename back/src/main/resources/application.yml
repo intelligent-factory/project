@@ -3,6 +3,9 @@ spring:
     url: jdbc:mysql://localhost:3306/mes?useUnicode=true&characterEncoding=utf-8&&serverTimezone=GMT%2B8&allowMultiQueries=true
     username: root
     password: dongchen01
+#    url: jdbc:mysql://localhost:3306/mes0?useUnicode=true&characterEncoding=utf-8&&serverTimezone=GMT%2B8&allowMultiQueries=true
+#    username: root
+#    password: 3439
 #    url: jdbc:mysql://119.3.190.171:3306/mes_test?characterEncoding=UTF-8&useUnicode=true&useSSL=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
 #    username: test
 #    password: TestTest#0
@@ -42,5 +45,4 @@ mybatis:
 
 server:
   port: 8019
-
 

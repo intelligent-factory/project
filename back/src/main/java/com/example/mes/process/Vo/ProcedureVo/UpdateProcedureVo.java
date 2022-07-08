@@ -17,16 +17,7 @@ public class UpdateProcedureVo {
     //修改时间，使用set赋值
     Timestamp modified_time;
 
-    public UpdateProcedureVo() {
-    }
-
-    public UpdateProcedureVo(String procedure_id, String status, String comments, double cost, String operator_id) {
-        this.procedure_id = procedure_id;
-        this.status = status;
-        this.comments = comments;
-        this.cost = cost;
-        this.operator_id = operator_id;
-    }
+    int company_id;
 
     public String getProcedure_id() {
         return procedure_id;
@@ -76,6 +67,14 @@ public class UpdateProcedureVo {
         this.modified_time = modified_time;
     }
 
+    public int getCompany_id() {
+        return company_id;
+    }
+
+    public void setCompany_id(int company_id) {
+        this.company_id = company_id;
+    }
+
     @Override
     public String toString() {
         return "UpdateProcedureVo{" +
@@ -85,6 +84,7 @@ public class UpdateProcedureVo {
                 ", cost=" + cost +
                 ", operator_id='" + operator_id + '\'' +
                 ", modified_time=" + modified_time +
+                ", company_id=" + company_id +
                 '}';
     }
 }

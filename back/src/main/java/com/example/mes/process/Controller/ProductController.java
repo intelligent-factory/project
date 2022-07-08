@@ -31,6 +31,44 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/getProductsByCompany")
+    public String getProductsByCompany(int pageOffset,int pageSize,String company_id){
+        try {
+            return JSON.toJSONString(service.getProducts(new PageVo(pageOffset,pageSize),company_id));
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("controller:查询产品信息失败");
+            return "";
+        }
+    }
+
+
+
+    @GetMapping("/getProductsByCompanyAndType")
+    public String getProductsByCompanyAndType(int pageOffset,int pageSize,String company_id,String type){
+        try {
+            return JSON.toJSONString(service.getProductsByType(new PageVo(pageOffset,pageSize),company_id,type));
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("controller:查询产品信息失败");
+            return "";
+        }
+    }
+
+//    @Transactional
+//    @PostMapping("/deleteProductByCompanyAndID")
+//    public String deleteProductByByCompanyAndID(@RequestBody DeleteProductVo deleteProductVo,String company_id){
+//        try {
+//            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+//            deleteProductVo.setModified_time(timestamp);
+//            return JSON.toJSONString(service.deleteProductByID(deleteProductVo));
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            System.out.println("controller:删除产品失败");
+//            return "删除失败";
+//        }
+//    }
+
     @Transactional
     @PostMapping("/deleteProductByID")
     public String deleteProductByID(@RequestBody DeleteProductVo deleteProductVo){

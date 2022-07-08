@@ -4,6 +4,14 @@ import java.sql.Timestamp;
 
 public class InsertMaterialVo {
 
+    public String getMaterial_id() {
+        return material_id;
+    }
+
+    public void setMaterial_id(String material_id) {
+        this.material_id = material_id;
+    }
+
     //uuid，使用set赋值
     String material_id;
     //物料名称
@@ -21,6 +29,16 @@ public class InsertMaterialVo {
     //创建时间，需要使用set赋值
     Timestamp created_time;
 
+    public String getCompany_id() {
+        return company_id;
+    }
+
+    public void setCompany_id(String company_id) {
+        this.company_id = company_id;
+    }
+
+    String company_id;
+
     public InsertMaterialVo() {
     }
 
@@ -30,15 +48,10 @@ public class InsertMaterialVo {
         this.color = color;
         this.comments = comments;
         this.operator_id = operator_id;
+        //this.company_id = company_id;
     }
 
-    public String getMaterial_id() {
-        return material_id;
-    }
 
-    public void setMaterial_id(String material_id) {
-        this.material_id = material_id;
-    }
 
     public String getName() {
         return name;
@@ -107,6 +120,7 @@ public class InsertMaterialVo {
                 ", operator_id='" + operator_id + '\'' +
                 ", status='" + status + '\'' +
                 ", created_time=" + created_time +
+                ", company_id=" + company_id +
                 '}';
     }
 

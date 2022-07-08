@@ -12,8 +12,10 @@ import java.util.List;
 
 @Repository
 public interface WorkshopMapper {
+
     List<WorkshopVo> selectAll(@Param("start") long start, @Param("num") long num);
     List<WorkshopVo> selectApplyAll(@Param("start") long start, @Param("num") long num);
+
     List<WorkshopVo> all_workshop();
     WorkshopVo getById(@Param("workshopId") String workshopId);
     WorkshopVo getApplyById(@Param("workshopId") String workshopId);

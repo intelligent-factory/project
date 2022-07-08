@@ -20,9 +20,9 @@ public class ProcedureController {
     IProcedureService service;
 
     @GetMapping("/getProceduresInfo")
-    public String getProceduresInfo(int pageOffset,int pageSize){
+    public String getProceduresInfo(int pageOffset,int pageSize,int company_id){
         try {
-            return JSON.toJSONString(service.getProceduresInfo(new PageVo(pageOffset,pageSize)));
+            return JSON.toJSONString(service.getProceduresInfo(new PageVo(pageOffset,pageSize),company_id));
         }catch (Exception e){
             e.printStackTrace();
             System.out.println("controller:查询工序信息失败");
@@ -31,9 +31,9 @@ public class ProcedureController {
     }
 
     @GetMapping("/getProcedureInfoByID")
-    public String getProcedureInfoByID(String procedure_id){
+    public String getProcedureInfoByID(String procedure_id,int company_id){
         try {
-            return JSON.toJSONString(service.getProcedureInfoByID(procedure_id));
+            return JSON.toJSONString(service.getProcedureInfoByID(procedure_id,company_id));
         }catch (Exception e){
             e.printStackTrace();
             System.out.println("controller:根据id查询工序信息失败");
@@ -46,7 +46,7 @@ public class ProcedureController {
         try {
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             String status = "正常";
-            insertProcedureVo.setProcedure_id(service.getIndex()+1+"");
+            insertProcedureVo.setProcedure_id(service.getIndex(insertProcedureVo.getCompany_id())+1+"");
             insertProcedureVo.setCreated_time(timestamp);
             insertProcedureVo.setStatus(status);
             return service.addProcedure(insertProcedureVo);
@@ -80,6 +80,18 @@ public class ProcedureController {
             e.printStackTrace();
             System.out.println("controller:更新工序失败");
             return "更新失败";
+        }
+    }
+
+
+    @GetMapping("/getProcedureInfoByName")
+    public String getProcedureInfoByName(String name,int company_id){
+        try {
+            return JSON.toJSONString(service.getProceduresInfoByName(name,company_id));
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("controller:根据name查询工序信息失败");
+            return "";
         }
     }
 }

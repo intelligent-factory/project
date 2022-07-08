@@ -2,10 +2,7 @@ package com.example.mes.process.Controller;
 
 import com.alibaba.fastjson.JSON;
 import com.example.mes.process.Service.IMaterialService;
-import com.example.mes.process.Vo.MaterialVo.DeleteMaterialVo;
-import com.example.mes.process.Vo.MaterialVo.InsertMaterialVo;
-import com.example.mes.process.Vo.MaterialVo.QueryMaterialVo;
-import com.example.mes.process.Vo.MaterialVo.UpdateMaterialVo;
+import com.example.mes.process.Vo.MaterialVo.*;
 import com.example.mes.process.Vo.PageVo.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +19,78 @@ public class MaterialController {
 
     @Autowired
     IMaterialService service;
+
+    @GetMapping("/getTemplateMaterials")
+    public String getTemplateMaterials(String company_id){
+        try {
+            //PageVo pageVo = new PageVo(pageOffset,pageSize);
+            HashMap<String,Object> data = new HashMap<>();
+            //int count = service.getCount();
+            List<TemplateMaterialVo> materials = service.getTemplateMaterials(company_id);
+            //data.put("count",count);
+            data.put("materials",materials);
+            return JSON.toJSONString(data);
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("controller:查询物料信息失败");
+            return "";
+        }
+    }
+
+    @GetMapping("/getTemplateMaterialByID")
+    public String getTemplateMaterialByID(String company_id,String material_id){
+        try {
+            //PageVo pageVo = new PageVo(pageOffset,pageSize);
+            HashMap<String,Object> data = new HashMap<>();
+            //int count = service.getCount();
+            List<TemplateMaterialVo> materials = service.getTemplateMaterialByID(company_id,material_id);
+            //data.put("count",count);
+            data.put("materials",materials);
+            return JSON.toJSONString(data);
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("controller:查询物料信息失败");
+            return "";
+        }
+    }
+
+    //增加一个模板物料
+    @PostMapping("/addTemplateMaterial")
+    public String addTemplateMaterial(@RequestBody TemplateMaterialVo templateMaterialVo){
+        try {
+
+            return service.addTemplateMaterialVo(templateMaterialVo);
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("controller:添加物料失败");
+            return "添加失败";
+        }
+    }
+    //根据物料id删除一个模板物料
+    @PostMapping("/deleteTemplateMaterial")
+    public String deleteTemplateMaterial(@RequestBody TemplateMaterialVo templateMaterialVo){
+        try {
+
+            return service.deleteTemplateMaterialByName(templateMaterialVo);
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("controller:删除物料失败");
+            return "删除失败";
+        }
+    }
+
+    //修改一个物料，status与comments
+    @PostMapping("/updateTemplateMaterial")
+    public String updateTemplateMaterial(@RequestBody TemplateMaterialVo templateMaterialVo){
+        try {
+
+            return service.updateMaterial(templateMaterialVo);
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("controller:更新物料失败");
+            return "更新失败";
+        }
+    }
 
     //从物料表material中查询全部物料信息，id、name、size、color、comments、status
     @GetMapping("/getMaterials")
@@ -53,6 +122,19 @@ public class MaterialController {
         }
     }
 
+    @GetMapping("/getMaterialByName")
+    public String getMaterialByName(String name){
+        try {
+            HashMap<String,Object> data = new HashMap<>();
+            List<QueryMaterialVo> materials = service.getMaterialByName(name);
+            data.put("materials",materials);
+            return JSON.toJSONString(data);
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("controller:根据name查询物料信息失败");
+            return "";
+        }
+    }
     //增加一个物料
     @PostMapping("/addMaterial")
     public String addMaterial(@RequestBody InsertMaterialVo insertMaterialVo){
