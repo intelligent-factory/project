@@ -2,7 +2,6 @@
 <!--
 表单：用于增改瑕疵
 -->
-
 <template>
   <el-container>
     <el-header style="display: flex;height: 20%">
@@ -18,10 +17,16 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item label="车间" prop="workshop" style="float: left">
-          <el-input  placeholder="车间" clearable v-model="echartsForm.workshop"></el-input>
+          <el-select v-model="echartsForm.workshop" placeholder="查询车间" @change="getLines(echartsForm.workshop)" filterable>
+            <el-option v-for="item in workshop_id_terms" :label="item" :value="item"></el-option>
+          </el-select>
+<!--          <el-input  placeholder="车间" clearable v-model="echartsForm.workshop"></el-input>-->
         </el-form-item>
         <el-form-item label="生产线" prop="productionLine" style="float: left">
-          <el-input  placeholder="生产线" clearable v-model="echartsForm.productionLine"></el-input>
+          <el-select v-model="echartsForm.productionLine" placeholder="查询产线" filterable>
+            <el-option v-for="item in corLines" :label="item" :value="item"></el-option>
+          </el-select>
+<!--          <el-input  placeholder="生产线" clearable v-model="echartsForm.productionLine"></el-input>-->
         </el-form-item>
         <el-form-item style="float: right">
           <el-button type="primary" @click="onSubmit()">查询</el-button>
@@ -48,6 +53,9 @@ export default {
   name: 'qualityEcharts',
   data() {
     return {
+      workshop_id_terms: [],
+      //对应的产线
+      corLines:[],
       echartsForm:{
         date:'',
         workshop:'',
@@ -307,9 +315,35 @@ export default {
     }
   },
   mounted() {
-    this.loadEcharts()
+    this.loadEcharts();
+    this.getWorkshopIdTerms();
   },
   methods: {
+    //查询车间对应产线
+    getLines(workshopId) {
+      let req = {
+        corWorkShopId: workshopId
+      };
+      request({
+        url: '/qualityList/getAllLinesByWorkshop',
+        method: 'get',
+        params: req,
+      }).then(res => {
+        this.corLines = res.data
+      }).catch(err => {
+        console.log(err)
+      });
+    },
+    getWorkshopIdTerms() {
+      request({
+        url: '/qualityList/getAllWorkshop',
+        method: 'get',
+      }).then(res => {
+        this.workshop_id_terms = res.data
+      }).catch(err => {
+        console.log(err)
+      });
+    },
     loadEcharts() {
       this.myChart0 = this.$echarts.init(document.getElementById('echartss'))
       this.myChart = this.$echarts.init(document.getElementById('container1'))

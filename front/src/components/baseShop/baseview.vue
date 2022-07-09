@@ -1,12 +1,13 @@
 <template>
-  <div id="theBaseMainBox">
+  <div style="margin-left: 90px;margin-top: 25px" id="theBaseMainBox">
     <div style="height: 20px"></div>
+
     <div id="theBaseHeader">
       <!--实现查询的输入框和按钮    start-->
       <div id="theLeftBase">
         <el-form :inline="true" :model="formInline" class="demo-form-inline" ref="formInline" :rules="rules">
 
-          <el-form-item label="选择信息">
+          <el-form-item  label="选择信息">
             <el-select v-model="formInline.category" placeholder="选择信息" @change="selectChange">
               <el-option label="车间" value="workshop"></el-option>
               <el-option label="产线" value="line"></el-option>
@@ -16,76 +17,133 @@
             <el-input v-model.trim="formInline.info" :placeholder="this.showLine===false?'车间编号/名称':'车间编号/名称+产线编号/名称'"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="search(formInline)">查询</el-button>
+            <el-button style="margin-left: 70%" type="primary" @click="search(formInline)">查询</el-button>
           </el-form-item>
         </el-form>
+
+
       </div>
       <div id="theRightBase">
-        <el-button :plain="true" icon="el-icon-plus" style="height: 90%" @click="createItem">新建项目</el-button>
+        <el-button :plain="true" icon="el-icon-plus" style="margin-right: 200%" @click="createItem">新建车间</el-button>
       </div>
     </div>
+
     <div style="height: 20px"></div>
+
     <div id="theBaseMain">
       <!--      表格主题       -->
+
       <div v-if="!showLine">
-        <el-table
+        <search-bar @onSearch="search" ref="searchBar" class="searchBar"></search-bar>
+        <el-row>
 
-            v-loading="loading"
-            id="theMainTable"
-            :data="tableData"
-            highlight-current-row
-            stripe
-            @sort-change="sortchange"
-            style="width: 100%">
-          <el-table-column
-              label="车间编号"
-              prop="id">
-          </el-table-column>
-          <el-table-column
-              label="车间名称"
-              prop="name"
-              width="180">
-          </el-table-column>
-          <el-table-column
-              label="工厂名称"
-              prop="factory_name">
-          </el-table-column>
-          <el-table-column
-              label="产线数量"
-              prop="lineNum"
-              width="200px">
-          </el-table-column>
-          <el-table-column
-              label="创建日期"
-              prop="created_time"
-              width="200px">
-          </el-table-column>
-          <el-table-column
-              label="修改日期"
-              prop="modified_time"
-              width="200px">
-          </el-table-column>
-          <el-table-column
-              fixed="right"
-              label="操作"
-              width="200">
-            <template slot-scope="scope">
+        <el-tooltip effect="transparent" placement="bottom"
 
-              <!--            加参数：        -->
-              <router-link :to="{
+                    v-for="(item,index) in workshopForm"
+                    >
+
+        <el-card
+            style="width: 300px;height: 200px"
+            class="card"
+            bodyStyle="padding:10px"
+            shadow="hover">
+          <div class="info">
+            <div class="clearfix" slot="header" >
+
+              <span style="float: left">车间编号：{{item.id}}</span>
+
+              <span style="margin-left: 70px;margin-top: 2px">
+                <i class="el-icon-delete" @click="delWrokshop(item.id)" />
+<!--                <el-button style="margin-left: 20%" type="danger" size="mini" icon="el-icon-delete" circle @click="delWrokshop(item.id)"></el-button>-->
+              </span>
+
+<!--              <el-button-->
+<!--                  v-loading.fullscreen.lock="fullscreenLoading"-->
+<!--                  @click="editWorkShopName[index].flag = true"-->
+<!--                  style="float: right; padding: 3px 3px;margin-left: 6px"-->
+<!--                  icon="el-icon-edit"-->
+<!--                  circle-->
+<!--              ></el-button>-->
+
+              <span
+                  v-loading.fullscreen.lock="fullscreenLoading"
+                  style="float: right;
+                  margin-right: 15px"
+              ><i class="el-icon-edit" @click="editWorkShopName[index].flag = true" />
+                <!--                 <el-button style="margin-left:30%"  type="primary" size="mini" icon="el-icon-edit" circle @click="editworkshop(item)"></el-button>-->
+              </span>
+
+              <el-dialog
+                  title="添加/修改车间"
+                  :visible.sync="editWorkShopName[index].flag"
+                  width="30%"
+                  :before-close="handleClose">
+
+                <el-form :model="newWorkshopForm" ref="newWorkshopForm" label-width="100px" class="demo-ruleForm">
+                  <el-form-item
+                      label="车间编号"
+                      prop="id"
+                      :rules="{ required: true, message: '车间编号不能为空'}">
+                    <el-input type="age" v-model="newWorkshopForm.id" :placeholder="item.id" style="width: 100%;"></el-input>
+                  </el-form-item>
+                  <el-form-item
+                      label="车间名称"
+                      prop="name"
+                      :rules="{ required: true, message: '车间名称不能为空'}">
+                    <el-input type="age" v-model="newWorkshopForm.name" :placeholder="item.name" style="width: 100%;"></el-input>
+                  </el-form-item>
+                  <el-form-item
+                      label="工厂名称"
+                      prop="factory_name"
+                      :rules="{ required: true, message: '工厂名称不能为空'}">
+                    <el-input type="age" v-model="newWorkshopForm.factory_name" :placeholder="item.factory_name"></el-input>
+                  </el-form-item>
+                  <el-form-item>
+                    <el-button type="primary" @click="submitToUpdate(item.id)">修改</el-button>
+                  </el-form-item>
+                </el-form>
+
+              </el-dialog>
+
+<!--              <span style="float: right;margin-right: 15px">-->
+<!--                <i class="el-icon-edit" @click="editworkshop(item)" />-->
+<!--&lt;!&ndash;                 <el-button style="margin-left:30%"  type="primary" size="mini" icon="el-icon-edit" circle @click="editworkshop(item)"></el-button>&ndash;&gt;-->
+<!--              </span>-->
+
+                <!--            加参数：        -->
+                <router-link :to="{
               path: '/work/workshop/workshopDetail',
               query: {
-              workshopId: scope.row.id,
-              workshopName: scope.row.name
+              workshopId: item.id,
+              workshopName: item.name,
+              factory_name:item.factory_name
               }
             }">
-                <!--            <el-button style="padding: 8px" type="text" @click="handleClick({type:!showLine,id:scope.row.workshopId,name:scope.row.workshopName})">查看</el-button>-->
-                <el-button style="padding: 8px" type="text">查看</el-button>
-              </router-link>
-            </template>
-          </el-table-column>
-        </el-table>
+                  <!--            <el-button style="padding: 8px" type="text" @click="handleClick({type:!showLine,id:scope.row.workshopId,name:scope.row.workshopName})">查看</el-button>-->
+                  <span style="float: right;margin-right: 15px">
+<!--                    <el-button type="warning" style="margin-left: 35%" size="mini" icon="el-icon-message" circle></el-button>-->
+                      <i class="el-icon-document"></i>
+                  </span>
+                </router-link>
+
+
+<!--              <span style="float: right;margin-right: 15px">-->
+<!--                <i class="el-icon-document" @click="editDefect(item)"></i>-->
+<!--              </span>-->
+            </div>
+            <div class="text item">
+              <el-divider></el-divider>
+              <p>名称：{{ item.name}}</p>
+              <p>工厂：{{ item.factory_name}}</p>
+            </div>
+          </div>
+        </el-card>
+        </el-tooltip>
+          <workshopForm @onSubmit="loadWorkshops()" ref="edit"></workshopForm>
+        </el-row>
       </div>
+
+<!--      展示产线-->
       <div v-else>
         <el-table
             v-loading="loading"
@@ -123,27 +181,31 @@
               width="200px">
           </el-table-column>
 
-          <el-table-column
-              fixed="right"
-              label="操作"
-              width="200">
-            <template slot-scope="scope">
-              <!--              <el-button style="padding: 8px" type="text" @click="handleClick({type:!showLine,id:scope.row.workshopId,name:scope.row.workshopName})">查看</el-button>-->
-              <!--            加参数：        -->
-              <router-link :to="{
-              path: '/work/workshop/workshopDetail',
-              query: {
-              workshopId: scope.row.workshop_id,
-              workshopNmae:'s'
-              }}">
-                <el-button style="padding: 8px" type="text">查看</el-button>
-              </router-link>
-            </template>
-          </el-table-column>
+<!--          <el-table-column-->
+<!--              fixed="right"-->
+<!--              label="操作"-->
+<!--              width="200">-->
+<!--            <template slot-scope="scope">-->
+<!--              &lt;!&ndash;              <el-button style="padding: 8px" type="text" @click="handleClick({type:!showLine,id:scope.row.workshopId,name:scope.row.workshopName})">查看</el-button>&ndash;&gt;-->
+<!--              &lt;!&ndash;            加参数：        &ndash;&gt;-->
+<!--              <router-link :to="{-->
+<!--              path: '/work/workshop/workshopDetail',-->
+<!--              query: {-->
+<!--              workshopId: scope.row.workshop_id,-->
+<!--              workshopNmae:'s'-->
+<!--              }}">-->
+<!--                <el-button style="padding: 8px" type="text">查看</el-button>-->
+<!--              </router-link>-->
+<!--            </template>-->
+<!--          </el-table-column>-->
         </el-table>
       </div>
-      <!--      下面是分页效果  -->
-      <div class="block" style="padding: 10px">
+
+
+
+
+
+      <div class="block" style="padding: 10px;margin-right: 125px">
         <el-pagination
             @size-change="current-change"
             @prev-click="preclick"
@@ -156,6 +218,8 @@
             :page-size="page.pagesize">
         </el-pagination>
       </div>
+
+
     </div>
   </div>
 </template>
@@ -163,11 +227,24 @@
 <script>
 import {request} from "@/network/request";
 import {my_request} from "@/network/requests/workshop_request";
-
+import workshopForm from "@/components/baseShop/workshopForm";
 export default {
   name: "baseview",
+  components: {workshopForm},
   data() {
+
     return {
+
+      newWorkshopForm: {
+        id: '',
+        name: '',
+        factory_name: '',
+      },
+
+      editWorkShopName: [],
+      fullscreenLoading: false,
+      dialogFormVisible: false,
+      workshopForm: [],
       total:1,
       formInline: {
         category: 'workshop',
@@ -176,13 +253,14 @@ export default {
       value: 'workshop',
 
       page: {
-        pagesize: 15,
+        pagesize: 6,
         curpage: 1,
       },
       // sortForm: '车间编号',
       tableData: [],
       tableLineData: [],
       workshopItem: '',
+      //workshopData:[],
 
 
       loading: false,
@@ -212,6 +290,107 @@ export default {
     next();
   },
   methods: {
+
+    //修改车间
+    submitToUpdate(id) {
+      this.$router.push("/work/apply/workshopInfo")
+      let req = {
+        workshopId: id,
+        company_id:'111',
+        newWorkshopId: this.newWorkshopForm.id,
+        newWorkshopName: this.newWorkshopForm.name,
+        newFactory: this.newWorkshopForm.factory_name
+      }
+      console.log('reqqq,',req)
+      my_request({
+        url: 'workshop/update',
+        params: req,
+        method: 'get'
+      }).then(res => {
+        if(res.data.success===true) {
+          this.$message({
+            type: 'success',
+            message: '申请成功'
+          })
+        }else {
+          this.$message.error('申请失败')
+        }
+        // this.getData()
+        // this.nowShopworkId = req.workshopId
+        console.log('修改：',res)
+      }).catch(err => {
+        this.$message.error('服务器异常')
+
+      })
+
+    },
+
+
+    handleClose(done) {
+          this.$confirm('确认关闭？')
+              .then(_ => {
+                done();
+              })
+              .catch(_ => {
+              });
+        },
+
+    loadWorkshops() {
+      const _this = this;
+      request({
+        url: '/mainInfo',
+        method: 'get',
+      }).then(res => {
+        const data = res.data;
+        _this.workshopForm = data;
+        console.log(_this.workshopForm);
+      }).catch(err => {
+        this.$message.error('网络出错，请稍后再试');
+      });
+    },
+
+
+    editworkshop(item) {
+      this.$refs.edit.dialogFormVisible = true
+      this.$refs.edit.workshopForm = {
+        id: item.id,
+        name: item.name,
+        factory_name: item.factory_name,
+      }
+    },
+
+
+    //删除车间
+    delWrokshop(id) {
+      let req = {
+        workshopId: id
+      }
+      request({
+        url: 'workshop/deleteAll',
+        params: req,
+        method: 'post'
+      }).then(res => {
+        console.log(res,'删除')
+        if (res.data.success === true) {
+          this.$message({
+            type: 'success',
+            message: '申请成功'
+          })
+          this.$router.go(-1)
+        } else {
+          this.$message({
+            type: 'error',
+            message: '申请失败'
+          })
+          this.submitDialog = false
+        }
+      }).catch(err => {
+        this.$message.error("服务器异常")
+        this.submitDialog = false
+      })
+
+
+    },
     //  翻页  ----------------------------
     preclick(curpage) {
       this.page.curpage = curpage
@@ -225,7 +404,6 @@ export default {
       this.loading = true
       this.getData()
       this.loading = false
-
 
     },
     curChange(curpage) {
@@ -257,20 +435,15 @@ export default {
 
     //搜索方法
     search(formInline) {
-
       //---------------------------------------开始查寻数据。
       this.$refs.formInline.validate((valid) => {
         if (valid) {
-
           // 如果通过验证 则开始进行搜索------------
           this.getData({type: 'search', data: this.formInline.info})
-
         } else {
           return false;
         }
       });
-
-
     },
 
     //已经磨的用了
@@ -311,7 +484,7 @@ export default {
 
       //先看是哪个类型的 车间 还是 产线：
       if (!this.showLine) {
-        //根据 obj的类型  选择不同的查询内容：
+        //根据 obj的类型 选择不同的查询内容：
         if (obj.type === 'search') {
           //  -----------查询车间内容数据返回。  查询的内容在 obj.data 里面
           this.loading = true
@@ -323,6 +496,7 @@ export default {
             params: req,
             methods: 'get'
           }).then(res => {
+
             if (res.data.success === true){
               this.$message({
                 type:'success',
@@ -331,7 +505,9 @@ export default {
               console.log('查询结果',res)
               let s = []
               s.push(res.data.result)
-              this.tableData = s;
+              //s.push(res.data)
+              //this.tableData = s;
+              this.workshopForm = s;
               this.total = res.data.total;
               this.loading = false
             }else {
@@ -360,8 +536,11 @@ export default {
           }).then(res => {
             console.log('凡回家过',res)
             if (res.data.message==='操作成功！'){
-              this.tableData = res.data.result.records
-              this.total = res.data.total
+              //this.tableData = res.data.result.records
+              this.workshopForm = res.data.result.records
+              //this.tableData = res.data
+
+              this.total = res.data.result.total
             }else {
               this.$message.error(res.data.message)
             }
@@ -369,6 +548,7 @@ export default {
           }).catch(err => {
             this.$message.error('服务器异常')
           })
+
           this.loading = false
         }
       } else {
@@ -405,15 +585,14 @@ export default {
             }).catch(err => {
               this.$message.error('服务器异常')
             })
-
             this.loading = false
 
             this.formInline.info = ''
           }else {
-           this.$message({
-             type:'info',
-             message:'请输入正确格式'
-           })
+            this.$message({
+              type:'info',
+              message:'请输入正确格式'
+            })
           }
         } else {
           let req = {
@@ -421,14 +600,14 @@ export default {
             pagesize: this.page.pagesize
           };
           this.loading = true
+
           my_request({
             //设置一下让他请求 从 curpage *  ( pageSize - 1 ) 开始  一共 pageSize个数据 -------------------------------
-
             url: 'line/searchLineItem',
             params: req,
             methods: 'get'
           }).then(res => {
-            console.log('产线新细',res)
+            console.log('产线信息',res)
             this.tableLineData = res.data.result.records
             this.total = res.data.result.total
           }).catch(err => {
@@ -437,6 +616,10 @@ export default {
           this.loading = false
         }
 
+      }
+
+      for (let i = 0; i < 10; i++) {
+        this.editWorkShopName.push({flag: false})
       }
 
 
@@ -486,7 +669,7 @@ export default {
 }
 
 #theLeftBase {
-  width: 45%;
+  width: 70%;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -527,6 +710,14 @@ export default {
   padding: 6px 20px !important;
   /*border: 1px solid blue;*/
 
+}
+
+.card{
+  width: 20%;
+  max-height: max-content;
+  float: left;
+  margin-right: 15px;
+  margin-bottom: 20px;
 }
 
 

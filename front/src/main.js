@@ -9,7 +9,9 @@ import axios from 'axios'
 import * as echarts from "echarts"
 
 import VueScrollLock from 'vue-scroll-lock'
+import htmlToPdf from '@/utils/htmlToPdf'
 
+Vue.use(htmlToPdf)
 Vue.use(VueScrollLock)
 
 Vue.prototype.$http = axios;
