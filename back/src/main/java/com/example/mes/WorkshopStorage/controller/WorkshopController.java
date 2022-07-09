@@ -16,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/workshop")
 public class WorkshopController {
+
     @Autowired
     private WorkshopService workshopService;
     @Autowired
@@ -23,12 +24,12 @@ public class WorkshopController {
     @Autowired
     private StationService stationService;
 
-    @GetMapping(value = "/mainInfo")
-    public Result<WorkshopVo> mainInfo(String workshopId) {
-        Result<WorkshopVo> result = new Result<>();
+    @GetMapping("/mainInfo")
+    public Result<newWorkshopVo> mainInfo(String workshopId) {
+        Result<newWorkshopVo> result = new Result<>();
         try {
             result = workshopService.getById(workshopId);
-//            workshopRe.setId(
+
         }catch (Exception e){
             e.printStackTrace();
             LoggerFactory.getLogger(this.getClass()).error(""+e.getMessage());
@@ -36,8 +37,19 @@ public class WorkshopController {
         }
         return result;
     }
+
+    //一个车间的详情
+    @GetMapping(value = "workshopInfo")
+    public newWorkshopVo workshopInfo(String workshopId) {
+
+        return workshopService.getWorkshopInfo(workshopId);
+    }
+
+
+
     @GetMapping(value = "delete")
     public Result<?> deleteWorkshop(String workshopId){
+//        System.out.println(workshopId);
         try {
             workshopService.deleteWorkshop(workshopId);
         } catch (Exception e) {
@@ -46,6 +58,32 @@ public class WorkshopController {
         }
         return Result.ok("申请提交成功!");
     }
+
+    //删除车间，产线和工位一起删除
+    @PostMapping(value = "deleteAll")
+    public Result<?> deleteAll(@RequestParam("workshopId") String workshopId){
+        System.out.println(workshopId);
+        try {
+            workshopService.deleteWorkshop(workshopId);
+            //搜索下属产线
+            List<LineVo> lineVoList = lineService.searchAllLine(workshopId);
+            for(LineVo line : lineVoList){
+                lineService.deleteAllLine(workshopId, line.getId());
+                //搜索下属工位
+                List<StationVo> stationVoList = stationService.searchAllStation(workshopId,line.getId());
+                for(StationVo station : stationVoList){
+                    stationService.delete(workshopId, line.getId(), station.getId());
+                }
+            }
+
+        } catch (Exception e) {
+            LoggerFactory.getLogger(this.getClass()).error("申请提交失败",e.getMessage());
+            return Result.error("申请提交失败!");
+        }
+        return Result.ok("申请提交成功!");
+    }
+
+
     @GetMapping(value = "update")
     public Result<?> updateHead(WorkshopUpdatePara para){
         try {
@@ -56,6 +94,8 @@ public class WorkshopController {
         }
         return Result.ok("申请提交成功!");
     }
+
+
     @PostMapping(value = "create")
     public Result<?> create(@RequestBody WorkshopVo para){
         try {
@@ -73,6 +113,8 @@ public class WorkshopController {
         }
         return Result.ok("申请提交成功!");
     }
+
+
     @GetMapping(value = "searchWorkshop")
     public Result<WorkshopVo> search(String info) {
         Result<WorkshopVo> result = new Result<>();
@@ -138,6 +180,7 @@ public class WorkshopController {
         }
         return result;
     }
+
     @GetMapping(value = "update_delete_Info")
     public Result<List<WorkshopVo>> update_delete_Info(String workshopId, String lineId, String stationId){
         Result<List<WorkshopVo>> result = new Result<>();

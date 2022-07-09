@@ -1,26 +1,19 @@
 package com.example.mes.quality.controller;
 
 import com.example.mes.quality.bean.DefectBean;
-import com.example.mes.quality.service.DefectService;
+import com.example.mes.quality.service.DefectServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- *
- * @Author: XiaoYu
- * @Date: 2021/07/08/9:11
- * @Description:瑕疵 与前端交互
- */
 //@EnableOpenApi
 //@Api(description="瑕疵管理")
 @RestController
 public class DefectController {
     @Autowired
-    DefectService defectService;
+    DefectServiceImpl defectService;
 
 //    @ApiOperation(value = "所有瑕疵")
     @CrossOrigin
@@ -65,6 +58,7 @@ public class DefectController {
         defectBean.setModifiedBy("x");
         defectService.addDefect(defectBean);
     }
+
     //    @ApiOperation(value = "返回瑕疵分类")
     @CrossOrigin
     @GetMapping("/defect/{keyword}/defects")
@@ -76,6 +70,7 @@ public class DefectController {
         }
     }
     //    @ApiOperation(value = "返回瑕疵代码及名字")
+
     @CrossOrigin
     @GetMapping("/defect/typeAndCode")
     public List<DefectBean> defectTypeAndCode() throws Exception{

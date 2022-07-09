@@ -1,32 +1,34 @@
 package com.example.mes.quality.bean;
 
-/**
- * Created with IntelliJ IDEA.
- *
- * @Author: XiaoYu
- * @Date: 2021/07/13/12:04
- * @Description:
- */
 
 public class QualityBean {
-    Integer checkOrder;
-    String checkTime;
-    Integer orderNum;
-    Integer checkNum;
-    Integer defectNum;
-    String defectType;
-    String defectCode;
-    Double defectRatio;
-    String workshop;
-    String productionLine;
-    String procedure;
-    String staff;
-    String status;
-    String isDeleted;
-    String createdTime;
-    String createdBy;
-    String modifiedTime;
-    String ModifiedBy;
+    private String list_id;
+    private Integer checkOrder;
+    private String checkTime;
+    private Integer orderNum;
+    private Integer checkNum;
+    private Integer defectNum;
+    private String defectType;
+    private String defectCode;
+    private Double defectRatio;
+    private String workshop;
+    private String productionLine;
+    private String procedure;
+    private String staff;
+    private String status;
+    private String isDeleted;
+    private String createdTime;
+    private String createdBy;
+    private String modifiedTime;
+    private String ModifiedBy;
+
+    public String getList_id() {
+        return list_id;
+    }
+
+    public void setList_id(String list_id) {
+        this.list_id = list_id;
+    }
 
     public Integer getCheckOrder() {
         return checkOrder;

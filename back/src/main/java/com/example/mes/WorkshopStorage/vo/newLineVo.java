@@ -3,13 +3,12 @@ package com.example.mes.WorkshopStorage.vo;
 import java.sql.Timestamp;
 import java.util.List;
 
-public class LineVo {
-
+public class newLineVo {
     private String uuid;//uuid
     private String id;//id
     private String workshop_id;//车间id
     private String name;//产线名
-    private List<StationVo> stations;//工位
+    private List<newStationVo> stations;//工位
     private int stationNum;//工位数量
     private int equipNum;//设备数量
     private String verify;
@@ -63,11 +62,11 @@ public class LineVo {
         this.name = name;
     }
 
-    public List<StationVo> getStations() {
+    public List<newStationVo> getStations() {
         return stations;
     }
 
-    public void setStations(List<StationVo> stations) {
+    public void setStations(List<newStationVo> stations) {
         this.stations = stations;
     }
 

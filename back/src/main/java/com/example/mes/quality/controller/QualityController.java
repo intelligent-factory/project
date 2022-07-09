@@ -1,7 +1,8 @@
 package com.example.mes.quality.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.example.mes.quality.bean.QualityBean;
-import com.example.mes.quality.service.QualityService;
+import com.example.mes.quality.service.QualityServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +25,8 @@ import java.util.List;
 public class QualityController {
 
     @Autowired
-    QualityService qualityService;
+    QualityServiceImpl qualityService;
+
 
     //    @ApiOperation(value = "添加质检结果")
     @CrossOrigin
@@ -40,12 +42,35 @@ public class QualityController {
         qualityService.addResults(qualityBean);
     }
 
-    //    @ApiOperation(value = "返回质检结果")
+    //    @ApiOperation(value = "返回所有质检结果")
     @CrossOrigin
     @GetMapping("/quality/getResults")
     public List<QualityBean> getResults() throws Exception{
         return qualityService.getResults();
     }
+
+    //根据list_id查询质检结果
+    @CrossOrigin
+    @GetMapping("/quality/queryResultByList")
+    public List<QualityBean> queryResultByList(String list_id) {
+
+        return qualityService.queryResultByList(list_id);
+    }
+
+    @CrossOrigin
+    @GetMapping("/quality/getDefectCode")
+    public String getDefectCode(@RequestParam("defectType") List<String> list) {
+
+        try {
+            return JSON.toJSONString(qualityService.getDefectCode(list));
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("产线下拉框生成失败！");
+            return "";
+        }
+    }
+
+
 
     //    @ApiOperation(value = "返回某天某车间某生产线的数据")
     @CrossOrigin

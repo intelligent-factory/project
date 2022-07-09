@@ -4,13 +4,7 @@ import com.example.mes.quality.bean.DefectBean;
 
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- *
- * @Author: XiaoYu
- * @Date: 2021/07/08/8:44
- * @Description:瑕疵清单接口类
- */
+
 public interface DefectMapper {
 
     List<DefectBean> getInfo();

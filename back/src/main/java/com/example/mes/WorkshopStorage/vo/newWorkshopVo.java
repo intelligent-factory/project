@@ -3,22 +3,20 @@ package com.example.mes.WorkshopStorage.vo;
 import java.sql.Timestamp;
 import java.util.List;
 
-public class LineVo {
-
-    private String uuid;//uuid
+public class newWorkshopVo {
+    private String uuid;//唯一标识
     private String id;//id
-    private String workshop_id;//车间id
-    private String name;//产线名
-    private List<StationVo> stations;//工位
-    private int stationNum;//工位数量
-    private int equipNum;//设备数量
+    private String name;//车间名
+    private List<newLineVo> lines;//产线
+    private String factory_name;//工厂名
+    private int lineNum;//产线数量
+    private int StationNum;//工位数量
     private String verify;
-    private String pre_id;
     private Timestamp created_time;
     private Timestamp modified_time;
+    String pre_id;
     private String created_by;
     private String modified_by;
-    private String routing;
     private String company_id;
 
 
@@ -39,22 +37,6 @@ public class LineVo {
         this.uuid = uuid;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getWorkshop_id() {
-        return workshop_id;
-    }
-
-    public void setWorkshop_id(String workshop_id) {
-        this.workshop_id = workshop_id;
-    }
-
     public String getName() {
         return name;
     }
@@ -63,28 +45,44 @@ public class LineVo {
         this.name = name;
     }
 
-    public List<StationVo> getStations() {
-        return stations;
+    public String getId() {
+        return id;
     }
 
-    public void setStations(List<StationVo> stations) {
-        this.stations = stations;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public List<newLineVo> getLines() {
+        return lines;
+    }
+
+    public void setLines(List<newLineVo> lines) {
+        this.lines = lines;
+    }
+
+    public String getFactory_name() {
+        return factory_name;
+    }
+
+    public void setFactory_name(String factory_name) {
+        this.factory_name = factory_name;
+    }
+
+    public int getLineNum() {
+        return lineNum;
+    }
+
+    public void setLineNum(int lineNum) {
+        this.lineNum = lineNum;
     }
 
     public int getStationNum() {
-        return stationNum;
+        return StationNum;
     }
 
     public void setStationNum(int stationNum) {
-        this.stationNum = stationNum;
-    }
-
-    public int getEquipNum() {
-        return equipNum;
-    }
-
-    public void setEquipNum(int equipNum) {
-        this.equipNum = equipNum;
+        StationNum = stationNum;
     }
 
     public String getVerify() {
@@ -93,14 +91,6 @@ public class LineVo {
 
     public void setVerify(String verify) {
         this.verify = verify;
-    }
-
-    public String getPre_id() {
-        return pre_id;
-    }
-
-    public void setPre_id(String pre_id) {
-        this.pre_id = pre_id;
     }
 
     public Timestamp getCreated_time() {
@@ -119,6 +109,14 @@ public class LineVo {
         this.modified_time = modified_time;
     }
 
+    public String getPre_id() {
+        return pre_id;
+    }
+
+    public void setPre_id(String pre_id) {
+        this.pre_id = pre_id;
+    }
+
     public String getCreated_by() {
         return created_by;
     }
@@ -133,13 +131,5 @@ public class LineVo {
 
     public void setModified_by(String modified_by) {
         this.modified_by = modified_by;
-    }
-
-    public String getRouting() {
-        return routing;
-    }
-
-    public void setRouting(String routing) {
-        this.routing = routing;
     }
 }
