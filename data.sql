@@ -423,11 +423,33 @@ CREATE TABLE `product_type` (
 
 insert  into `product_type`(`type_id`,`type_name`,`company_id`) values ('1','拉杠箱',NULL),('2','手袋',NULL),('3','银包',NULL),('4','行李箱',NULL),('5','书包',NULL),('6','登山包',NULL),('7','电脑包',NULL),('8','商务皮包',NULL);
 
+
+
+/*Table structure for quality_list*/
+
+DROP TABLE IF EXISTS `quality_list`;
+CREATE TABLE `quality_list`  (
+  `list_id` varchar(32)  NOT NULL,
+  `workshop_id` varchar(32)  NOT NULL,
+  `line_id` varchar(32)  NOT NULL,
+  `name` varchar(45)  NOT NULL,
+  `num` int(11) NOT NULL,
+  `status` varchar(5)  DEFAULT NULL COMMENT '0未质检  1已质检',
+  PRIMARY KEY (`list_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+/*Records of quality_list*/
+
+INSERT INTO `quality_list` VALUES ('1526e2a0f1714387a1a0d09a6f1bf146', '111', '22', '登山包', 50, '1');
+INSERT INTO `quality_list` VALUES ('4bf3aa3f964b4712bd90e56622195a00', '222', '11', '登山包', 100, '0');
+INSERT INTO `quality_list` VALUES ('c4735beb91b44945a4aa6911c684a086', '111', '22', '拉杆箱', 200, '0');
+
 /*Table structure for table `quality_management` */
 
 DROP TABLE IF EXISTS `quality_management`;
 
 CREATE TABLE `quality_management` (
+  `list_id` varchar(32) DEFAULT NULL,
   `check_order` int NOT NULL AUTO_INCREMENT,
   `check_time` datetime NOT NULL,
   `order_num` int NOT NULL,
@@ -839,7 +861,7 @@ CREATE TABLE `workshop_station` (
   `id` varchar(32) NOT NULL,
   `workshop_id` varchar(32) NOT NULL,
   `line_id` varchar(32) NOT NULL,
-  `user` varchar(32) NOT NULL,
+  `user` varchar(32) DEFAULT NULL,
   `equip_id` varchar(32) DEFAULT NULL,
   `stationOrder` varchar(32) NOT NULL,
   `verify` varchar(32) DEFAULT NULL,
