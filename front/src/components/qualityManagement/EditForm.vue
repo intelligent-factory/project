@@ -1,5 +1,8 @@
 <template>
-  <div style="width: 80%;margin-left: 10%">
+  <div>
+    <el-button style="margin-top: 1%;margin-left:75%" type="primary" @click="returnLastPage" >返回</el-button>
+  <div style="width: 80%;margin-top: 2%;margin-left: 8%">
+
 <!--    <i class="el-icon-circle-plus-outline" @click="dialogFormVisible = true"></i>-->
 <!--    <el-dialog-->
 <!--        title="添加/修改质检结果"-->
@@ -18,7 +21,7 @@
         <el-form-item label="订单数量" required>
           <el-col :span="6">
             <el-form-item prop="orderNum">
-              <el-input v-model="qualityForm.orderNum" clearable style="width: 100%;"></el-input>
+              <el-input v-model="qualityForm.orderNum" disabled style="width: 100%;"></el-input>
             </el-form-item>
           </el-col>
           <el-col class="line" :span="3">样品数量</el-col>
@@ -46,7 +49,13 @@
             </el-option>
           </el-select>
         </el-form-item>
+
 <!--        瑕疵代号-->
+<!--        <el-form-item @click="getDefectCodes" label="瑕疵代号" prop="defectCode">-->
+<!--          <el-select  v-model="qualityForm.defectCode" placeholder="查询瑕疵代号" filterable>-->
+<!--            <el-option v-for="item in defectCodes" :label="item" :value="item"></el-option>-->
+<!--          </el-select>-->
+<!--        </el-form-item>-->
         <el-form-item label="瑕疵代号" prop="defectCode">
           <el-select
               v-model="qualityForm.defectCode"
@@ -66,17 +75,21 @@
             </el-option>
           </el-select>
         </el-form-item>
+
+
+
+
         <!--        车间、生产线、工序、工作人员-->
         <el-form-item label="车间" required>
           <el-col :span="10">
             <el-form-item prop="workshop">
-              <el-input v-model="qualityForm.workshop" clearable style="width: 100%;"></el-input>
+              <el-input v-model="qualityForm.workshop" disabled style="width: 100%;"></el-input>
             </el-form-item>
           </el-col>
           <el-col class="line" :span="4">生产线</el-col>
           <el-col :span="10">
             <el-form-item prop="productionLine">
-              <el-input v-model="qualityForm.productionLine" clearable style="width: 100%;"></el-input>
+              <el-input v-model="qualityForm.productionLine" disabled style="width: 100%;"></el-input>
             </el-form-item>
           </el-col>
         </el-form-item>
@@ -94,11 +107,13 @@
           </el-col>
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
+      <div style="margin-top: 5%" slot="footer" class="dialog-footer">
         <el-button @click="onCancel()">重 置</el-button>
         <el-button type="primary" @click="onSubmit()">确 定</el-button>
+
       </div>
 <!--    </el-dialog>-->
+  </div>
   </div>
 </template>
 
@@ -106,10 +121,12 @@
 
 import qualityForm from "@/components/qualityManagement/qualityForm";
 import {request} from "@/network/request";
+import {my_request} from "@/views/systemManagement/utils";
 
 export default {
   name: 'EditForm',
   data() {
+
     //这里是自定义的表单验证规则，保证订单数量 >= 样品数量 >= 瑕疵数量
     const compareSample = (rule, value, callback) => {
       if (!value) {
@@ -132,8 +149,12 @@ export default {
       }
     };
     return {
+
+      defectCodes:[],//瑕疵代号
       dialogFormVisible: false,
+      list_id: '',//质检单号
       qualityForm: {
+
         checkOrder: '',//质检记录id
         checkTime: '',//质检日期时间
         orderNum: '',//订单数量
@@ -141,13 +162,12 @@ export default {
         defectNum: '',//瑕疵数量
         defectType: [],//瑕疵分类
         defectCode: [],//瑕疵代号及名字
-        modelNum:'',
-        modelType: [],//瑕疵分类
-        modelCode: [],//瑕疵代号及名字
         workshop: '',//车间
         productionLine: '',//生产线
         procedure: '',//对应的工序
         staff: '',//负责人员
+        list_id:'',//质检单号
+
       },
       options: [{
         value: '安全与监管',
@@ -223,15 +243,73 @@ export default {
       },
     }
   },
+
+
   mounted() {
     this.loadCode();
+    //this.getDefectCodes();
     this.qualityForm.staff = this.$store.getters.userinfo.name;
+    this.qualityForm.list_id = this.$route.query.list_id;
+    this.list_id = this.$route.query.list_id;
+    this.qualityForm.workshop = this.$route.query.workshop_id;
+    this.qualityForm.orderNum = this.$route.query.num;
+    this.qualityForm.productionLine = this.$route.query.line_id;
   },
   methods: {
     clear() {
       this.resetDataForm()
     },
+
+
+    getDefectCodes() {
+      let req = {
+        defectType: this.qualityForm.defectType
+      };
+      request({
+        url: '/quality/getDefectCode',
+        method: 'get',
+        params: req,
+      }).then(res => {
+        this.defectCodes = res.data
+      }).catch(err => {
+        console.log(err)
+      });
+    },
+
+    setList_id() {
+      let req = {
+        list_id: this.list_id
+      }
+      request({
+        url: '/qualityList/updateStatus',
+        params: req,
+        method: 'get'
+      }).then(res => {
+        console.log(res,'删除')
+        if (res.data.success === true) {
+          this.$message({
+            type: 'success',
+            message: '申请成功'
+          })
+          this.$router.go(-1)
+        } else {
+          this.$message({
+            type: 'error',
+            message: '申请失败'
+          })
+          this.submitDialog = false
+        }
+      }).catch(err => {
+        this.$message.error("服务器异常")
+        this.submitDialog = false
+      })
+
+
+    },
+
+
     validateForm() {
+
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           let i;
@@ -247,6 +325,7 @@ export default {
           request({
             url:'/quality/addResults',
             method:'post',
+
             data:{
               checkTime: this.qualityForm.checkTime,//质检日期时间
               orderNum: parseInt(this.qualityForm.orderNum),//订单数量
@@ -259,6 +338,7 @@ export default {
               productionLine: this.qualityForm.productionLine,//生产线
               procedure: this.qualityForm.procedure,//对应的工序
               staff: this.qualityForm.staff,//负责人员
+              list_id:this.qualityForm.list_id,//质检单号
             },
           }).then(resp => {
             if (resp && resp.status === 200) {
@@ -281,9 +361,13 @@ export default {
       this.$refs['dataForm'].clearValidate();
       this.$refs['dataForm'].resetFields();
       this.qualityForm.staff = this.$store.getters.userinfo.name;
+      this.qualityForm.workshop = this.$route.query.workshop_id;
+      this.qualityForm.orderNum = this.$route.query.num;
+      this.qualityForm.productionLine = this.$route.query.line_id;
     },
     onSubmit() {
       this.validateForm();
+      this.setList_id();
       //this.resetDataForm();
     },
     onCancel(){
@@ -304,6 +388,12 @@ export default {
       } else {
         this.options2 = [];
       }
+    },
+    returnLastPage () {
+      this.$router.push({
+        path:'/qualityManagement/qualityTaskListComponent',
+
+      })
     },
     loadCode(){
       request({

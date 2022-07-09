@@ -1,69 +1,68 @@
 <template>
   <div>
-  <div style="margin-top: 3%;margin-left: 2%">
-<!--    <search-bar @onSearch="searchResult" ref="searchBar" class="searchBar"></search-bar>-->
+    <el-button style="margin-top: 3%;margin-left: 65%" type="primary" @click="returnLastPage" size="middle">返回</el-button>
+  <div style="margin-top: 5%;margin-left: 15%">
+    <!--    <search-bar @onSearch="searchResult" ref="searchBar" class="searchBar"></search-bar>-->
     <el-row class="el-row1">
       <el-tooltip effect="transparent" placement="bottom"
                   v-for="item in qualityForm.slice((currentPage-1)*pagesize,currentPage*pagesize)"
                   :key="item.checkOrder">
 
-        <el-card class="card" bodyStyle="padding:10px;" shadow="hover">
-          <div id="pdfDom">
-          <div>
-            <div class="clearfix" slot="header" >
-              <span style="float: left">质检时间：{{ item.checkTime }}</span>
-              <span>
-                 <el-button style="margin-left: 50%" type="info" @click="getPdf('#pdfDom')" size="small" icon="el-icon-download" circle></el-button>
-<!--                <i class="el-icon-download" @click="getPdf('#pdfDom')"></i>-->
+          <el-card class="card" style="width: 700px;height: 300px" bodyStyle="padding:10px;" shadow="hover">
+            <div id="pdfDom">
+            <div style="margin-top: 3%;margin-left: 3%">
+              <div class="clearfix" style="margin-top: 3%;margin-left: 3%" slot="header" >
+                <span style="float: left">质检时间：{{ item.checkTime }}</span>
+                <span>
+                <i class="el-icon-download" @click="getPdf('#pdfDom')"></i>
               </span>
-<!--              <span>-->
+<!--                <span>-->
 <!--                <i class="el-icon-delete" @click="deleteBook(item.name)"></i>-->
 <!--              </span>-->
-<!--              <span style="float:right;margin-right: 10px">-->
+<!--                <span style="float:right;margin-right: 10px">-->
 <!--                <i class="el-icon-edit" @click="editBook(item)"></i>-->
 <!--              </span>-->
 
+              </div>
+              <div class="text item" style="margin-top: 5%;margin-left: 3%" >
+                <el-divider></el-divider>
+                <table>
+                  <tr>
+                    <th>订单数量</th>
+                    <th>样品数量</th>
+                    <th>不合格数量</th>
+                    <th>不合格率</th>
+                    <th>车间</th>
+                    <th>生产线</th>
+                    <th>工序</th>
+                    <th>负责人员</th>
+                  </tr>
+                  <tr>
+                    <td>{{item.orderNum}}</td>
+                    <td>{{item.checkNum}}</td>
+                    <td>{{ item.defectNum }}</td>
+                    <td>{{ item.defectRatio * 100 }}%</td>
+                    <td>{{ item.workshop }}</td>
+                    <td>{{ item.productionLine }}</td>
+                    <td>{{ item.procedure }}</td>
+                    <td>{{ item.staff }}</td>
+                  </tr>
+                </table>
+                <p>瑕疵类别：{{ item.defectType.replaceAll(","," ") }}</p>
+                <p>瑕疵代号：{{ item.defectCode.replaceAll(","," ") }}</p>
+              </div>
+              <!--            <el-divider></el-divider>-->
+              <!--            <i class="el-icon-edit" @click="editBook(item)"></i>-->
+              <!--            <i class="el-icon-delete" @click="deleteBook(item.name)"></i>-->
             </div>
-            <div class="text item">
-              <el-divider></el-divider>
-              <table>
-                <tr>
-                  <th>订单数量</th>
-                  <th>样品数量</th>
-                  <th>不合格数量</th>
-                  <th>不合格率</th>
-                  <th>车间</th>
-                  <th>生产线</th>
-                  <th>工序</th>
-                  <th>负责人员</th>
-                </tr>
-                <tr>
-                  <td>{{item.orderNum}}</td>
-                  <td>{{item.checkNum}}</td>
-                  <td>{{ item.defectNum }}</td>
-                  <td>{{ item.defectRatio * 100 }}%</td>
-                  <td>{{ item.workshop }}</td>
-                  <td>{{ item.productionLine }}</td>
-                  <td>{{ item.procedure }}</td>
-                  <td>{{ item.staff }}</td>
-                </tr>
-              </table>
-              <p>瑕疵类别：{{ item.defectType.replaceAll(","," ") }}</p>
-              <p>瑕疵代号：{{ item.defectCode.replaceAll(","," ") }}</p>
             </div>
-<!--            <el-divider></el-divider>-->
-<!--            <i class="el-icon-edit" @click="editBook(item)"></i>-->
-<!--            <i class="el-icon-delete" @click="deleteBook(item.name)"></i>-->
-          </div>
-          </div>
-        </el-card>
+          </el-card>
 
       </el-tooltip>
-<!--      <edit-form @onSubmit="" ref="edit"></edit-form>-->
+      <!--      <edit-form @onSubmit="" ref="edit"></edit-form>-->
     </el-row>
     <el-row>
       <el-pagination
-          style="margin-top: 1%"
           @current-change="handleCurrentChange"
           :current-page="currentPage"
           :page-size="pagesize"
@@ -82,7 +81,7 @@ import {request} from "@/network/request";
 import qualityForm from "@/components/qualityManagement/qualityForm";
 
 export default {
-  name: 'qualityResults',
+  name: 'qualityResultsByList',
   components: {EditForm, SearchBar},
   data() {
     return {
@@ -110,7 +109,7 @@ export default {
 
       var _this = this
       request({
-        url: '/quality/getResults',
+        url: '/quality/queryResultByList',
         params: req,
         method: 'get',
       }).then(res => {
@@ -161,6 +160,13 @@ export default {
       })
       // alert(id)
     },
+    returnLastPage () {
+      this.$router.push({
+        path:'/qualityManagement/qualityTaskListComponent',
+
+      })
+    },
+
     editBook(item) {
       this.$refs.edit.dialogFormVisible = true
       this.$refs.edit.qualityForm = {

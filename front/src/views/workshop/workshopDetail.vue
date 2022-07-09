@@ -61,7 +61,6 @@
         <el-button icon="el-icon-plus" @click="dialogFormVisible = true" disabled size="medium">增加产线</el-button>
         <i style="font-size: small;color: gray">在通过审核后可对产线进行操作</i>
                 <el-dialog width="25%" title="产线信息" :visible.sync="dialogFormVisible">
-
                     <el-form >
   <!--                    就给一个产线名称  后面的内容  在进入编辑页面进行编辑            -->
                       <el-form-item label="产线名称 :" :label-width="formLabelWidth">

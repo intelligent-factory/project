@@ -68,7 +68,7 @@
           <span>质量管理</span>
         </template>
         <el-menu-item v-if="isValidAccess(['质检结果录入'])"
-                      index="/qualityManagement/monitorManagementComponent">质检录入</el-menu-item>
+                      index="/qualityManagement/qualityTaskListComponent">任务清单</el-menu-item>
         <el-menu-item v-if="isValidAccess(['产品瑕疵管理'])"
                       index="/qualityManagement/defectManagementComponent">瑕疵管理</el-menu-item>
         <el-menu-item v-if="isValidAccess(['产品品质管理'])"

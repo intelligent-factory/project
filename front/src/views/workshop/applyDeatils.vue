@@ -132,7 +132,7 @@
                 </div>
               </div>
               <div v-if="updateInfo[0].lines[0].routing !==null " style="height: 40px;width: 400px;display: flex;padding-top: 10px;justify-content: space-around">
-                <span style="line-height: 40px">产线工艺:</span>
+                <span style="line-height: 40px">产品id:</span>
                 <div style="height: 20px;width: 300px">
                   <el-input
                       placeholder="updateInfo[0].lines[0].routing"
@@ -426,7 +426,7 @@ export default {
         id: this.$route.query.id,
         user: this.$store.getters.userinfo.id,
         info: mess,
-        //  1 是 true 0是false
+        //  1 是 true同意  0是false拒绝
       }
       console.log('req::',req)
       my_request({
