@@ -54,6 +54,9 @@ public class QueryProMaterialVo {
     }
 
     public String getSize() {
+        size=size.replace("\"", "");
+        size=size.replace("{", "");
+        size=size.replace("}", "");
         return size;
     }
 
@@ -79,6 +82,9 @@ public class QueryProMaterialVo {
 
     @Override
     public String toString() {
+        size=size.replace("\"", "");
+        size=size.replace("{", "");
+        size=size.replace("}", "");
         return "QueryProMaterialVo{" +
                 "material_id='" + material_id + '\'' +
                 ", name='" + name + '\'' +

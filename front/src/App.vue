@@ -1,27 +1,35 @@
 <template>
-
-  <div>
-    <router-view/>
+  <div id="app">
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
   </div>
-
-
-
 </template>
-<script>
-import AsideTab from "@/components/asideTab";
-import HeadBar from "@/components/headBar";
-export default {
-  name: "App",
-  components: {
-    AsideTab,
-    HeadBar
-  },
-  data() {
-    return {}
-  },
 
-}
-</script>
 <style>
+@import "assets/css/global.css";
+@import "assets/css/transition.scss";
 
+
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+#nav {
+  padding: 30px;
+}
+
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
+}
 </style>

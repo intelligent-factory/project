@@ -22,6 +22,11 @@ public class OptionSize {
     @Override
     public String toString() {
 
+        size=size.replace("\"", "");
+        size=size.replace("{", "");
+        size=size.replace("}", "");
+
+
         return "{\"value\":\""+size+"\",\"label\":\""+size+"\""+"}";
     }
 }
