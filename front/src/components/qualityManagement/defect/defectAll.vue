@@ -1,20 +1,22 @@
 <!--显示所有瑕疵-->
 <template>
   <div>
-    <search-bar @onSearch="searchResult" ref="searchBar" class="searchBar"></search-bar>
+    <search-bar style="margin-right: 15%" @onSearch="searchResult" ref="searchBar" class="searchBar"></search-bar>
     <el-row class="el-row1">
       <el-tooltip effect="transparent" placement="bottom"
                   v-for="item in defectForm.slice((currentPage-1)*pagesize,currentPage*pagesize)"
                   :key="item.defectCode">
-        <el-card class="card" bodyStyle="padding:10px" shadow="hover">
+        <el-card style="width: 250px;height: 200px" class="card" bodyStyle="padding:10px" shadow="hover">
           <div class="info">
             <div class="clearfix" slot="header" >
               <span style="float: left">瑕疵代号：{{ item.defectCode}}</span>
               <span>
-                <i class="el-icon-delete" @click="deleteDefect(item.defectCode)"></i>
+                <i class="el-icon-delete" @click="deleteDefect(item.defectCode)" />
+<!--                <el-button style="margin-top:3%;margin-left: 20%" type="danger" size="mini" icon="el-icon-delete" circle @click="deleteDefect(item.defectCode)"></el-button>-->
               </span>
               <span style="float: right;margin-right: 10px">
-                <i class="el-icon-edit" @click="editDefect(item)"></i>
+                <i class="el-icon-edit" @click="editDefect(item)" />
+<!--                 <el-button style="margin-top:26%;margin-left: 25%" type="primary" size="mini" icon="el-icon-edit" circle @click="editDefect(item)"></el-button>-->
               </span>
             </div>
             <div class="text item">
@@ -28,6 +30,7 @@
           </div>
         </el-card>
       </el-tooltip>
+
       <defect-form @onSubmit="loadDefects()" ref="edit"></defect-form>
     </el-row>
     <el-row>
