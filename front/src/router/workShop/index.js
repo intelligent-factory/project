@@ -34,7 +34,7 @@ module.exports = [
         name: 'lineInfo',
         component: () => import('@/components/baseShop/applyLine'),
         meta: {
-          title:'申请查询-车间信息'
+          title:'申请查询-产线信息'
         }
       },
       {

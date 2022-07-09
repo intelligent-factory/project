@@ -1,15 +1,16 @@
 <template>
   <el-container>
-    <el-aside style="width: 200px;margin-top: 2%">
-      <switch></switch>
-      <defect-side-menu @indexSelect="listByCategory" ref="sideMenu"></defect-side-menu>
-    </el-aside>
-    <el-main style="margin-left: 5%">
-      <!--动态切换显隐，组件-->
-      <!--      <component :is="showWhat" class="form-area" ref="formArea"></component>-->
-      <defect-all class="form-area" ref="formArea"></defect-all>
-    </el-main>
+    <div style="width: 100px">
+      <defect-side-menu  @indexSelect="listByCategory" ref="sideMenu"></defect-side-menu>
+    </div>
+  <div style="margin-top: 7%">
+    <!--动态切换显隐，组件-->
+    <!--      <component :is="showWhat" class="form-area" ref="formArea"></component>-->
+    <defect-all class="form-area" ref="formArea"></defect-all>
+  </div>
   </el-container>
+
+
 </template>
 
 <script>

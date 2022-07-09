@@ -32,8 +32,6 @@
 
 
 
-
-
       </div>
     </div>
     <div class="subMain">
@@ -347,8 +345,10 @@
 </template>
 
 <script>
+
 import {my_request} from "@/network/requests/workshop_request";
 import {my_request_post} from "@/network/requests/my_request_post";
+
 export default {
   name: "createPro",
   data() {
@@ -366,6 +366,8 @@ export default {
       count: 0,
       //
       workshopInfo: {
+       // 改company_id
+        company_id:'111',
         id:'',
         factory_name:'',
         name:'',
@@ -511,7 +513,6 @@ export default {
       })
       this.count = this.count + 1;
       this.addStationDialog = false;
-
       this.stationOrder = '';
       this.stationName = '';
       this.equipmentId = '';
@@ -526,8 +527,6 @@ export default {
           .catch(_ => {
           });
     },
-
-
 
     // -----------------------------------
 
@@ -547,8 +546,6 @@ export default {
         this.addDialog = true;
       }
     },
-
-
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -558,8 +555,6 @@ export default {
           this.workshopInfo.lines.push(o)
           // this.workshopInfo.lines.push(this.theLines)
           // this.workshopInfo.lines.stationNum = this.workshopInfo.lines.stationNum + 1
-
-
 
           console.log(this.workshopInfo)
           // 向数据库提交这么一个产线信息
@@ -592,6 +587,7 @@ export default {
       this.theLines.stationNum = this.theLines.stationNum - 1
 
     },
+
     addstation() {
       this.theLines.stations.push({
         value: '',
@@ -603,6 +599,7 @@ export default {
       });
       this.theLines.stationNum = this.theLines.stationNum +1
     },
+
     submitFormAddSta(formName,index){
       console.log(this.workshopInfo)
 
