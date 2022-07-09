@@ -1,5 +1,5 @@
 <template>
-<div style="margin: 50px;width: 40%">
+<div style="margin-left: 50px;margin-top: 40px;width: 40%">
   <el-tabs v-model="activeName" @tab-click="handleClick">
     <el-tab-pane label="设备申请" name="first">
       <el-form :model="equipmentInfo" ref="equipmentInfo" label-width="100px" class="demo-ruleForm">
@@ -9,24 +9,116 @@
             :rules="[
                       { required: true, message: '车间编号不能为空'},
                     ]">
-          <el-input  v-model.trim="equipmentInfo.workshop_id" autocomplete="off"></el-input>
+          <el-select
+              style="float: left;width:100%"
+              v-model.trim="equipmentInfo.workshop_id"
+              placeholder="请选择车间编号"
+              clearable
+              filterable
+              @blur="selectBlur"
+              @clear="selectClear"
+              @change="selectChange"
+          >
+            <el-option
+                v-for="(item,index) in options_workshop"
+                :key="index"
+                :label="item.id"
+                :value="item.id" />
+          </el-select>
+
         </el-form-item>
         <el-form-item
             label="设备编号"
             prop="equip_id"
             :rules="[
-                      { required: true, message: '设备编号不可为空'},
+                      { required: true, message: '设备名称不可为空'},
                     ]">
-          <el-input  v-model.number="equipmentInfo.equip_id" autocomplete="off"></el-input>
-        </el-form-item>
+          <el-input style="width:48%" placeholder="请输入设备名称"  v-model.trim="equipmentInfo.equip_name"
+                    @change="selectEquipChange" clearable autocomplete="off"></el-input>
+          <el-select
+              style="width:48%;margin-left: 4%"
+              v-model.number="equipmentInfo.equip_id"
+              placeholder="请选择设备编号"
+              clearable
+              filterable
+              @blur="selectBlur"
+              @clear="selectClear"
+          >
+            <el-option
+                v-for="(item,index) in options"
+                :key="index"
+                :label="item.equipment_id"
+                :value="item.equipment_id" />
+          </el-select>        </el-form-item>
         <el-form-item
             label="申请数量"
             prop="quantity"
             :rules="[
                       { required: true, message: '申请数量不能为空'},
+                      { pattern: /^[0-9]*$/, message: '只能输入正整数'},
                     ]">
           <el-input  v-model.trim="equipmentInfo.quantity" autocomplete="off"></el-input>
         </el-form-item>
+        <el-form-item
+            label="出库/入库"
+            prop="in_out"
+            :rules="[
+                      { required: true, message: '出入库不能为空'},
+                    ]">
+          <el-select style="float: left;width:100%" v-model.trim="equipmentInfo.in_out" @change="changeStatus_e" placeholder="请选择出入库类型" >
+            <el-option label="出库" value="出库"></el-option>
+            <el-option label="入库" value="入库"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item
+            v-if="show_e"
+            label="货区编号"
+            prop="storage_id"
+            :rules="[
+                      { required: true, message: '货区编号不能为空'},
+                    ]">
+          <el-select
+              style="float: left;width:100%"
+              v-model.trim="equipmentInfo.storage_id"
+              placeholder="请选择货区编号"
+              clearable
+              filterable
+              @blur="selectBlur"
+              @clear="selectClear"
+              @change="sectorEquipChange"
+          >
+            <el-option
+                v-for="(item,index) in options_sector"
+                :key="index"
+                :label="item.id"
+                :value="item.id" />
+          </el-select>
+        </el-form-item>
+        <el-form-item
+            v-if="show_e"
+            label="货架编号"
+            prop="shelf_id"
+            :rules="[
+                      { required: true, message: '货架编号不能为空'},
+                    ]">
+          <el-select
+              style="float: left;width:100%"
+              v-model.trim="equipmentInfo.shelf_id"
+              placeholder="请选择货架编号"
+              clearable
+              filterable
+              @blur="selectBlur"
+              @clear="selectClear"
+              @change="selectChange"
+          >
+            <el-option
+                v-for="(item,index) in options_shelf"
+                :key="index"
+                :label="item.id"
+                :value="item.id" />
+          </el-select>
+        </el-form-item>
+
         <el-form-item>
           <el-button type="primary" @click="submitApplyEquip('equipmentInfo')">提交</el-button>
           <el-button @click="resetForm('equipmentInfo')">重置</el-button>
@@ -41,27 +133,119 @@
             :rules="[
                       { required: true, message: '车间编号不能为空'},
                     ]">
-          <el-input  v-model.trim="materialInfo.workshop_id" autocomplete="off"></el-input>
+          <el-select
+              style="float: left;width:100%"
+              v-model.trim="materialInfo.workshop_id"
+              placeholder="请选择车间编号"
+              clearable
+              filterable
+              @blur="selectBlur"
+              @clear="selectClear"
+              @change="selectChange"
+          >
+            <el-option
+                v-for="(item,index) in options_workshop"
+                :key="index"
+                :label="item.id"
+                :value="item.id" />
+          </el-select>
         </el-form-item>
         <el-form-item
             label="物料编号"
             prop="material_id"
             :rules="[
-                      { required: true, message: '物料编号不可为空'},
+                      { required: true, message: '物料名称不可为空'},
                     ]">
-          <el-input  v-model.number="materialInfo.material_id" autocomplete="off"></el-input>
+          <el-input style="width:48%" placeholder="请输入物料名称" v-model.trim="materialInfo.material_name"
+                    @change="selectMaterialChange" clearable autocomplete="off"></el-input>
+          <el-select
+              style="width:48%;margin-left: 4%"
+              v-model.number="materialInfo.material_id"
+              placeholder="请选择物料编号"
+              clearable
+              filterable
+              @blur="selectBlur"
+              @clear="selectClear"
+              >
+            <el-option
+                v-for="(item,index) in options"
+                :key="index"
+                :label="item.material_id"
+                :value="item.material_id" />
+          </el-select>
         </el-form-item>
         <el-form-item
             label="申请数量"
             prop="quantity"
             :rules="[
                       { required: true, message: '申请数量不能为空'},
+                      { pattern: /^[0-9]*$/, message: '只能输入正整数'},
                     ]">
           <el-input  v-model.trim="materialInfo.quantity" autocomplete="off"></el-input>
         </el-form-item>
+        <el-form-item
+            label="出库/入库"
+            prop="in_out"
+            :rules="[
+                      { required: true, message: '出入库不能为空'},
+                    ]">
+          <el-select style="float: left;width:100%" v-model.trim="materialInfo.in_out" @change="changeStatus_m" placeholder="请选择出入库类型" >
+            <el-option label="出库" value="出库" ></el-option>
+            <el-option label="入库" value="入库" ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item
+            v-if="show"
+            label="货区编号"
+            prop="storage_id"
+            :rules="[
+                      { required: true, message: '货区编号不能为空'},
+                    ]">
+          <el-select
+              style="float: left;width:100%"
+              v-model.trim="materialInfo.storage_id"
+              placeholder="请选择货区编号"
+              clearable
+              filterable
+              @blur="selectBlur"
+              @clear="selectClear"
+              @change="sectorMaterialChange"
+          >
+            <el-option
+                v-for="(item,index) in options_sector"
+                :key="index"
+                :label="item.id"
+                :value="item.id" />
+          </el-select>
+        </el-form-item>
+        <el-form-item
+            v-if="show"
+            label="货架编号"
+            prop="shelf_id"
+            :rules="[
+                      { required: true, message: '货架编号不能为空'},
+                    ]">
+          <el-select
+              style="float: left;width:100%"
+              v-model.trim="materialInfo.shelf_id"
+              placeholder="请选择货架编号"
+              clearable
+              filterable
+              @blur="selectBlur"
+              @clear="selectClear"
+              @change="selectChange"
+          >
+            <el-option
+                v-for="(item,index) in options_shelf"
+                :key="index"
+                :label="item.id"
+                :value="item.id" />
+          </el-select>
+        </el-form-item>
+
         <el-form-item>
           <el-button type="primary" @click="submitApplyMaterial('materialInfo')">提交</el-button>
-          <el-button @click="resetForm('equipmentInfo')">重置</el-button>
+          <el-button @click="resetForm('materialInfo')">重置</el-button>
         </el-form-item>
       </el-form>
     </el-tab-pane>
@@ -76,20 +260,179 @@ export default {
   name: "itenApply",
   data() {
     return {
+      show: false,
+      show_e: false,
+
       activeName: 'second',
       equipmentInfo:{
         workshop_id:'',
         equip_id:'',
+        equip_name:'',
         quantity:'',
+        in_out:'',
+        storage_id:'',
+        shelf_id:''
       },
       materialInfo:{
         workshop_id: '',
         material_id:'',
-        quantity: ''
-      }
+        material_name:'',
+        quantity: '',
+        in_out:'',
+        storage_id:'',
+        shelf_id:''
+      },
+      options: [
+      ],
+      options_workshop: [
+      ],
+      options_sector: [
+      ],
+      options_shelf: [
+      ],
     };
   },
+  created() {
+    this.getWorkshop()
+    this.getSecctor()
+  },
   methods: {
+    //获取车间编号和货架编号
+    getWorkshop(){
+      my_request({
+        url:'workshop/all_workshop',
+        method:'get',
+        params:''
+      }).then(res=>{
+        console.log(res)
+        //改data
+        this.options_workshop = res.data
+      }).catch(err=>{
+        console.log('请求数据getdata的返回值err:',err)
+        this.$message.error('服务器异常')
+      })
+    },
+    getSecctor(){
+      my_request({
+        url:'storage/all_storage',
+        method:'get',
+        params:''
+      }).then(res=>{
+        console.log(res)
+        //改data
+        this.options_sector = res.data
+      }).catch(err=>{
+        console.log('请求数据getdata的返回值err:',err)
+        this.$message.error('服务器异常')
+      })
+    },
+    //入库输入框显示
+    changeStatus_m() {
+      if (this.materialInfo.in_out==='入库') {
+        this.show = true;
+      }
+      if (this.materialInfo.in_out==='出库') {
+        this.show = false;
+      }
+    },
+    changeStatus_e() {
+      if (this.equipmentInfo.in_out==='入库') {
+        this.show_e = true;
+      }
+      if (this.equipmentInfo.in_out==='出库') {
+        this.show_e = false;
+      }
+    },
+
+    selectBlur(e) {
+      if (e.target.value !== '') {
+        this.value = e.target.value + '(其他)';
+        this.$forceUpdate()   // 强制更新
+      }
+    },
+    selectClear() {
+      this.value = ''
+      this.$forceUpdate()
+    },
+    selectChange(val) {
+      this.value = val
+      this.$forceUpdate()
+    },
+    //根据库区选货架
+    sectorEquipChange(){
+      let req = {
+        storage_id:this.equipmentInfo.storage_id,
+      }
+      console.log('req:',req)
+      my_request({
+        url:'shelf/shelfById',
+        method:'get',
+        params:req
+      }).then(res=>{
+        console.log(res)
+        //改data
+        this.options_shelf = res.data
+      }).catch(err=>{
+        console.log('请求数据getdata的返回值err:',err)
+        this.$message.error('服务器异常')
+      })
+    },
+    sectorMaterialChange(){
+      let req = {
+        storage_id:this.materialInfo.storage_id
+      }
+      console.log('req:',req)
+      my_request({
+        url:'shelf/shelfById',
+        method:'get',
+        params:req
+      }).then(res=>{
+        console.log(res)
+        //改data!!!!
+        this.options_shelf = res.data
+      }).catch(err=>{
+        console.log('请求数据getdata的返回值err:',err)
+        this.$message.error('服务器异常')
+      })
+    },
+
+    selectEquipChange() {
+      let req = {
+        name:this.equipmentInfo.equip_name,
+      }
+      console.log('req:',req)
+
+      my_request({
+        url:'process/getEquipmentsByName',
+        method:'get',
+        params:req
+      }).then(res=>{
+        console.log(res)
+        this.options = res.data.equipments
+      }).catch(err=>{
+        console.log('请求数据getdata的返回值err:',err)
+        this.$message.error('服务器异常')
+      })
+    },
+    selectMaterialChange() {
+      let req = {
+        name:this.materialInfo.material_name,
+      }
+      console.log('req:',req)
+
+      my_request({
+        url:'process/getMaterialByName',
+        method:'get',
+        params:req
+      }).then(res=>{
+        console.log(res)
+        this.options = res.data.materials
+      }).catch(err=>{
+        console.log('请求数据getdata的返回值err:',err)
+        this.$message.error('服务器异常')
+      })
+    },
+
     handleClick(tab, event) {
       console.log(tab, event);
     },
@@ -100,8 +443,12 @@ export default {
             workshop_id: this.equipmentInfo.workshop_id,
             id: this.equipmentInfo.equip_id,
             quantity: this.equipmentInfo.quantity,
+            in_out: this.equipmentInfo.in_out,
             type: 'equipment',
-            user: this.$store.getters.userinfo.id
+            user: this.$store.getters.userinfo.id,
+            //改名字
+            货区编号:this.equipmentInfo.storage_id,
+            货架编号:this.equipmentInfo.shelf_id
             // user: 1
           }
           console.log('申请设备的req：',req)
@@ -138,8 +485,12 @@ export default {
             workshop_id: this.materialInfo.workshop_id,
             id: this.materialInfo.material_id,
             quantity: this.materialInfo.quantity,
+            in_out: this.materialInfo.in_out,
             type:'material',
-            user: this.$store.getters.userinfo.id
+            user: this.$store.getters.userinfo.id,
+            //改名字
+            货区编号:this.materialInfo.storage_id,
+            货架编号:this.materialInfo.shelf_id
             // user: 1
           }
           console.log('申请材料的req：',req)

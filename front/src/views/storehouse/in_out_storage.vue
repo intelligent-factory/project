@@ -11,7 +11,7 @@
         @select="handleSelect">
       <el-menu-item index="/storehouse/inOut/apply">申请信息</el-menu-item>
       <el-menu-item index="/storehouse/inOut/itemRequest">请求信息</el-menu-item>
-      <el-menu-item index="/storehouse/inOut/itemManage">出入库操作</el-menu-item>
+      <!--<el-menu-item index="/storehouse/inOut/itemManage">出入库操作</el-menu-item>-->
     </el-menu>
 
     <router-view></router-view>
@@ -80,9 +80,9 @@ export default {
 #theBaseMainBox {
   display: flex;
   /*background-color: gray;*/
-  height: 600px;
+  /*height: 600px;*/
   flex-direction: column;
-  width: 1500px;
+  width: 95%;
   margin: 25px;
 
 }

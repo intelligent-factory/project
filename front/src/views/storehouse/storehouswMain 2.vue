@@ -17,6 +17,9 @@
 
     <router-view></router-view>
 
+    <div id="theBaseMain">
+
+    </div>
   </div>
 </template>
 
@@ -87,9 +90,9 @@ export default {
 #theBaseMainBox {
   display: flex;
   /*background-color: gray;*/
-  /*height: 600px;*/
+  height: 600px;
   flex-direction: column;
-  width: 95%;
+  width: 1500px;
   margin: 25px;
 
 }

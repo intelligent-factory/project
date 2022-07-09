@@ -1,6 +1,6 @@
 <template>
-  <div style="margin: 30px;overflow-y:scroll;overflow-x:hidden;height:500px">
-    <el-form :model="storage" ref="storage">
+  <div class="mainAdd">
+    <el-form :model="storage" ref="storage" label-width="100px" class="demo-dynamic">
       <el-form-item
           prop="storage_id"
           label="库区    :  "
@@ -8,7 +8,7 @@
                         { required: true, message: '请输入库区编号', trigger: 'blur' },
                         // {  message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
                       ]">
-        <el-input style="width: 30%;float: left;margin-left:8px" v-model.trim="storage.storage_id" placeholder="请输入库区编号"></el-input>
+        <el-input class="upupup" v-model.trim="storage.storage_id" placeholder="请输入库区编号"></el-input>
       </el-form-item>
       <el-form-item
           v-for="(domain, index) in storage.shelfs"
@@ -17,10 +17,10 @@
           :rules="{
                           required: true, message: '货架编号不可为空', trigger: 'blur'
                         }">
-        <el-input style="width: 30%;float: left"  v-model.trim="domain.shelf_id" placeholder="请输入货架编号"></el-input>
-        <el-button style="float: left;margin-left: 10px" @click.prevent="removeDomain(domain)">删除</el-button>
+        <el-input v-model.trim="domain.shelf_id" placeholder="请输入货架编号"></el-input>
+        <el-button @click.prevent="removeDomain(domain)">删除</el-button>
       </el-form-item>
-      <el-form-item style="width: 40%;float: left">
+      <el-form-item>
         <el-button type="primary" @click="submitForm('storage')">创建</el-button>
         <el-button @click="addDomain">增加货架</el-button>
         <el-button @click="resetForm('storage')">重置</el-button>

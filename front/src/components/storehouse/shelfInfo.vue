@@ -1,14 +1,17 @@
 <template>
 
-  <div style="width: 80%;height:80%;margin: 40px auto 0;">
+  <div style="width: 88%;height:80%;margin: 20px auto 0;">
 
-  <div style="width: 90%;height: 40px;display: flex;justify-content: flex-end">
-    <el-button @click="dialogVisible1 = true">转移所有物品</el-button>
+  <div style="width: 100%;height: 40px;display: flex;justify-content: flex-end">
+    <el-button  icon="el-icon-arrow-left" @click="goOff()">返回</el-button>
+    <el-button type="primary" @click="dialogVisible1 = true">转移所有物品</el-button>
   </div>
    <template>
     <el-table
         :data="tableData"
-        style="width: 100%">
+        :header-cell-style="{'text-align':'center'}"
+        :cell-style="{'text-align':'center'}"
+        style="width: 100%;">
       <el-table-column
           prop="id"
           label="库位信息">
@@ -31,23 +34,23 @@
           label="数量">
       </el-table-column>
 
-      <el-table-column label="操作">
+      <el-table-column label="操作" >
         <template slot-scope="scope">
           <el-button
               size="mini"
-              type="success"
+              type="primary"
               @click="transfer(scope.$index, scope.row)">转移
           </el-button>
         </template>
       </el-table-column>
     </el-table>
   </template>
-    <div class="block" style="padding: 10px">
+    <div class="block" style="padding: 10px;margin-top: 20px">
       <el-pagination
           @prev-click="preclick"
           @next-click="nextclick"
           @current-change="curChange"
-          :hide-on-single-page=true
+          :hide-on-single-page=false
           :total="total"
           background
           layout="total,prev, pager, next, jumper"
@@ -136,7 +139,7 @@ export default {
   data(){
     return {
       page:{
-        pages: 10,
+        pages: 7,
         current: 1,
       },
       total:1,
@@ -166,6 +169,10 @@ export default {
     this.getData()
   },
   methods:{
+    //返回上一级
+    goOff(){
+      this.$router.go(-1);
+    },
     preclick(current){
       this.page.current=current
       this.loading = true

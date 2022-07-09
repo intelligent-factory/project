@@ -2,6 +2,8 @@
   <div style="margin:30px 50px ;">
     <template >
       <el-table
+          :header-cell-style="{'text-align':'center'}"
+          :cell-style="{'text-align':'center'}"
           v-loading="loading"
           :data="tableData"
           style="width: 100%">
@@ -22,6 +24,7 @@
             label="申请数量">
         </el-table-column>
         <el-table-column
+            :min-width="110"
             prop="created_time"
             label="申请时间">
         </el-table-column>
@@ -34,6 +37,10 @@
             label="仓库管理员">
         </el-table-column>
         <el-table-column
+            prop="in_out"
+            label="出入库">
+        </el-table-column>
+        <el-table-column
             label="操作">
           <template slot-scope="scope">
             <el-button @click="approval(scope.$index,scope.row)" type="text" size="small">批准</el-button>
@@ -42,12 +49,12 @@
         </el-table-column>
       </el-table>
     </template>
-    <div class="block" style="padding: 10px;margin-top: 10px">
+    <div class="block" style="margin-top: 30px">
       <el-pagination
           @prev-click="preclick"
           @next-click="nextclick"
           @current-change="curChange"
-          :hide-on-single-page=true
+          :hide-on-single-page=false
           :total="total"
           background
           layout="total,prev, pager, next, jumper"
@@ -66,52 +73,11 @@ export default {
     return {
       enough:true,
       input:'',
-      tableData:[
-        {
-          workshop_id:'a',
-          goods_id:'a',
-          goods_name:'a',
-          quantity:100,
-          created_time:'a',
-          created_by :'a',
-          modified_by :'2a',
-          storage_quantity:null,
-        },
-        {
-          workshop_id:'b',
-          goods_id:'a',
-          goods_name:'a',
-          quantity:25,
-          created_time:'a',
-          created_by :'a',
-          modified_by :'2a',
-          storage_quantity:'',
-        },
-        {
-          workshop_id:'c',
-          goods_id:'a',
-          goods_name:'a',
-          quantity:11,
-          created_time:'a',
-          created_by :'a',
-          modified_by :'2a',
-          storage_quantity:'',
-        },
-        {
-          workshop_id:'d',
-          goods_id:'a',
-          goods_name:'a',
-          quantity:80,
-          created_time:'a',
-          created_by :'a',
-          modified_by :'2a',
-          storage_quantity:'',
-        }
-      ],
+      tableData:[],
       loading:false,
       total: 1,
       page:{
-        pages: 13,
+        pages: 10,
         current: 1,
       },
     }
@@ -120,6 +86,16 @@ export default {
     this.getData()
   },
   methods:{
+    //时间格式转换
+    formatDate(value) {
+      var year = value.substr(0, 4)
+      var month = value.substr(5, 2)
+      var day = value.substr(8, 2)
+      var hour = value.substr(11, 2)
+      var min = value.substr(14, 2)
+      var second = value.substr(17,2)
+      return year + "-" + month + "-" + day + " " + hour + ":" + min + ":"+second
+    },
     preclick(current){
       this.page.current=current
       this.loading = true
@@ -161,7 +137,9 @@ export default {
         if (res.data.success === true){
           this.tableData = res.data.result.records
           this.total = res.data.result.total
-          
+          for (let item of this.tableData) {
+            item.created_time = this.formatDate(item.created_time)
+          }
         }else {
           this.$message.error('查询异常')
         }

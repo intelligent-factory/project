@@ -29,7 +29,7 @@
 
     </div>
     <template >
-      <el-table
+      <el-table stripe
           v-loading="loading"
           :data="tableData"
           style="width: 100%">
@@ -84,11 +84,11 @@ export default {
     return {
       updateFlag:false,
       updateInfo: {
-        storage_id:'',
-        shelf_id:'',
-        location:'',
-        id:'',
-        quantity:'',
+        storage_id:'',//仓库号
+        shelf_id:'',//货架号
+        location:'',//位置
+        id:'',//编号
+        quantity:'',//库存
         update:'',
         type:'',
         user:'',
@@ -108,6 +108,9 @@ export default {
         current: 1,
       },
     }
+  },
+  created(){
+
   },
   methods:{
     submitForm(formName) {
@@ -151,7 +154,7 @@ export default {
       }
       console.log('搜索信息的ereq',req)
       my_request({
-        url:'goods/goodsItem',
+        url:'/goods/goodsItem',
         method:'get',
         params : req
       }).then(res=>{
@@ -185,7 +188,7 @@ export default {
 /deep/ td {
   padding:3px !important;
 
-  height: 6px;
+  height: 40px;
   overflow: hidden;
 }
 </style>

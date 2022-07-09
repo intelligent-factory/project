@@ -1,62 +1,74 @@
-<!--这是库区管理-->
 <template>
 
-  <div style="width: 88%;height:80%;margin: 15px auto 0;overflow-x:hidden;">
-    <div style="width:100%;height: 40px;display: flex;justify-content: flex-start">
-    <div style="width: 100%;height: auto;display: flex;justify-content: start">
+
+
+
+  <div style="width: 80%;height:80%;margin: 10px auto 0;">
+
+    <div style="width: 100%;height: 40px;margin-bottom: 10px;display: flex;justify-content: flex-start">
+      <div style="width: 100%;height: auto;display: flex;justify-content: start">
+<!--        ------------------->
         <el-form :model="input" ref="input" label-width="100px" class="demo-dynamic">
           <el-form-item
               prop="input"
-              label="库区编号:"
+              label="库区编号"
               :rules="[
-                        { required: true, message: '请输入库区编号', trigger: 'blur' },
+                        // { required: true, message: '请输入库区编号', trigger: 'blur' },
                       ]">
             <el-input v-model.trim="input.input"></el-input>
           </el-form-item>
 
         </el-form>
-        <el-button type="primary" style="margin-left: 20px" @click="submitForm('input')">搜索</el-button>
+        <el-button  @click="submitForm('input')">搜索</el-button>
+        <!--        ------------------->
       </div>
     </div>
-    <div  style="width: auto;height: auto;margin-top: 15px;">
-<!--card展示-->
-      <el-row class="el-row1">
-        <el-tooltip effect="transparent" placement="bottom"
-                    v-for="item in storeForm"
-                    :key="item.id">
-          <el-card class="card" bodyStyle="padding:10px" shadow="hover">
-            <div class="info">
-              <div class="clearfix" slot="header" >
-                <span style="float: left">库区编号：{{ item.id}}</span>
-                <span>
-                <i class="el-icon-delete" @click="handleDelete(item)"></i>
-              </span>
-                <span style="float: right;margin-right: 10px">
-                <i class="el-icon-document" @click="handleSearch(item)"></i>
-              </span>
-              </div>
-              <div class="text item">
-                <el-divider></el-divider>
-                <p>创建时间：{{ item.created_time}}</p>
-                <p>创建人：{{ item.created_by}}</p>
-                <p>货架数量：{{ item.shelf_Num}}</p>
-              </div>
-              <!--            <el-divider></el-divider>-->
-              <!--            <i class="el-icon-edit" @click="editDefect(item)"></i>-->
-              <!--            <i class="el-icon-delete" @click="deleteDefect(item.defectCode)"></i>-->
-            </div>
-          </el-card>
-        </el-tooltip>
-        <store-form @onSubmit="getData()" ref="edit"></store-form>
-      </el-row>
+    <div  style="width: auto;height: auto">
+      <el-table
+          :data="tableData"
+          v-loading="loading"
+          style="width: 100%">
 
-<!--      分页处理-->
-      <div class="block">
+        <el-table-column
+            label="库区编号"
+            prop="id">
+        </el-table-column>
+        <el-table-column
+            label="创建时间"
+            prop="created_time">
+        </el-table-column>
+        <el-table-column
+            label="创建人"
+            prop="created_by">
+        </el-table-column>
+        <el-table-column
+            label="货架数量"
+            prop="shelf_Num">
+        </el-table-column>
+
+
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button
+                size="mini"
+                type="success"
+                @click="handleSearch(scope.$index, scope.row)">查看
+            </el-button>
+            <el-button
+                size="mini"
+                type="danger"
+                @click="handleDelete(scope.$index, scope.row)">删除
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <div class="block" style="padding: 10px;margin-top: 10px">
         <el-pagination
             @prev-click="preclick"
             @next-click="nextclick"
             @current-change="curChange"
-            :hide-on-single-page=false
+            :hide-on-single-page=true
             :total="total"
             background
             layout="total,prev, pager, next, jumper"
@@ -74,17 +86,16 @@ import {request} from "@/network/request";
 
 export default {
   name: "tableSector",
-
-  data() {
+  data(){
     return {
-      storeForm: [],
       loading:false,
       page:{
-        pages: 8,
+        pages: 10,
         current: 1,
       },
       total:1,
       show:false,
+      // input:'',
       incrementShelfFlag: false,
       addShelfInfo:{
         shelf_id:''
@@ -93,25 +104,22 @@ export default {
         input:''
       },
 
+
+      tableData: [
+        {
+          id: '12987121',
+          shelf_Num: '129',
+          created_time: '2018-29-29',
+          created_by: '高某人',
+        },
+      ],
     }
   },
-
   created() {
     console.log('sector----',this.$route.query)
     this.getData()
   },
   methods:{
-    //时间格式转换
-    formatDate(value) {
-      var year = value.substr(0, 4)
-      var month = value.substr(5, 2)
-      var day = value.substr(8, 2)
-      var hour = value.substr(11, 2)
-      var min = value.substr(14, 2)
-      var second = value.substr(17,2)
-      return year + "-" + month + "-" + day + " " + hour + ":" + min + ":"+second
-    },
-
     preclick(current){
       this.page.current=current
       this.loading = true
@@ -122,29 +130,26 @@ export default {
     },
     nextclick(current){
       this.page.current=current
-      console.log(this.page.current)
       this.loading = true
       setTimeout(()=>{
         this.getData()
         this.loading=false
       },1000)
+
     },
     curChange(current){
       this.page.current=current
-      console.log(this.page.current)
       this.loading = true
       setTimeout(()=>{
         this.getData()
         this.loading=false
       },1000)
     },
-    //初始界面调取数据
     getData(){
       let req= {
-        current: this.page.current,  //页数从1开始
+        current: this.page.current,  //页数 从1开始
         pages: this.page.pages  // 每页多少数据
       }
-      console.log(this.page.current)
       this.loading = true
       my_request({
         url: 'storage/storageItem',
@@ -154,28 +159,26 @@ export default {
         console.log('tableSector的getData：res',res)
         if (res.data.success===true){
           console.log('???')
-          // this.tableData = res.data.result.records;
+          this.tableData = res.data.result.records;
           this.total = res.data.result.total
-          this.storeForm =  res.data.result.records;
-          for (let item of this.storeForm) {
-            item.created_time = this.formatDate(item.created_time)
-          }
+
         }else {
           this.$message.error('查询失败')
         }
-        this.show=true
       }).catch(err=>{
         console.log('store查询所有信息 getdata：err',err)
         this.$message.error('服务器异常')
       })
+
       this.loading = false
+
     },
-    //查看库区详情
-    handleSearch(item) {
+    // table chakan
+    handleSearch(index, row) {
       this.$router.push({
         path: '/storehouse/storageMain/ShelfInfo',
         query:{
-          storage_id: item.id,
+          storage_id: row.id,
         }
       })
     },
@@ -187,11 +190,10 @@ export default {
           .catch(_ => {
           });
     },
-    //删除库区
-    handleDelete(item) {
-      console.log(item);
+    handleDelete(index, row) {
+      console.log(index, row);
       let req = {
-        storage_id:item.id,
+        storage_id:row.id,
         user:this.$store.getters.userinfo.id
         // user:1
       }
@@ -221,9 +223,10 @@ export default {
         this.$message.error('服务器异常')
       })
       this.loading = false
+
     },
 
-    //搜索库区
+    //-----
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -242,12 +245,13 @@ export default {
               url: 'storage/search',
               method: 'get',
               params: req
+
             }).then(res => {
               console.log('查询某条库区的res：',res)
               if (res.data.success === true){
                 let o = []
                 o.push(res.data.result)
-                this.storeForm = o
+                this.tableData = o
                 this.$message({
                   type:'success',
                   message:'查询成功'
@@ -263,14 +267,18 @@ export default {
             //如果搜索成功
             this.show = true
             this.loading = false
+
           }
         } else {
           console.log('error submit!!');
           return false;
         }
-      });
-    }
 
+      });
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    }
   }
 }
 </script>
@@ -321,68 +329,30 @@ export default {
   margin-right: 90px;
 }
 
-.el-row1{
-  width: auto;
-  height: auto;
-  display:flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-}
-/*.el-row1:after{*/
-/*  content: '';*/
-/*  flex-grow: 99999;*/
-/*}*/
-.card{
-  width: 22%;
-  max-height: max-content;
-  float: left;
-  margin-right: 20px;
-  margin-bottom: 20px;
+#theBaseMainBox {
+  display: flex;
+  /*background-color: gray;*/
+  height: 600px;
+  flex-direction: column;
+  width: 1500px;
+  margin: 80px;
+
 }
 
-img {
-  width: 115px;
-  height: 172px;
-  /*margin: 0 auto;*/
-}
-.title {
-  font-size: 14px;
-  text-align: left;
-}
-
-.info {
-  /*display: flex;*/
+#theBaseHeader {
+  /*background-color: aliceblue;*/
+  height: 15%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  /*align-items: center;*/
 }
 
-.el-icon-delete,.el-icon-edit,.el-icon-document{
-  cursor: pointer;
-  font-size: 20px;
-  float: right;
-}
+#theBaseMain {
+  /*background-color: lightgreen;*/
+  height: 80%;
 
-a {
-  text-decoration: none;
-}
+  width: 100%;
 
-a:link, a:visited, a:focus {
-  color: #3377aa;
-}
-
-.text {
-  font-size: 14px;
-  text-align: left;
-}
-
-.item {
-  margin-bottom: 18px;
-}
-
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: "";
-}
-.clearfix:after {
-  clear: both
 }
 </style>

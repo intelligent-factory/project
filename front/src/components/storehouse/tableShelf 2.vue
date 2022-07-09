@@ -1,29 +1,29 @@
-<!--这是货架管理-->
 <template>
-  <div style="width: 88%;height:80%;margin: 15px auto 0;">
+  <div style="width: 80%;height:80%;margin: 40px auto 0;">
 
     <div style="width: 100%;height: 40px;display: flex;flex-direction:row;">
-      <el-button  icon="el-icon-arrow-left" @click="goOff()">返回</el-button>
       <span style="font-family: 宋体 ;width: 20%;font-size: larger;color: #2c3e50;line-height: 40px">库区编号: {{this.$route.query.storage_id}}</span>
-      <div style="width: 70%;height: 40px;display: flex;justify-content: flex-start">
+      <div style="width: 70%;height: 40px;margin-bottom: 10px;display: flex;justify-content: flex-start">
         <div style="width: 100%;height: auto;display: flex;justify-content: start">
+          <!--        ------------------->
           <el-form :model="input" ref="input" label-width="100px" class="demo-dynamic">
             <el-form-item
                 prop="input"
                 label="货架编号"
                 :rules="[
-                        { required: true, message: '请输入货架编号', trigger: 'blur' },
+                        // { required: true, message: '请输入库区编号', trigger: 'blur' },
                       ]">
               <el-input v-model.trim="input.input"></el-input>
             </el-form-item>
 
           </el-form>
-          <el-button type="primary" style="margin-left: 20px" @click="submitForm1('input')">搜索</el-button>
+          <el-button  @click="submitForm1('input')">搜索</el-button>
+          <!--        ------------------->
         </div>
       </div>
-      <div style="width: 30%;height: 40px;display: flex;justify-content: flex-start;">
+      <div style="width: 40%;height: 40px;display: flex;justify-content: flex-end;">
         <el-button @click="deleteStorage">删除库区</el-button>
-        <el-button  @click="incrementShelfFlag = true">增加货架</el-button>
+        <el-button @click="incrementShelfFlag = true">增加货架</el-button>
         <el-dialog
             title="提示"
             :visible.sync="incrementShelfFlag"
@@ -48,38 +48,42 @@
         </el-dialog>
       </div>
     </div>
+    <el-table
+        :data="tableData"
+        style="width: 100%;">
 
-    <div  style="width: auto;height: auto;margin-top: 15px">
-      <!--    卡片式展示-->
-      <el-row class="el-row1">
-        <el-tooltip effect="transparent" placement="bottom"
-                    v-for="(item,index) in shelfForm"
-                    :key="item.id">
-          <el-card class="card" bodyStyle="padding:10px" shadow="hover">
-            <div class="info">
-              <div class="clearfix" slot="header" >
-                <span style="float: left">货架编号：{{ item.id}}</span>
-                <span>
-                  <i class="el-icon-delete" @click="deleteShelf(item)"></i>
-                </span>
-                <span style="float: right;margin-right: 10px">
-                  <i class="el-icon-document" @click="see(item)"></i>
-                </span>
+      <el-table-column
+          label="货架编号"
+          prop="id">
+      </el-table-column>
+      <el-table-column
+          label="存放物品类别"
+          prop="types">
+      </el-table-column>
+      <el-table-column
+          label="创建时间"
+          prop="created_time">
+      </el-table-column>
+      <el-table-column
+          label="创建人"
+          prop="created_by">
+      </el-table-column>
 
-              </div>
-              <div class="text item">
-                <el-divider></el-divider>
-                <p>存放物品类别：{{ item.types}}</p>
-                <p>创建时间：{{ item.created_time}}</p>
-                <p>创建人：{{ item.created_by}}</p>
-              </div>
-            </div>
-          </el-card>
-        </el-tooltip>
-        <shelf-form @onSubmit="getData()" ref="edit"></shelf-form>
-      </el-row>
-    </div>
-
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <el-button
+              size="mini"
+              type="success"
+              @click="see(scope.$index, scope.row)">查看
+          </el-button>
+          <el-button
+              size="mini"
+              type="danger"
+              @click="deleteShelf(scope.$index, scope.row)">删除
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
     <el-dialog
         title="转移后位置信息"
         :visible.sync="dialogVisible"
@@ -118,13 +122,12 @@
               </el-form>
 
     </el-dialog>
-<!--    分页-->
-    <div class="block" >
+    <div class="block" style="padding: 10px">
       <el-pagination
           @prev-click="preclick"
           @next-click="nextclick"
           @current-change="curChange"
-          :hide-on-single-page=false
+          :hide-on-single-page=true
           :total="total"
           background
           layout="total,prev, pager, next, jumper"
@@ -142,8 +145,9 @@ export default {
 
   data(){
     return {
+
       page:{
-        pages: 8,
+        pages: 10,
         current: 1,
       },
       total:1,
@@ -156,7 +160,7 @@ export default {
         shelfId:''
       },
       input:{input:''},
-      shelfForm: [
+      tableData: [
       ],
     //  物品转移信息
       item: '',
@@ -172,21 +176,6 @@ export default {
     this.getData()
   },
   methods:{
-    //时间格式转换
-    formatDate(value) {
-      var year = value.substr(0, 4)
-      var month = value.substr(5, 2)
-      var day = value.substr(8, 2)
-      var hour = value.substr(11, 2)
-      var min = value.substr(14, 2)
-      var second = value.substr(17,2)
-      return year + "-" + month + "-" + day + " " + hour + ":" + min + ":"+second
-    },
-    //返回上一级
-    goOff(){
-      this.$router.go(-1)
-    },
-    //初始界面读取数据
     getData(){
       let req = {
         storage_id:this.$route.query.storage_id,
@@ -203,18 +192,15 @@ export default {
         method:'get'
       }).then(res=>{
         console.log('getData的res，',res)
-        this.shelfForm = res.data.result.records
+        this.tableData = res.data.result.records
         this.total = res.data.result.total
-        for (let item of this.shelfForm) {
-          item.created_time = this.formatDate(item.created_time)
-        }
         if(res.data.success===true){
-          for(let i = 0; i< this.shelfForm.length; i++){
-            if(this.shelfForm[i].types===null){
-              this.shelfForm[i].types = '无'
+          for(let i = 0;i< this.tableData.length;i++){
+            if(this.tableData[i].types===null){
+              this.tableData[i].types = '无'
             }
           }
-          console.log('货架',this.shelfForm)
+          console.log('看看这个',this.tableData)
 
         }else {
           this.$message.error('查询失败')
@@ -257,7 +243,7 @@ export default {
           })
           .catch(_ => {});
     },
-
+  //
     editShelf(index,row){
       this.item = {
         index:index,
@@ -266,11 +252,10 @@ export default {
       this.dialogVisible = true;
 
     },
-    //删除货架
-    deleteShelf(item){
+    deleteShelf(index,row){
         let req = {
           storage_id : this.$route.query.storage_id,
-          id: item.id,
+          id: row.id,
           user:this.$store.getters.userinfo.id
           // user:1
         }
@@ -358,7 +343,7 @@ export default {
             }).then(res => {
 
               console.log('查询某个货架的res',res)
-              this.shelfForm = res.data.result
+              this.tableData = res.data.result
               if(res.data.success===true){
                 this.$message({
                   type:'success',
@@ -376,7 +361,7 @@ export default {
             })
             //如果搜索成功
             this.show = true
-            this.shelfForm = [
+            this.tableData = [
               {
                 id: '1',
                          category: 'asd',
@@ -396,7 +381,7 @@ export default {
 
       });
     },
-  // 删除库区
+  //  删除库区
     deleteStorage(){
 
       let req = {
@@ -471,13 +456,13 @@ export default {
 
     },
 
-  //  查看货架信息
-    see(item){
+  //  查看
+    see(index,row){
       this.$router.push({
         path: '/storehouse/storageMain/shelfInfoDetail',
         query:{
           storage_id: this.$route.query.storage_id,
-          id:item.id
+          id:row.id
         }
       })
     }
@@ -491,73 +476,5 @@ export default {
   /*border: 1px solid blue;*/
 
 }
-.el-row1{
-  width: auto;
-  height: auto;
-  display:flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-}
-/*.el-row1:after{*/
-/*  content: '';*/
-/*  flex-grow: 99999;*/
-/*}*/
-.card{
-  width: 22%;
-  max-height: max-content;
-  float: left;
-  margin-right: 20px;
-  margin-bottom: 20px;
-}
 
-img {
-  width: 115px;
-  height: 172px;
-  /*margin: 0 auto;*/
-}
-.title {
-  font-size: 14px;
-  text-align: left;
-}
-
-.info {
-  /*display: flex;*/
-}
-
-.el-icon-delete,.el-icon-edit,.el-icon-document{
-  cursor: pointer;
-  font-size: 20px;
-  float: right;
-}
-
-a {
-  text-decoration: none;
-}
-
-a:link, a:visited, a:focus {
-  color: #3377aa;
-}
-
-.text {
-  font-size: 14px;
-  text-align: left;
-}
-
-.item {
-  margin-bottom: 18px;
-}
-
-.searchBar {
-  margin-top: 2%;
-  margin-bottom: 3%;
-  left: 30%
-}
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: "";
-}
-.clearfix:after {
-  clear: both
-}
 </style>

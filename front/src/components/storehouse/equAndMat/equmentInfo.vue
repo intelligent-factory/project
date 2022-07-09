@@ -1,20 +1,19 @@
 <template>
-  <div style=" ;width: 80%;height:80%;margin: 10px auto 0;">
+  <div style=" ;width: 90%;height:80%;margin: 10px auto 0;">
     <div style="width: 100%;height: 40px;margin: 10px 0;margin-bottom: 20px ;display: flex;justify-content: space-between">
       <div style="width: 30%;height: 40px; ;display: flex;justify-content: flex-start">
         <div style="width: 80%;height: 40px;display: flex;justify-content: space-between">
         <el-form :model="input" ref="input" label-width="100px" class="demo-ruleForm">
           <el-form-item
-              label="设备编号"
+              label="设备名称"
               prop="input"
               :rules="[
                         // { required: true, message: '物料id不能为空'},
                       ]">
-            <el-input v-model.trim="input.input" autocomplete="off"></el-input>
+            <el-input v-model="input.input" autocomplete="off" @input="sel"></el-input>
           </el-form-item>
         </el-form>
         </div>
-        <el-button  @click="submitForm('input')">搜索</el-button>
       </div>
 
       <div style="width: 30%;height: 40px; "></div>
@@ -24,9 +23,11 @@
     </div>
     <template >
       <el-table
+          stripe
           v-loading="loading"
-          :data="equipments"
-          style="width: 100%">
+          :data="showData"
+          style="width: 100%"
+      >
         <el-table-column
             prop="equipment_id"
             label="设备编号">
@@ -36,8 +37,19 @@
             label="设备名称">
         </el-table-column>
         <el-table-column
-            prop="purpose"
-            label="用途">
+            label="属性"
+        >
+          <template v-slot="scope">
+            <el-popover trigger="hover" placement="top">
+
+              <div v-for="(val,key) in  JSON.parse(scope.row.purpose)">
+                <p>{{key}}:&nbsp;{{val}}</p>
+              </div>
+              <div slot="reference" class="name-wrapper">
+                <el-tag size="medium">查看属性</el-tag>
+              </div>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
             prop="status"
@@ -50,7 +62,7 @@
         <el-table-column
             fixed="right"
             label="操作">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
             <el-button @click="edit(scope.row)" type="text" size="small">编辑</el-button>
             <el-button @click="deleteThis(scope.row)" type="text" size="small">删除</el-button>
@@ -73,41 +85,64 @@
     </div>
 
     <el-dialog
-        title="修改物品信息x"
+        title="添加设备"
         :visible.sync="addMaterial"
         width="30%"
         :before-close="handleClose">
 
       <el-form :model="incrementM" ref="incrementM" label-width="100px" class="demo-ruleForm">
+          <el-form-item
+              label="物料模板"
+              prop="purpose"
+              :rules="[
+                        { required: true, message: '设备模板不能为空'},
+                      ]">
+            <el-select  v-model="equipmentID" placeholder="请选择" style="width: 100%" @change="choosePanel">
+
+              <el-option
+                  v-for="item in  shitVue"
+                  :key="item.equipment_id"
+                  :value="item.equipment_id"
+                  :label="item.name+item.equipment_id"
+              >
+              </el-option>
+
+            </el-select>
+          </el-form-item>
+          <div v-for="(val,key) in incrementM.purpose" :key="key">
+            <el-form-item :label="key">
+              <el-input v-model="incrementM.purpose[key]"></el-input>
+            </el-form-item>
+          </div>
         <el-form-item
             label="设备名称"
             prop="name"
             :rules="[
-                        { required: true, message: '物料名称不能为空'},
+                        { required: true, message: '设备名称不能为空'},
                       ]">
-          <el-input v-model.trim="incrementM.name" autocomplete="off"></el-input>
+          <el-input  v-model.trim="incrementM.name" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item
-            label="设备用途"
-            prop="purpose"
-            :rules="[
-                        { required: true, message: '物料型号不能为空'},
+
+          <el-form-item
+              label="设备状态"
+              prop="status"
+              :rules="[
+                        { required: true, message: '设备状态参数不能为空'},
                       ]">
-          <el-input  v-model.trim="incrementM.purpose" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item
-            label="设备状态"
-            prop="status"
-            :rules="[
-                        { required: true, message: '物料颜色不能为空'},
-                      ]">
-          <el-input  v-model.trim="incrementM.status" autocomplete="off"></el-input>
-        </el-form-item>
+            <el-select v-model.trim="incrementM.status" autocomplete="off" placeholder="请选择状态参数"  style="width: 100%">
+              <el-option
+                  v-for="item in opt"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
         <el-form-item
             label="设备描述"
             prop="comments"
             :rules="[
-                        { required: true, message: '物料描述不能为空'},
+                        { required: true, message: '设备描述不能为空'},
                       ]">
           <el-input  v-model.trim="incrementM.comments" autocomplete="off"></el-input>
         </el-form-item>
@@ -156,12 +191,22 @@ export default {
   name: "equipmentInfo",
   data(){
     return {
+      showData:[],
+      shitVue:[{}],
+      opt:[{
+        value:'正常',
+        label:'正常'
+      },{
+        value:'禁用',
+        label:'禁用'
+      }],
+      equipmentID:'',
       loading:false,
       updateM:false,
       addMaterial:false,
       incrementM:{
         name:'',
-        purpose:'',
+        purpose:{},
         status:'',
         comments:'',
         operator_id:'',
@@ -194,8 +239,39 @@ export default {
   },
   created() {
     this.getData()
+    this.getTemplate()
   },
   methods:{
+    sel(){
+
+      this.showData=this.equipments.filter((item)=>{
+        return item.name.includes(this.input.input)
+      })
+    },
+    choosePanel(panel_id){
+      let shit = this.shitVue
+      let cot
+      this.addPanel=true
+      for(let i in shit){
+        if(panel_id==shit[i].equipment_id){
+          this.incrementM.purpose=shit[i].attribute
+          console.log(this.incrementM.purpose)
+          console.log(Object.keys(this.incrementM.purpose))
+          console.log(JSON.stringify(this.incrementM.purpose))
+        }
+      }
+    },
+    getTemplate(){
+      my_request({
+        url:'/process/getTemplateEquipments?company_id=1',
+        method:'get',
+
+      }).then(res=>{
+        this.shitVue=res.data.equipments
+        console.log(this.shitVue)
+        console.log(res.data.equipments)
+      })
+    },
     preclick(current){
       this.page.current=current
       this.loading = true
@@ -229,7 +305,7 @@ export default {
       }
       console.log("???")
       my_request({
-        url: 'process/getEquipments',
+        url: '/process/getEquipments',
         method: 'get',
         params: req,
       }).then(res=>{
@@ -237,6 +313,7 @@ export default {
         console.log(res)
         this.equipments = res.data.equipments
         this.total = res.data.count
+        this.showData=res.data.equipments
         this.loading = false
       }).catch(err=>{
 
@@ -258,23 +335,26 @@ export default {
           this.loading = true
           let req = {
             name: this.incrementM.name,
-            purpose: this.incrementM.purpose,
+            purpose: JSON.stringify(this.incrementM.purpose),
             status:this.incrementM.status,
             comments: this.incrementM.comments,
             operator_id: 1,
           }
-
+            console.log(req.purpose)
           my_request({
-            url:'process/addEquipment',
+            url:'/process/addEquipment',
             method: 'post',
             data: req,
           }).then(res =>{
+            console.log(res)
             if (res.data==='添加成功'){
               this.addMaterial = false
               this.getData()
+
               this.$message({
                 type:'success',
                 message:'添加成功'
+
               })
             }else {
               this.$message.error('添加失败')
@@ -291,6 +371,7 @@ export default {
           this.$message.error('服务器异常')
         }
       });
+
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -306,12 +387,13 @@ export default {
             }
 
               my_request({
-                url: 'process/getEquipmentByID',
+                url: '/process/getEquipmentByID',
                 params: req,
                 method: 'get'
               }).then(res => {
                 let s = []
                 s.push(res.data)
+                console.log(res.data)
                 if (res.data!==null){
                   this.equipments = s
                   this.total = 1
@@ -354,7 +436,7 @@ export default {
       }
 
       my_request({
-        url:'process/deleteEquipmentByID',
+        url:'/process/deleteEquipmentByID',
         method:'post',
         data:req
       }).then(res=>{
@@ -386,7 +468,7 @@ export default {
           this.loading=true
 
           my_request({
-            url:'process/updateEquipmentByID',
+            url:'/process/updateEquipmentByID',
             data:req,
             method:'post'
           }).then(res=>{

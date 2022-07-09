@@ -1,7 +1,45 @@
 <template>
 <div style="margin: 30px">
   <template >
+<!--    搜索栏-->
+    <el-form :inline="true" :model="itemRequest" :rules="rulesForm" ref="itemRequest" class="demo-form-inline" style="width: 100%">
+      <el-form-item label="起始时间" prop="time1" style="float: left;" >
+        <el-date-picker type="date" placeholder="选择起始时间" v-model="itemRequest.time1"
+                format="yyyy 年 MM 月 dd 日"
+                value-format="yyyy-MM-dd"
+                :picker-options="pickerBeginDateBefore"
+                style="width: 190px;"></el-date-picker>
+
+      </el-form-item>
+      <el-form-item label="终止时间" prop="time2" style="float: left">
+        <el-date-picker type="date" placeholder="选择终止时间" v-model="itemRequest.time2"
+                        format="yyyy 年 MM 月 dd 日"
+                        value-format="yyyy-MM-dd"
+                        :picker-options="pickerBeginDateBefore"
+                        style="width: 190px;"></el-date-picker>
+
+      </el-form-item>
+      <el-form-item label="编号" prop="goods_id" style="float: left">
+        <el-input style="float: left;width: 90px" placeholder="编号" clearable v-model.trim="itemRequest.goods_id"></el-input>
+      </el-form-item>
+      <el-form-item label="名称" prop="goods_name"  style="float: left">
+        <el-input style="float: left;width: 90px" placeholder="名称" clearable v-model.trim="itemRequest.goods_name"></el-input>
+      </el-form-item>
+      <el-form-item label="种类" prop="types"  style="float: left">
+        <el-select style="float: left;width: 90px" v-model="itemRequest.types" placeholder="种类" >
+          <el-option label="物料" value="material"></el-option>
+          <el-option label="设备" value="equipment"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item style="float: right">
+        <el-button type="primary" @click="getData()">查询</el-button>
+        <el-button @click="resetForm('itemRequest')">重 置</el-button>
+      </el-form-item>
+    </el-form>
+
     <el-table
+        :header-cell-style="{'text-align':'center'}"
+        :cell-style="{'text-align':'center'}"
         v-loading="loading"
         :data="tableData"
         style="width: 100%">
@@ -22,6 +60,7 @@
           label="申请数量">
       </el-table-column>
       <el-table-column
+          :min-width="110"
           prop="created_time"
           label="申请时间">
       </el-table-column>
@@ -30,21 +69,23 @@
           label="申请人">
       </el-table-column>
       <el-table-column
-          label="操作">
-        <template slot-scope="scope">
-          <el-button v-if="(scope.row.location==='' | scope.row.location===null )"  @click="searchQuantity(scope.$index,scope.row)" type="text" size="small">查询库存</el-button>
-          <el-button v-else @click="inOutApply(scope.$index,scope.row)" :disabled="scope.row.location < scope.row.quantity" type="text" size="small">出库申请</el-button>
-        </template>
-      </el-table-column>
-      <el-table-column
-          fixed="right"
-          style="width: 1px"
-          prop="location"
+          prop="quantity_sum"
           label="库存数量">
       </el-table-column>
+      <el-table-column
+          prop="in_out"
+          label="出入库">
+      </el-table-column>
+      <el-table-column
+          label="操作">
+        <template slot-scope="scope" >
+          <el-button @click="inOutApply(scope.$index,scope.row)" :disabled="scope.row.quantity_sum < scope.row.quantity" type="text" size="small">出入库申请</el-button>
+        </template>
+      </el-table-column>
+
     </el-table>
   </template>
-  <div class="block" style="padding: 10px;margin-top: 10px">
+  <div class="block" style="padding: 10px;margin-top: 20px">
     <el-pagination
         @prev-click="preclick"
         @next-click="nextclick"
@@ -67,15 +108,28 @@ export default {
   data(){
     return {
       enough:true,
-      input:'',
+      itemRequest:{
+        goods_id:'', //编号
+        goods_name:'', //名称
+        types:'',
+        time1:'2022-01-01', //起始时间
+        time2:'2022-01-01', //终止时间
+      },
       tableData:[
 
       ],
+      rulesForm:{
+      },
       loading:false,
       total: 1,
       page:{
-        pages: 13,
+        pages: 8,
         current: 1,
+      },
+      pickerBeginDateBefore:{
+        disabledDate(time) {
+          return time.getTime() > Date.now();
+        }
       },
     }
   },
@@ -83,6 +137,17 @@ export default {
     this.getData()
   },
   methods:{
+    //时间格式转换
+    formatDate(value) {
+      var year = value.substr(0, 4)
+      var month = value.substr(5, 2)
+      var day = value.substr(8, 2)
+      var hour = value.substr(11, 2)
+      var min = value.substr(14, 2)
+      var second = value.substr(17,2)
+      return year + "-" + month + "-" + day + " " + hour + ":" + min + ":"+second
+    },
+
     preclick(current){
       this.page.current=current
       this.loading = true
@@ -108,14 +173,21 @@ export default {
         this.loading=false
       },1000)
     },
+
     getData(){
       let req = {
         current: this.page.current,
-        pages:this.page.pages
+        pages:this.page.pages,
+        goods_id: this.itemRequest.goods_id,
+        goods_name: this.itemRequest.goods_name,
+        type: this.itemRequest.types,
+        time1: this.itemRequest.time1,
+        time2: this.itemRequest.time2
       }
+      console.log('req:',req)
 
       my_request({
-        url:'goods/applyItem',
+        url:'goods/searchApply',
         method:'get',
         params:req
       }).then(res=>{
@@ -123,7 +195,9 @@ export default {
         if (res.data.success === true){
           this.tableData = res.data.result.records
           this.total = res.data.result.total
-
+          for (let item of this.tableData) {
+            item.created_time = this.formatDate(item.created_time)
+          }
         }else {
           this.$message.error('查询异常')
         }
@@ -133,30 +207,11 @@ export default {
       })
 
     },
-    searchQuantity(index,row){
-      let req = {
-        good_id: row.goods_id,
-        type:row.types
-      }
-      console.log('查询数量的req:',req)
-      my_request({
-        url:'goods/searchQuantity',
-        params:req,
-        method:'get'
-      }).then(res=>{
-        console.log('给我卡卡库存数量:',res)
-        if(res.data.success===true){
-          this.tableData[index].location = res.data.result
-          // this.tableData[index].location =98
-          console.log(this.tableData)
-        }else {
-          this.$message.error('查询失败')
-        }
-      }).catch(err=>{
-        this.$message.error('服务器异常')
-      })
 
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
     },
+
     inOutApply(index,row){
       let  req = {
         uuid : row.uuid,
@@ -164,6 +219,7 @@ export default {
         // user:1
       }
       console.log('申请出库的req',req)
+      this.loading = true
 
       my_request({
         url:'goods/setApply',
@@ -176,6 +232,10 @@ export default {
             type:'success',
             message:'申请成功'
           })
+          this.getData()
+          setTimeout(()=>{
+            this.loading=false
+          },1000)
         }else {
           this.$message.error('申请失败')
         }

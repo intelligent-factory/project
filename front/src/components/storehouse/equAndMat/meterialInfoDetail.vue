@@ -2,7 +2,7 @@
   <div style=" ;width: 80%;height:80%;margin: 10px auto 0;">
     <div style="width: 100%;display: flex;margin-bottom: 20px;justify-content: flex-start;flex-wrap: wrap">
       <div style="width: 100%;height: auto; ;margin-bottom: 10px;display: flex;justify-content: flex-start;flex-wrap: wrap">
-        <div style="width: 10%;height:80px;margin: 0;padding:0;display: flex;justify-content: flex-start"><h2>设备信息:</h2></div>
+        <div style="width: 10%;height:80px;margin: 0;padding:0;display: flex;justify-content: flex-start"><h2>物料信息:</h2></div>
         <div style="margin-left:50px;height: 80px;display: flex;justify-content: flex-start;">
           <div style="margin-right: 80px;height: 80px;line-height: 80px">物料编号: <span style="font-size: small;line-height: 80px">{{$route.query.info.material_id}}</span></div>
           <div>物料名称:<span style="font-size: small;line-height: 80px">{{$route.query.info.name}}</span></div>
@@ -14,42 +14,25 @@
         </div>
       </div>
     </div>
-    <div style="width: 100%">
+    <div style="margin-left:1%;margin-right:1%">
       <template>
-        <el-table
-            :data="tableData"
-            style="width: 100%">
-          <el-table-column
-              prop="storage_id"
-              label="库区编号">
-          </el-table-column>
-          <el-table-column
-              prop="shelf_id"
-              label="货架编号"
-              width="180">
-          </el-table-column>
-          <el-table-column
-              prop="id"
-              label="库位信息">
-          </el-table-column>
-          <el-table-column
-              prop="quantity"
-              label="库存数量">
-          </el-table-column>
+        <el-row>
+          <el-col :span="4" v-for="(item) in tableData" style="margin:10px 20px 15px 15px" >
+            <div >
+              <el-card :body-style="{ padding: '0px'}" style="width: 200px;height: 250px" shadow="">
+                <br>
+                <div>编号:&nbsp;{{item.id}}</div><br>
 
-        </el-table>
-        <div class="block" style="padding: 10px;margin-top: 10px">
-          <el-pagination
-              @prev-click="preclick"
-              @next-click="nextclick"
-              @current-change="curChange"
-              :hide-on-single-page=true
-              :total="total"
-              background
-              layout="total,prev, pager, next, jumper"
-              :page-size="page.pages">
-          </el-pagination>
-        </div>
+                <div>库区id:&nbsp;{{item.storage_id}}</div><br>
+                <div>货架id:&nbsp;{{item.shelf_id}}</div><br>
+                <div>库存:&nbsp;{{item.quantity}}</div><br>
+                <div>所属公司:&nbsp;</div>
+              </el-card>
+            </div>
+
+          </el-col>
+
+        </el-row>
       </template>
     </div>
     <el-dialog
@@ -204,7 +187,7 @@ export default {
       }
       console.log('物料的getdata：req',req)
       my_request({
-        url:'goods/locationItem',
+        url:'/goods/locationItem',
         params:req,
         method:'get'
       }).then(res=>{
@@ -238,7 +221,7 @@ export default {
           }
           console.log('你也小时啊',req)
           my_request({
-            url:'goods/addGoods',
+            url:'/goods/addGoods',
             params:req,
             method:'get'
           }).then(res=>{

@@ -1,31 +1,32 @@
 <template>
-  <div style=" ;width: 80%;height:80%;margin: 10px auto 0;">
+  <div style=" ;width: 90%;height:80%;margin: 10px auto 0;">
     <div style="width: 100%;height: 40px;margin: 10px 0;margin-bottom: 20px ;display: flex;justify-content: space-between">
       <div style="width: 30%;height: 40px; ;display: flex;justify-content: flex-start">
         <div style="width: 80%;height: 40px;display: flex;justify-content: space-between">
           <el-form :model="input" ref="input" label-width="100px" class="demo-ruleForm">
             <el-form-item
-                label="物料id"
+                label="物料名称"
                 prop="input"
                 :rules="[
                         // { required: true, message: '物料id不能为空'},
                       ]">
-              <el-input v-model.trim="input.input" autocomplete="off"></el-input>
+              <el-input v-model="input.input" autocomplete="off" @input="sel"></el-input>
             </el-form-item>
           </el-form>
         </div>
-        <el-button  @click="submitForm('input')">搜索</el-button>
       </div>
 
       <div style="width: 30%;height: 40px; "></div>
       <div style="width: 30%;height: 40px; ">
         <el-button @click="addMaterial = true"  >增加</el-button>
+
       </div>
     </div>
     <template >
       <el-table
+          stripe
           v-loading="loading"
-          :data="materials"
+          :data="showData"
           style="width: 100%">
         <el-table-column
             prop="material_id"
@@ -35,13 +36,23 @@
             prop="name"
             label="名称">
         </el-table-column>
+<!--        <el-table-column-->
+<!--            prop="color"-->
+<!--            label="颜色">-->
+<!--        </el-table-column>-->
         <el-table-column
-            prop="color"
-            label="颜色">
-        </el-table-column>
-        <el-table-column
-            prop="size"
-            label="型号">
+            label="属性"
+        >
+          <template v-slot="scope">
+            <el-popover trigger="hover" placement="top">
+              <div v-for="(val,key) in  JSON.parse(scope.row.size)">
+                <p>{{key}}:{{val}}</p>
+              </div>
+              <div slot="reference" class="name-wrapper">
+                <el-tag size="medium">查看属性</el-tag>
+              </div>
+            </el-popover>
+          </template>
         </el-table-column>
         <el-table-column
             prop="status"
@@ -84,20 +95,33 @@
 
       <el-form :model="incrementM" ref="incrementM" label-width="100px" class="demo-ruleForm">
         <el-form-item
+            label="物料模板"
+            prop="size"
+            :rules="[
+                        { required: true, message: '物料模板不能为空'},
+                      ]">
+          <el-select  v-model="materialID" placeholder="请选择" style="width: 100%" @change="choosePanel">
+            <el-option
+                v-for="item in  shitVue"
+                :key="item.material_id"
+                :value="item.material_id"
+                :label="item.name+item.material_id"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <div v-for="(val,key) in incrementM.size" :key="key">
+          <el-form-item :label="key">
+            <el-input v-model="incrementM.size[key]"></el-input>
+          </el-form-item>
+        </div>
+        <el-form-item
             label="物料名称"
             prop="name"
             :rules="[
                         { required: true, message: '物料名称不能为空'},
                       ]">
           <el-input v-model.trim="incrementM.name" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item
-            label="物料型号"
-            prop="size"
-            :rules="[
-                        { required: true, message: '物料型号不能为空'},
-                      ]">
-          <el-input  v-model.trim="incrementM.size" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item
             label="物料颜色"
@@ -134,13 +158,20 @@
             :rules="[
                         { required: true, message: '物料状态不能为空'},
                       ]">
-          <el-input v-model.trim="updateInfo.status" autocomplete="off"></el-input>
+          <el-select v-model.trim="updateInfo.status" autocomplete="off" placeholder="请选择状态参数"  style="width: 292px">
+            <el-option
+                v-for="item in optionStatus"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item
             label="描述"
             prop="comments"
             :rules="[
-                        { required: true, message: '物料状态不能为空'},
+                        { required: true, message: '物料描述不能为空'},
                       ]">
           <el-input v-model.trim="updateInfo.comments" autocomplete="off"></el-input>
         </el-form-item>
@@ -160,14 +191,27 @@ export default {
   name: "materialInfo",
   data(){
     return {
+      showData:[],
+      domains:[],
+      materialID:'',
       loading:false,
       updateM:false,
       addMaterial:false,
+      addPanel:false,
+      shitVue:[{}],
+      optionStatus:[{
+        value:"正常",
+        label:"正常"
+      },
+        {value:"禁用",
+          label:"禁用"
+
+        }],
       incrementM:{
-        name:'',
-        size:'',
-        color:'',
-        comments:'',
+        name:'默认',
+        size:{},
+        color:'默认',
+        comments:'无',
         operator_id:'',
       },
       input:{
@@ -182,9 +226,20 @@ export default {
       materials:[
         {
           material_id:'2',
+          name:1,
+          color:'红色',
+          size:'',
+          status:'iasd',
+          comments:'s',
+
+        }
+      ],
+      matJs:[
+        {
+          material_id:'2',
           name:'1',
           color:'红色',
-          size:'daha',
+          size:{},
           status:'iasd',
           comments:'s',
 
@@ -200,8 +255,33 @@ export default {
   },
   created() {
     this.getData()
+    this.getTemplate()
+
+  },
+  mounted(){
+
   },
   methods:{
+    sel(){
+
+      this.showData=this.materials.filter((item)=>{
+
+        return item.name.includes(this.input.input)
+      })
+    },
+    choosePanel(panel_id){
+      let shit = this.shitVue
+      let cot
+        this.addPanel=true
+        for(let i in shit){
+          if(panel_id==shit[i].material_id){
+            this.incrementM.size=shit[i].attribute
+            console.log(this.incrementM.size)
+            console.log(Object.keys(this.incrementM.size))
+          }
+        }
+    },
+
     preclick(current){
       this.page.current=current
       this.loading = true
@@ -227,6 +307,17 @@ export default {
         this.loading=false
       },1000)
     },
+    getTemplate(){
+      my_request({
+      url:'/process/getTemplateMaterials?company_id=1',
+      method:'get',
+
+      }).then(res=>{
+    this.shitVue=res.data.materials
+        console.log(this.shitVue)
+        console.log(res.data.materials)
+  })
+    },
     getData(){
       this.loading = true
       let req = {
@@ -234,14 +325,15 @@ export default {
         pageSize: this.page.pages
       }
       my_request({
-        url: 'process/getMaterials',
+        url: '/process/getMaterials',
         method: 'get',
         params: req,
       }).then(res=>{
         console.log('返回的：',res)
         this.materials = res.data.materials
+        this.showData=res.data.materials
         this.total = res.data.count
-
+        console.log(this.materials)
       }).catch(err=>{
         console.log('ssss')
       })
@@ -261,14 +353,15 @@ export default {
           this.loading = true
           let req = {
             name: this.incrementM.name,
-            size: this.incrementM.size,
+            size:JSON.stringify(this.incrementM.size),
             color: this.incrementM.color,
             comments: this.incrementM.comments,
             operator_id: 1,
           }
+          console.log(typeof(this.incrementM.size))
           console.log('增加信息参数：',req)
           my_request({
-            url:'process/addMaterial',
+            url:'/process/addMaterial',
             method: 'post',
             data: req,
           }).then(res =>{
@@ -307,7 +400,7 @@ export default {
             }
             console.log('查询参数：', req)
             my_request({
-              url: 'process/getMaterialByID',
+              url: '/process/getMaterialByName',
               params: req,
               method: 'get'
             }).then(res => {
@@ -350,7 +443,7 @@ export default {
         operator_id : 1,
       }
       my_request({
-        url:'process/deleteMaterialByID',
+        url:'/process/deleteMaterialByID',
         method:'post',
         data:req
       }).then(res=>{
@@ -379,7 +472,7 @@ export default {
           let req= this.updateInfo
           this.loading=true
           my_request({
-            url:'process/updateMaterialByID',
+            url:'/process/updateMaterialByID',
             data:req,
             method:'post'
           }).then(res=>{

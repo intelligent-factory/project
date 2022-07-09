@@ -52,7 +52,11 @@
             width="150"
             label="申请时间">
         </el-table-column>
-
+        <el-table-column
+            prop="in_out"
+            width="150"
+            label="出入库">
+        </el-table-column>
         <el-table-column
             fixed="right"
             width="100"
@@ -90,7 +94,7 @@ export default {
       loading:false,
       total: 1,
       page:{
-        pages: 13,
+        pages: 7,
         current: 1,
       },
     }

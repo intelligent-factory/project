@@ -10,7 +10,7 @@
         default-active="1"
         @select="handleSelect">
       <el-menu-item index="/storehouse/inOutApproval/itemapproval">申请信息</el-menu-item>
-      <el-menu-item index="/storehouse/inOutApproval/equipmentInfoDetail">请求信息</el-menu-item>
+<!--      <el-menu-item index="/storehouse/inOutApproval/equipmentInfoDetail">请求信息</el-menu-item> -->
 
 
     </el-menu>
@@ -81,9 +81,9 @@ export default {
 #theBaseMainBox {
   display: flex;
   /*background-color: gray;*/
-  height: 600px;
+  /*height: 600px;*/
   flex-direction: column;
-  width: 1500px;
+  width: 95%;
   margin: 25px;
 
 }
@@ -91,7 +91,7 @@ export default {
 #theBaseHeader {
   /*background-color: aliceblue;*/
   height: 15%;
-  width: 100%;
+  width: 90%;
   display: flex;
   justify-content: space-between;
   /*align-items: center;*/

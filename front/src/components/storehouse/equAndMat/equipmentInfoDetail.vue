@@ -14,42 +14,26 @@
       </div>
     </div>
   </div>
-      <div style="width: 100%">
-    <template>
-      <el-table
-          :data="tableData"
-          style="width: 100%">
-        <el-table-column
-            prop="storage_id"
-            label="库区编号">
-        </el-table-column>
-        <el-table-column
-            prop="shelf_id"
-            label="货架编号"
-            width="180">
-        </el-table-column>
-        <el-table-column
-            prop="id"
-            label="库位信息">
-        </el-table-column>
-        <el-table-column
-            prop="quantity"
-            label="库存数量">
-        </el-table-column>
-      </el-table>
-      <div class="block" style="padding: 10px;margin-top: 10px">
-        <el-pagination
-            @prev-click="preclick"
-            @next-click="nextclick"
-            @current-change="curChange"
-            :hide-on-single-page=true
-            :total="total"
-            background
-            layout="total,prev, pager, next, jumper"
-            :page-size="page.pages">
-        </el-pagination>
-      </div>
-    </template>
+    <div style="margin-left:1%;margin-right:1%">
+      <template>
+        <el-row>
+          <el-col :span="4" v-for="(item) in tableData" style="margin:10px 20px 15px 15px" >
+            <div >
+              <el-card :body-style="{ padding: '0px'}" style="width: 200px;height: 250px" shadow="">
+                <br>
+                <div>编号:&nbsp;{{item.id}}</div><br>
+
+                <div>库区id:&nbsp;{{item.storage_id}}</div><br>
+                <div>货架id:&nbsp;{{item.shelf_id}}</div><br>
+                <div>库存:&nbsp;{{item.quantity}}</div><br>
+                <div>所属公司:&nbsp;</div>
+              </el-card>
+            </div>
+
+          </el-col>
+
+        </el-row>
+      </template>
     </div>
     <el-dialog
         title="提示"
@@ -203,7 +187,7 @@ export default {
       }
       console.log('equipment的getdata,req：',req)
       my_request({
-        url:'goods/locationItem',
+        url:'/goods/locationItem',
         params:req,
         method:'get'
       }).then(res=>{
@@ -237,7 +221,7 @@ export default {
          }
           console.log('你也小时啊',req)
           my_request({
-            url:'goods/addGoods',
+            url:'/goods/addGoods',
             params:req,
             method:'get'
           }).then(res=>{
