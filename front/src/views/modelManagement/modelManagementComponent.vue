@@ -41,9 +41,9 @@ export default {
         case '2':
           keyword = "设备模版";
           break;
-        case '3':
-          keyword = "产品模版";
-          break;
+        // case '3':
+        //   keyword = "产品模版";
+        //   break;
       }
 
       if (keyword==="物料模版"){
@@ -54,9 +54,9 @@ export default {
         url="/template/equipment/all"
         this.classification='equipment'
       }
-      if (keyword==="产品模版"){
-        url="/template/product/all"
-      }
+      // if (keyword==="产品模版"){
+      //   url="/template/product/all"
+      // }
       this.$refs.formArea.classification=this.classification
       request({
         url: url,

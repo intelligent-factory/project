@@ -81,11 +81,10 @@ export default {
         url: '/getProceduresByCompany',
         method: 'get',
         params:{
-          company_id:'1'
+          company_id:1,
         }
       }).then(res => {
         this.options = res.data
-        console.log(this.options)
       }).catch(err => {
         console.log(err)
       });

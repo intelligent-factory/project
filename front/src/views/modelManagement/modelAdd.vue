@@ -3,7 +3,7 @@
     <el-form :model="modelAddForm" ref="model-add" label-position="right" label-width="80px" >
       <el-form-item label="模版分类" prop="classification"
                     :rules="{required: true, message: '请选择分类', trigger: 'blur'}">
-        <el-select v-model="modelAddForm.classification" filterable placeholder="请选择" style="width: 100%;">
+        <el-select v-model="modelAddForm.classification" filterable placeholder="请选择" style="width: 325px;">
           <el-option
               v-for="item in options"
               :key="item.value"
@@ -15,31 +15,29 @@
 
       <el-form-item label="模版号" prop="templateId"
                     :rules="{required: true, message: '请输入模板号', trigger: 'change'}">
-        <el-input v-model="modelAddForm.templateId" style="width: 100%;"></el-input>
+        <el-input v-model="modelAddForm.templateId" style="width: 325px;"></el-input>
       </el-form-item>
 
       <el-form-item label="模版名称" prop="templateName"
                     :rules="{required: true, message: '请输入名称', trigger: 'blur'}">
-        <el-input v-model="modelAddForm.templateName" style="width: 100%;"></el-input>
+        <el-input v-model="modelAddForm.templateName" style="width: 325px;"></el-input>
       </el-form-item>
 
-
-          <el-form-item v-for="(item, index) in modelAddForm.data"
+      <el-form-item v-for="(item, index) in modelAddForm.data"
                         :label="'属性'+(index+1)"
                         :key="item.id"
                         :prop="'data.' + index + '.content'"
                         :rules="{required: true, message: '请输入属性', trigger: 'blur'}">
-            <el-input v-model="modelAddForm.data[index].content"
-                      style="width: 250px"
-                      placeholder="请输入属性"
-                      filterable>
-            </el-input>
+        <el-input v-model="modelAddForm.data[index].content"
+                  style="width: 250px"
+                  placeholder="请输入属性"
+                  filterable>
+        </el-input>
 
-            <el-button size="mini"
-                       style="color: red; margin-left: 10px;"
-                       @click="del(index)">删除</el-button>
-          </el-form-item>
-
+        <el-button size="mini"
+                   style="color: red; margin-left: 10px;width:65px;"
+                   @click="del(index)">删除</el-button>
+      </el-form-item>
 
       <el-form-item>
         <el-button @click="add">添 加</el-button>
@@ -120,7 +118,7 @@ export default {
       if (this.modelAddForm.classification==="ProductTemplate"){
         myurl="/template/product/addProductTemplate"
       }
-      console.log(myurl)
+      // console.log(myurl)
       this.$refs['model-add'].validate((valid) => {
         if (valid) {
           this.$confirm("是否提交？", '提示', {
@@ -139,13 +137,20 @@ export default {
                 company_id:'',//公司
               }
             }).then(res => {
-              if (res.data !== 'no') {
+              if(res.data === 'id-error') {
+                this.$message({
+                  type: 'warning',
+                  message: 'id重复，请重新输入',
+                })
+              }
+              if (res.data === 'yes') {
                 this.resetForm('model-add')
                 this.$message({
                   type: 'success',
                   message: '添加成功'
                 })
-              } else {
+              }
+              if(res.data === 'no'){
                 this.$message({
                   type: 'error',
                   message: res.data
