@@ -108,6 +108,11 @@ public class TemplateService implements TemplateServiceImpl{
     public String addMaterialTemplate(MaterialTemplateVo materialTemplateVo) {
         try {
 
+            if (templateMapper.countMaterialId(materialTemplateVo.getId(),materialTemplateVo.getCompany_id())!=0){
+                return "id_error";
+
+            }
+
             for(String attribute : materialTemplateVo.getAttribute()){
 
                 MaterialTemplate materialTemplate = new MaterialTemplate();
