@@ -30,6 +30,8 @@ public interface GoodsMapper {
     List<ApplyVo> selectAddAll(long start,long num);
     List<GoodsVo> selectGoodsAll(long start,long num, String storage_id, String shelf_id);
     List<GoodsVo> selectLocationAll(long start,long num, String type, String id);
+    List<GoodsVo> search_out(String uuid);
+    Integer search_quantity(String uuid);
     List<ApplyVo> getOrderByTime(String uuid);
     Integer searchQuantity(String goods_id, String types);
     Integer getApplyCount();
@@ -42,7 +44,11 @@ public interface GoodsMapper {
     Integer getLocationCount(String type, String id);
     void setApply(String uuid, String user, Timestamp timestamp);
     ApplyVo getByUuid(String uuid);
+    void managerConfirm_in(String uuid,String uuid1, String random);
+    void managerConfirm_out(String uuid);
+    void managerConfirm_out1(String uuid, int quantity);
     void managerConfirm(String uuid, String message, String user, Timestamp timestamp);
+    void managerConfirm1(String uuid, String message);
     void checkDelete();
     void removeApply(String uuid, String user, Timestamp timestamp);
 }

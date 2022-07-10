@@ -447,8 +447,8 @@ export default {
             type: 'equipment',
             user: this.$store.getters.userinfo.id,
             //改名字
-            货区编号:this.equipmentInfo.storage_id,
-            货架编号:this.equipmentInfo.shelf_id
+            storage_id:this.equipmentInfo.storage_id,
+            shelf_id:this.equipmentInfo.shelf_id
             // user: 1
           }
           console.log('申请设备的req：',req)
@@ -489,8 +489,8 @@ export default {
             type:'material',
             user: this.$store.getters.userinfo.id,
             //改名字
-            货区编号:this.materialInfo.storage_id,
-            货架编号:this.materialInfo.shelf_id
+            storage_id:this.materialInfo.storage_id,
+            shelf_id:this.materialInfo.shelf_id
             // user: 1
           }
           console.log('申请材料的req：',req)

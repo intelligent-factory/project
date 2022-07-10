@@ -153,7 +153,7 @@ export default {
       let req = {
         uuid : row.uuid,
         message: 1,  //1为同意 0 为拒绝
-        user :this.$store.getters.userinfo.id
+        in_out: row.in_out
         // user :1
       }
       console.log('批准的req',req)
@@ -183,7 +183,7 @@ export default {
       let req = {
         uuid : row.uuid,
         message: 0,  //1为同意 0 为拒绝
-        user :this.$store.getters.userinfo.id
+        in_out: row.in_out
         // user :1
       }
       console.log('批准的req',req)

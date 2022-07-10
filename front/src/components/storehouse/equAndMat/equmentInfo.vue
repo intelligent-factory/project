@@ -101,9 +101,9 @@
 
               <el-option
                   v-for="item in  shitVue"
-                  :key="item.equipment_id"
-                  :value="item.equipment_id"
-                  :label="item.name+item.equipment_id"
+                  :key="item.id"
+                  :value="item.id"
+                  :label="item.name+item.id"
               >
               </el-option>
 
@@ -250,20 +250,24 @@ export default {
     },
     choosePanel(panel_id){
       let shit = this.shitVue
-      let cot
+
       this.addPanel=true
       for(let i in shit){
-        if(panel_id==shit[i].equipment_id){
-          this.incrementM.purpose=shit[i].attribute
+        if(panel_id==shit[i].id){
+          let obj={}
+          shit[i].attribute.forEach(item=>{
+            obj[item]=''
+          })
+          this.incrementM.purpose=obj
+
           console.log(this.incrementM.purpose)
           console.log(Object.keys(this.incrementM.purpose))
-          console.log(JSON.stringify(this.incrementM.purpose))
         }
       }
     },
     getTemplate(){
       my_request({
-        url:'/process/getTemplateEquipments?company_id=1',
+        url:'/template/equipment/all?company_id=1',
         method:'get',
 
       }).then(res=>{

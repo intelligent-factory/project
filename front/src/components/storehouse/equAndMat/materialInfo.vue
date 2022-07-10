@@ -103,9 +103,9 @@
           <el-select  v-model="materialID" placeholder="请选择" style="width: 100%" @change="choosePanel">
             <el-option
                 v-for="item in  shitVue"
-                :key="item.material_id"
-                :value="item.material_id"
-                :label="item.name+item.material_id"
+                :key="item.id"
+                :value="item.id"
+                :label="item.name+item.id"
             >
             </el-option>
           </el-select>
@@ -271,11 +271,16 @@ export default {
     },
     choosePanel(panel_id){
       let shit = this.shitVue
-      let cot
+
         this.addPanel=true
         for(let i in shit){
-          if(panel_id==shit[i].material_id){
-            this.incrementM.size=shit[i].attribute
+          if(panel_id==shit[i].id){
+            let obj={}
+            shit[i].attribute.forEach(item=>{
+              obj[item]=''
+            })
+           this.incrementM.size=obj
+
             console.log(this.incrementM.size)
             console.log(Object.keys(this.incrementM.size))
           }
@@ -309,7 +314,7 @@ export default {
     },
     getTemplate(){
       my_request({
-      url:'/process/getTemplateMaterials?company_id=1',
+      url:'/template/material/all?company_id=1',
       method:'get',
 
       }).then(res=>{
