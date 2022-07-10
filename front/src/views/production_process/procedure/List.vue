@@ -4,12 +4,12 @@
 
     <div id="list-main">
       <el-table :data="procedures" border>
-        <el-table-column prop="procedure_id" label="id" min-width="3" width="200" align="center" :show-overflow-tooltip="true"></el-table-column>
-        <el-table-column prop="name" label="名称" min-width="2"  width="150" align="center"></el-table-column>
-        <el-table-column prop="cost" label="成本" min-width="2"  width="100" align="center"></el-table-column>
-        <el-table-column prop="status" label="状态" min-width="2" width="100" align="center"></el-table-column>
-        <el-table-column prop="comments" label="产品描述" min-width="2"  width="250" align="center" :show-overflow-tooltip="true"></el-table-column>
-        <el-table-column label="操作" id="tool" min-width="2"  width="200" align="center">
+        <el-table-column prop="procedure_id" label="id" min-width="3"  align="center" :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column prop="name" label="名称" min-width="2"   align="center"></el-table-column>
+        <el-table-column prop="cost" label="成本" min-width="2"   align="center"></el-table-column>
+        <el-table-column prop="status" label="状态" min-width="2"  align="center"></el-table-column>
+        <el-table-column prop="comments" label="产品描述" min-width="2"  align="center" :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column label="操作" id="tool" min-width="2"  align="center">
           <template slot-scope="scope">
             <el-button type="primary" circle size="mini" icon="el-icon-edit" @click="showEdit(scope.row)"></el-button>
             <el-button type="danger" circle size="mini" icon="el-icon-delete" @click="del(scope.$index, scope.row)"></el-button>

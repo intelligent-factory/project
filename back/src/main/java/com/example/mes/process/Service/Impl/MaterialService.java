@@ -164,9 +164,9 @@ public class MaterialService implements IMaterialService {
 
     //从物料表material中查询全部物料信息，id、name、size、color、comments、status
     @Override
-    public List<QueryMaterialVo> getMaterials(PageVo pageVo) {
+    public List<QueryMaterialVo> getMaterials(PageVo pageVo,Integer company_id) {
         try {
-            return mapper.getMaterials(pageVo);
+            return mapper.getMaterials(pageVo,company_id);
         }catch (Exception e){
             e.printStackTrace();
             System.out.println("service：查询物料信息失败！");
@@ -176,9 +176,9 @@ public class MaterialService implements IMaterialService {
 
     //跟据物料id查询对应物料的信息
     @Override
-    public QueryMaterialVo getMaterialByID(String material_id) {
+    public QueryMaterialVo getMaterialByID(String material_id,int company_id) {
         try {
-            return mapper.getMaterialByID(material_id);
+            return mapper.getMaterialByID(material_id,company_id);
         }catch (Exception e){
             e.printStackTrace();
             System.out.println("service:根据id查询物料信息失败");

@@ -137,7 +137,7 @@ export default {
                 company_id:'',//公司
               }
             }).then(res => {
-              if(res.data === 'id-error') {
+              if(res.data === 'id_error') {
                 this.$message({
                   type: 'warning',
                   message: 'id重复，请重新输入',

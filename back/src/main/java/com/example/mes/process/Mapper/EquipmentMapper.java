@@ -26,11 +26,9 @@ public interface EquipmentMapper {
     @Delete("delete from template_equipment where name=#{name}  and (company_id = #{company_id} or #{company_id}=0 )")
     int deleteTemplateEquipmentByName(@Param("name") String name,@Param("company_id") String company_id);
 
-    List<QueryEquipmentVo> getEquipments(@Param("pageVo") PageVo pageVo);
+    List<QueryEquipmentVo> getEquipments(@Param("pageVo") PageVo pageVo,@Param("company_id") int company_id);
 
-    List<QueryEquipmentVo> getEquipmentsByName(@Param("name") String name);
-
-    QueryEquipmentVo getEquipmentByID(@Param("equipment_id") String equipment_id);
+    QueryEquipmentVo getEquipmentByID(@Param("equipment_id") String equipment_id,@Param("company_id") int company_id);
 
     boolean addEquipment(@Param("insertEquipmentVo") InsertEquipmentVo insertEquipmentVo);
 
@@ -40,7 +38,7 @@ public interface EquipmentMapper {
 
     int getCount();
 
-    int checkDuplicate(@Param("name") String name,@Param("purpose") String purpose);
+    int checkDuplicate(@Param("name") String name,@Param("purpose") String purpose,@Param("company_id") int company_id);
 
     int getIndex();
 }

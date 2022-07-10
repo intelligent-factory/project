@@ -18,9 +18,9 @@ public interface IMaterialService {
 
     String updateMaterial(TemplateMaterialVo templateMaterialVo);
 
-    List<QueryMaterialVo> getMaterials(PageVo pageVo);
+    List<QueryMaterialVo> getMaterials(PageVo pageVo,Integer company_id);
     //跟据物料id查询对应物料的信息
-    QueryMaterialVo getMaterialByID(String material_id);
+    QueryMaterialVo getMaterialByID(String material_id ,int company_id);
     //增加一个物料
     String addMaterial(InsertMaterialVo insertMaterialVo);
     //根据物料id删除一个物料

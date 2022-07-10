@@ -93,10 +93,10 @@ public class EquipmentController {
 
 
     @GetMapping("/getEquipments")
-    public String getEquipments(int pageOffset,int pageSize){
+    public String getEquipments(int pageOffset,int pageSize,int company_id){
         try {
             HashMap<String,Object> data = new HashMap<>();
-            List<QueryEquipmentVo> equipments = service.getEquipments(new PageVo(pageOffset,pageSize));
+            List<QueryEquipmentVo> equipments = service.getEquipments(new PageVo(pageOffset,pageSize),company_id);
             int count = service.getCount();
             data.put("count",count);
             data.put("equipments",equipments);
@@ -108,24 +108,10 @@ public class EquipmentController {
         }
     }
 
-    @GetMapping("/getEquipmentsByName")
-    public String getEquipmentsByName(String name){
-        try {
-            HashMap<String,Object> data = new HashMap<>();
-            List<QueryEquipmentVo> equipments = service.getEquipmentsByName(name);
-            data.put("equipments",equipments);
-            return JSON.toJSONString(data);
-        }catch (Exception e){
-            e.printStackTrace();
-            System.out.println("service:查询设备信息列表失败！");
-            return "";
-        }
-    }
-
     @GetMapping("/getEquipmentByID")
-    public String getEquipmentByID(String equipment_id){
+    public String getEquipmentByID(String equipment_id,int company_id){
         try {
-            return JSON.toJSONString(service.getEquipmentByID(equipment_id));
+            return JSON.toJSONString(service.getEquipmentByID(equipment_id,company_id));
         }catch (Exception e){
             e.printStackTrace();
             System.out.println("service:根据设备编号获取设备信息失败！");

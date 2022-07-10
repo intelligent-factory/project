@@ -7,13 +7,24 @@ public class DeleteEquipmentVo {
     String equipment_id;
     String operator_id;
     Timestamp modified_time;
+    int company_id;
 
-    public DeleteEquipmentVo() {
+    @Override
+    public String toString() {
+        return "DeleteEquipmentVo{" +
+                "equipment_id='" + equipment_id + '\'' +
+                ", operator_id='" + operator_id + '\'' +
+                ", modified_time=" + modified_time +
+                ", company_id=" + company_id +
+                '}';
     }
 
-    public DeleteEquipmentVo(String equipment_id, String operator_id) {
-        this.equipment_id = equipment_id;
-        this.operator_id = operator_id;
+    public int getCompany_id() {
+        return company_id;
+    }
+
+    public void setCompany_id(int company_id) {
+        this.company_id = company_id;
     }
 
     public String getEquipment_id() {
@@ -40,12 +51,4 @@ public class DeleteEquipmentVo {
         this.modified_time = modified_time;
     }
 
-    @Override
-    public String toString() {
-        return "DeleteEquipmentVo{" +
-                "equipment_id='" + equipment_id + '\'' +
-                ", operator_id='" + operator_id + '\'' +
-                ", modified_time=" + modified_time +
-                '}';
-    }
 }
