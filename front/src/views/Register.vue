@@ -4,43 +4,28 @@
     <div class="box_item">
       <div class="login_box">
         <div class="title">
-          欢迎登录
+          欢迎注册
         </div>
         <div id="bar"></div>
         <div class="form">
           <el-form ref="form" :model="form" :rules="rules" label-width="0px">
-            <el-form-item class="input_content" prop="username">
-              <img class="icon" src="@/assets/icon/user2.svg" alt="">
+            <el-form-item class="input_content" prop="company_name">
+              <img class="icon" src="@/assets/icon/company.svg" alt="">
               <div class="bar2"></div>
-              <el-autocomplete v-model="form.username" size="large"
-                               placeholder="点我选择测试账号"
-                               :fetch-suggestions="querySearch"
-                               @select="handleSelect"
-              >
-                <template slot-scope="{ item }">
-                  <div class="name">{{ item.name + "  " + item.value }}</div>
-                </template>
-
-              </el-autocomplete>
+              <el-input v-model="form.company_name" size="large" placeholder="请输入公司名称"></el-input>
             </el-form-item>
-            <el-form-item class="input_content" prop="password">
-              <img class="icon" src="@/assets/icon/lock.svg" alt="">
+            <el-form-item class="input_content" prop="mail">
+              <img class="icon" src="@/assets/icon/email.svg" alt="">
               <div class="bar2"></div>
-              <el-input v-model="form.password" @keyup.enter.native="login" show-password size="large"
-                        placeholder="点击上面测试账号自动填入密码"></el-input>
+              <el-input v-model="form.mail" size="large" placeholder="请输入邮箱"></el-input>
             </el-form-item>
             <el-form-item label-width="0px" id="login_button">
-              <el-button @click="login" type="primary">登录</el-button>
+              <el-button @click="register" type="primary">注册</el-button>
             </el-form-item>
-
             <el-form-item label-width="0px" id="login_button">
-              欢迎新公司入驻，点我<router-link to="/register"><el-link type="primary" :underline="false">入驻系统</el-link></router-link>
+              已有帐号？<router-link to="/login"><el-link type="primary" :underline="false">登录</el-link></router-link>
             </el-form-item>
-
           </el-form>
-
-
-
         </div>
       </div>
     </div>
@@ -63,16 +48,20 @@ export default {
   data() {
     return {
       form: {
-        username: '',
-        password: '',
+        company_name: '',
+        mail: '',
+        request:'insert',
+        user:'100000'
       },
       rules: {
-        username: [
-          {required: true, message: "请输入用户名", trigger: 'blur'}
+        company_name: [
+          {required: true, message: "请输入公司名称", trigger: 'blur'}
         ],
-        password: [
-          {required: true, message: "请输入密码", trigger: 'blur'}
-        ]
+        mail: [
+          {required: true, message: '请输入邮箱地址', trigger: 'blur'},
+          {type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change']}
+        ],
+
       },
       countNumber: 4,
       timer: {},
@@ -80,63 +69,35 @@ export default {
     }
   },
   methods: {
-    login() {
+    register() {
       this.$refs.form.validate((valid) => {
         if (!valid) return;
         return my_request(this, {
-          url: 'data/login/login',
+          url: '/data/companyManagement/companyUpdate',
           method: 'post',
-          data: {
-            user_name: this.form.username,
-            password: this.form.password,
-          },
+          data: this.form,
         }).then(res => {
-          this.$message.success("登录成功！");
-          console.log(res.data.userinfo);
-          this.$store.commit("login/SET_USERINFO", res.data.userinfo);
-          console.log(this.$store.getters.userinfo);
-          window.sessionStorage.setItem("userinfo", JSON.stringify(res.data.userinfo));
-          if (this.$store.getters.userinfo) {
-            this.$router.push('/main')
+          if (res.data.company_id) {
+            this.$message.success({
+              dangerouslyUseHTMLString: true,
+              message: `注册成功！您的公司编码为：${parseInt(res.data.company_id)}<br/>系统自动为您生成超级管理员<br/>账号为：${parseInt(res.data.company_id)}10000，密码为：100000`,
+              duration: 2000
+            });
+            this.$router.push("/login");
+
+          } else {
+            this.$message.error(res.data.flag)
           }
         }).catch(err => {
           this.reset();
-          this.$message.error("用户名或密码错误！")
+          this.$message.error("出现错误！")
         });
       });
     },
     reset() {
       this.$refs.form.resetFields();
     }
-    ,
-    handleSelect(item) {
-      this.form.password = "100001"
-    }
-    ,
-    querySearch(queryString, cb) {
-      cb([
-          {"value": "admin", "name": "超级管理测试"},
-          {"value": "100002", "name": "分析报表权限"},
-          {"value": "100003", "name": "生产过程权限"},
-          {"value": "100004", "name": "质量管理权限"},
-      ]);
-    }
-    ,
-
   },
-  // created() {
-  //   let login = window.sessionStorage.getItem("userinfo") != null;
-  //   this.countNumber = 4;
-  //   if (login) {
-  //     this.timer = setInterval(() => {
-  //       this.countNumber--;
-  //       if (this.countNumber === 0) {
-  //         this.$router.push("/main");
-  //       }
-  //     }, 1000)
-  //   }
-  //   this.isLogin = login;
-  // },
   activated() {
     let login = window.sessionStorage.getItem("userinfo") != null;
     this.countNumber = 4;
@@ -150,7 +111,7 @@ export default {
     }
     this.isLogin = login;
   },
-  beforeRouteLeave(to,from ,next) {
+  beforeRouteLeave(to, from, next) {
     clearInterval(this.timer);
     next()
   },
