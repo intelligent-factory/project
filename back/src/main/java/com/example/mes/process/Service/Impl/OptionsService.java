@@ -197,6 +197,8 @@ public class OptionsService implements IOptionsService {
                 OptionMaterial optionMaterial = new OptionMaterial(name,optionSizes);
                 optionMaterials.add(optionMaterial);
             }
+
+            //System.out.println(optionMaterials);
             return optionMaterials;
         }catch (Exception e){
             e.printStackTrace();

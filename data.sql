@@ -159,7 +159,7 @@ CREATE TABLE `department` (
 
 /*Data for the table `department` */
 
-insert  into `department`(`department_name`,`manager_name`,`manager_id`,`department_describe`,`status`,`is_deleted`,`created_time`,`created_by`,`modified_time`,`modified_by`,`company_id`) values ('产品部门','admin',100001,'部门有关描述','0','0','2017-12-23 19:29:49.000000','100001','2017-11-12 22:13:13.000000','100001',NULL),('仓库部门','admin',100001,'部门有关描述','0','0','2018-03-12 19:58:36.000000','100001','2016-09-25 09:01:15.000000','100001',NULL),('生产部门','admin',100001,'部门有关描述','0','0','2020-07-24 08:51:32.000000','100001','2018-06-06 06:04:48.000000','100001',NULL),('管理部门','admin',100001,'部门有关描述','0','0','2020-10-22 15:10:42.000000','100001','2021-01-16 16:58:04.000000','100001',NULL),('默认部门','admin',100001,'部门有关描述','0','0','2017-09-19 13:47:26.000000','100001','2021-04-27 09:03:29.000000','100001',NULL);
+insert  into `department`(`department_name`,`manager_name`,`manager_id`,`department_describe`,`status`,`is_deleted`,`created_time`,`created_by`,`modified_time`,`modified_by`,`company_id`) values ('产品部门','admin',100001,'部门有关描述','0','0','2017-12-23 19:29:49.000000','100001','2017-11-12 22:13:13.000000','100001',111),('仓库部门','admin',100001,'部门有关描述','0','0','2018-03-12 19:58:36.000000','100001','2016-09-25 09:01:15.000000','100001',111),('生产部门','admin',100001,'部门有关描述','0','0','2020-07-24 08:51:32.000000','100001','2018-06-06 06:04:48.000000','100001',NULL),('管理部门','admin',100001,'部门有关描述','0','0','2020-10-22 15:10:42.000000','100001','2021-01-16 16:58:04.000000','100001',NULL),('默认部门','admin',100001,'部门有关描述','0','0','2017-09-19 13:47:26.000000','100001','2021-04-27 09:03:29.000000','100001',NULL);
 
 /*Table structure for table `equipment` */
 
@@ -423,11 +423,33 @@ CREATE TABLE `product_type` (
 
 insert  into `product_type`(`type_id`,`type_name`,`company_id`) values ('1','拉杠箱',NULL),('2','手袋',NULL),('3','银包',NULL),('4','行李箱',NULL),('5','书包',NULL),('6','登山包',NULL),('7','电脑包',NULL),('8','商务皮包',NULL);
 
+
+
+/*Table structure for quality_list*/
+
+DROP TABLE IF EXISTS `quality_list`;
+CREATE TABLE `quality_list`  (
+  `list_id` varchar(32)  NOT NULL,
+  `workshop_id` varchar(32)  NOT NULL,
+  `line_id` varchar(32)  NOT NULL,
+  `name` varchar(45)  NOT NULL,
+  `num` int(11) NOT NULL,
+  `status` varchar(5)  DEFAULT NULL COMMENT '0未质检  1已质检',
+  PRIMARY KEY (`list_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+/*Records of quality_list*/
+
+INSERT INTO `quality_list` VALUES ('1526e2a0f1714387a1a0d09a6f1bf146', '111', '22', '登山包', 50, '1');
+INSERT INTO `quality_list` VALUES ('4bf3aa3f964b4712bd90e56622195a00', '222', '11', '登山包', 100, '0');
+INSERT INTO `quality_list` VALUES ('c4735beb91b44945a4aa6911c684a086', '111', '22', '拉杆箱', 200, '0');
+
 /*Table structure for table `quality_management` */
 
 DROP TABLE IF EXISTS `quality_management`;
 
 CREATE TABLE `quality_management` (
+  `list_id` varchar(32) DEFAULT NULL,
   `check_order` int NOT NULL AUTO_INCREMENT,
   `check_time` datetime NOT NULL,
   `order_num` int NOT NULL,
@@ -492,6 +514,7 @@ DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role` (
   `role_name` varchar(255) NOT NULL,
   `role_id` varchar(255) NOT NULL,
+  `department_name` varchar(255) DEFAULT NULL,
   `role_describe` varchar(255) DEFAULT NULL,
   `permission` varchar(255) DEFAULT NULL,
   `status` varchar(5) NOT NULL,
@@ -506,7 +529,7 @@ CREATE TABLE `role` (
 
 /*Data for the table `role` */
 
-insert  into `role`(`role_name`,`role_id`,`role_describe`,`permission`,`status`,`is_deleted`,`created_time`,`created_by`,`modified_time`,`modified_by`,`company_id`) values ('产品经理','cpjl','产品经理的角色','默认权限','0','0','2016-10-10 03:44:20.000000','100001','2021-07-13 10:03:14.673000','100001',NULL),('仓库经理','CK','651320','默认权限','0','0','2018-01-28 18:41:27.000000','100001','2021-07-16 19:47:13.066000','100001',NULL),('分析报表查看','FXBBCK','分析报表查看','分析报表查看权限','0','0','2021-07-29 11:18:26.064000','100001','2021-07-29 11:18:26.064000','100001',NULL),('员工','YG','651320','员工权限','0','0','2016-07-24 23:39:01.000000','100001','2021-07-29 11:19:41.783000','100001',NULL),('生产过程管理负责人','SCGCGLFZR','拥有有关生产过程的管理权限','生产过程管理权限','0','0','2021-07-29 11:17:51.181000','100001','2021-07-29 11:17:51.181000','100001',NULL),('管理经理','GLJL','651320','默认权限','0','0','2018-06-04 16:26:32.000000','100001','2021-07-16 19:47:26.150000','100001',NULL),('质量管理负责人','ZLGL','拥有有关质量管理的权限','质量管理权限','0','0','2021-07-29 11:17:13.549000','100001','2021-07-29 11:18:06.954000','100001',NULL),('超级管理员','admin','651320','默认权限','0','0','2018-02-21 13:38:00.000000','100001','2021-07-16 19:47:31.646000','100001',NULL),('默认角色','default','651320','默认权限','0','0','2018-05-19 23:59:28.000000','100001','2021-07-16 19:47:37.380000','100001',NULL);
+insert  into `role`(`role_name`,`role_id`,`role_describe`,`permission`,`status`,`is_deleted`,`created_time`,`created_by`,`modified_time`,`modified_by`,`company_id`) values ('产品经理','cpjl', '产品部门','产品经理的角色','默认权限','0','0','2016-10-10 03:44:20.000000','100001','2021-07-13 10:03:14.673000','100001',111),('仓库经理','CK', '仓库部门','651320','默认权限','0','0','2018-01-28 18:41:27.000000','100001','2021-07-16 19:47:13.066000','100001',111),('分析报表查看','FXBBCK',NULL,'分析报表查看','分析报表查看权限','0','0','2021-07-29 11:18:26.064000','100001','2021-07-29 11:18:26.064000','100001',NULL),('员工','YG',NULL,'651320','员工权限','0','0','2016-07-24 23:39:01.000000','100001','2021-07-29 11:19:41.783000','100001',NULL),('生产过程管理负责人','SCGCGLFZR',NULL,'拥有有关生产过程的管理权限','生产过程管理权限','0','0','2021-07-29 11:17:51.181000','100001','2021-07-29 11:17:51.181000','100001',NULL),('管理经理','GLJL',NULL,'651320','默认权限','0','0','2018-06-04 16:26:32.000000','100001','2021-07-16 19:47:26.150000','100001',NULL),('质量管理负责人','ZLGL',NULL,'拥有有关质量管理的权限','质量管理权限','0','0','2021-07-29 11:17:13.549000','100001','2021-07-29 11:18:06.954000','100001',NULL),('超级管理员','admin',NULL,'651320','默认权限','0','0','2018-02-21 13:38:00.000000','100001','2021-07-16 19:47:31.646000','100001',NULL),('默认角色','default',NULL,'651320','默认权限','0','0','2018-05-19 23:59:28.000000','100001','2021-07-16 19:47:37.380000','100001',NULL);
 
 /*Table structure for table `routing` */
 
@@ -839,7 +862,7 @@ CREATE TABLE `workshop_station` (
   `id` varchar(32) NOT NULL,
   `workshop_id` varchar(32) NOT NULL,
   `line_id` varchar(32) NOT NULL,
-  `user` varchar(32) NOT NULL,
+  `user` varchar(32) DEFAULT NULL,
   `equip_id` varchar(32) DEFAULT NULL,
   `stationOrder` varchar(32) NOT NULL,
   `verify` varchar(32) DEFAULT NULL,

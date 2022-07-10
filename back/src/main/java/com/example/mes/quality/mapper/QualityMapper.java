@@ -4,13 +4,7 @@ import com.example.mes.quality.bean.QualityBean;
 
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- *
- * @Author: XiaoYu
- * @Date: 2021/07/13/12:14
- * @Description:
- */
+
 public interface QualityMapper {
 
     void addQualityResults(QualityBean qualityBean);
@@ -19,4 +13,6 @@ public interface QualityMapper {
     List<QualityBean> getQualityResultsByWorkshop(String[] list);
     List<QualityBean> getQualityResultsByDefectTypePart(String[] list);
     List<QualityBean> getQualityResultsByDefectType(String[] list);
+    List<QualityBean> queryResultByList(String list_id);
+    List<String> getDefectCode(List<String> list);
 }

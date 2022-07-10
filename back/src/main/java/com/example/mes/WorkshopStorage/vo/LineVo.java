@@ -5,6 +5,47 @@ import java.util.List;
 
 public class LineVo {
 
+    private String uuid;//uuid
+    private String id;//id
+    private String workshop_id;//车间id
+    private String name;//产线名
+    private List<StationVo> stations;//工位
+    private int stationNum;//工位数量
+    private int equipNum;//设备数量
+    private String verify;
+    private String pre_id;
+    private Timestamp created_time;
+    private Timestamp modified_time;
+    private String created_by;
+    private String modified_by;
+    private String routing;
+    private String company_id;
+
+
+
+    public String getCompany_id() {
+        return company_id;
+    }
+
+    public void setCompany_id(String company_id) {
+        this.company_id = company_id;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getWorkshop_id() {
         return workshop_id;
@@ -30,6 +71,22 @@ public class LineVo {
         this.stations = stations;
     }
 
+    public int getStationNum() {
+        return stationNum;
+    }
+
+    public void setStationNum(int stationNum) {
+        this.stationNum = stationNum;
+    }
+
+    public int getEquipNum() {
+        return equipNum;
+    }
+
+    public void setEquipNum(int equipNum) {
+        this.equipNum = equipNum;
+    }
+
     public String getVerify() {
         return verify;
     }
@@ -45,80 +102,6 @@ public class LineVo {
     public void setPre_id(String pre_id) {
         this.pre_id = pre_id;
     }
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
-
-    /**
-     * uuid
-     */
-    private String uuid;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
-     * id
-     */
-    private String id;
-
-    /**
-     * uuid
-     */
-    private String workshop_id;
-
-    /**
-     * 生产线名称
-     */
-    private String name;
-
-    public int getStationNum() {
-        return stationNum;
-    }
-
-    public void setStationNum(int stationNum) {
-        this.stationNum = stationNum;
-    }
-
-    /**
-     *工位
-     */
-    private List<StationVo> stations;
-
-    /**
-     *工位数量
-     */
-    private int stationNum;
-    /**
-     *工位数量
-     */
-    private int equipNum;
-
-    public int getEquipNum() {
-        return equipNum;
-    }
-
-    public void setEquipNum(int equipNum) {
-        this.equipNum = equipNum;
-    }
-
-
-    /**
-     * verify
-     */
-    private String verify;
-    private String pre_id;
-    private Timestamp created_time;
 
     public Timestamp getCreated_time() {
         return created_time;
@@ -136,10 +119,6 @@ public class LineVo {
         this.modified_time = modified_time;
     }
 
-    private Timestamp modified_time;
-
-    private String created_by;
-
     public String getCreated_by() {
         return created_by;
     }
@@ -155,10 +134,6 @@ public class LineVo {
     public void setModified_by(String modified_by) {
         this.modified_by = modified_by;
     }
-
-    private String modified_by;
-
-    private String routing;
 
     public String getRouting() {
         return routing;

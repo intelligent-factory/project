@@ -3,33 +3,29 @@ package com.example.mes.WorkshopStorage.entity;
 import java.sql.Timestamp;
 
 public class Workshop {
-    /**
-     * uuid
-     */
-    private String uuid;
-    /**
-     * id
-     */
-    private String id;
 
-    /**
-     * 车间名称
-     */
-    private String name;
 
-    /**
-     * 工厂名称
-     */
-    private String factory_name;
+    private String uuid;//uuid
+    private String id;//id
+    private String name;//车间名
+    private String factory_name;//工厂名
+    private String status;//状态
+    private String verify;//审批状态
+    private String pre_uuid;//以前的uuid
+    private String is_deleted;//是否删除
+    private Timestamp created_time;//创建时间
+    private String created_by;//创建人
+    private Timestamp modified_time;//修改时间
+    private String modified_by;//修改人
+    private String company_id;
 
-    /**
-     * 状态
-     */
-    private String status;
-    /**
-     * 审批状态
-     */
-    private String verify;
+    public String getCompany_id() {
+        return company_id;
+    }
+
+    public void setCompany_id(String company_id) {
+        this.company_id = company_id;
+    }
 
     public String getVerify() {
         return verify;
@@ -46,23 +42,6 @@ public class Workshop {
     public void setPre_uuid(String pre_uuid) {
         this.pre_uuid = pre_uuid;
     }
-
-    /**
-     * 过往uuid
-     */
-    private String pre_uuid;
-    /**
-     * 被删除
-     */
-    private String is_deleted;
-    /**
-     * 创建时间
-     */
-    private Timestamp created_time;
-    /**
-     * 创建人
-     */
-    private String created_by;
 
     public String getUuid() {
         return uuid;
@@ -136,13 +115,6 @@ public class Workshop {
         this.modified_time = modified_time;
     }
 
-
-
-    /**
-     * 修改时间
-     */
-    private Timestamp modified_time;
-
     public String getModified_by() {
         return modified_by;
     }
@@ -151,9 +123,5 @@ public class Workshop {
         this.modified_by = modified_by;
     }
 
-    /**
-     * 修改人
-     */
-    private String modified_by;
 
 }

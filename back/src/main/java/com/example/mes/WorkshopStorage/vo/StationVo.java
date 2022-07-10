@@ -28,27 +28,48 @@ public class StationVo {
      * 设备id
      */
     private String equip_id;
-    /**
-     * 设备名字
-     */
-    private String equip_name;
+
     /**
      * 顺序
      */
     private String stationOrder;
 
-    public String getStationOrder() {
-        return stationOrder;
-    }
-
-    public void setStationOrder(String stationOrder) {
-        this.stationOrder = stationOrder;
-    }
 
     /**
      * verify
      */
     private String verify;
+
+    /**
+     * pre_id
+     */
+    private String pre_id;
+    /**
+     * 状态
+     */
+    private String status;
+    /**
+     * 被删除
+     */
+    private String is_deleted;
+    /**
+     * 创建时间
+     */
+    private Timestamp created_time;
+    /**
+     * 创建人
+     */
+    private String created_by;
+    /**
+     * 修改时间
+     */
+    private Timestamp modified_time;
+    /**
+     * 修改人
+     */
+    private String modified_by;
+
+    private String company_id;
 
     public String getUuid() {
         return uuid;
@@ -98,15 +119,23 @@ public class StationVo {
         this.equip_id = equip_id;
     }
 
-    public String getEquip_name() {
-        return equip_name;
+
+
+    public String getStationOrder() {
+        return stationOrder;
     }
 
-
-    public void setEquip_name(String equip_name) {
-        this.equip_name = equip_name;
+    public void setStationOrder(String stationOrder) {
+        this.stationOrder = stationOrder;
     }
 
+    public String getCompany_id() {
+        return company_id;
+    }
+
+    public void setCompany_id(String company_id) {
+        this.company_id = company_id;
+    }
 
     public String getVerify() {
         return verify;
@@ -171,34 +200,4 @@ public class StationVo {
     public void setModified_by(String modified_by) {
         this.modified_by = modified_by;
     }
-
-    /**
-     * pre_id
-     */
-    private String pre_id;
-    /**
-     * 状态
-     */
-    private String status;
-    /**
-     * 被删除
-     */
-    private String is_deleted;
-    /**
-     * 创建时间
-     */
-    private Timestamp created_time;
-    /**
-     * 创建人
-     */
-    private String created_by;
-    /**
-     * 修改时间
-     */
-    private Timestamp modified_time;
-    /**
-     * 修改人
-     */
-    private String modified_by;
-
 }

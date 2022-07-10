@@ -189,7 +189,10 @@ public class TransactionService implements ITransactionService {
             ArrayList<com.example.mes.process.Vo.MaterialVo.InsertProMaterialVo> insertProMaterialVos = new ArrayList<>();
             for(InsertProMaterialVo item:material){
 
-                String material_id = nameIDMapper.getMaterialIDByNameSize(item.getName(),item.getSize());
+                String size=item.getSize().replace(",","\",\"");
+                 size=size.replace(":","\":\"");
+
+                String material_id = nameIDMapper.getMaterialIDByNameSize(item.getName(),size);
                 insertProMaterialVos.add(new com.example.mes.process.Vo.MaterialVo.InsertProMaterialVo(uuid,material_id,item.getCount(),product.getCompany_id()));
             }
             mapper.addProMaterialLists(insertProMaterialVos);
