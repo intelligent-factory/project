@@ -103,6 +103,18 @@ export default {
     next();
   },
   methods:{
+
+    //时间格式转换
+    formatDate(value) {
+      var year = value.substr(0, 4)
+      var month = value.substr(5, 2)
+      var day = value.substr(8, 2)
+      var hour = value.substr(11, 2)
+      var min = value.substr(14, 2)
+      var second = value.substr(17,2)
+      return year + "-" + month + "-" + day + " " + hour + ":" + min + ":"+second
+    },
+
     getData(){
       console.log(this.page.current)
       let req= {
@@ -118,6 +130,9 @@ export default {
         console.log('station ：',res)
         this.total = res.data.result.total
         this.tableData = res.data.result.records
+        for (let item of this.tableData) {
+          item.created_time = this.formatDate(item.created_time)
+        }
         //   [
         //     total: '',总条数
         //       [
