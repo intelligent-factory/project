@@ -23,4 +23,8 @@ public interface RoleService extends IService<Role> {
     public void roleUpdate(RoleUpdateVo roleUpdateVo);
 
     void roleInsert(RoleUpdateVo roleUpdateVo);
+
+    List<String> getRoles(String company_id);
+
+    List<String> getRolesByDepartment(String department_name, String company_id);
 }

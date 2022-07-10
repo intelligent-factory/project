@@ -36,7 +36,6 @@ public interface UserMapper extends BaseMapper<User> {
 
     void userAdd(@Param("n") UserUpdateVo userUpdateVo);
 
-
     String findUserDepartment(Integer id);
 
     void createApply(@Param("apply") Apply apply);

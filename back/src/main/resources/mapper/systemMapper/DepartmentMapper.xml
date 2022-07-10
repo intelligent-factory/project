@@ -30,6 +30,13 @@
         from department
         where department_name = #{department_name};
     </select>
+
+    <select id="newdepartmentFind" resultType="com.example.mes.system.entity.Department" parameterType="string">
+        select *
+        from department
+        where department_name = #{department_name} and company_id = company_id
+    </select>
+
     <update id="departmentUpdate">
         update department
         <set>
@@ -43,10 +50,30 @@
         where department_name = #{n.department_name}
     </update>
 
+    <update id="newdepartmentUpdate">
+        update department
+        <set>
+            <if test="n.manager_name != null">manager_name = #{n.manager_name},</if>
+            <if test="n.manager_id != null">manager_id = #{n.manager_id},</if>
+            <if test="n.department_describe != null">department_describe = #{n.department_describe},</if>
+            <if test="n.status != null">status = #{n.status},</if>
+            modified_by = #{n.modified_by},
+            modified_time = #{n.modified_time}
+        </set>
+        where department_name = #{n.department_name}
+    </update>
+
     <insert id="departmentInsert">
-        insert into department (department_name, manager_name, manager_id, department_describe, status, is_deleted,
+        insert into department (department_name,company_id, role_id, manager_name, manager_id, department_describe, status, is_deleted,
         created_time, created_by, modified_time, modified_by)
-        values (#{n.department_name}, #{n.manager_name}, #{n.manager_id},
+        values (#{n.department_name},#{n.company_id},#{n.role_id}, #{n.manager_name}, #{n.manager_id},
+        #{n.department_describe},#{n.status},#{n.is_deleted},#{n.created_time},#{n.created_by},#{n.modified_time},#{n.modified_by})
+    </insert>
+
+    <insert id="newdepartmentInsert">
+        insert into department (department_name,company_id, manager_name, manager_id, department_describe, status, is_deleted,
+        created_time, created_by, modified_time, modified_by)
+        values (#{n.department_name},#{n.company_id}, #{n.manager_name}, #{n.manager_id},
         #{n.department_describe},#{n.status},#{n.is_deleted},#{n.created_time},#{n.created_by},#{n.modified_time},#{n.modified_by})
     </insert>
 

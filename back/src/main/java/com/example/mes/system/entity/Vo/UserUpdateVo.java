@@ -13,6 +13,7 @@ public class UserUpdateVo {
     public String department;
     public String user_name;
     public String role;
+    public Integer company_id;
     public Timestamp created_time;
     public String status;
     public String is_deleted;

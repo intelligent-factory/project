@@ -19,4 +19,5 @@ public class DepartmentUpdateVo {
     private String modified_by;
     private String request;
     private User user;
+    private String company_id;
 }

@@ -1,10 +1,7 @@
 package com.example.mes.system.controller;
 
 import com.example.mes.system.entity.Department;
-import com.example.mes.system.entity.Vo.DepartmentCountVo;
-import com.example.mes.system.entity.Vo.DepartmentDeleteVo;
-import com.example.mes.system.entity.Vo.DepartmentSelectVo;
-import com.example.mes.system.entity.Vo.DepartmentUpdateVo;
+import com.example.mes.system.entity.Vo.*;
 import com.example.mes.system.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,22 +48,26 @@ public class DepartmentController {
 
     @PostMapping("/departmentUpdate")
     public Object departmentUpdate(
-            @RequestBody DepartmentUpdateVo departmentUpdateVo
+            @RequestBody newDepartmentUpdateVo newdepartmentUpdateVo
     ) {
         HashMap<String, Object> res = new HashMap<>();
-        Department department = departmentService.departmentFind(departmentUpdateVo);
-        if (departmentUpdateVo.getRequest().equals("update")) {
+//        Department department = departmentService.departmentFind(newdepartmentUpdateVo);
+        Department department = departmentService.newdepartmentFind(newdepartmentUpdateVo);
+        if (newdepartmentUpdateVo.getRequest().equals("update")) {
             if (department == null) {
                 MyUtils.fail(res, "该部门不存在,无法更新");
             } else {
-                departmentService.departmentUpdate(departmentUpdateVo);
+//                departmentService.departmentUpdate(newdepartmentUpdateVo);
+                departmentService.newDepartmentUpdate(newdepartmentUpdateVo);
                 MyUtils.success(res);
             }
-        } else if (departmentUpdateVo.getRequest().equals("insert")) {
+        } else if (newdepartmentUpdateVo.getRequest().equals("insert")) {
+            //增加部门
             if (department != null) {
                 MyUtils.fail(res, "该部门已经存在，请勿重复创建");
             } else {
-                departmentService.departmentAdd(departmentUpdateVo);
+//                departmentService.departmentAdd(newdepartmentUpdateVo);
+                departmentService.newDepartmentAdd(newdepartmentUpdateVo);
                 MyUtils.success(res);
             }
         }
