@@ -17,10 +17,15 @@ public interface CompanyService extends IService<Company> {
 
     public void companyDelete(Company company, int Handler);
 
-    public Company companyFind(CompanyUpdateVo compayUpdateVo);
+    public Company companyFind(CompanyUpdateVo companyUpdateVo);
 
     public void companyUpdate(CompanyUpdateVo compayUpdateVo);
 
     public void companyInsert(CompanyUpdateVo compayUpdateVo);
+
+    public Company mailFind(String mail);
+    public Company companyNameFind(String company_name);
+    public Company companyIdFind(Integer company_id);
+    public Company getLastData();
 
 }

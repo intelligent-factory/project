@@ -81,10 +81,10 @@
     </update>
 
     <insert id="userAdd" parameterType="com.example.mes.system.entity.Vo.UserUpdateVo">
-        insert into user(id, name, age, sex, pwd, department, user_name, role, created_time, status, is_deleted,
+        insert into
+        user(id, name, age, sex, pwd, department, user_name, role,company_id, created_time, status, is_deleted,
         created_by, modified_time, modified_by)
-        values (#{n.id},
-        #{n.name},#{n.age},#{n.sex},#{n.pwd},#{n.department},#{n.user_name},#{n.role},#{n.created_time},#{n.status},#{n.is_deleted},#{n.created_by},
+        values (#{n.id},#{n.name},#{n.age},#{n.sex},#{n.pwd},#{n.department},#{n.user_name},#{n.role},#{n.company_id},#{n.created_time},#{n.status},#{n.is_deleted},#{n.created_by},
         #{n.modified_time}, #{n.modified_by})
 
     </insert>

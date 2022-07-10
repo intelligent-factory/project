@@ -5,6 +5,7 @@ import com.example.mes.system.entity.Department;
 import com.example.mes.system.entity.Vo.DepartmentCountVo;
 import com.example.mes.system.entity.Vo.DepartmentSelectVo;
 import com.example.mes.system.entity.Vo.DepartmentUpdateVo;
+import com.example.mes.system.entity.Vo.newDepartmentUpdateVo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,4 +26,10 @@ public interface DepartmentService extends IService<Department> {
 
 
     List<DepartmentCountVo> getDepartmentCount();
+
+    Department newdepartmentFind(newDepartmentUpdateVo newdepartmentUpdateVo);
+
+    void newDepartmentAdd(newDepartmentUpdateVo newdepartmentUpdateVo);
+
+    void newDepartmentUpdate(newDepartmentUpdateVo newdepartmentUpdateVo);
 }

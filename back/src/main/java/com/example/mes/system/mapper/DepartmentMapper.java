@@ -5,6 +5,7 @@ import com.example.mes.system.entity.Department;
 import com.example.mes.system.entity.Vo.DepartmentCountVo;
 import com.example.mes.system.entity.Vo.DepartmentSelectVo;
 import com.example.mes.system.entity.Vo.DepartmentUpdateVo;
+import com.example.mes.system.entity.Vo.newDepartmentUpdateVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -27,4 +28,10 @@ public interface DepartmentMapper extends BaseMapper<Department> {
     void departmentInsert(@Param("n") DepartmentUpdateVo departmentUpdateVo);
 
     List<DepartmentCountVo> getDepartmentCount();
+
+    Department newdepartmentFind(@Param("department_name") String department_name, @Param("company_id") String company_id);
+
+    void newdepartmentInsert(@Param("n") newDepartmentUpdateVo newdepartmentUpdateVo);
+
+    void newdepartmentUpdate(@Param("n") newDepartmentUpdateVo newdepartmentUpdateVo);
 }
