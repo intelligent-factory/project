@@ -47,9 +47,9 @@ public class GoodsContorller {
     }
 
     @GetMapping(value = "apply")
-    public Result<?> apply(String workshop_id, String id, int quantity, String type, String user, String in_out) {
+    public Result<?> apply(String workshop_id, String id, int quantity, String type, String user, String in_out, String storage_id, String shelf_id) {
         try {
-            goodsService.apply(workshop_id, id, quantity, type, user, in_out);
+            goodsService.apply(workshop_id, id, quantity, type, user, in_out, storage_id, shelf_id);
         } catch (Exception e) {
             LoggerFactory.getLogger(this.getClass()).error("提交失败", e.getMessage());
             return Result.error("提交失败!");
@@ -98,7 +98,6 @@ public class GoodsContorller {
 
     @GetMapping(value = "setApply")
     public Result<?> setApply(String user, String uuid) {
-        Result<?> result = new Result<>();
         try {
             goodsService.setApply(uuid, user);
         } catch (Exception e) {
@@ -122,15 +121,18 @@ public class GoodsContorller {
     }
 
     @GetMapping(value = "managerConfirm")
-    public Result<?> managerConfirm(String uuid, String message, String user) {
+    public Result<?> managerConfirm(String uuid, String message, String in_out) {
         Result<?> result = new Result<>();
+        goodsService.managerConfirm(uuid, message, in_out);
+        return Result.ok("提交成功!");
+        /*
         try {
-            goodsService.managerConfirm(uuid, message, user);
+            goodsService.managerConfirm(uuid, message, in_out);
         } catch (Exception e) {
             LoggerFactory.getLogger(this.getClass()).error("提交失败", e.getMessage());
             return Result.error("提交失败!");
         }
-        return Result.ok("提交成功!");
+        return Result.ok("提交成功!");*/
     }
 
     @GetMapping(value = "confirmItem")

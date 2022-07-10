@@ -40,6 +40,7 @@ public class LoginController
             userinfo.put("name", user.getName());
             userinfo.put("age", user.getAge());
             userinfo.put("sex", user.getSex());
+            userinfo.put("company_id",user.getCompany_id());
             userinfo.put("username", user.getUser_name());
             userinfo.put("status", user.getStatus());
             res.put("userinfo", userinfo);

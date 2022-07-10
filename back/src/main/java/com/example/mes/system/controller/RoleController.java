@@ -1,15 +1,13 @@
 package com.example.mes.system.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.example.mes.system.entity.Role;
 import com.example.mes.system.entity.Vo.RoleDeleteVo;
 import com.example.mes.system.entity.Vo.RoleSelectVo;
 import com.example.mes.system.entity.Vo.RoleUpdateVo;
 import com.example.mes.system.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +32,39 @@ public class RoleController {
         res.put("permissionList", allPermissionName);
         MyUtils.success(res);
         return res;
+    }
+
+    //为角色下拉列表提供数据
+    @GetMapping("/getRoles")
+    public Object getRoles(@RequestParam("company_id") String company_id){
+        HashMap<String, Object> res=new HashMap<>();
+        try {
+            res.put("roles",roleService.getRoles(company_id));
+            MyUtils.success(res);
+            return res;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("角色下拉框生成失败！");
+            MyUtils.fail(res,"角色下拉框生成失败！");
+            return res;
+        }
+    }
+
+
+    //根据部门显示对应的角色
+    @GetMapping("/getRolesByDepartment")
+    public Object getRolesByDepartment(@RequestParam("department_name") String department_name , @RequestParam("company_id") String company_id){
+        HashMap<String, Object> res=new HashMap<>();
+        try {
+            res.put("roles",roleService.getRolesByDepartment(department_name,company_id));
+            MyUtils.success(res);
+            return res;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("角色下拉框生成失败！");
+            MyUtils.fail(res,"角色下拉框生成失败！");
+            return res;
+        }
     }
 
 

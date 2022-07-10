@@ -80,6 +80,11 @@
         With g1 as(select sum(quantity) as quantity_sum, goods_id,types from storage_goods where is_deleted="0" GROUP BY goods_id,types) select a.uuid,a.workshop_id,a.goods_id,a.goods_name,a.quantity,a.created_time,a.created_by,a.types, a.in_out, g.quantity_sum from g1 g RIGHT OUTER JOIN storage_apply a ON g.goods_id = a.goods_id and g.types = a.types where a.is_deleted="0" and a.permit="0" and (a.goods_id = #{goods_id} or #{goods_id}='')and ( a.goods_name = #{goods_name} or #{goods_name}='') and ((DATE(a.created_time) between #{time1} and #{time2}) or (#{time1}='2022-01-01' and #{time2}='2022-01-01')) and (a.types = #{type} or #{type}='') order by a.created_time desc limit #{start},#{num}
     </select>
 
+    <insert id="managerConfirm_in">
+        insert into storage_goods select #{uuid1}, #{random}, storage_id, shelf_id, goods_id, goods_name, quantity, 'normal', types, '0', '0', created_time, created_by, modified_time, modified_by
+        from storage_apply where uuid=#{uuid}
+    </insert>
+
     <select id="selectsetAll"  resultType="com.example.mes.WorkshopStorage.vo.ApplyVo">
         select uuid,workshop_id,goods_id,goods_name,quantity,created_time,created_by,modified_by,types,in_out from storage_apply where is_deleted="0" and permit="1" order by workshop_id limit #{start},#{num}
     </select>
@@ -96,8 +101,14 @@
         select storage_id,shelf_id,goods_id,id,quantity,types,goods_name from storage_goods where is_deleted="0" and storage_id=#{storage_id} and shelf_id=#{shelf_id} order by uuid limit #{start},#{num}
     </select>
 
+    <select id="search_out"  resultType="com.example.mes.WorkshopStorage.vo.GoodsVo">
+        select sg.uuid, sg.storage_id,sg.shelf_id,sg.goods_id,sg.id,sg.quantity,sg.types,sg.goods_name from storage_goods sg, storage_apply sa where sg.goods_id=sa.goods_id and sg.goods_name=sa.goods_name and sa.uuid=#{uuid}
+    </select>
     <select id="selectLocationAll"  resultType="com.example.mes.WorkshopStorage.vo.GoodsVo">
         select storage_id,shelf_id,id,quantity from storage_goods where is_deleted="0" and types=#{type} and goods_id=#{id} order by uuid limit #{start},#{num}
+    </select>
+    <select id="search_quantity" resultType="java.lang.Integer">
+        select quantity from storage_apply where uuid=#{uuid}
     </select>
 
     <select id="selectAddAll"  resultType="com.example.mes.WorkshopStorage.vo.ApplyVo">
@@ -112,8 +123,20 @@
         update storage_apply set permit="1",modified_time=#{timestamp},modified_by=#{user} where uuid=#{uuid}
     </update>
 
+    <delete id="managerConfirm_out">
+        delete from storage_goods where uuid=#{uuid}
+    </delete>
+
+    <update id="managerConfirm_out1">
+        update storage_goods set quantity=quantity-#{quantity} where uuid=#{uuid}
+    </update>
+
     <update id="managerConfirm">
         update storage_apply set permit=#{message},modified_time=#{timestamp},modified_by=#{user} where uuid=#{uuid}
+    </update>
+
+    <update id="managerConfirm1">
+        update storage_apply set permit=#{message} where uuid=#{uuid}
     </update>
 
     <select id="getByUuid" resultType="com.example.mes.WorkshopStorage.vo.ApplyVo">

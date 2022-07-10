@@ -26,4 +26,10 @@ public interface RoleMapper extends BaseMapper<Role> {
     void roleUpdate(@Param("n") RoleUpdateVo roleUpdateVo);
 
     void roleInsert(@Param("n") RoleUpdateVo roleUpdateVo);
+
+    List<String> getRoles(@Param("company_id") String company_id);
+
+    void insertdepartmentName(@Param("department_name") String department_name, @Param("role_name") String role_name, @Param("company_id") String company_id);
+
+    List<String> getRolesByDepartment(@Param("department_name") String department_name, @Param("company_id") String company_id);
 }

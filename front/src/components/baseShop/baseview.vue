@@ -24,7 +24,7 @@
 
       </div>
       <div id="theRightBase">
-        <el-button :plain="true" icon="el-icon-plus" style="margin-right: 200%" @click="createItem">新建车间</el-button>
+        <el-button :plain="true" icon="el-icon-plus" style="margin-right: 150%" @click="createItem">新建车间</el-button>
       </div>
     </div>
 

@@ -79,7 +79,7 @@
       <el-table-column
           label="操作">
         <template slot-scope="scope" >
-          <el-button @click="inOutApply(scope.$index,scope.row)" :disabled="scope.row.quantity_sum < scope.row.quantity" type="text" size="small">出入库申请</el-button>
+          <el-button @click="inOutApply(scope.$index,scope.row)" :disabled="scope.row.quantity_sum < scope.row.quantity && scope.row.in_out=='出库'" type="text" size="small">出入库申请</el-button>
         </template>
       </el-table-column>
 

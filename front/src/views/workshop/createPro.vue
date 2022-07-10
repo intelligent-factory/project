@@ -77,7 +77,10 @@
                           ]">
               <el-input v-model.trim="workshopInfo.factory_name"></el-input>
             </el-form-item>
-            <div style="margin-left: 20px"><el-button  @click="submitFormFirst('workshopInfo')">增加产线</el-button></div>
+
+            <div style="margin-left: 20px">
+<!--              <el-button  @click="submitFormFirst('workshopInfo')">增加产线</el-button>-->
+            </div>
           </div>
           <div class="item">
           <el-form-item>
