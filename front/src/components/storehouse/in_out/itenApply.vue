@@ -293,6 +293,7 @@ export default {
     };
   },
   created() {
+    this.userMsg=JSON.parse(sessionStorage.getItem('userinfo'))
     this.getWorkshop()
     this.getSecctor()
   },
@@ -399,11 +400,12 @@ export default {
     selectEquipChange() {
       let req = {
         name:this.equipmentInfo.equip_name,
+        company_id:this.userMsg.company_id
       }
       console.log('req:',req)
 
       my_request({
-        url:'process/getEquipmentsByName',
+        url:'process/getEquipmentByName',
         method:'get',
         params:req
       }).then(res=>{
@@ -417,6 +419,7 @@ export default {
     selectMaterialChange() {
       let req = {
         name:this.materialInfo.material_name,
+        company_id:this.userMsg.company_id
       }
       console.log('req:',req)
 

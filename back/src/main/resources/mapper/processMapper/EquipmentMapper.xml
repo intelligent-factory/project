@@ -20,7 +20,7 @@
     </select>
 
     <select id="getEquipmentByName" resultType="com.example.mes.process.Vo.EquipmentVo.QueryEquipmentVo" parameterType="java.lang.String">
-        SELECT m.equipment_id, m.name, m.size, m.color, m.comments,m.status,m.company_id
+        SELECT m.equipment_id, m.name, m.purpose, m.comments,m.status,m.company_id
         FROM equipment m
         WHERE m.name=#{name} AND is_deleted='0'and (company_id = #{company_id} or #{company_id} = 0)
     </select>
