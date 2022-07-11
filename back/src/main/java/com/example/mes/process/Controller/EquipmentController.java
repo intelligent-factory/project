@@ -4,6 +4,7 @@ package com.example.mes.process.Controller;
 import com.alibaba.fastjson.JSON;
 import com.example.mes.process.Service.IEquipmentService;
 import com.example.mes.process.Vo.EquipmentVo.*;
+import com.example.mes.process.Vo.MaterialVo.QueryMaterialVo;
 import com.example.mes.process.Vo.MaterialVo.TemplateMaterialVo;
 import com.example.mes.process.Vo.PageVo.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,8 @@ public class EquipmentController {
             return "";
         }
     }
+
+
 
     @PostMapping("/addTemplateEquipment")
     public String addTemplateEquipment(@RequestBody TemplateEquipmentVo templateEquipmentVo){
@@ -158,6 +161,20 @@ public class EquipmentController {
             e.printStackTrace();
             System.out.println("controller:更新设备信息失败！");
             return "更新失败";
+        }
+    }
+
+    @GetMapping("/getEquipmentByName")
+    public String getEquipmentByName(String name,String company_id){
+        try {
+            HashMap<String,Object> data = new HashMap<>();
+            List<QueryEquipmentVo> equipments = service.getEquipmentByName(name,company_id);
+            data.put("equipments",equipments);
+            return JSON.toJSONString(data);
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("controller:设备信息失败");
+            return "";
         }
     }
 

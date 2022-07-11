@@ -186,9 +186,9 @@ public class MaterialService implements IMaterialService {
         }
     }
     @Override
-    public List<QueryMaterialVo> getMaterialByName(String name) {
+    public List<QueryMaterialVo> getMaterialByName(String name,String company_id) {
         try {
-            return mapper.getMaterialByName(name);
+            return mapper.getMaterialByName(name,company_id);
         }catch (Exception e){
             e.printStackTrace();
             System.out.println("service:根据id查询物料信息失败");

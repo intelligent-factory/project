@@ -27,7 +27,7 @@ public interface IMaterialService {
     String deleteMaterialByID(DeleteMaterialVo deleteMaterialVo);
     //修改一个物料，status与comments
     String updateMaterialByID(UpdateMaterialVo updateMaterialVo);
-    List<QueryMaterialVo> getMaterialByName(String name);
+    List<QueryMaterialVo> getMaterialByName(String name,String company_id);
 
     int getCount();
 
