@@ -15,6 +15,16 @@ public class UpdateMaterialVo {
     //修改时间，需要使用set赋值
     Timestamp modified_time;
 
+    public int getCompany_id() {
+        return company_id;
+    }
+
+    public void setCompany_id(int company_id) {
+        this.company_id = company_id;
+    }
+
+    int company_id;
+
     public UpdateMaterialVo() {
     }
 
@@ -73,6 +83,7 @@ public class UpdateMaterialVo {
                 ", status='" + status + '\'' +
                 ", comments='" + comments + '\'' +
                 ", modified_time=" + modified_time +
+                ", company_id=" + company_id +
                 '}';
     }
 }

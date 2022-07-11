@@ -169,7 +169,6 @@ export default {
         this.edit.product = res.data.product
         this.edit.process = res.data.process
         this.edit.material = res.data.material
-        console.log("wuliao"+res.data.material)
         this.setOriginalMaterial(res.data.material)
       }).catch(err => {
         console.log(err)
@@ -203,7 +202,7 @@ export default {
       });
     },
 
-    // 添加工序
+    // 添加工序getinfosbyid
     addProcess() {
       this.num++
       this.edit.process.data.push({procedure_id: this.num, name: ''})
@@ -229,7 +228,7 @@ export default {
 
     // 添加物料
     addMaterial() {
-      this.edit.material.push({name: '', size: ""})
+      this.edit.material.push({name: '', size: ''})
     },
 
     setOriginalMaterial(data) {

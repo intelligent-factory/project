@@ -94,12 +94,12 @@ public class MaterialController {
 
     //从物料表material中查询全部物料信息，id、name、size、color、comments、status
     @GetMapping("/getMaterials")
-    public String getMaterials(int pageOffset,int pageSize){
+    public String getMaterials(int pageOffset,int pageSize,Integer company_id){
         try {
             PageVo pageVo = new PageVo(pageOffset,pageSize);
             HashMap<String,Object> data = new HashMap<>();
             int count = service.getCount();
-            List<QueryMaterialVo> materials = service.getMaterials(pageVo);
+            List<QueryMaterialVo> materials = service.getMaterials(pageVo,company_id);
             data.put("count",count);
             data.put("materials",materials);
             return JSON.toJSONString(data);
@@ -112,9 +112,9 @@ public class MaterialController {
 
     //跟据物料id查询对应物料的信息
     @GetMapping("/getMaterialByID")
-    public String getMaterialByID(String material_id){
+    public String getMaterialByID(String material_id,int company_id){
         try {
-            return JSON.toJSONString(service.getMaterialByID(material_id));
+            return JSON.toJSONString(service.getMaterialByID(material_id,company_id));
         }catch (Exception e){
             e.printStackTrace();
             System.out.println("controller:根据id查询物料信息失败");
@@ -181,9 +181,9 @@ public class MaterialController {
     }
 
     @GetMapping("/getMaterialStock")
-    public String getMaterialStock(int pageOffset,int pageSize){
+    public String getMaterialStock(int pageOffset,int pageSize,Integer company_id){
         try {
-            List<QueryMaterialVo> list = service.getMaterials(new PageVo(pageOffset,pageSize));
+            List<QueryMaterialVo> list = service.getMaterials(new PageVo(pageOffset,pageSize),company_id);
             ArrayList<HashMap<String,Object> > materials = new ArrayList<>();
             for(QueryMaterialVo queryMaterialVo:list){
                 HashMap<String,Object> hashMap = new HashMap<>();

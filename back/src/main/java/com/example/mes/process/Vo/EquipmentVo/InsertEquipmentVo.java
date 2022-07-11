@@ -11,16 +11,28 @@ public class InsertEquipmentVo {
     String status;
     String operator_id;
     Timestamp created_time;
+    int company_id;
 
-    public InsertEquipmentVo() {
+    @Override
+    public String toString() {
+        return "InsertEquipmentVo{" +
+                "equipment_id='" + equipment_id + '\'' +
+                ", name='" + name + '\'' +
+                ", purpose='" + purpose + '\'' +
+                ", comments='" + comments + '\'' +
+                ", status='" + status + '\'' +
+                ", operator_id='" + operator_id + '\'' +
+                ", created_time=" + created_time +
+                ", company_id=" + company_id +
+                '}';
     }
 
-    public InsertEquipmentVo(String name, String purpose, String comments, String status, String operator_id) {
-        this.name = name;
-        this.purpose = purpose;
-        this.comments = comments;
-        this.status = status;
-        this.operator_id = operator_id;
+    public int getCompany_id() {
+        return company_id;
+    }
+
+    public void setCompany_id(int company_id) {
+        this.company_id = company_id;
     }
 
     public String getEquipment_id() {
@@ -79,16 +91,4 @@ public class InsertEquipmentVo {
         this.created_time = created_time;
     }
 
-    @Override
-    public String toString() {
-        return "InsertEquipmentVo{" +
-                "equipment_id='" + equipment_id + '\'' +
-                ", name='" + name + '\'' +
-                ", purpose='" + purpose + '\'' +
-                ", comments='" + comments + '\'' +
-                ", status='" + status + '\'' +
-                ", operator_id='" + operator_id + '\'' +
-                ", created_time=" + created_time +
-                '}';
-    }
 }

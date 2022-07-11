@@ -40,7 +40,7 @@ public class TemplateController {
         }
 //        List<MaterialTemplate> materialTemplate = templateService.getAllMaterial(company_id);
 //        HashMap<String,Object> map = new HashMap<>();
-//        //key为物料名，value为物料属性数组，如：{"拉链":["规格","颜色"],"把手":["颜色","状态","描述"]}
+
 //
 //        //id与上一记录不一样就是另一模板，清空list重新加入key value
 //        for(MaterialTemplate t : materialTemplate) {
@@ -79,7 +79,7 @@ public class TemplateController {
 //        List<MaterialTemplate> materialTemplate = templateService.getMaterialTemplateByName(name,company_id);
 //        HashMap<String,Object> map = new HashMap<>();
 //
-//        //key为物料名，value为物料属性数组，如：{"拉链":["规格","颜色"],"把手":["颜色","状态","描述"]}
+
 //
 //        for(MaterialTemplate t : materialTemplate) {
 //            List<String> lst;
