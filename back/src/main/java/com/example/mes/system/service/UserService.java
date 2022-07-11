@@ -35,4 +35,5 @@ public interface UserService extends IService<User> {
     Apply findApply(UserUpdateVo userUpdateVo);
 
     String findUserDepartment(UserUpdateVo userUpdateVo);
+
 }

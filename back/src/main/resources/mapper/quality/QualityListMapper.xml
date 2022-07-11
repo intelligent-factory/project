@@ -39,7 +39,7 @@
     </update>
 
     <select id="queryQualityByListID" resultType="com.example.mes.quality.bean.QualityListBean">
-        select  * from quality_list where list_id = #{list_id}
+        select  * from quality_list where list_id = #{list_id} and company_id = #{company_id}
     </select>
 
     <select id="getLastCount" resultType="java.lang.Integer">
@@ -47,7 +47,7 @@
     </select>
 
     <select id="getAllWorkshop" resultType="java.lang.String">
-        select distinct workshop_id from quality_list
+        select distinct workshop_id from quality_list where company_id = #{company_id}
     </select>
 
     <select id="getAllLine" resultType="java.lang.String">
@@ -55,7 +55,7 @@
     </select>
 
     <select id="getAllLinesByWorkshop" resultType="java.lang.String">
-        select distinct line_id from quality_list where workshop_id = #{workshop_id}
+        select distinct line_id from quality_list where workshop_id = #{workshop_id} and company_id = #{company_id}
     </select>
 
 </mapper>

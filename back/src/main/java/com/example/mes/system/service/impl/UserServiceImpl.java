@@ -74,6 +74,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         userUpdateVo.created_by = userUpdateVo.modified_by = Integer.toString(userUpdateVo.user.getId());
         userUpdateVo.status = "0";
         userUpdateVo.is_deleted = "0";
+        userUpdateVo.company_id = userUpdateVo.user.getCompany_id();
         userMapper.userAdd(userUpdateVo);
     }
 

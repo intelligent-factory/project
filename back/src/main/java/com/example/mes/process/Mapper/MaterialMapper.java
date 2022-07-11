@@ -22,11 +22,11 @@ public interface MaterialMapper {
     @Delete("delete from template_material where name=#{name}  and ( company_id = #{company_id} or #{company_id}=0 )")
     int deleteTemplateMaterialByName(@Param("name") String name,@Param("company_id") String company_id);
 
-    List<QueryMaterialVo> getMaterials(@Param("pageVo")PageVo pageVo);
+    List<QueryMaterialVo> getMaterials(@Param("pageVo")PageVo pageVo,@Param("company_id") Integer company_id);
     //跟据物料id查询对应物料的信息
-    QueryMaterialVo getMaterialByID(@Param("material_id") String material_id);
+    QueryMaterialVo getMaterialByID(@Param("material_id") String material_id,Integer company_id);
     //增加一个物料
-    List<QueryMaterialVo> getMaterialByName(@Param("name") String name);
+    List<QueryMaterialVo> getMaterialByName(@Param("name") String name,@Param("company_id") String company_id);
     boolean addMaterial(@Param("insertMaterialVo") InsertMaterialVo insertMaterialVo);
     //根据物料id删除一个物料
     boolean deleteMaterialByID(@Param("deleteMaterialVo") DeleteMaterialVo deleteMaterialVo);

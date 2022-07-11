@@ -1,15 +1,14 @@
 <template>
   <div>
-    <el-form :model="material" ref="materialForm" label-position="right">
+    <el-form :model="material" ref="materialForm" :rules="rules" label-position="right">
       <div v-for="(item, index) in material.data" style="display: flex; flex-direction: row;">
         <el-form-item :label="'物料'+(index+1)"
-                      :prop="'data.' + index + '.size'"
+                      :prop="'data.' + index + '.color'"
                       :rules="{required: true, message: '请选择物料', trigger: 'blur'}" label-width="80px">
           <el-cascader placeholder="请选择物料"
                        :options="options"
                        @change="addMaterial(index, $event)"
                        clearable>
-<!--            :props="optionProps"-->
           </el-cascader>
         </el-form-item>
         <el-form-item :prop="'data.' + index + '.count'"
@@ -48,24 +47,18 @@ export default {
     return {
       material: {
         data: [
-          {name: '', size: '',color:''}
+          {name: '', size: '', color: ''}
         ]
       },
       options: [],
-      // optionProps:{
-      //   value: 'material_id',
-      //   label: 'name',
-      //   children: 'attribute',
-      //   checkStrictly: true
-      // },
       numRules: [
         {validator: checkNum, trigger: 'blur'}
-      ],
+      ]
     }
   },
   methods: {
     add() {
-      this.material.data.push({name: '', size: '',color:''})
+      this.material.data.push({name: '', size: '', color: ''})
     },
     del(index) {
       this.material.data.splice(index, 1)
@@ -73,7 +66,7 @@ export default {
     addMaterial(index, event) {
       this.material.data[index].name = event[0]
       this.material.data[index].size = event[1]
-/*      this.material.data[index].color = event[2]*/
+      this.material.data[index].color = event[2]
     },
     submitForm() {
       let result = false

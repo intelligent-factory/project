@@ -18,11 +18,9 @@ public interface IEquipmentService {
 
     String updateEquipment(TemplateEquipmentVo templateEquipmentVo);
 
-    List<QueryEquipmentVo> getEquipments(PageVo pageVo);
+    List<QueryEquipmentVo> getEquipments(PageVo pageVo,int company_id);
 
-    List<QueryEquipmentVo> getEquipmentsByName(String name);
-
-    QueryEquipmentVo getEquipmentByID(String equipment_id);
+    QueryEquipmentVo getEquipmentByID(String equipment_id,int company_id);
 
     String addEquipment(InsertEquipmentVo insertEquipmentVo);
 
@@ -34,4 +32,5 @@ public interface IEquipmentService {
 
     int getIndex();
 
+    List<QueryEquipmentVo> getEquipmentByName(String name,String company_id);
 }

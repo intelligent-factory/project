@@ -15,6 +15,16 @@ public class QueryMaterialVo {
     //状态
     String status;
 
+    public int getCompany_id() {
+        return company_id;
+    }
+
+    public void setCompany_id(int company_id) {
+        this.company_id = company_id;
+    }
+
+    int company_id;
+
     public QueryMaterialVo() {
     }
 
@@ -77,9 +87,6 @@ public class QueryMaterialVo {
 
     @Override
     public String toString() {
-        size=size.replace("\"", "");
-        size=size.replace("{", "");
-        size=size.replace("}", "");
         return "QueryMaterialVo{" +
                 "material_id='" + material_id + '\'' +
                 ", name='" + name + '\'' +
@@ -87,7 +94,7 @@ public class QueryMaterialVo {
                 ", color='" + color + '\'' +
                 ", comments='" + comments + '\'' +
                 ", status='" + status + '\'' +
+                ", company_id=" + company_id +
                 '}';
     }
-
 }

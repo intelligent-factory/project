@@ -18,7 +18,7 @@ public interface PermissionService extends IService<Permission> {
 
     List<String> findAllAccessName();
 
-    void permissionDelete(String permissionName , int handler);
+    void permissionDelete(String permissionName, int handler);
 
     String permissionFind(PermissionUpdateVo permissionUpdateVo);
 

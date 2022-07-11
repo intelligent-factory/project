@@ -23,6 +23,8 @@ public interface TemplateMapper {
     @Delete("delete from material_template where name=#{name}  and ( company_id = #{company_id} or #{company_id}=0 )")
     int deleteMaterialTemplateByName(@Param("name") String name,@Param("company_id") String company_id);
 
+    @Select("select count(*) from material_template where material_id = #{material_id} and ( company_id = #{company_id} or #{company_id}=0 )")
+    Integer countMaterialId(@Param("material_id")Integer material_id,@Param("company_id")Integer company_id );
 
     //下面的是设备模板相关的mapper
     @Select("select * from equipment_template where ( company_id = #{company_id} or #{company_id}=0 )")
@@ -39,4 +41,6 @@ public interface TemplateMapper {
 
     @Delete("delete from equipment_template where name=#{name} and ( company_id = #{company_id} or #{company_id}=0 )")
     int deleteEquipmentTemplateByName(@Param("name") String name,@Param("company_id") String company_id);
+
+
 }

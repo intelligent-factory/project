@@ -7,16 +7,26 @@ public class QueryEquipmentVo {
     String purpose;
     String status;
     String comments;
+    int company_id;
 
-    public QueryEquipmentVo() {
+    @Override
+    public String toString() {
+        return "QueryEquipmentVo{" +
+                "equipment_id='" + equipment_id + '\'' +
+                ", name='" + name + '\'' +
+                ", purpose='" + purpose + '\'' +
+                ", status='" + status + '\'' +
+                ", comments='" + comments + '\'' +
+                ", company_id=" + company_id +
+                '}';
     }
 
-    public QueryEquipmentVo(String equipment_id, String name, String purpose, String status, String comments) {
-        this.equipment_id = equipment_id;
-        this.name = name;
-        this.purpose = purpose;
-        this.status = status;
-        this.comments = comments;
+    public int getCompany_id() {
+        return company_id;
+    }
+
+    public void setCompany_id(int company_id) {
+        this.company_id = company_id;
     }
 
     public String getEquipment_id() {
@@ -59,14 +69,4 @@ public class QueryEquipmentVo {
         this.comments = comments;
     }
 
-    @Override
-    public String toString() {
-        return "QueryEquipmentVo{" +
-                "equipment_id='" + equipment_id + '\'' +
-                ", name='" + name + '\'' +
-                ", purpose='" + purpose + '\'' +
-                ", status='" + status + '\'' +
-                ", comments='" + comments + '\'' +
-                '}';
-    }
 }

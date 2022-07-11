@@ -23,9 +23,19 @@
           <el-input v-model="currentObj.manager_name" autocomplete="off"></el-input>
         </el-form-item>
 
+        <el-form-item class="item" label="角色" label-width="100px" prop="role_name">
+          <el-select v-model="currentObj.role_name" style="width: 100%">
+            <el-option
+                v-for="item in options"
+                :key="item"
+                :label="item"
+                :value="item">
+            </el-option>
+          </el-select>
+        </el-form-item>
 
-        <el-form-item class="item" label="描述" label-width="100px" prop="role_describe">
-          <el-input style="width: 500px" v-model="currentObj.department_describe" autocomplete="off"></el-input>
+        <el-form-item class="item" label="描述" label-width="100px"prop="role_describe">
+          <el-input style="width: 400px" v-model="currentObj.department_describe" autocomplete="off"></el-input>
         </el-form-item>
 
 
@@ -41,25 +51,35 @@
 
 <script>
 import {my_request} from "@/views/systemManagement/utils";
+import {mapGetters} from 'vuex'
 
 export default {
   name: "DepartmentEditPanel",
   data() {
     return {
       loading: false,
+      options: [],
       rules: {
         manager_name: [
           {required: true, message: '请输入负责人姓名', trigger: 'blur'},
         ],
         manager_id: [
           {required: true, message: '请输入负责人id', trigger: 'blur'},
-          {type:"number", message: '负责人id必须是数字', trigger: 'blur'},
+          {type: "number", message: '负责人id必须是数字', trigger: 'blur'},
         ],
         department_name: [
           {required: true, message: '请输入部门名', trigger: 'blur'},
         ],
+        role_name: [
+          {required: true, message: '请输入角色', trigger: 'blur'},
+        ],
       }
     }
+  },
+  computed: {
+    ...mapGetters([
+      'userinfo',
+    ])
   },
   props: {
     dialogVisible: false,
@@ -67,11 +87,24 @@ export default {
     isIdEditable: false,
     mode: String,
   },
+  mounted() {
+    this.loadOptions()
+  },
   methods: {
+    loadOptions() {
+      my_request(this, {
+        url: 'data/roleManagement/getRoles',
+        method: 'get',
+        params: {company_id: this.userinfo.company_id},
+      }).then(res => {
+        this.options = res.data.roles
+      })
+    },
     dialogConfirm() {
       let data = this.currentObj;
       data.request = this.mode;
       data.department_describe = data.department_describe ? data.department_describe : "";
+      data.company_id = this.userinfo.company_id;
       this.$refs["elementForm"].validate((valid) => {
         if (valid) {
           my_request(this, {

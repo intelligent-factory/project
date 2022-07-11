@@ -11,12 +11,32 @@ public class DeleteMaterialVo {
     //删除的时间，需要使用set赋值
     Timestamp modified_time;
 
+    public int getCompany_id() {
+        return company_id;
+    }
+
+    public void setCompany_id(int company_id) {
+        this.company_id = company_id;
+    }
+
+    int company_id;
+
     public DeleteMaterialVo() {
     }
 
     public DeleteMaterialVo(String material_id, String operator_id) {
         this.material_id = material_id;
         this.operator_id = operator_id;
+    }
+
+    @Override
+    public String toString() {
+        return "DeleteMaterialVo{" +
+                "material_id='" + material_id + '\'' +
+                ", operator_id='" + operator_id + '\'' +
+                ", modified_time=" + modified_time +
+                ", company_id=" + company_id +
+                '}';
     }
 
     public String getMaterial_id() {
@@ -43,13 +63,6 @@ public class DeleteMaterialVo {
         this.modified_time = modified_time;
     }
 
-    @Override
-    public String toString() {
-        return "DeleteMaterialVo{" +
-                "material_id='" + material_id + '\'' +
-                ", operator_id='" + operator_id + '\'' +
-                ", modified_time=" + modified_time +
-                '}';
-    }
+
 
 }

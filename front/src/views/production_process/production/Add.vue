@@ -92,7 +92,7 @@ export default {
       }
       // 在提交页面点击上一步
       // 修改完成按钮为下一步
-      else if (this.active == 3) {
+      else if (this.active === 3) {
         this.active--
         this.next_text = '下一步'
         this.$router.push(this.path[this.active])
@@ -142,7 +142,7 @@ export default {
         }
       }).then(res => {
         // console.log(1)
-        if (res.data == "添加成功") {
+        if (res.data === "添加成功") {
           this.$message({
             type: 'success',
             message: '添加成功'

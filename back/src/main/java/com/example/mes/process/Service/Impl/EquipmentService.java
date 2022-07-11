@@ -167,9 +167,9 @@ public class EquipmentService implements IEquipmentService {
     }
 
     @Override
-    public List<QueryEquipmentVo> getEquipments(PageVo pageVo) {
+    public List<QueryEquipmentVo> getEquipments(PageVo pageVo,int company_id) {
         try {
-            return mapper.getEquipments(pageVo);
+            return mapper.getEquipments(pageVo,company_id);
         }catch (Exception e){
             e.printStackTrace();
             System.out.println("controller:获取设备信息列表失败！");
@@ -179,21 +179,9 @@ public class EquipmentService implements IEquipmentService {
     }
 
     @Override
-    public List<QueryEquipmentVo> getEquipmentsByName(String name) {
+    public QueryEquipmentVo getEquipmentByID(String equipment_id,int company_id) {
         try {
-            return mapper.getEquipmentsByName(name);
-        }catch (Exception e){
-            e.printStackTrace();
-            System.out.println("controller:获取设备信息列表失败！");
-            return null;
-        }
-
-    }
-
-    @Override
-    public QueryEquipmentVo getEquipmentByID(String equipment_id) {
-        try {
-            return mapper.getEquipmentByID(equipment_id);
+            return mapper.getEquipmentByID(equipment_id, company_id);
         }catch (Exception e){
             e.printStackTrace();
             System.out.println("controller:根据设备编号获得设备信息失败！");
@@ -207,7 +195,7 @@ public class EquipmentService implements IEquipmentService {
             //用于检验用户权限
             String operator_id = insertEquipmentVo.getOperator_id();
             //return "无权限";
-            if (mapper.checkDuplicate(insertEquipmentVo.getName(),insertEquipmentVo.getPurpose())!=0){
+            if (mapper.checkDuplicate(insertEquipmentVo.getName(),insertEquipmentVo.getPurpose(),insertEquipmentVo.getCompany_id())!=0){
                 return "添加失败";
             }
             return mapper.addEquipment(insertEquipmentVo)?"添加成功":"添加失败";
@@ -254,5 +242,16 @@ public class EquipmentService implements IEquipmentService {
     @Override
     public int getIndex() {
         return mapper.getIndex();
+    }
+
+    @Override
+    public List<QueryEquipmentVo> getEquipmentByName(String name,String company_id) {
+        try {
+            return mapper.getEquipmentByName(name, company_id);
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("controller:根据设备编号获得设备信息失败！");
+            return null;
+        }
     }
 }

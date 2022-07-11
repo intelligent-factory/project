@@ -8,7 +8,8 @@ import java.sql.Timestamp;
 @Data
 public class CompanyUpdateVo {
     private String company_name;
-    private String company_id;
+    private Integer company_id;
+    private String mail;
     private Timestamp created_time;
     private String status;
     private String is_deleted;

@@ -4,19 +4,19 @@
     <div id="list-base">
       <search-bar @onSearch="searchResult" ref="searchBar" class="searchBar"></search-bar>
 
-      <div id="list-main">
+      <div id="list-main" >
         <el-table :data="products" border>
-          <el-table-column prop="product_id" label="id" width="180" align="center" :show-overflow-tooltip="true"></el-table-column>
-          <el-table-column prop="brand" label="品牌" width="100" align="center"></el-table-column>
-  <!--        <el-table-column prop="season" label="季节" width="100" align="center"></el-table-column>-->
-          <el-table-column prop="type" label="产品类别" width="100" align="center"></el-table-column>
-          <el-table-column prop="customer_id" label="客户款号" width="100" align="center"></el-table-column>
-          <el-table-column prop="company" label="公司款号" width="100" align="center"></el-table-column>
-          <el-table-column prop="color" label="颜色" width="100" align="center"></el-table-column>
-          <el-table-column prop="status" label="状态" width="100" align="center"></el-table-column>
-          <el-table-column prop="comments" label="产品描述" width="180" align="center" :show-overflow-tooltip="true"></el-table-column>
-          <el-table-column label="操作" id="tool" width="190" align="center">
-            <template slot-scope="scope">
+          <el-table-column prop="product_id" label="id" min-width="3" align="center" :show-overflow-tooltip="true"></el-table-column>
+          <el-table-column prop="brand" label="品牌" min-width="1" align="center"></el-table-column>
+<!--          <el-table-column prop="season" label="季节" width="100" align="center"></el-table-column>-->
+          <el-table-column prop="type" label="产品类别" min-width="1" align="center"></el-table-column>
+          <el-table-column prop="customer_id" label="客户款号" min-width="1" align="center"></el-table-column>
+          <el-table-column prop="company" label="公司款号" min-width="1" align="center"></el-table-column>
+          <el-table-column prop="color" label="颜色" min-width="1" align="center"></el-table-column>
+          <el-table-column prop="status" label="状态" min-width="1" align="center"></el-table-column>
+          <el-table-column prop="comments" label="产品描述" min-width="2" align="center" :show-overflow-tooltip="true"></el-table-column>
+          <el-table-column label="操作" id="tool" min-width="2" align="center">
+            <template v-slot="scope">
               <el-button type="primary" circle size="mini" icon="el-icon-more" @click="showDetail(scope.row)"></el-button>
               <el-button type="primary" circle size="mini" icon="el-icon-edit" @click="showEdit(scope.row)"></el-button>
               <el-button type="danger" circle size="mini" icon="el-icon-delete" @click="del(scope.$index, scope.row)"></el-button>
@@ -111,7 +111,7 @@ export default {
           }
         }).then(res => {
           console.log(res.data)
-          if (res.data == "删除成功") {
+          if (res.data === "删除成功") {
             this.getProduct(this.currentPage, this.size)
             this.$message({
               type: 'success',
@@ -158,8 +158,7 @@ export default {
     },
     //getproducts
     searchResult() {
-      //keyword空显示全部
-      if(this.$refs.searchBar.keywords.length==0){
+      if(this.$refs.searchBar.keywords.length===0){
 
         this.getProduct(this.currentPage, this.size)
 
@@ -197,7 +196,7 @@ export default {
 
 <style scoped>
 #list-base {
-  padding: 50px 50px 0px 50px;
+  padding: 50px 50px 50px 50px;
 }
 #tool {
   display: flex;
@@ -207,9 +206,13 @@ export default {
 #list-page {
   margin-top: 20px;
 }
+
+#list-main{
+  width:80vw;
+}
 .searchBar {
-  margin-top: 2%;
-  margin-bottom: 0%;
-  left: 30%
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 55%
 }
 </style>

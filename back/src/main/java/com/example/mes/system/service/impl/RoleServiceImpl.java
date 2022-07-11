@@ -63,4 +63,14 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         roleUpdateVo.setIs_deleted("0");
         roleMapper.roleInsert(roleUpdateVo);
     }
+
+    @Override
+    public List<String> getRoles(String company_id) {
+        return roleMapper.getRoles(company_id);
+    }
+
+    @Override
+    public List<String> getRolesByDepartment(String department_name, String company_id) {
+        return roleMapper.getRolesByDepartment(department_name,company_id);
+    }
 }

@@ -9,15 +9,26 @@ public class UpdateEquipmentVo {
     String operator_id;
     String equipment_id;
     Timestamp modified_time;
+    int company_id;
 
-    public UpdateEquipmentVo() {
+    @Override
+    public String toString() {
+        return "UpdateEquipmentVo{" +
+                "status='" + status + '\'' +
+                ", comments='" + comments + '\'' +
+                ", operator_id='" + operator_id + '\'' +
+                ", equipment_id='" + equipment_id + '\'' +
+                ", modified_time=" + modified_time +
+                ", company_id=" + company_id +
+                '}';
     }
 
-    public UpdateEquipmentVo(String status, String comments, String operator_id, String equipment_id) {
-        this.status = status;
-        this.comments = comments;
-        this.operator_id = operator_id;
-        this.equipment_id = equipment_id;
+    public int getCompany_id() {
+        return company_id;
+    }
+
+    public void setCompany_id(int company_id) {
+        this.company_id = company_id;
     }
 
     public String getStatus() {
@@ -60,14 +71,4 @@ public class UpdateEquipmentVo {
         this.modified_time = modified_time;
     }
 
-    @Override
-    public String toString() {
-        return "UpdateEquipmentVo{" +
-                "status='" + status + '\'' +
-                ", comments='" + comments + '\'' +
-                ", operator_id='" + operator_id + '\'' +
-                ", equipment_id='" + equipment_id + '\'' +
-                ", modified_time=" + modified_time +
-                '}';
-    }
 }

@@ -47,7 +47,7 @@
         <el-form-item class="item" label="职位" label-width="100px" prop="role">
           <el-select v-model="currentObj.role">
             <el-option
-                v-for="item in roleList.map((value) => {return value.value})"
+                v-for="item in role_options"
                 :key="item"
                 :label="item"
                 :value="item">
@@ -67,6 +67,7 @@
 
 <script>
 import {my_request} from "@/views/systemManagement/utils";
+import {mapGetters} from 'vuex'
 
 export default {
   name: "EditPanel",
@@ -111,11 +112,24 @@ export default {
     dialogVisible: false,
     currentObj: {},
     isIdEditable: false,
-    roleList: Array,
     departmentList: Array,
     mode: String,
   },
+  computed: {
+    ...mapGetters([
+      'userinfo',
+    ])
+  },
   methods: {
+    loadRoleOptions() {
+      my_request(this, {
+        url: '/data/roleManagement/getRolesByDepartment',
+        method: 'get',
+        params: {department_name: this.currentObj.department,company_id: this.userinfo.company_id}
+      }).then(res => {
+        this.role_options = res.data.roles
+      })
+    },
     dialogConfirm() {
       let data = this.currentObj;
       data.request = this.mode;
@@ -146,10 +160,19 @@ export default {
     },
   },
   watch: {
-    currentObj(value) {
-      if (value.department) {
-        this.$message.info(value.department);
-        this.originDepartment = value.department;
+    currentObj: {
+      handler(value) {
+        if (value.department) {
+          this.$message.info(value.department);
+          this.originDepartment = value.department;
+        }
+      }
+    },
+    'currentObj.department': {
+      handler(value) {
+        if (value) {
+          this.loadRoleOptions()
+        }
       }
     }
   }

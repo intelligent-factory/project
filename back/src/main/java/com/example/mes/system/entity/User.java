@@ -1,6 +1,7 @@
 package com.example.mes.system.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.models.auth.In;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -13,6 +14,7 @@ public class User implements Serializable {
     private int age;
     private int sex;
     private String pwd;
+    private Integer company_id;
     private String department;
     private String user_name;
     private String role;
@@ -26,12 +28,13 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(Integer id, String name, int age, int sex, String pwd, String department, String user_name, String role, Timestamp created_time, String status, String is_deleted, String created_by, Timestamp modified_time, String modified_by) {
+    public User(Integer id, String name, int age, int sex, String pwd, Integer company_id,String department, String user_name, String role, Timestamp created_time, String status, String is_deleted, String created_by, Timestamp modified_time, String modified_by) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.sex = sex;
         this.pwd = pwd;
+        this.company_id = company_id;
         this.department = department;
         this.user_name = user_name;
         this.role = role;
