@@ -92,10 +92,11 @@ export default {
           },
         }).then(res => {
           this.$message.success("登录成功！");
-          console.log(res.data.userinfo);
+
           this.$store.commit("login/SET_USERINFO", res.data.userinfo);
           console.log(this.$store.getters.userinfo);
           window.sessionStorage.setItem("userinfo", JSON.stringify(res.data.userinfo));
+          console.log(this.$store.getters.userinfo.company_id);
           if (this.$store.getters.userinfo) {
             this.$router.push('/main')
           }
