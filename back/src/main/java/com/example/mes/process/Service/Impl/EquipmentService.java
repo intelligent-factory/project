@@ -243,4 +243,15 @@ public class EquipmentService implements IEquipmentService {
     public int getIndex() {
         return mapper.getIndex();
     }
+
+    @Override
+    public List<QueryEquipmentVo> getEquipmentByName(String name,String company_id) {
+        try {
+            return mapper.getEquipmentByName(name, company_id);
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("controller:根据设备编号获得设备信息失败！");
+            return null;
+        }
+    }
 }

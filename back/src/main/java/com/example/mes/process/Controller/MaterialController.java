@@ -123,10 +123,10 @@ public class MaterialController {
     }
 
     @GetMapping("/getMaterialByName")
-    public String getMaterialByName(String name){
+    public String getMaterialByName(String name,String company_id){
         try {
             HashMap<String,Object> data = new HashMap<>();
-            List<QueryMaterialVo> materials = service.getMaterialByName(name);
+            List<QueryMaterialVo> materials = service.getMaterialByName(name,company_id);
             data.put("materials",materials);
             return JSON.toJSONString(data);
         }catch (Exception e){

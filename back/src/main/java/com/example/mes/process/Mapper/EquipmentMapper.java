@@ -2,10 +2,7 @@ package com.example.mes.process.Mapper;
 
 import com.example.mes.process.Entity.TemplateEquipment;
 import com.example.mes.process.Entity.TemplateMaterial;
-import com.example.mes.process.Vo.EquipmentVo.DeleteEquipmentVo;
-import com.example.mes.process.Vo.EquipmentVo.InsertEquipmentVo;
-import com.example.mes.process.Vo.EquipmentVo.QueryEquipmentVo;
-import com.example.mes.process.Vo.EquipmentVo.UpdateEquipmentVo;
+import com.example.mes.process.Vo.EquipmentVo.*;
 import com.example.mes.process.Vo.PageVo.PageVo;
 import com.example.mes.template.entity.EquipmentTemplate;
 import org.apache.ibatis.annotations.*;
@@ -41,4 +38,7 @@ public interface EquipmentMapper {
     int checkDuplicate(@Param("name") String name,@Param("purpose") String purpose,@Param("company_id") int company_id);
 
     int getIndex();
+
+
+    List<QueryEquipmentVo> getEquipmentByName(@Param("name")String name,@Param("company_id") String company_id);
 }

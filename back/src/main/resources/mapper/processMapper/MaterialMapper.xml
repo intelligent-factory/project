@@ -22,15 +22,15 @@
 
 <!--    跟据物料id查询对应物料的信息-->
     <select id="getMaterialByID" resultType="com.example.mes.process.Vo.MaterialVo.QueryMaterialVo" parameterType="java.lang.String">
-        SELECT m.material_id, m.name, m.size, m.color, m.comments,m.status,e.company_id
+        SELECT m.material_id, m.name, m.size, m.color, m.comments,m.status,m.company_id
         FROM material m
         WHERE material_id=#{material_id} AND is_deleted='0' and (company_id = #{company_id} or #{company_id} = 0)
     </select>
 
     <select id="getMaterialByName" resultType="com.example.mes.process.Vo.MaterialVo.QueryMaterialVo" parameterType="java.lang.String">
-        SELECT m.material_id, m.name, m.size, m.color, m.comments,m.status
+        SELECT m.material_id, m.name, m.size, m.color, m.comments,m.status,m.company_id
         FROM material m
-        WHERE m.name=#{name} AND is_deleted='0'
+        WHERE m.name=#{name} AND is_deleted='0'and (company_id = #{company_id} or #{company_id} = 0)
     </select>
 
     <select id="getCount" resultType="java.lang.Integer">

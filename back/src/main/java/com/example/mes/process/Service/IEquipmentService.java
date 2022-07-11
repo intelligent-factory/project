@@ -32,4 +32,5 @@ public interface IEquipmentService {
 
     int getIndex();
 
+    List<QueryEquipmentVo> getEquipmentByName(String name,String company_id);
 }
