@@ -87,7 +87,7 @@ export default {
         params: {
           pageOffset: currentPage,
           pageSize: size,
-          company_id: 1
+          company_id: this.$store.getters.userinfo.company_id
         }
       }).then(res => {
         this.count = res.data.count
@@ -169,7 +169,7 @@ export default {
       params: {
         pageOffset: 1,
         pageSize: this.size,
-        company_id: 1,
+        company_id: this.$store.getters.userinfo.company_id,
         type:this.$refs.searchBar.keywords
       }
     }).then(res => {

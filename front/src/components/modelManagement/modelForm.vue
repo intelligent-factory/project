@@ -4,7 +4,7 @@
         title="修改模板"
         :visible.sync="dialogFormVisible"
         @close="clear">
-    <el-form :model="modelEditForm" ref="model-edit" label-position="right" label-width="80px" >
+    <el-form :model="modelEditForm" ref="model-edit" label-position="right" label-width="80px" style="margin-left:12%">
 <!--      //可以修改的模版分类模板号:-->
 <!--      <el-form-item label="模版分类" prop="classification"-->
 <!--                    :rules="{required: true, message: '请选择分类', trigger: 'blur'}">-->
@@ -25,16 +25,23 @@
 <!--      </el-form-item>-->
 
 <!--      //不可修改的模板号模板分类：-->
-      <el-form-item label="模板号:" style="width:100%" >
+
+      <el-form-item label="模板号"  >
+        <el-col :span="15">
         <div style="float:left;margin-left:10%"> {{modelEditForm.templateId}}</div>
+        </el-col>
       </el-form-item>
-      <el-form-item label="模板分类:" style="width:100%">
+      <el-form-item label="模板分类" >
+        <el-col :span="15">
         <div style="float:left;margin-left:10%">{{modelEditForm.classification}}</div>
+        </el-col>
       </el-form-item>
 <!--      **********************-->
       <el-form-item label="模版名称" prop="templateName"
                     :rules="{required: true, message: '请输入名称', trigger: 'blur'}">
-        <el-input v-model="modelEditForm.templateName" style="width: 80%;"></el-input>
+        <el-col :span="15">
+        <el-input v-model="modelEditForm.templateName" style="margin-left:10%;width:90%;"></el-input>
+        </el-col>
       </el-form-item>
 
       <el-form-item v-for="(item, index) in modelEditForm.attributes"
@@ -42,15 +49,17 @@
                     :key="item.id"
                     :prop="'attributes.' + index + '.content'"
                     :rules="{required: true, message: '请输入属性', trigger: 'blur'}">
-        <el-input v-model="modelEditForm.attributes[index].content"
-                  style="width: 250px"
-                  placeholder="请输入属性"
-                  filterable>
-        </el-input>
+        <el-col :span="15">
+          <el-input v-model="modelEditForm.attributes[index].content"
+                    style="width: 66%;margin-left:10%;"
+                    placeholder="请输入属性"
+                    filterable>
+          </el-input>
 
-        <el-button size="mini"
-                   style="color: red; margin-left: 10px;"
-                   @click="del(index)">删除</el-button>
+          <el-button size="mini"
+                     style="color: red; margin-left: 5%;width:19%"
+                     @click="del(index)">删除</el-button>
+        </el-col>
       </el-form-item>
 
     </el-form>
@@ -162,7 +171,7 @@ export default {
                 id:Number(this.modelEditForm.templateId),//模板号
                 name:this.modelEditForm.templateName,//模板名
                 attribute:attributedata,//属性
-                company_id:'',//公司
+                company_id:this.$store.getters.userinfo.company_id,//公司
               }
             }).then(res => {
               if (res && res.status === 200) {

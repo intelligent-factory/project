@@ -507,7 +507,7 @@ export default {
 </script>
 
 <style scoped>
-/deep/  td {
+td {
   padding:3px !important;
   /*border: 1px solid blue;*/
   height: 6px;
