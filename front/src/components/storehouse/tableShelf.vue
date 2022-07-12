@@ -69,7 +69,6 @@
               </div>
               <div class="text item">
                 <el-divider></el-divider>
-                <p>存放物品类别：{{ item.types}}</p>
                 <p>创建时间：{{ item.created_time}}</p>
                 <p>创建人：{{ item.created_by}}</p>
               </div>

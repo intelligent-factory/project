@@ -26,7 +26,7 @@
                 <div>库区id:&nbsp;{{item.storage_id}}</div><br>
                 <div>货架id:&nbsp;{{item.shelf_id}}</div><br>
                 <div>库存:&nbsp;{{item.quantity}}</div><br>
-                <div>所属公司:&nbsp;</div>
+                <div>所属公司:&nbsp;{{userMsg.company_id}}</div>
               </el-card>
             </div>
 
@@ -116,6 +116,7 @@ export default {
   name: "equipmentInfoDetail",
   data(){
     return {
+      userMsg:'',
       updateFlag:false,
       updateInfo: {
           storage_id:'',
@@ -126,6 +127,7 @@ export default {
           update:'',
           type:'',
           user:'',
+        company_id:''
         },
       updateMax:0,
       jinhuoFlag:false,
@@ -149,6 +151,8 @@ export default {
     }
   },
   created() {
+    this.userMsg=JSON.parse(sessionStorage.getItem('userinfo'))
+    console.log(this.userMsg)
     this.getData()
   },
   methods:{
@@ -183,7 +187,8 @@ export default {
         type: 'equipment',
         current: this.page.current,  //页数 从1开始
         pages: this.page.pages,
-        goods_id: this.$route.query.info.equipment_id
+        goods_id: this.$route.query.info.equipment_id,
+        company_id:this.userMsg.company_id
       }
       console.log('equipment的getdata,req：',req)
       my_request({
@@ -217,13 +222,14 @@ export default {
            storage_id:this.jinhuoInfo.storage_id,
            shelf_id:this.jinhuoInfo.shelf_id,
            location:this.jinhuoInfo.location,
-           quantity:this.jinhuoInfo.quantity
+           quantity:this.jinhuoInfo.quantity,
+           company_id:this.userMsg.company_id
          }
           console.log('你也小时啊',req)
           my_request({
             url:'/goods/addGoods',
             params:req,
-            method:'get'
+            method:'put'
           }).then(res=>{
             console.log('金库信息的res',res)
             if (res.data.success===true){
@@ -257,7 +263,8 @@ export default {
             quantity:this.updateInfo.quantity,
             update:'increment',
             type:'equipment',
-            user:this.$store.getters.userinfo.id
+            user:this.$store.getters.userinfo.id,
+            company_id:this.userMsg.company_id
             // user:1
           }
 
@@ -302,7 +309,8 @@ export default {
           quantity:this.updateInfo.quantity,
           update:'decrement',
           type:'equipment',
-          user:this.$store.getters.userinfo.id
+          user:this.$store.getters.userinfo.id,
+          company_id:this.userMsg.company_id
           // user:1
         }
 
@@ -348,7 +356,7 @@ export default {
       this.updateInfo.location = row.location
       this.updateInfo.id = this.$route.query.info.equipment_id
       this.updateInfo.type = 'equipment'
-
+      company_id:this.userMsg.company_id,
       this.updateMax = row.quantity
       console.log('ths:',this.updateInfo)
     }

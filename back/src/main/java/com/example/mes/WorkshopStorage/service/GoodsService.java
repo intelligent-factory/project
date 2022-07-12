@@ -109,7 +109,7 @@ public class GoodsService {
     }
 
     public void apply(String workshop_id, String id, int quantity, String type, String user, String in_out, String storage_id, String shelf_id, String company_id) throws SQLException {
-        if(workshopMapper.getById(workshop_id) == null){
+        if(workshopMapper.getById(workshop_id,company_id) == null){
             throw new SQLException();
         }
         String name;
