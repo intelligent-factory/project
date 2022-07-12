@@ -1,6 +1,6 @@
 <template>
   <div id="tc1">
-    <h1>欢迎使用箱包管理系统!</h1>
+    <h1>欢迎使用车间管理系统!</h1>
 
   </div>
 </template>

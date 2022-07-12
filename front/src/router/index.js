@@ -24,7 +24,7 @@ const routes = [
         name: 'login',
         component: () => import('@/views/Login'),
         meta: {
-            title: '欢迎登录箱包管理系统'
+            title: '欢迎登录车间管理系统'
         },
     },
     {
@@ -32,7 +32,7 @@ const routes = [
         name: 'register',
         component: () => import('@/views/Register'),
         meta: {
-            title: '欢迎注册箱包管理系统'
+            title: '欢迎注册车间管理系统'
         },
     },
     {

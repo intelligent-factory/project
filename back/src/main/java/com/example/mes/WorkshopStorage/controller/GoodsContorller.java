@@ -23,10 +23,10 @@ public class GoodsContorller {
     private GoodsService goodsService;
 
     @GetMapping(value = "search")
-    Result<List<GoodsVo>> search(String storage_id, String id) {
+    Result<List<GoodsVo>> search(String storage_id, String id, String company_id) {
         Result<List<GoodsVo>> result = new Result<>();
         try {
-            result = goodsService.search(storage_id, id);
+            result = goodsService.search(storage_id, id, company_id);
         } catch (Exception e) {
             e.printStackTrace();
             LoggerFactory.getLogger(this.getClass()).error("" + e.getMessage());
@@ -36,9 +36,9 @@ public class GoodsContorller {
     }
 
     @GetMapping(value = "move")
-    public Result<?> move(GoodsUpdatePara params) {
+    public Result<?> move(GoodsUpdatePara params, String company_id) {
         try {
-            goodsService.move(params);
+            goodsService.move(params, company_id);
         } catch (Exception e) {
             LoggerFactory.getLogger(this.getClass()).error("转移失败", e.getMessage());
             return Result.error("转移失败!");
@@ -47,9 +47,9 @@ public class GoodsContorller {
     }
 
     @GetMapping(value = "apply")
-    public Result<?> apply(String workshop_id, String id, int quantity, String type, String user, String in_out, String storage_id, String shelf_id) {
+    public Result<?> apply(String workshop_id, String id, int quantity, String type, String user, String in_out, String storage_id, String shelf_id, String company_id) {
         try {
-            goodsService.apply(workshop_id, id, quantity, type, user, in_out, storage_id, shelf_id);
+            goodsService.apply(workshop_id, id, quantity, type, user, in_out, storage_id, shelf_id, company_id);
         } catch (Exception e) {
             LoggerFactory.getLogger(this.getClass()).error("提交失败", e.getMessage());
             return Result.error("提交失败!");
@@ -58,10 +58,10 @@ public class GoodsContorller {
     }
 
     @GetMapping(value = "applyItem")
-    public Result<PageVo<ApplyVo>> applyItem(String current, String pages) {
+    public Result<PageVo<ApplyVo>> applyItem(String current, String pages, String company_id) {
         Result<PageVo<ApplyVo>> result = new Result<>();
         try {
-            result = goodsService.applyItem(current, pages);
+            result = goodsService.applyItem(current, pages, company_id);
         } catch (Exception e) {
             e.printStackTrace();
             LoggerFactory.getLogger(this.getClass()).error("" + e.getMessage());
@@ -71,10 +71,10 @@ public class GoodsContorller {
     }
 
     @GetMapping(value = "searchApply")
-    public Result<PageVo<ApplyVo>> searchApply(String current, String pages, String goods_id, String goods_name, Date time1, Date time2, String type) {
+    public Result<PageVo<ApplyVo>> searchApply(String current, String pages, String goods_id, String goods_name, Date time1, Date time2, String type, String company_id) {
         Result<PageVo<ApplyVo>> result = new Result<>();
         try {
-            result = goodsService.searchApply(current, pages, goods_id, goods_name, time1, time2, type);
+            result = goodsService.searchApply(current, pages, goods_id, goods_name, time1, time2, type, company_id);
         } catch (Exception e) {
             e.printStackTrace();
             LoggerFactory.getLogger(this.getClass()).error("" + e.getMessage());
@@ -84,10 +84,10 @@ public class GoodsContorller {
     }
 
     @GetMapping(value = "searchQuantity")
-    public Result<Integer> searchQuantity(String good_id, String type) {
+    public Result<Integer> searchQuantity(String good_id, String type, String company_id) {
         Result<Integer> result = new Result<>();
         try {
-            result = goodsService.searchQuantity(good_id, type);
+            result = goodsService.searchQuantity(good_id, type, company_id);
         } catch (Exception e) {
             e.printStackTrace();
             LoggerFactory.getLogger(this.getClass()).error("" + e.getMessage());
@@ -97,9 +97,9 @@ public class GoodsContorller {
     }
 
     @GetMapping(value = "setApply")
-    public Result<?> setApply(String user, String uuid) {
+    public Result<?> setApply(String user, String uuid, String company_id) {
         try {
-            goodsService.setApply(uuid, user);
+            goodsService.setApply(uuid, user, company_id);
         } catch (Exception e) {
             LoggerFactory.getLogger(this.getClass()).error("提交失败", e.getMessage());
             return Result.error("提交失败!");
@@ -108,10 +108,10 @@ public class GoodsContorller {
     }
 
     @GetMapping(value = "setApplyItem")
-    public Result<PageVo<ApplyVo>> setApplyItem(String current, String pages) {
+    public Result<PageVo<ApplyVo>> setApplyItem(String current, String pages, String company_id) {
         Result<PageVo<ApplyVo>> result = new Result<>();
         try {
-            result = goodsService.setApplyItem(current, pages);
+            result = goodsService.setApplyItem(current, pages, company_id);
         } catch (Exception e) {
             e.printStackTrace();
             LoggerFactory.getLogger(this.getClass()).error("" + e.getMessage());
@@ -121,9 +121,9 @@ public class GoodsContorller {
     }
 
     @GetMapping(value = "managerConfirm")
-    public Result<?> managerConfirm(String uuid, String message, String in_out) {
+    public Result<?> managerConfirm(String uuid, String message, String in_out, String company_id) {
         Result<?> result = new Result<>();
-        goodsService.managerConfirm(uuid, message, in_out);
+        goodsService.managerConfirm(uuid, message, in_out, company_id);
         return Result.ok("提交成功!");
         /*
         try {
@@ -136,10 +136,10 @@ public class GoodsContorller {
     }
 
     @GetMapping(value = "confirmItem")
-    public Result<PageVo<ApplyVo>> confirmItem(String current, String pages) {
+    public Result<PageVo<ApplyVo>> confirmItem(String current, String pages, String company_id) {
         Result<PageVo<ApplyVo>> result = new Result<>();
         try {
-            result = goodsService.confirmItem(current, pages);
+            result = goodsService.confirmItem(current, pages, company_id);
         } catch (Exception e) {
             e.printStackTrace();
             LoggerFactory.getLogger(this.getClass()).error("" + e.getMessage());
@@ -149,10 +149,10 @@ public class GoodsContorller {
     }
 
     @GetMapping(value = "messageItem")
-    public Result<PageVo<ApplyVo>> messageItem(String current, String pages) {
+    public Result<PageVo<ApplyVo>> messageItem(String current, String pages, String company_id) {
         Result<PageVo<ApplyVo>> result = new Result<>();
         try {
-            result = goodsService.messageItem(current, pages);
+            result = goodsService.messageItem(current, pages, company_id);
         } catch (Exception e) {
             e.printStackTrace();
             LoggerFactory.getLogger(this.getClass()).error("" + e.getMessage());
@@ -162,10 +162,10 @@ public class GoodsContorller {
     }
 
     @GetMapping(value = "remove")
-    public Result<?> remove(String uuid, String user) {
+    public Result<?> remove(String uuid, String user, String company_id) {
         Result<?> result = new Result<>();
 //        try {
-            goodsService.remove(uuid, user);
+            goodsService.remove(uuid, user, company_id);
 //        } catch (Exception e) {
 //            LoggerFactory.getLogger(this.getClass()).error("出库失败", e.getMessage());
 //            return Result.error("出库失败!");
@@ -175,10 +175,10 @@ public class GoodsContorller {
 
 
     @GetMapping(value = "addGoods")
-    public Result<?> addGoods(String storage_id, String shelf_id, String location, String id, int quantity, String type, String user) {
+    public Result<?> addGoods(String storage_id, String shelf_id, String location, String id, int quantity, String type, String user, String company_id) {
         Result<?> result = new Result<>();
         try {
-            goodsService.addGoods(storage_id, shelf_id, location, id, quantity, type, user);
+            goodsService.addGoods(storage_id, shelf_id, location, id, quantity, type, user, company_id);
         } catch (Exception e) {
             LoggerFactory.getLogger(this.getClass()).error("申请失败", e.getMessage());
             return Result.error("申请失败!");
@@ -187,10 +187,10 @@ public class GoodsContorller {
     }
 
     @GetMapping(value = "addItem")
-    public Result<PageVo<ApplyVo>> addItem(String current, String pages) {
+    public Result<PageVo<ApplyVo>> addItem(String current, String pages, String company_id) {
         Result<PageVo<ApplyVo>> result = new Result<>();
         try {
-            result = goodsService.addItem(current, pages);
+            result = goodsService.addItem(current, pages, company_id);
         } catch (Exception e) {
             e.printStackTrace();
             LoggerFactory.getLogger(this.getClass()).error("" + e.getMessage());
@@ -200,10 +200,10 @@ public class GoodsContorller {
     }
 
     @GetMapping(value = "addConfirm")
-    public Result<?> addConfirm(String uuid, String message, String user) {
+    public Result<?> addConfirm(String uuid, String message, String user, String company_id) {
         Result<?> result = new Result<>();
         try {
-            goodsService.addConfirm(uuid, message, user);
+            goodsService.addConfirm(uuid, message, user, company_id);
         } catch (Exception e) {
             e.printStackTrace();
             LoggerFactory.getLogger(this.getClass()).error("" + e.getMessage());
@@ -213,10 +213,10 @@ public class GoodsContorller {
     }
 
     @GetMapping(value = "goodsItem")
-    public Result<PageVo<GoodsVo>> goodsItem(String current, String pages, String storage_id, String shelf_id) {
+    public Result<PageVo<GoodsVo>> goodsItem(String current, String pages, String storage_id, String shelf_id, String company_id) {
         Result<PageVo<GoodsVo>> result = new Result<>();
         try {
-            result = goodsService.goodsItem(current, pages, storage_id, shelf_id);
+            result = goodsService.goodsItem(current, pages, storage_id, shelf_id, company_id);
         } catch (Exception e) {
             e.printStackTrace();
             LoggerFactory.getLogger(this.getClass()).error("" + e.getMessage());
@@ -226,10 +226,10 @@ public class GoodsContorller {
     }
 
     @GetMapping(value = "locationItem")
-    public Result<PageVo<GoodsVo>> locationItem(String current, String pages, String type, String goods_id) {
+    public Result<PageVo<GoodsVo>> locationItem(String current, String pages, String type, String goods_id, String company_id) {
         Result<PageVo<GoodsVo>> result = new Result<>();
         try {
-            result = goodsService.locationItem(current, pages, type, goods_id);
+            result = goodsService.locationItem(current, pages, type, goods_id, company_id);
         } catch (Exception e) {
             e.printStackTrace();
             LoggerFactory.getLogger(this.getClass()).error("" + e.getMessage());
