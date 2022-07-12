@@ -34,4 +34,6 @@ public interface DepartmentMapper extends BaseMapper<Department> {
     void newdepartmentInsert(@Param("n") newDepartmentUpdateVo newdepartmentUpdateVo);
 
     void newdepartmentUpdate(@Param("n") newDepartmentUpdateVo newdepartmentUpdateVo);
+
+    List<Department> getDefaultDepartment();
 }

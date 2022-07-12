@@ -31,9 +31,9 @@ public class UserController {
             @RequestBody UserVo userVo
     ) {
         List<User> userList = userService.queryUserList(userVo);
-        int userListCount = userService.getLastCount();
+        int userListCount = userService.getLastCount(userVo.user.getCompany_id());
         List<String> roleName = userService.queryAllRoleName(userVo);
-        List<String> departmentName = userService.queryAllDepartmentName();
+        List<String> departmentName = userService.queryAllDepartmentName(userVo);
         HashMap<String, Object> res = new HashMap<>();
         res.put("userList", userList);
         res.put("total", userListCount);
@@ -63,11 +63,12 @@ public class UserController {
         HashMap<String, Object> res = new HashMap<>();
         String Method = userUpdateVo.request;
         int id = userUpdateVo.id;
-        User user = userService.findUserById(id);
+        User user = userService.findUserById(id,userUpdateVo.user.getCompany_id());
         if (Method.equals("insert")) {
             if (user != null) {
                 MyUtils.fail(res, "该id已经占用，请勿重复创建");
             } else {
+                userUpdateVo.company_id = userUpdateVo.user.getCompany_id();
                 userService.userAdd(userUpdateVo);
                 MyUtils.success(res);
             }
@@ -78,14 +79,17 @@ public class UserController {
                 MyUtils.fail(res, "该id未创建");
             } else {
                 if (userUpdateVo.isChangeDepartment == 0) {
+                    userUpdateVo.company_id = userUpdateVo.user.getCompany_id();
                     userService.userUpdate(userUpdateVo);
                     MyUtils.success(res);
                 }
                 if (userUpdateVo.isChangeDepartment == 1) {
+                    userUpdateVo.company_id = userUpdateVo.user.getCompany_id();
                     Apply apply = userService.findApply(userUpdateVo);
                     if (apply != null) {
                         MyUtils.fail(res, "已经申请过，请勿重复申请");
                     } else {
+                        userUpdateVo.company_id = userUpdateVo.user.getCompany_id();
                         userService.userApply(userUpdateVo);
                         userUpdateVo.department = userService.findUserDepartment(userUpdateVo);
                         userService.userUpdate(userUpdateVo);

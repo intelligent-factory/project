@@ -38,9 +38,13 @@ export default {
   },
   methods:{
     getCount() {
+      let req = {
+        company_id:this.$store.getters.userinfo.company_id,
+      };
       request({
         url: 'data/applyManagement/toBeAddress',
         method: 'post',
+        params: req,
       }).then(res => {
         this.statusCount = res.data;
       });

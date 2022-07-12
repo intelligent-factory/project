@@ -425,7 +425,7 @@ export default {
         }],
         lineNum:1,
         theWorkshopId:'',
-        company_id:'111',
+        company_id:this.$store.getters.userinfo.company_id,
       },
 
       isShowDetail: false,
@@ -450,7 +450,7 @@ export default {
           staOrd: '',
           user: '',
           staEqu: '',
-          company_id:'111',
+          company_id:this.$store.getters.userinfo.company_id,
         }],
         workshopId:'',
         line:'',
@@ -522,7 +522,8 @@ export default {
       let req = {
         currentPage: this.page.curpage,
         pagesize: this.page.pagesize,
-        workshopId: this.nowShopworkId
+        workshopId: this.nowShopworkId,
+        company_id: this.$store.getters.userinfo.company_id,
       };
       this.loading = true
       my_request({
@@ -591,9 +592,13 @@ export default {
 
     //查询所有的产品id
         loadCode(){
+          let req = {
+            company_id:this.$store.getters.userinfo.company_id,
+          };
           request({
             url:'/line/searchProductId',
             method:'get',
+            params:req,
           }).then(resp =>{
             if(resp && resp.status === 200){
               let data = resp.data;
@@ -685,7 +690,8 @@ export default {
     getData() {
       // 获取当前传送来的信息的数据，
       let req = {
-        workshopId: this.nowShopworkId
+        workshopId: this.nowShopworkId,
+        company_id: this.$store.getters.userinfo.company_id,
       }
       console.log('...',req)
       // my_request({
@@ -807,7 +813,7 @@ export default {
       this.fullscreenLoading = true;
       this.addDialog = false
       let req = {
-        company_id:'111',
+        company_id:this.$store.getters.userinfo.company_id,
         workshopId: workshopId,
         // 创建的工位
         lineName: newLineName,
@@ -842,7 +848,7 @@ export default {
       this.$refs[formName][index].validate((valid) => {
         if (valid) {
           let req = {
-            company_id:'111',
+            company_id:this.$store.getters.userinfo.company_id,
             workshopId: workshopId,
             lineId: lineId,
             newName: this.updateLineName.newLineName,
@@ -862,7 +868,7 @@ export default {
                 message:'申请成功'
               })
             }else {
-              this.$message.error('申请失败')
+              this.$message.error('申请失败!产线编号已存在或正在修改中')
             }
 
           }).catch(err => {
@@ -884,7 +890,7 @@ export default {
           this.fullscreenLoading = true;
           this.addStationDialog = false;
           let req = {
-            company_id:'111',
+            company_id:this.$store.getters.userinfo.company_id,
             workshopId: workshopId,
             lineId: lineId,
             // 创建的工位
@@ -966,7 +972,7 @@ export default {
       let req = {
         //传送过去的信息
         //定位
-        company_id: '111',
+        company_id: this.$store.getters.userinfo.company_id,
         workshopId: workshopId,
         lineId: lineId,
         stationId: staId,
@@ -1011,7 +1017,7 @@ export default {
     submitToUpdate() {
 
       let req = {
-        company_id:'1111',
+        company_id:this.$store.getters.userinfo.company_id,
         workshopId: this.workshopInfo.id,
         newWorkshopId: this.workshop.workshopId,
         newWorkshopName: this.workshop.workshopName,

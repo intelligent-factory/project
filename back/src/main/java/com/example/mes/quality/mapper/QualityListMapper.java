@@ -23,23 +23,23 @@ public interface QualityListMapper {
     //某质检任务生产的产品数量
     Integer selectListNum();
 
-    //下面这4个方法是查询所需的User
+    //分页
     List<QualityListBean> queryQualityList(@Param("qualityListVo") QualityListVo qualityListVo, @Param("numStart") int numStart, @Param("numEnd") int numEnd);
 
-    Integer getLastCount();
+    Integer getLastCount(@Param("qualityListVo") QualityListVo qualityListVo);
 
     //根据list_id查询质检任务
-    QualityListBean queryQualityByListID(@Param("list_id") String list_id);
+    QualityListBean queryQualityByListID(@Param("list_id") String list_id,@Param("company_id") String company_id);
 
     //修改状态
-    void updateQualityListStatus(String list_id);
+    void updateQualityListStatus(@Param("list_id") String list_id,@Param("company_id") String company_id);
 
     //查询所有质检任务中的车间
-    List<String> getAllWorkshop();
+    List<String> getAllWorkshop(@Param("company_id") String company_id);
 
     //查询所有质检任务中的产线
-    List<String> getAllLine();
+    List<String> getAllLine(@Param("company_id") String company_id);
 
     //查询车间中的产线
-    List<String> getAllLinesByWorkshop(@Param("workshop_id") String workshop_id);
+    List<String> getAllLinesByWorkshop(@Param("workshop_id") String workshop_id,@Param("company_id") String company_id);
 }

@@ -22,22 +22,23 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
     public List<Apply> queryApplyList(ApplySelectVo applySelectVo) {
         int numStart = MyImplUtils.getNumStart(applySelectVo.getPageNum(), applySelectVo.getPageSize());
         int numEnd = MyImplUtils.getNumEnd(applySelectVo.getPageSize());
-        return applyMapper.queryApplyList(applySelectVo, numStart, numEnd);
+        System.out.println(applySelectVo.getUser().getCompany_id());
+        return applyMapper.queryApplyList(applySelectVo, numStart, numEnd,applySelectVo.getUser().getCompany_id());
     }
 
     @Override
-    public int getLastCount() {
-        return applyMapper.getLastCount();
+    public int getLastCount(Integer company_id) {
+        return applyMapper.getLastCount(company_id);
     }
 
     @Override
-    public List<ApplyStatusVo> getStatusList() {
-        return applyMapper.getStatusList();
+    public List<ApplyStatusVo> getStatusList(Integer company_id) {
+        return applyMapper.getStatusList(company_id);
     }
 
     @Override
-    public int getStatus(String s) {
-        return applyMapper.getStatus(s);
+    public int getStatus(String s,String company_id) {
+        return applyMapper.getStatus(s,company_id);
     }
 
     @Override

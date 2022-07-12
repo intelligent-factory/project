@@ -14,7 +14,7 @@ public interface RoleService extends IService<Role> {
 
     public Integer getLastCount();
 
-    public List<String> queryAllPermissionName();
+    public List<String> queryAllPermissionName(Integer company_id);
 
     public void roleDelete(Role role, int Handler);
 
@@ -27,4 +27,6 @@ public interface RoleService extends IService<Role> {
     List<String> getRoles(String company_id);
 
     List<String> getRolesByDepartment(String department_name, String company_id);
+
+    void setDefaultRole(Integer user_id, Integer company_id);
 }

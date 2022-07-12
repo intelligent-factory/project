@@ -17,7 +17,7 @@ public class newDepartmentUpdateVo {
     private String modified_by;
     private String request;
     private User user;
-    private String company_id;
+    private Integer company_id;
     private String role_name;
 
     public String getDepartment_name() {
@@ -116,11 +116,11 @@ public class newDepartmentUpdateVo {
         this.user = user;
     }
 
-    public String getCompany_id() {
+    public Integer getCompany_id() {
         return company_id;
     }
 
-    public void setCompany_id(String company_id) {
+    public void setCompany_id(Integer company_id) {
         this.company_id = company_id;
     }
 

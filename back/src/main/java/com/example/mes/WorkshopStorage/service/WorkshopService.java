@@ -26,7 +26,7 @@ public class WorkshopService {
     @Autowired
     private StationMapper stationMapper;
 
-    public Result<newWorkshopVo> getById(String workshopId) {
+    public Result<newWorkshopVo> getById(String workshopId,String company_id) {
         Result<newWorkshopVo> result = new Result<>();
         newWorkshopVo workshop = workshopMapper.getWorkshopById(workshopId);
 //        List<newLineVo> lineList = lineMapper.getByWorkshop(workshopId);
@@ -36,7 +36,7 @@ public class WorkshopService {
             return result;
         }
         for (newLineVo line : lineList) {
-            List<newStationVo> stationList = stationMapper.getByLine(workshopId, line.getId());
+            List<newStationVo> stationList = stationMapper.getByLine(workshopId, line.getId(),company_id);
             if(stationList != null){
                 line.setStationNum(stationList.size());
                 line.setStations(stationList);
@@ -74,7 +74,7 @@ public class WorkshopService {
 
     public void updateHead(WorkshopUpdatePara params) throws SQLException {
         //要修改的车间不在数据库里或者已经有其他申请 除修改以外
-        WorkshopVo workshop_ = workshopMapper.getById(params.getWorkshopId());
+        WorkshopVo workshop_ = workshopMapper.getById(params.getWorkshopId(),params.getCompany_id());
         if (workshop_ == null || "".equals(workshop_) || !workshop_.getVerify().equals("normal")) {
             System.out.println("要修改的车间不在数据库里或者已经有其他申请 除修改以外");
             throw new SQLException();
@@ -86,20 +86,20 @@ public class WorkshopService {
             throw new SQLException();
         }
         //修改后的车间已经存在
-        if (params.getNewWorkshopId() != null && !params.getNewWorkshopId().equals("") && workshopMapper.checkById(params.getNewWorkshopId()) != null) {
+        if (params.getNewWorkshopId() != null && !params.getNewWorkshopId().equals("") && workshopMapper.checkById(params.getNewWorkshopId(),params.getCompany_id()) != null) {
             System.out.println("修改后的车间已经存在");
             throw new SQLException();
         }
 
         Workshop workshop = new Workshop();
         if (StringUtils.isEmpty(params.getNewFactory())) {
-            params.setNewFactory(workshopMapper.getById(params.getWorkshopId()).getFactory_name());
+            params.setNewFactory(workshopMapper.getById(params.getWorkshopId(),params.getCompany_id()).getFactory_name());
         }
         if (StringUtils.isEmpty(params.getNewWorkshopId())) {
-            params.setNewWorkshopId(workshopMapper.getById(params.getWorkshopId()).getId());
+            params.setNewWorkshopId(workshopMapper.getById(params.getWorkshopId(),params.getCompany_id()).getId());
         }
         if (StringUtils.isEmpty(params.getNewWorkshopName())) {
-            params.setNewWorkshopName(workshopMapper.getById(params.getWorkshopId()).getName());
+            params.setNewWorkshopName(workshopMapper.getById(params.getWorkshopId(),params.getCompany_id()).getName());
         }
         workshop.setCompany_id(params.getCompany_id());
         workshop.setId(params.getNewWorkshopId());
@@ -129,7 +129,7 @@ public class WorkshopService {
 
     //新建车间
     public String create(WorkshopVo params) throws SQLException {
-        WorkshopVo workshop_ = workshopMapper.checkById(params.getId());
+        WorkshopVo workshop_ = workshopMapper.checkById(params.getId(),params.getCompany_id());
         if (workshop_ != null) {
             throw new SQLException();
         }
@@ -146,20 +146,20 @@ public class WorkshopService {
 
 
 
-    public Result<WorkshopVo> search(String workshopId) {
+    public Result<WorkshopVo> search(String workshopId,String company_id) {
         Result<WorkshopVo> result = new Result<>();
         WorkshopVo workshop = new WorkshopVo();
-        workshop = workshopMapper.getById(workshopId);
+        workshop = workshopMapper.getById(workshopId,company_id);
         if (workshop == null) {
-            workshop = workshopMapper.getByName(workshopId);
+            workshop = workshopMapper.getByName(workshopId,company_id);
             workshopId = workshop.getId();
         }
-        Integer cnt = lineMapper.getLineNumById(workshopId);
+        Integer cnt = lineMapper.getLineNumById(workshopId,company_id);
         if(cnt == null){
             cnt = 0;
         }
         workshop.setLineNum(cnt);
-        cnt = stationMapper.getStationNumByworkshopId(workshopId);
+        cnt = stationMapper.getStationNumByworkshopId(workshopId,company_id);
         if(cnt == null){
             cnt = 0;
         }
@@ -168,10 +168,10 @@ public class WorkshopService {
         return result;
     }
 
-    public Result<PageVo<WorkshopVo>> workshopItem(String page, String page_size) throws SQLException {
+    public Result<PageVo<WorkshopVo>> workshopItem(String page, String page_size,String company_id) throws SQLException {
         Result<PageVo<WorkshopVo>> result = new Result<>();
         PageVo<WorkshopVo> pageVo = new PageVo();
-        Integer size = workshopMapper.getCount();
+        Integer size = workshopMapper.getCount(company_id);
         if(size == null)
             size = 0;
         pageVo.setTotal(size);
@@ -190,11 +190,11 @@ public class WorkshopService {
         pageVo.setCurrent(Integer.parseInt(page));
         List<WorkshopVo> currentlist = workshopMapper.selectAll((pageVo.getCurrent() - 1) * Integer.parseInt(page_size), pageVo.getPages());
         for(WorkshopVo workshop : currentlist){
-            if(lineMapper.getLineNumById(workshop.getId()) != null){
-                workshop.setLineNum(lineMapper.getLineNumById(workshop.getId()));
+            if(lineMapper.getLineNumById(workshop.getId(),company_id) != null){
+                workshop.setLineNum(lineMapper.getLineNumById(workshop.getId(),company_id));
             }
-            if(stationMapper.getStationNumByworkshopId(workshop.getId()) != null){
-                workshop.setStationNum(stationMapper.getStationNumByworkshopId(workshop.getId()));
+            if(stationMapper.getStationNumByworkshopId(workshop.getId(),company_id) != null){
+                workshop.setStationNum(stationMapper.getStationNumByworkshopId(workshop.getId(),company_id));
             }
         }
         pageVo.setRecords(currentlist);
@@ -202,10 +202,10 @@ public class WorkshopService {
         return result;
     }
 
-    public Result<PageVo<StationVo>> applyWorkshop(String page, String page_size) throws SQLException {
+    public Result<PageVo<StationVo>> applyWorkshop(String page, String page_size,String company_id) throws SQLException {
         Result<PageVo<StationVo>> result = new Result<>();
         PageVo<StationVo> pageVo = new PageVo();
-        Integer size = workshopMapper.getApplyCount();
+        Integer size = workshopMapper.getApplyCount(company_id);
         if(size == null)
             size = 0;
         pageVo.setTotal(size);
@@ -222,7 +222,7 @@ public class WorkshopService {
             pageVo.setPages(Integer.parseInt(page_size));
         }
         pageVo.setCurrent(Integer.parseInt(page));
-        List<WorkshopVo> currentlist = workshopMapper.selectApplyAll((pageVo.getCurrent() - 1) * Integer.parseInt(page_size), pageVo.getPages());
+        List<WorkshopVo> currentlist = workshopMapper.selectApplyAll((pageVo.getCurrent() - 1) * Integer.parseInt(page_size), pageVo.getPages(),company_id);
         List<StationVo> resultlist = new LinkedList<>();
         for(WorkshopVo workshop : currentlist){
             StationVo station = new StationVo();
@@ -267,7 +267,7 @@ public class WorkshopService {
         return workshopMapper.all_workshop();
     }
 
-    public Result<List<WorkshopVo>> update_delete_Info(String workshopId, String lineId, String stationId){
+    public Result<List<WorkshopVo>> update_delete_Info(String workshopId, String lineId, String stationId,String company_id){
         Result<List<WorkshopVo>> listResult = new Result<>();
         List<WorkshopVo> workshopVoList = new LinkedList<>();
         List<LineVo> lineVoList = new LinkedList<>();
@@ -275,7 +275,7 @@ public class WorkshopService {
         String type ="undefined";
         String pre_id = "";
         if(stationId != null){
-            workshopVoList.add(workshopMapper.getById(workshopId));
+            workshopVoList.add(workshopMapper.getById(workshopId,company_id));
             lineVoList.add(lineMapper.getById(workshopId, lineId));
             stationVoList.add(stationMapper.getApplyById(workshopId, lineId, stationId));
             lineVoList.get(0).setStations(stationVoList);
@@ -284,7 +284,7 @@ public class WorkshopService {
             pre_id = stationVoList.get(0).getPre_id();
         }else
         if(lineId != null){
-            workshopVoList.add(workshopMapper.getById(workshopId));
+            workshopVoList.add(workshopMapper.getById(workshopId,company_id));
             lineVoList.add(lineMapper.getApplyById(workshopId, lineId));
             stationVoList.add(new StationVo());
             lineVoList.get(0).setStations(stationVoList);
@@ -304,12 +304,12 @@ public class WorkshopService {
         List<StationVo> stationVoList1 = new LinkedList<>();
         if(type.equals("insert") && !(pre_id == null || pre_id.equals(""))){
             if(lineId == null){
-                workshopVoList.add(workshopMapper.getById(pre_id));
+                workshopVoList.add(workshopMapper.getById(pre_id,company_id));
                 lineVoList1.add(new LineVo());
                 stationVoList1.add(new StationVo());
             }
             else{
-                workshopVoList.add(workshopMapper.getById(workshopId));
+                workshopVoList.add(workshopMapper.getById(workshopId,company_id));
                 if(stationId == null){
                     lineVoList1.add(lineMapper.getById(workshopId, pre_id));
                     stationVoList1.add(new StationVo());
@@ -325,7 +325,7 @@ public class WorkshopService {
 
         }else{
             if(lineId != null)
-            workshopVoList.add(workshopMapper.getById(workshopId));
+            workshopVoList.add(workshopMapper.getById(workshopId,company_id));
             else
             workshopVoList.add(new WorkshopVo());
             if(stationId != null){

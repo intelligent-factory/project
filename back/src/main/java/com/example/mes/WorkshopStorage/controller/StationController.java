@@ -28,7 +28,7 @@ public class StationController {
             station.setUser(param.getUser());
             station.setEquip_id(param.getStaEqu());
             station.setCompany_id(param.getCompany_id());
-            stationService.create(workshopId, lineId, station, "insert");
+            stationService.create(workshopId, lineId, station, "insert",param.getCompany_id());
         } catch (Exception e) {
             LoggerFactory.getLogger(this.getClass()).error("申请提交失败",e.getMessage());
             return Result.error("申请提交失败!");
@@ -81,10 +81,10 @@ public class StationController {
 
 
     @GetMapping("applyStation")
-    public Result<PageVo<StationVo>> applyWorkshop(String current, String pages){
+    public Result<PageVo<StationVo>> applyWorkshop(String current, String pages,String company_id){
         Result<PageVo<StationVo>> result = new Result<>();
         try {
-            result = stationService.applyStation(current, pages);
+            result = stationService.applyStation(current, pages,company_id);
         }catch (Exception e){
             e.printStackTrace();
             LoggerFactory.getLogger(this.getClass()).error(""+e.getMessage());

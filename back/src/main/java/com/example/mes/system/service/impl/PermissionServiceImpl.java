@@ -50,7 +50,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     @Override
     public String permissionFind(PermissionUpdateVo permissionUpdateVo) {
         String permission_name = permissionUpdateVo.getPermission_name();
-        return permissionMapper.permissionFind(permission_name);
+        return permissionMapper.permissionFind(permission_name,permissionUpdateVo.getUser().getCompany_id());
     }
 
     @Override
@@ -59,10 +59,11 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         String modified_by = Integer.toString(permissionUpdateVo.getUser().getId());
         String status = "0";
         String is_deleted = "0";
+        Integer company_id = permissionUpdateVo.getUser().getCompany_id();
         List<String> accessList = permissionUpdateVo.getAccessList();
         String permissionName = permissionUpdateVo.getPermission_name();
         for (String accessName : accessList) {
-            permissionMapper.permissionUpdate(permissionName, accessName, currentTime, modified_by, status, is_deleted);
+            permissionMapper.permissionUpdate(permissionName, accessName, currentTime, modified_by, status, is_deleted,company_id);
 
         }
 
@@ -74,16 +75,31 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         String modified_by = Integer.toString(permissionUpdateVo.getUser().getId());
         String status = "0";
         String is_deleted = "0";
+        Integer company_id = permissionUpdateVo.getUser().getCompany_id();
         List<String> accessList = permissionUpdateVo.getAccessList();
         String permissionName = permissionUpdateVo.getPermission_name();
         for (String accessName : accessList) {
-            permissionMapper.permissionUpdate(permissionName, accessName, currentTime, modified_by, status, is_deleted);
+            permissionMapper.permissionUpdate(permissionName, accessName, currentTime, modified_by, status, is_deleted,company_id);
         }
     }
 
     @Override
     public void permissionAllDelete(PermissionUpdateVo permissionUpdateVo) {
         String name = permissionUpdateVo.getPermission_name();
-        permissionMapper.permissionAllDelete(name);
+        permissionMapper.permissionAllDelete(name,permissionUpdateVo.getUser().getCompany_id());
     }
+
+    @Override
+    public void setDefaultPermission(Integer user_id,Integer company_id){
+        //取出默认的permission（company_id为NULL的），然后增添相关字段
+        List<Permission> permissionList = permissionMapper.getDefaultPermission();
+        Timestamp currentTime = MyImplUtils.getCurrentTime();
+        String status = "0";
+        String is_deleted = "0";
+        for(Permission per : permissionList){
+            permissionMapper.permissionUpdate(per.getPermission_name(),per.getAccess_name(),currentTime,Integer.toString(user_id),status,is_deleted,company_id);
+        }
+
+    }
+
 }

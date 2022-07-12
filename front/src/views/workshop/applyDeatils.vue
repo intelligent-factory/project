@@ -365,7 +365,8 @@ export default {
         let req = {
           workshopId: this.$route.query.workshop_id,
           lineId: this.$route.query.line_id,
-          stationId: this.$route.query.id
+          stationId: this.$route.query.id,
+          company_id: this.$store.getters.userinfo.company_id,
         }
         my_request({
           url: 'workshop/update_delete_Info',

@@ -22,6 +22,7 @@
         <result column="created_by" property="createdBy"/>
         <result column="modified_time" property="modifiedTime"/>
         <result column="modified_by" property="modifiedBy"/>
+        <result column="company_id" property="company_id"/>
     </resultMap>
 
     <insert id="addQualityResults" parameterType="com.example.mes.quality.bean.QualityBean">
@@ -35,7 +36,7 @@
     </insert>
 
     <select id="getQualityResults" parameterType="String" resultMap="QualityBean">
-        SELECT * FROM quality_management WHERE is_deleted = 0 ORDER BY check_order DESC
+        SELECT * FROM quality_management WHERE is_deleted = 0 and company_id = #{company_id} ORDER BY check_order DESC
     </select>
 
     <select id="queryResultByList" parameterType="String" resultMap="QualityBean">
@@ -44,24 +45,24 @@
 
     <select id="getQualityResultsByDate" parameterType="String" resultMap="QualityBean">
         SELECT * FROM quality_management WHERE is_deleted = 0 AND check_time LIKE "%"#{list[0]}"%" AND
-            workshop = #{list[1]} AND production_line = #{list[2]}
+            workshop = #{list[1]} AND production_line = #{list[2]} and company_id = #{list[3]}
     </select>
 
     <select id="getQualityResultsByWorkshop" parameterType="String" resultMap="QualityBean">
         SELECT RIGHT(check_time,8) AS check_time,SUM(defect_ratio) / COUNT(*) AS defect_ratio FROM quality_management
-        where is_deleted = 0 AND workshop = #{list[0]} AND production_line = #{list[1]}
+        where is_deleted = 0 AND workshop = #{list[0]} AND production_line = #{list[1]} and company_id = #{list[2]}
         GROUP BY RIGHT(check_time,8);
     </select>
 
     <select id="getQualityResultsByDefectTypePart" parameterType="String" resultMap="QualityBean">
         SELECT defect_type,COUNT(*) as defect_num FROM quality_management
-        where is_deleted = 0 AND check_time LIKE concat(#{list[0]},'%')  AND workshop = #{list[1]} AND production_line = #{list[2]}
+        where is_deleted = 0 AND check_time LIKE concat(#{list[0]},'%')  AND workshop = #{list[1]} AND production_line = #{list[2]} and company_id = #{list[3]}
         GROUP BY defect_type;
     </select>
 
     <select id="getQualityResultsByDefectType" parameterType="String" resultMap="QualityBean">
         SELECT defect_type,COUNT(*) as defect_num FROM quality_management
-        where is_deleted = 0 AND workshop = #{list[0]} AND production_line = #{list[1]}
+        where is_deleted = 0 AND workshop = #{list[0]} AND production_line = #{list[1]} and company_id = #{list[2]}
         GROUP BY defect_type;
     </select>
 
@@ -72,6 +73,7 @@
                      open="(" separator="," close=")">
                 #{item}
             </foreach>
+            and company_id = #{company_id}
 
     </select>
 </mapper>

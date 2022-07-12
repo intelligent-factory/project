@@ -55,7 +55,6 @@ public class CompanyServiceImpl extends ServiceImpl<CompanyMapper, Company> impl
         companyUpdateVo.setModified_time(companyUpdateVo.getCreated_time());
         companyUpdateVo.setCreated_by(Integer.toString(100000));//默认由系统管理员安排公司的入驻
         companyUpdateVo.setModified_by(companyUpdateVo.getCreated_by());
-        companyUpdateVo.setStatus("正常");
         companyUpdateVo.setIs_deleted("0");
         companyMapper.companyInsert(companyUpdateVo);
     }

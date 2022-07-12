@@ -118,6 +118,7 @@ export default {
     getData(){
       console.log(this.page.current)
       let req= {
+        company_id:this.$store.getters.userinfo.company_id,
         current: this.page.current,  //页数 从1开始
         pages: this.page.pages  // 每页多少数据
       }

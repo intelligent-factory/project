@@ -1,6 +1,14 @@
 module.exports = [
     //田方源 系统管理
     {
+        path: '/system/companyManagement',
+        name: 'companyManagement',
+        component: () => import('@/views/systemManagement/CompanyManagement'),
+        meta: {
+            title: '公司管理-系统管理',
+        }
+    },
+    {
         path: '/system/userManagement',
         name: 'userManagement',
         component: () => import('@/views/systemManagement/UserManagement'),

@@ -16,15 +16,15 @@ public interface UserService extends IService<User> {
 
     public List<User> queryUserList(UserVo userVo);
 
-    public Integer getLastCount();
+    public Integer getLastCount(Integer company_id);
 
     public List<String> queryAllRoleName(UserVo userVo);
 
-    public List<String> queryAllDepartmentName();
+    public List<String> queryAllDepartmentName(UserVo userVo);
 
     public HashMap<String, Object> deleteUsers(User user, int handler);
 
-    public User findUserById(Integer id);
+    public User findUserById(Integer id,Integer company_id);
 
     public void userAdd(UserUpdateVo userUpdateVo);
 

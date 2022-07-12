@@ -48,24 +48,24 @@ public class QualityListServiceImpl implements QualityListService {
     }
 
     @Override
-    public Integer getLastCount() {
-        return qualitylistMapper.getLastCount();
+    public Integer getLastCount(QualityListVo qualityListVo) {
+        return qualitylistMapper.getLastCount(qualityListVo);
     }
 
     @Override
-    public QualityListBean queryQualityByList(String list_id) {
-        return  qualitylistMapper.queryQualityByListID(list_id);
+    public QualityListBean queryQualityByList(String list_id,String company_id) {
+        return  qualitylistMapper.queryQualityByListID(list_id,company_id);
     }
 
     @Override
-    public void updateQualityListStatus(String list_id) {
-        qualitylistMapper.updateQualityListStatus(list_id);
+    public void updateQualityListStatus(String list_id,String company_id) {
+        qualitylistMapper.updateQualityListStatus(list_id,company_id);
     }
 
     @Override
-    public List<String> getAllWorkshop() {
+    public List<String> getAllWorkshop(String company_id) {
         try {
-            return qualitylistMapper.getAllWorkshop();
+            return qualitylistMapper.getAllWorkshop(company_id);
         }catch (Exception e){
             e.printStackTrace();
             System.out.println("获取车间列表失败！");
@@ -75,9 +75,9 @@ public class QualityListServiceImpl implements QualityListService {
 
 
     @Override
-    public List<String> getAllLine() {
+    public List<String> getAllLine(String company_id) {
         try {
-            return qualitylistMapper.getAllLine();
+            return qualitylistMapper.getAllLine(company_id);
         }catch (Exception e){
             e.printStackTrace();
             System.out.println("获取产线列表失败！");
@@ -86,9 +86,9 @@ public class QualityListServiceImpl implements QualityListService {
     }
 
     @Override
-    public List<String> getAllLinesByWorkshop(String workshop_id) {
+    public List<String> getAllLinesByWorkshop(String workshop_id,String company_id) {
         try {
-            return qualitylistMapper.getAllLinesByWorkshop(workshop_id);
+            return qualitylistMapper.getAllLinesByWorkshop(workshop_id,company_id);
         }catch (Exception e){
             e.printStackTrace();
             System.out.println("获取产线列表失败！");

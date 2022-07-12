@@ -26,8 +26,8 @@ public class ApplyController {
     ) {
         HashMap<String, Object> res = new HashMap<>();
         List<Apply> applyList = applyService.queryApplyList(applySelectVo);
-        int getApplyListCount = applyService.getLastCount();
-        List<ApplyStatusVo> statusList = applyService.getStatusList();
+        int getApplyListCount = applyService.getLastCount(applySelectVo.getUser().getCompany_id());
+        List<ApplyStatusVo> statusList = applyService.getStatusList(applySelectVo.getUser().getCompany_id());
 
         res.put("total", getApplyListCount);
         res.put("applyList", applyList);
@@ -37,8 +37,8 @@ public class ApplyController {
     }
 
     @PostMapping("/toBeAddress")
-    public int toBeAddress() {
-        return applyService.getStatus("待审核");
+    public int toBeAddress(String company_id) {
+        return applyService.getStatus("待审核",company_id);
     }
 
     @PostMapping("/applySingleAddress")
