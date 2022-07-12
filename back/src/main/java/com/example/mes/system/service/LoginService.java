@@ -10,8 +10,8 @@ import java.util.List;
 @Service
 public interface LoginService {
     User login(LoginVo loginVo);
-    String getPermissionName(String roleName);
+    String getPermissionName(String roleName, Integer company_id);
 
-    List<String> getAccessName(String permissionName);
+    List<String> getAccessName(String permissionName, Integer company_id);
 
 }

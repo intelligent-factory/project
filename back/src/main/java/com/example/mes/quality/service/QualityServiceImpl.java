@@ -25,10 +25,9 @@ public class QualityServiceImpl implements QualityService {
         qualityMapper.addQualityResults(qualityBean);
     }
 
-
     @Override
-    public List<QualityBean> getResults() {
-        return qualityMapper.getQualityResults();
+    public List<QualityBean> getResults(String company_id) {
+        return qualityMapper.getQualityResults(company_id);
     }
 
     @Override
@@ -52,9 +51,9 @@ public class QualityServiceImpl implements QualityService {
     }
 
     @Override
-    public List<String> getDefectCode(List<String> list) {
+    public List<String> getDefectCode(List<String> list,String company_id) {
         try {
-            return qualityMapper.getDefectCode(list);
+            return qualityMapper.getDefectCode(list,company_id);
         }catch (Exception e){
             e.printStackTrace();
             System.out.println("获取瑕疵代号列表失败！");

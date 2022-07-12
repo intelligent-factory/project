@@ -35,9 +35,9 @@ public class StationService {
         station.setModified_time(timestamp);
     }
 
-    public void create(String workshopId, String lineId, StationVo params, String type)throws SQLException {
+    public void create(String workshopId, String lineId, StationVo params, String type,String company_id)throws SQLException {
         //车间不存在
-        if(!type.equals("create") && workshopMapper.getById(workshopId) == null){
+        if(!type.equals("create") && workshopMapper.getById(workshopId,company_id) == null){
             System.out.println("车间不存在");
             throw new SQLException();
         }
@@ -88,13 +88,13 @@ public class StationService {
             throw new SQLException();
         }
         param.setPre_id(station_.getId());
-        create(workshopId, lineId, param, "insert");
+        create(workshopId, lineId, param, "insert",param.getCompany_id());
     }
 
-    public Result<PageVo<StationVo>> applyStation(String page, String page_size) throws SQLException {
+    public Result<PageVo<StationVo>> applyStation(String page, String page_size,String company_id) throws SQLException {
         Result<PageVo<StationVo>> result = new Result<>();
         PageVo<StationVo> pageVo = new PageVo();
-        Integer size = stationMapper.getApplyCount();
+        Integer size = stationMapper.getApplyCount(company_id);
         if(size == null)
             size = 0;
         pageVo.setTotal(size);
@@ -111,7 +111,7 @@ public class StationService {
             pageVo.setPages(Integer.parseInt(page_size));
         }
         pageVo.setCurrent(Integer.parseInt(page));
-        List<StationVo> currentlist = stationMapper.selectApplyAll((pageVo.getCurrent() - 1) * Integer.parseInt(page_size), pageVo.getPages());
+        List<StationVo> currentlist = stationMapper.selectApplyAll((pageVo.getCurrent() - 1) * Integer.parseInt(page_size), pageVo.getPages(),company_id);
         for(StationVo station : currentlist){
             if(station.getVerify().equals("delete")) {
                 station.setCreated_time(station.getModified_time());

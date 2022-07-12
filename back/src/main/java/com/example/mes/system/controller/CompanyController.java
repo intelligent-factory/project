@@ -1,14 +1,11 @@
 package com.example.mes.system.controller;
 
 import com.example.mes.system.entity.Company;
-import com.example.mes.system.entity.Role;
-import com.example.mes.system.entity.User;
 import com.example.mes.system.entity.Vo.UserUpdateVo;
 import com.example.mes.system.entity.Vo.CompanyDeleteVo;
 import com.example.mes.system.entity.Vo.CompanySelectVo;
 import com.example.mes.system.entity.Vo.CompanyUpdateVo;
-import com.example.mes.system.service.CompanyService;
-import com.example.mes.system.service.UserService;
+import com.example.mes.system.service.*;
 import com.example.mes.system.service.impl.MyImplUtils;
 import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +24,12 @@ public class CompanyController {
     private CompanyService companyService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private PermissionService permissionService;
+    @Autowired
+    private RoleService roleService;
+    @Autowired
+    private DepartmentService departmentService;
 
     @PostMapping("/companyList")
     public Object queryCompanyList(
@@ -81,6 +84,7 @@ public class CompanyController {
                 Company lastCompany = companyService.getLastData();
                 int new_company_id = lastCompany.getCompany_id()+1;
                 companyUpdateVo.setCompany_id(new_company_id);
+                companyUpdateVo.setStatus("正常运行");
                 companyService.companyInsert(companyUpdateVo);
                 //2.生成超管账号（默认账号为company_id+100000,密码为100000，暂不提供修改密码的方法）
                 int new_user_id = new_company_id*100000+10000;
@@ -97,12 +101,68 @@ public class CompanyController {
                 new_user.user = companyUpdateVo.getUser();
                 new_user.user.setId(100000);
                 userService.userAdd(new_user);
+                //3.自动生成默认的权限、角色、部门等
+                //生成默认权限
+                permissionService.setDefaultPermission(new_user.id,new_company_id);
+                //生成默认角色
+                roleService.setDefaultRole(new_user.id,new_company_id);
+                //生成默认部门
+                departmentService.setDefaultDepartment(new_user.id,new_company_id);
                 res.put("company_id", new_company_id);
                 MyUtils.success(res);
             }
+        }else  if(companyUpdateVo.getRequest().equals("register")) {
+            if (company != null) {
+                if (company.getMail().equals(companyUpdateVo.getMail())) {
+                    MyUtils.fail(res, "该邮箱已被使用,无法注册新公司");
+                } else {
+                    MyUtils.fail(res, "该公司已经存在，请勿重复创建");
+                }
+            } else {
+                Company lastCompany = companyService.getLastData();
+                int new_company_id = lastCompany.getCompany_id() + 1;
+                companyUpdateVo.setCompany_id(new_company_id);
+                companyUpdateVo.setStatus("待审核");
+                companyService.companyInsert(companyUpdateVo);
+                res.put("company_id", new_company_id);
+                MyUtils.success(res);
+            }
+        }else if (companyUpdateVo.getRequest().equals("commit")){
+            companyUpdateVo.setStatus("正常运行");
+            companyService.companyUpdate(companyUpdateVo);
+            Integer new_company_id = companyUpdateVo.getCompany_id();
+            //2.生成超管账号（默认账号为company_id+100000,密码为100000，暂不提供修改密码的方法）
+            int new_user_id = new_company_id*100000+10000;
+            UserUpdateVo new_user = new UserUpdateVo();
+            new_user.id = new_user_id;
+            new_user.name = "超级管理员";
+            new_user.age = 0;
+            new_user.sex = 0;
+            new_user.pwd = "100000";
+            new_user.department = "默认部门";
+            new_user.user_name = String.valueOf(new_user_id);
+            new_user.role = "超级管理员";
+            new_user.company_id = new_company_id;
+            new_user.user = companyUpdateVo.getUser();
+            new_user.user.setId(100000);
+            userService.userAdd(new_user);
+            //3.自动生成默认的权限、角色、部门等
+            //生成默认权限
+            permissionService.setDefaultPermission(new_user.id,new_company_id);
+            //生成默认角色
+            roleService.setDefaultRole(new_user.id,new_company_id);
+            //生成默认部门
+            departmentService.setDefaultDepartment(new_user.id,new_company_id);
+            MyUtils.success(res);
+        }else  if (companyUpdateVo.getRequest().equals("refuse")){
+            companyUpdateVo.setStatus("审核不通过");
+            companyUpdateVo.setIs_deleted("1");
+            companyService.companyUpdate(companyUpdateVo);
+            MyUtils.success(res);
         }
 
         return res;
     }
+
 
 }

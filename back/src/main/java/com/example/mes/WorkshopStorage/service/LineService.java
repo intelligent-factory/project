@@ -105,7 +105,7 @@ public class LineService {
         for(LinePara linepara: params.getLines()) {
 
             //产线已经存在
-            LineVo lineVo = lineMapper.checkById(params.getTheWorkshopId(), linepara.getNewLineId());
+            LineVo lineVo = lineMapper.checkById(params.getTheWorkshopId(), linepara.getNewLineId(),params.getCompany_id());
             if (lineVo != null && (linepara.getPre_id() == null || linepara.getPre_id().equals(""))) {
                 throw new SQLException();
             }
@@ -226,10 +226,10 @@ public class LineService {
 //        result.setResult(LineVoList);
 //        return result;
 //    }
-    public Result<PageVo<LineVo>> searchLineItem(String page, String page_size) throws SQLException {
+    public Result<PageVo<LineVo>> searchLineItem(String page, String page_size,String company_id) throws SQLException {
         Result<PageVo<LineVo>> result = new Result<>();
         PageVo<LineVo> pageVo = new PageVo();
-        Integer size = lineMapper.getCount();
+        Integer size = lineMapper.getCount(company_id);
         if(size == null)
             size = 0;
         pageVo.setTotal(size);
@@ -246,14 +246,14 @@ public class LineService {
             pageVo.setPages(Integer.parseInt(page_size));
         }
         pageVo.setCurrent(Integer.parseInt(page));
-        List<LineVo> currentlist = lineMapper.selectAll((pageVo.getCurrent() - 1) * Integer.parseInt(page_size), pageVo.getPages());
+        List<LineVo> currentlist = lineMapper.selectAll((pageVo.getCurrent() - 1) * Integer.parseInt(page_size), pageVo.getPages(),company_id);
         for(LineVo line : currentlist){
             Integer cnt;
-            cnt = stationMapper.getStationNumByLineId(line.getWorkshop_id(), line.getId());
+            cnt = stationMapper.getStationNumByLineId(line.getWorkshop_id(), line.getId(),company_id);
             if(cnt != null){
                 line.setStationNum(cnt);
             }
-            cnt = stationMapper.getEquipNumByLineId(line.getWorkshop_id(), line.getId());
+            cnt = stationMapper.getEquipNumByLineId(line.getWorkshop_id(), line.getId(),company_id);
             if(cnt != null){
                 line.setEquipNum(cnt);
             }
@@ -264,10 +264,10 @@ public class LineService {
     }
 
     //车间里产线的分页
-    public Result<PageVo<newLineVo>> getLineItem(String workshopId, String page, String page_size) throws SQLException {
+    public Result<PageVo<newLineVo>> getLineItem(String workshopId, String page, String page_size,String company_id) throws SQLException {
         Result<PageVo<newLineVo>> result = new Result<>();
         PageVo<newLineVo> pageVo = new PageVo();
-        Integer size = lineMapper.getCountByWorkshopId(workshopId);
+        Integer size = lineMapper.getCountByWorkshopId(workshopId,company_id);
         if(size == null)
             size = 0;
         pageVo.setTotal(size);
@@ -285,17 +285,17 @@ public class LineService {
         }
         pageVo.setCurrent(Integer.parseInt(page));
 //        List<LineVo> currentlist = lineMapper.selectAll((pageVo.getCurrent() - 1) * Integer.parseInt(page_size), pageVo.getPages());
-        List<newLineVo> currentlist = lineMapper.selectPageLines(workshopId,(pageVo.getCurrent() - 1) * Integer.parseInt(page_size), pageVo.getPages());
+        List<newLineVo> currentlist = lineMapper.selectPageLines(workshopId,company_id,(pageVo.getCurrent() - 1) * Integer.parseInt(page_size), pageVo.getPages());
         for(newLineVo line : currentlist){
             Integer cnt;
-            cnt = stationMapper.getStationNumByLineId(workshopId, line.getId());
+            cnt = stationMapper.getStationNumByLineId(workshopId, line.getId(),company_id);
             if(cnt != null){
                 line.setStationNum(cnt);
             }
             //查找该产线的所有工位
-            List<newStationVo> station = stationMapper.getByLine(workshopId, line.getId());
+            List<newStationVo> station = stationMapper.getByLine(workshopId, line.getId(),company_id);
             line.setStations(station);
-            cnt = stationMapper.getEquipNumByLineId(workshopId, line.getId());
+            cnt = stationMapper.getEquipNumByLineId(workshopId, line.getId(),company_id);
             if(cnt != null){
                 line.setEquipNum(cnt);
             }
@@ -305,10 +305,10 @@ public class LineService {
         return result;
     }
 
-    public Result<PageVo<StationVo>> applyLine(String page, String page_size) throws SQLException {
+    public Result<PageVo<StationVo>> applyLine(String page, String page_size,String company_id) throws SQLException {
         Result<PageVo<StationVo>> result = new Result<>();
         PageVo<StationVo> pageVo = new PageVo();
-        Integer size = lineMapper.getApplyCount();
+        Integer size = lineMapper.getApplyCount(company_id);
         if(size == null)
             size = 0;
         pageVo.setTotal(size);
@@ -325,7 +325,7 @@ public class LineService {
             pageVo.setPages(Integer.parseInt(page_size));
         }
         pageVo.setCurrent(Integer.parseInt(page));
-        List<LineVo> currentlist = lineMapper.selectApplyAll((pageVo.getCurrent() - 1) * Integer.parseInt(page_size), pageVo.getPages());
+        List<LineVo> currentlist = lineMapper.selectApplyAll((pageVo.getCurrent() - 1) * Integer.parseInt(page_size), pageVo.getPages(), company_id);
         List<StationVo> resultlist = new LinkedList<>();
         for(LineVo line : currentlist){
             StationVo station = new StationVo();
@@ -355,19 +355,19 @@ public class LineService {
     }
 
 
-    public Result<LineVo> searchLine(String workshopId, String lineId) throws SQLException{
+    public Result<LineVo> searchLine(String workshopId, String lineId, String company_id) throws SQLException{
         Result<LineVo> result = new Result<>();
-        WorkshopVo workshopVo = workshopMapper.getById(workshopId);
+        WorkshopVo workshopVo = workshopMapper.getById(workshopId,company_id);
         if(workshopVo == null){
-            workshopVo = workshopMapper.getByName(workshopId);
+            workshopVo = workshopMapper.getByName(workshopId,company_id);
             workshopId = workshopVo.getId();
         }
         LineVo lineVo = lineMapper.getById(workshopId, lineId);
         if(lineVo == null){
             lineVo = lineMapper.getByName(workshopId, lineId);
         }
-        lineVo.setEquipNum(stationMapper.getEquipNumByLineId(workshopId, lineVo.getId()));
-        lineVo.setStationNum(stationMapper.getStationNumByLineId(workshopId, lineVo.getId()));
+        lineVo.setEquipNum(stationMapper.getEquipNumByLineId(workshopId, lineVo.getId(),company_id));
+        lineVo.setStationNum(stationMapper.getStationNumByLineId(workshopId, lineVo.getId(),company_id));
         result.setResult(lineVo);
         return result;
     }
@@ -385,7 +385,7 @@ public class LineService {
         lineMapper.deleteAllLine(workshopId, lineId, timestamp);
     }
 
-    public List<QueryProductVo> searchProductId() {
-        return lineMapper.searchProductId();
+    public List<QueryProductVo> searchProductId(String company_id) {
+        return lineMapper.searchProductId(company_id);
     }
 }

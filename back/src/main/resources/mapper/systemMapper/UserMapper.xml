@@ -13,6 +13,7 @@
             (name like '%${userVo.filter_name}%' or #{userVo.filter_name} = '')
             and (user_name like '%${userVo.filter_user_name}%' or #{userVo.filter_user_name} = '')
             and (id like '%${userVo.filter_id}%' or #{userVo.filter_id} = 0)
+            and (company_id = #{userVo.user.company_id})
             and (is_deleted = '0')
 
             <if test="userVo.filter_role.size > 0">
@@ -37,16 +38,16 @@
     </select>
 
     <select id="getLastCount" resultType="integer">
-        select FOUND_ROWS()
+        select count(*) from user where company_id = #{company_id}
     </select>
 
 
     <select id="queryAllRoleName" parameterType="com.example.mes.system.entity.Vo.UserVo" resultType="string">
-        select DISTINCT role_name from role
+        select DISTINCT role_name from role where company_id = #{company_id}
     </select>
 
     <select id="queryAllDepartmentName" resultType="string">
-        select DISTINCT department_name from department
+        select DISTINCT department_name from department where company_id = #{company_id}
     </select>
 
     <update id="deleteUsers">
@@ -55,12 +56,12 @@
         modified_time = #{user.modified_time},
         modified_by = #{user.modified_by},
         status = #{user.status}
-        where id = #{user.id}
+        where id = #{user.id} and company_id = #{user.company_id}
     </update>
 
     <select id="findUserById" resultType="com.example.mes.system.entity.User">
         select * from user
-        where id = #{id}
+        where id = #{id} and company_id = #{company_id}
     </select>
 
     <update id="userUpdate" parameterType="com.example.mes.system.entity.Vo.UserUpdateVo">
@@ -77,29 +78,29 @@
             modified_time = #{n.modified_time},
             modified_by = #{n.modified_by}
         </set>
-        where id = #{n.id}
+        where id = #{n.id} and company_id = #{n.company_id}
     </update>
 
     <insert id="userAdd" parameterType="com.example.mes.system.entity.Vo.UserUpdateVo">
         insert into
-        user(id, name, age, sex, pwd, department, user_name, role,company_id, created_time, status, is_deleted,
-        created_by, modified_time, modified_by)
-        values (#{n.id},#{n.name},#{n.age},#{n.sex},#{n.pwd},#{n.department},#{n.user_name},#{n.role},#{n.company_id},#{n.created_time},#{n.status},#{n.is_deleted},#{n.created_by},
-        #{n.modified_time}, #{n.modified_by})
+        user(id, name, age, sex, pwd, department, user_name, role, created_time, status, is_deleted,
+        created_by, modified_time, modified_by,company_id)
+        values (#{n.id},#{n.name},#{n.age},#{n.sex},#{n.pwd},#{n.department},#{n.user_name},#{n.role},#{n.created_time},#{n.status},#{n.is_deleted},#{n.created_by},
+        #{n.modified_time}, #{n.modified_by},#{n.company_id})
 
     </insert>
 
     <select id="findUserDepartment" resultType="string">
         select department from user
-        where id = #{id}
+        where id = #{id} and company_id = #{company_id}
     </select>
 
     <insert id="createApply">
         insert into apply (transfer_id, from_department, to_department, status, is_deleted, created_time, created_by,
-        handled_time, handled_by)
+        handled_time, handled_by,company_id)
         VALUES (#{apply.transfer_id},#{apply.from_department},#{apply.to_department},
         #{apply.status},#{apply.is_deleted},#{apply.created_time},#{apply.created_by},
-        #{apply.handled_time},#{apply.handled_by})
+        #{apply.handled_time},#{apply.handled_by},#{apply.company_id})
     </insert>
 
     <select id="findApply" resultType="com.example.mes.system.entity.Apply">
@@ -107,6 +108,7 @@
         where (transfer_id = #{id})
         and (status = '待审核')
         and (is_deleted = '0')
+        and (company_id = #{company_id})
     </select>
 
     <select id="getApply" resultType="integer">
@@ -114,5 +116,6 @@
         where transfer_id = #{id}
         and is_deleted = '0'
         and status = '待审核'
+        and company_id = #{company_id}
     </select>
 </mapper>

@@ -16,7 +16,7 @@ public interface DepartmentService extends IService<Department> {
 
     int getLastCount();
 
-    void departmentDelete(Department department,int handler);
+    void departmentDelete(Department department, int handler);
 
     Department departmentFind(DepartmentUpdateVo departmentUpdateVo);
 
@@ -32,4 +32,6 @@ public interface DepartmentService extends IService<Department> {
     void newDepartmentAdd(newDepartmentUpdateVo newdepartmentUpdateVo);
 
     void newDepartmentUpdate(newDepartmentUpdateVo newdepartmentUpdateVo);
+
+    void setDefaultDepartment(Integer user_id, Integer company_id);
 }

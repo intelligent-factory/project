@@ -2,6 +2,7 @@ package com.example.mes.system.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import io.swagger.models.auth.In;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -19,4 +20,5 @@ public class Permission implements Serializable {
     private String created_time;
     private Timestamp modified_time;
     private String modified_by;
+    private Integer company_id;
 }

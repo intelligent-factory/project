@@ -14,20 +14,20 @@ import java.util.List;
 public interface WorkshopMapper {
 
     List<WorkshopVo> selectAll(@Param("start") long start, @Param("num") long num);
-    List<WorkshopVo> selectApplyAll(@Param("start") long start, @Param("num") long num);
+    List<WorkshopVo> selectApplyAll(@Param("start") long start, @Param("num") long num,@Param("company_id") String company_id);
 
     List<WorkshopVo> all_workshop();
-    WorkshopVo getById(@Param("workshopId") String workshopId);
+    WorkshopVo getById(@Param("workshopId") String workshopId,@Param("company_id") String company_id);
     WorkshopVo getApplyById(@Param("workshopId") String workshopId);
-    WorkshopVo getByName(@Param("workshopName") String workshopName);
+    WorkshopVo getByName(@Param("workshopName") String workshopName,@Param("company_id") String company_id);
     WorkshopVo createInfo(@Param("workshopId") String workshopId);
-    Integer getCount();
-    Integer getApplyCount();
+    Integer getCount(@Param("company_id") String company_id);
+    Integer getApplyCount(@Param("company_id") String company_id);
     void insert(Workshop params);
     void setNormal(@Param("workshopId") String workshopId, @Param("modified_time") Timestamp modified_time, @Param("user") String user);
     void setNormalDelete(@Param("workshopId") String workshopId, @Param("modified_time") Timestamp modified_time, @Param("user") String user);
     void setDelete(@Param("workshopId") String workshopId, @Param("modified_time") Timestamp modified_time, @Param("user") String user);
-    WorkshopVo checkById(@Param("workshopId") String workshopId);
+    WorkshopVo checkById(@Param("workshopId") String workshopId,@Param("company_id") String company_id);
     WorkshopVo checkByPre_id(@Param("workshopId") String workshopId);
     //TODO :add modified user
     void deleteWorkshop(@Param("workshopId") String workshopId, @Param("modified_time") Timestamp modified_time);

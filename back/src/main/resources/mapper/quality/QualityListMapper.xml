@@ -25,17 +25,18 @@
 
     <select id="queryQualityList" resultType="com.example.mes.quality.bean.QualityListBean">
         select SQL_CALC_FOUND_ROWS * from quality_list
-        <where>
+        where
             (workshop_id like '%${qualityListVo.filter_workshopID}%' or #{qualityListVo.filter_workshopID} = '')
             and (line_id like '%${qualityListVo.filter_lineID}%' or #{qualityListVo.filter_lineID} = '')
             and (status like '%${qualityListVo.filter_status}%' or #{qualityListVo.filter_status} = '未选择')
+            and (company_id = #{qualityListVo.company_id})
 
             limit #{numStart}, #{numEnd}
-        </where>
+
     </select>
 
     <update id="updateQualityListStatus">
-        update quality_list set status = '1' where list_id = #{list_id}
+        update quality_list set status = '1' where list_id = #{list_id} and company_id = #{company_id}
     </update>
 
     <select id="queryQualityByListID" resultType="com.example.mes.quality.bean.QualityListBean">
@@ -43,7 +44,7 @@
     </select>
 
     <select id="getLastCount" resultType="java.lang.Integer">
-        select FOUND_ROWS()
+        select COUNT(*) from quality_list where company_id = #{qualityListVo.company_id}
     </select>
 
     <select id="getAllWorkshop" resultType="java.lang.String">
@@ -51,7 +52,7 @@
     </select>
 
     <select id="getAllLine" resultType="java.lang.String">
-        select distinct line_id from quality_list
+        select distinct line_id from quality_list where company_id = #{company_id}
     </select>
 
     <select id="getAllLinesByWorkshop" resultType="java.lang.String">

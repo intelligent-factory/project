@@ -18,5 +18,6 @@ public class RoleUpdateVo {
     private Timestamp modified_time;
     private String modified_by;
     private String request;
+    private Integer company_id;
     private User user;
 }

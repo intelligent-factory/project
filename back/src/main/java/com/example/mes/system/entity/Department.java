@@ -19,4 +19,5 @@ public class Department implements Serializable {
     private String created_by;
     private Timestamp modified_time;
     private String modified_by;
+    private Integer company_id;
 }

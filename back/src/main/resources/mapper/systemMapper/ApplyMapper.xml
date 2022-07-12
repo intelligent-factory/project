@@ -17,24 +17,26 @@
                 </foreach>
             </if>
             and (transfer_id like '%${applySelectVo.filter_transfer_id}%' or #{applySelectVo.filter_transfer_id} = 0)
+            and (company_id = #{company_id})
         </where>
         order by ${applySelectVo.sort} ${applySelectVo.sortMethod}
         limit #{numStart}, #{numEnd}
     </select>
     <select id="getLastCount" resultType="integer">
-        select FOUND_ROWS()
+        select count(*) from apply where company_id = #{company_id}
     </select>
 
     <select id="getStatusList" resultType="com.example.mes.system.entity.Vo.ApplyStatusVo">
         select status, count(*) as count
         from apply
+        where company_id = #{company_id}
         group by status
     </select>
 
     <select id="getStatus" resultType="integer">
         select count(status)
         from apply
-        where status = #{status}
+        where status = #{status} and company_id = #{company_id}
     </select>
 
     <update id="applyAddress">

@@ -27,4 +27,6 @@ public interface PermissionService extends IService<Permission> {
     void permissionInsert(PermissionUpdateVo permissionUpdateVo);
 
     void permissionAllDelete(PermissionUpdateVo permissionUpdateVo);
+
+    void setDefaultPermission(Integer user_id, Integer company_id);
 }
