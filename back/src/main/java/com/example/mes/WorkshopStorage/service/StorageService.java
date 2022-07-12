@@ -79,9 +79,9 @@ public class StorageService {
         return storageVoResult;
     }
 
-    public void create(StoragePara params,String company_id) throws SQLException {
+    public void create(StoragePara params) throws SQLException {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());;
-        if(storageMapper.search(params.getStorage_id(),company_id) != null){
+        if(storageMapper.search(params.getStorage_id(),params.getCompany_id()) != null){
             throw new SQLException();
         }
         String uuid = UUID.randomUUID().toString().replace("-", "");
@@ -94,7 +94,7 @@ public class StorageService {
         storageVo.setCreated_time(timestamp);
         storageVo.setModified_by(params.getUser());
         storageVo.setModified_time(timestamp);
-        storageVo.setCompany_id(company_id);
+        storageVo.setCompany_id(params.getCompany_id());
         storageMapper.create(storageVo);
         for(Shelfpara shelfpara : params.getShelfs()){
             ShelfVo shelfVo = new ShelfVo();
@@ -107,7 +107,7 @@ public class StorageService {
             shelfVo.setCreated_time(timestamp);
             shelfVo.setModified_by(params.getUser());
             shelfVo.setModified_time(timestamp);
-            shelfVo.setCompany_id(company_id);
+            shelfVo.setCompany_id(params.getCompany_id());
             shelfMapper.insert(shelfVo);
         }
     }

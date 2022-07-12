@@ -77,6 +77,7 @@ export default {
 
   data() {
     return {
+      userMsg:'',
       storeForm: [],
       loading:false,
       page:{
@@ -97,6 +98,8 @@ export default {
   },
 
   created() {
+    this.userMsg=JSON.parse(sessionStorage.getItem('userinfo'))
+    console.log(this.userMsg)
     console.log('sector----',this.$route.query)
     this.getData()
   },
@@ -142,7 +145,8 @@ export default {
     getData(){
       let req= {
         current: this.page.current,  //页数从1开始
-        pages: this.page.pages  // 每页多少数据
+        pages: this.page.pages, // 每页多少数据
+        company_id:this.userMsg.company_id
       }
       console.log(this.page.current)
       this.loading = true
@@ -192,7 +196,9 @@ export default {
       console.log(item);
       let req = {
         storage_id:item.id,
-        user:this.$store.getters.userinfo.id
+        user:this.$store.getters.userinfo.id,
+        // 或者是 company_id:item.company_id
+        company_id:this.userMsg.company_id,
         // user:1
       }
       this.loading = true
@@ -232,7 +238,8 @@ export default {
             this.getData()
           }else {
             let req = {
-              storage_id: this.input.input
+              storage_id: this.input.input,
+              company_id:this.userMsg.company_id,
             }
             this.loading = true
 

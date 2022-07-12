@@ -79,7 +79,7 @@
       <el-table-column
           label="操作">
         <template slot-scope="scope" >
-          <el-button @click="inOutApply(scope.$index,scope.row)" :disabled="scope.row.quantity_sum < scope.row.quantity && scope.row.in_out=='出库'" type="text" size="small">出入库申请</el-button>
+          <el-button @click="inOutApply(scope.$index,scope.row)" :disabled="scope.row.quantity_sum < scope.row.quantity && scope.row.types=='出库' " type="text" size="small">出入库申请</el-button>
         </template>
       </el-table-column>
 
@@ -107,6 +107,7 @@ export default {
   name: "itemRequest",
   data(){
     return {
+      userMsg:'',
       enough:true,
       itemRequest:{
         goods_id:'', //编号
@@ -134,6 +135,8 @@ export default {
     }
   },
   created() {
+    this.userMsg=JSON.parse(sessionStorage.getItem('userinfo'))
+    console.log(this.userMsg)
     this.getData()
   },
   methods:{
@@ -182,7 +185,8 @@ export default {
         goods_name: this.itemRequest.goods_name,
         type: this.itemRequest.types,
         time1: this.itemRequest.time1,
-        time2: this.itemRequest.time2
+        time2: this.itemRequest.time2,
+        company_id:this.userMsg.company_id
       }
       console.log('req:',req)
 
@@ -215,7 +219,9 @@ export default {
     inOutApply(index,row){
       let  req = {
         uuid : row.uuid,
-        user:this.$store.getters.userinfo.id
+        user:this.$store.getters.userinfo.id,
+        // 也可能是 company_id : row.company_id,
+        company_id:this.userMsg.company_id
         // user:1
       }
       console.log('申请出库的req',req)

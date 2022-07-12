@@ -6,6 +6,14 @@ public class StoragePara {
     private String Storage_id;
     private List<Shelfpara> Shelfs;
     private String user;
+    private String company_id;
+    public String getCompany_id() {
+        return company_id;
+    }
+
+    public void setCompany_id(String company_id) {
+        this.company_id = company_id;
+    }
 
     public String getUser() {
         return user;

@@ -69,6 +69,7 @@
               </div>
               <div class="text item">
                 <el-divider></el-divider>
+                <p>存放物品类别：{{ item.types}}</p>
                 <p>创建时间：{{ item.created_time}}</p>
                 <p>创建人：{{ item.created_by}}</p>
               </div>
@@ -141,6 +142,7 @@ export default {
 
   data(){
     return {
+      userMsg:'',
       page:{
         pages: 8,
         current: 1,
@@ -167,6 +169,8 @@ export default {
     }
   },
   created() {
+    this.userMsg=JSON.parse(sessionStorage.getItem('userinfo'))
+    console.log(this.userMsg)
     console.log(this.$route.query,'shelf')
     this.getData()
   },
@@ -191,7 +195,9 @@ export default {
         storage_id:this.$route.query.storage_id,
         current: this.page.current,  //页数 从1开始
         pages: this.page.pages, // 每页多少数据
-        user:this.$store.getters.userinfo.id
+        user:this.$store.getters.userinfo.id,
+        company_id:this.userMsg.company_id
+
         // user:1
       };
       console.log('getData的req，',req)
@@ -270,7 +276,9 @@ export default {
         let req = {
           storage_id : this.$route.query.storage_id,
           id: item.id,
-          user:this.$store.getters.userinfo.id
+          user:this.$store.getters.userinfo.id,
+          // 或者是 company_id:item.company_id
+          company_id:this.userMsg.company_id
           // user:1
         }
       console.log('删除或加的req',req)
@@ -307,8 +315,10 @@ export default {
             itemId:this.item.row.id,// 物品id
             newSectorId: this.info.sectorId,
             newShelfId: this.info.shelfId,
-            newLocation: this.info.location
-          }
+            newLocation: this.info.location,
+            company_id:this.userMsg.company_id
+
+        }
           console.log('req---------------------',req)
           console.log(this.item)
           request({
@@ -346,7 +356,8 @@ export default {
           }else {
             let req = {
               storage_id:this.$route.query.storage_id,
-              id: this.input.input
+              id: this.input.input,
+              company_id:this.userMsg.company_id
             }
             console.log('查询某个货架的req',req)
             my_request({
@@ -400,7 +411,8 @@ export default {
 
       let req = {
         storage_id: this.$route.query.storage_id,
-        user:this.$store.getters.userinfo.id
+        user:this.$store.getters.userinfo.id,
+        company_id:this.userMsg.company_id
         // user:1
       }
       console.log(req,'reerer')
@@ -435,7 +447,8 @@ export default {
           let req  = {
             storage_id:this.$route.query.storage_id,
             id: this.shelf.id,
-            user:this.$store.getters.userinfo.id
+            user:this.$store.getters.userinfo.id,
+            company_id:this.userMsg.company_id
             // user:1
           }
           my_request({

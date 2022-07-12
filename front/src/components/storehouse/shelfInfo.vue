@@ -138,6 +138,7 @@ export default {
   name: "shelfInfo",
   data(){
     return {
+      userMsg:'',
       page:{
         pages: 7,
         current: 1,
@@ -166,6 +167,8 @@ export default {
     }
   },
   created() {
+    this.userMsg=JSON.parse(sessionStorage.getItem('userinfo'))
+    console.log(this.userMsg)
     this.getData()
   },
   methods:{
@@ -205,6 +208,7 @@ export default {
         current: this.page.current,  //页数 从1开始
         pages: this.page.pages, // 每页多少数据
         id:this.$route.query.id,
+        company_id:this.userMsg.company_id
       }
       my_request({
         url:'goods/search',
@@ -257,6 +261,7 @@ export default {
             shelf_id:this.$route.query.id,
             newStorage_id: this.info.storage_id,
             newShelf_id: this.info.shelf_id,
+            company_id:this.userMsg.company_id
           }
           console.log('转移整个货架的req',req)
 
@@ -302,7 +307,9 @@ export default {
             location: this.item.row.id,
             newStorage_id: this.info.storage_id,
             newShelf_id: this.info.shelf_id,
-            newLocation: this.info.location
+            newLocation: this.info.location,
+            company_id:this.userMsg.company_id
+
           }
           console.log('转移物品的req',req)
           my_request({

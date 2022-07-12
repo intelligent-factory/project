@@ -37,6 +37,7 @@ export default {
   name: "increSector",
   data(){
     return{
+      userMsg:'',
       storage: {
         shelfs: [],
         user: '',
@@ -45,12 +46,16 @@ export default {
 
     }
   },
+  created() {
+    this.userMsg=JSON.parse(sessionStorage.getItem('userinfo'))
+  },
   methods:{
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let req = this.storage
           req.user = this.$store.getters.userinfo.id
+          req.company_id = this.userMsg.company_id
           // req.user = 1
           console.log(req)
           my_request({
