@@ -1,34 +1,38 @@
 <template>
-  <div id="RoleManagement" ref="RoleManagement">
+  <div id="CompanyManagement" ref="CompanyManagement">
 
-    <div id="TableHeader">
-      <el-button @click="clearFilter" size="small">清除所有筛选</el-button>
-      <el-button @click="handleCreate" size="small">+新建角色</el-button>
-      <el-button @click="handleDelete()" size="small" :type="this.multipleSelection.length > 0 ? 'danger':''">删除角色
+    <div style="margin-left: 3%;margin-top: 3%" id="TableHeader">
+      <el-button @click="clearFilter" size="small">清除所有过滤器</el-button>
+      <el-button @click="handleCreate" size="small">添加公司</el-button>
+      <el-button @click="handleDelete()" size="small" :type="this.multipleSelection.length > 0 ? 'danger':''">删除公司
       </el-button>
 
       <!--      充当白板-->
       <div style="margin: auto;"></div>
 
-      <div id="FilterBar">
+      <div style="margin-right: 10%" id="FilterBar">
         <!--        <div class="filter-bar-item">-->
         <!--          <span style="margin-right: 5px;">角色名</span>-->
         <!--          <el-input v-model="filter_id" type="number" placeholder="查询id" size="small"></el-input>-->
         <!--        </div>-->
         <div class="filter-bar-item">
-          <span style="margin-right: 5px;">角色名</span>
-          <el-input v-model="filter_role_name" placeholder="查询角色名" size="small"></el-input>
+          <span style="margin-right: 5px;width: 40px;">搜索</span>
+
+          <!-- 22.7.7 修改了model👇-->
+
+          <el-input v-model="filter_company_name" placeholder="请输入公司名称" size="small"></el-input>
         </div>
         <!--        <div class="filter-bar-item">-->
         <!--          <span style="margin-right: 5px;">角色_id</span>-->
         <!--          <el-input v-model="filter_user_name" placeholder="查询账号" size="small"> ></el-input>-->
         <!--        </div>-->
-        <el-button size="small" @click="getData">查询</el-button>
+        <el-button size="small" @click="getData">搜索</el-button>
 
       </div>
 
 
     </div>
+    <div style="margin-left: 3%">
     <el-table
         v-loading="loading"
         class="elementTable"
@@ -51,65 +55,104 @@
       </el-table-column>
 
 
+<!--      22.7.7修改了column-key和prop字段👇-->
       <el-table-column
           min-width="45"
-          column-key="role_name"
-          prop="role_name"
+          column-key="company_name"
+          prop="company_name"
           sortable="custom"
-          label="角色名">
+          label="公司名">
+
+<!--        22.7.7修改了span里的内容↓-->
         <template slot-scope="scope">
-          <span>{{ scope.row.role_name }}</span>
+          <span>{{ scope.row.company_name }}</span>
         </template>
       </el-table-column>
 
+      <!--      22.7.7修改了column-key和prop字段👇-->
       <el-table-column
-          prop="role_id"
+          prop="company_id"
           min-width="45"
-          column-key="role_id"
+          column-key="company_id"
           sortable="custom"
-          label="角色id">
+          label="公司id">
+        <!--        22.7.7修改了span里的内容↓-->
+
         <template slot-scope="scope">
-          <span>{{ scope.row.role_id }}</span>
+          <span>{{ scope.row.company_id }}</span>
         </template>
       </el-table-column>
 
+<!--      22.7.8添加了mail字段-->
       <el-table-column
-          prop="role_describe"
+          prop="mail"
+          min-width="45"
+          column-key="mail"
+          sortable="custom"
+          label="注册邮箱">
+        <template slot-scope="scope">
+          <span>{{ scope.row.mail }}</span>
+        </template>
+      </el-table-column>
+
+
+      <!--      22.7.7修改了column-key和prop字段👇 但实际上company没有描述字段,所以展示的是company_name-->
+
+      <el-table-column
+          prop="company_describe"
           min-width="100"
-          column-key="role_describe"
-          label="描述">
+          column-key="company_describe"
+          label="公司状态">
         <template slot-scope="scope">
-          <span>{{ scope.row.role_describe }}</span>
+          <el-tag v-if="scope.row.status === '正常'" type="info">{{ scope.row.status }}</el-tag>
+          <el-tag v-if="scope.row.status === '正常运行'" type="success">{{ scope.row.status }}</el-tag>
+          <el-tag v-if="scope.row.status === '审核不通过'" type="danger">{{ scope.row.status }}</el-tag>
+          <el-tag v-if="scope.row.status === '待审核'" type="warning">{{ scope.row.status }}</el-tag>
+<!--          <span>{{ scope.row.status }}</span>-->
         </template>
       </el-table-column>
 
-      <el-table-column
-          prop="permission"
-          column-key="permission"
-          sortable="custom"
-          label="权限组">
-        <template slot-scope="scope">
-          <span>{{ scope.row.permission }}</span>
-        </template>
-      </el-table-column>
+<!--      <el-table-column-->
+<!--          prop="permission"-->
+<!--          column-key="permission"-->
+<!--          sortable="custom"-->
+<!--          label="权限组">-->
+<!--        <template slot-scope="scope">-->
+<!--          <span>{{ scope.row.permission }}</span>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
 
       <el-table-column
           fixed="right"
           label="操作"
-          width="120">
+          width="180">
 
         <template slot-scope="scope">
 
           <el-button
+              v-if="scope.row.status != '审核不通过'"
               @click.native.prevent="handleEdit(scope.$index, scope.row)"
               type="text"
               size="small">
-            修改
+            编辑
+          </el-button>
+          <el-button v-if="scope.row.status == '待审核'"
+              @click.native.prevent="handleCommit(scope.$index, scope.row)"
+              type="text"
+              size="small">
+            同意
+          </el-button>
+          <el-button v-if="scope.row.status == '待审核'"
+                     @click.native.prevent="handleRefuse(scope.$index, scope.row)"
+                     type="text"
+                     size="small">
+            拒绝
           </el-button>
         </template>
       </el-table-column>
 
     </el-table>
+    </div>
     <el-pagination
         id="TablePagination"
         background
@@ -122,25 +165,26 @@
         :current-page.sync="pageNum"
     >
     </el-pagination>
-    <RoleEditPanel
+    <CompanyEditPanel
         :current-obj="currentObj"
         :permission-list="permissionList"
         :dialog-visible="dialogVisible"
         :is-id-editable="isIdEditable"
         :mode="mode"
         @close="closeDialog"
-    ></RoleEditPanel>
+    ></CompanyEditPanel>
 
   </div>
 </template>
 
 <script>
 import {my_request, time_formatter} from "@/views/systemManagement/utils";
-import RoleEditPanel from "@/components/systemManagement/RoleEditPanel";
+import CompanyEditPanel from "@/components/systemManagement/CompanyEditPanel";
 
 export default {
-  name: "RoleManagement",
-  components: {RoleEditPanel},
+  name: "CompanyManagement",
+
+  components: {CompanyEditPanel},
   data() {
     return {
       tableData: [],
@@ -149,7 +193,7 @@ export default {
       pageNum: 1,
       totalNum: 50,
       loading: false,
-      mode:'update',
+      mode: 'update',
 
 
       //editpanel
@@ -160,11 +204,12 @@ export default {
       //selection
       multipleSelection: [],
 
+
       //filter
-      filter_role_name: "",
+      filter_company_name: "",
 
       //sort
-      sort: "role_name",
+      sort: "company_name",
       sortMethod: "asc",
     };
   },
@@ -176,25 +221,22 @@ export default {
     getData() {
       this.loading = true;
       let params = {
-        "filter_role_name": this.filter_role_name,
+        // 同改
+        "filter_company_name": this.filter_company_name,
       };
       params.pageSize = this.pageSize;
       params.pageNum = this.pageNum;
       params.sort = this.sort;
       params.sortMethod = this.sortMethod;
       return my_request(this, {
-        url: 'data/roleManagement/roleList',
+        url: 'data/companyManagement/companyList',
         method: 'post',
         data: params,
       }).then(res => {
         console.log(res.data);
-
-        let {total, roleList, permissionList} = res.data;
-        this.tableData = roleList;
-        this.permissionList = [];
-        for (let i = 0; i < permissionList.length; i++) {
-          this.permissionList.push({text: permissionList[i], value: permissionList[i]});
-        }
+        // 这里的permissionList应该是给角色管理内部的权限调整，后续估计应该要删
+        let {total, companyList} = res.data;
+        this.tableData = companyList;
         this.totalNum = total;
       }).finally(() => {
         this.loading = false;
@@ -204,10 +246,12 @@ export default {
       return time_formatter(time);
     },
 
+
+    // 同改
     //filter
     clearFilter() {
-      this.filter_role_name = "";
-      this.sort = "role_name";
+      this.filter_company_name = "";
+      this.sort = "company_name";
       this.sortMethod = 'asc'
       this.$refs.elementTable.clearFilter();
       this.getData();
@@ -229,7 +273,7 @@ export default {
     filterChange(args) {
 
       if (args.role_name) {
-        this.filter_role_name = args.role_name
+        this.filter_company_name = args.company_name
       }
       this.getData();
     },
@@ -252,11 +296,11 @@ export default {
     handleDelete() {
       let user = this.multipleSelection;
       if (user.length === 0) {
-        this.$message.info("未选择任何角色");
+        this.$message.info("未选择任何公司");
         return;
       }
       let count = user.length;
-      this.$confirm(`确定删除选择的${count}个角色？`, '提示', {
+      this.$confirm(`确定删除选择的${count}个公司？`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -264,10 +308,10 @@ export default {
         // request
         this.loading = true;
         my_request(this, {
-          url: 'data/roleManagement/roleDelete',
+          url: 'data/companyManagement/companyDelete',
           method: 'post',
           data: {
-            roleList:this.multipleSelection,
+            companyList: this.multipleSelection,
           },
         }).then(res => {
           this.$message({
@@ -306,6 +350,49 @@ export default {
       this.mode = 'insert';
       this.dialogVisible = true;
     },
+    handleCommit(index, row) {
+      this.currentObj = row;
+      this.mode = 'commit';
+      let data = this.currentObj;
+      data.request = this.mode;
+          my_request(this, {
+            url: '/data/companyManagement/companyUpdate',
+            method: 'post',
+            data: data,
+          }).then(res => {
+              this.$message.success({
+                dangerouslyUseHTMLString: true,
+                message: "申请批准成功! 新注册公司的超级管理员同步生成，默认id为：公司id+10000，密码为100000",
+                duration: 5000
+              });
+          }).finally(() => {
+            this.$emit('close');
+          });
+      this.getData();
+
+    },
+    handleRefuse(index, row) {
+      this.currentObj = row;
+      this.mode = 'refuse';
+      let data = this.currentObj;
+      data.request = this.mode;
+      my_request(this, {
+        url: '/data/companyManagement/companyUpdate',
+        method: 'post',
+        data: data,
+      }).then(res => {
+        this.$message.success({
+          dangerouslyUseHTMLString: true,
+          message: "操作成功！请及时通知申请人核实相关信息！",
+          duration: 5000
+        });
+      }).finally(() => {
+        this.$emit('close');
+      });
+      this.getData();
+
+    },
+
   },
   activated() {
     this.$nextTick(() => {
@@ -332,7 +419,7 @@ export default {
 
 #TableHeader {
   display: flex;
-  margin-bottom:20px;  /*justify-content: space-between;*/
+  margin-bottom: 20px; /*justify-content: space-between;*/
 }
 
 #TablePagination {

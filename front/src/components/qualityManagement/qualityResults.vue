@@ -86,6 +86,7 @@ export default {
   components: {EditForm, SearchBar},
   data() {
     return {
+      company_id:'',//公司id
       list_id: '',//质检单号
       qualityForm: [],
       currentPage: 1,
@@ -98,6 +99,7 @@ export default {
 
   mounted: function () {
     this.list_id = this.$route.query.list_id;
+    this.company_id = this.$store.getters.userinfo.company_id;
     this.loadBefore()
   },
   methods: {
@@ -105,7 +107,9 @@ export default {
 
     loadBefore() {
       let req = {
-        list_id: this.list_id
+        list_id: this.list_id,
+        //加公司id
+        company_id:this.$store.getters.userinfo.company_id,
       }
 
       var _this = this
@@ -128,11 +132,16 @@ export default {
       console.log(val);
     },
     searchResult() {
+      //加公司id
+      let req = {
+        company_id:this.$store.getters.userinfo.company_id,
+      };
       var _this = this
       var url = '/quality/search?keywords=' + _this.$refs.searchBar.keywords
       request({
         url: url,
-        methods: 'get'
+        methods: 'get',
+        params: req,
       }).then(res => {
         let data = res.data;
         _this.qualityForm = data;
@@ -146,8 +155,9 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
+        //加公司id
             this.$http
-                .post('/quality/delete', {id: id}).then(resp => {
+                .post('/quality/delete', {id: id,company_id:this.$store.getters.userinfo.company_id}).then(resp => {
               if (resp && resp.status === 200) {
                 this.loadBefore()
               }

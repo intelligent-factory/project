@@ -115,7 +115,7 @@ export default {
     ,
     querySearch(queryString, cb) {
       cb([
-          {"value": "admin", "name": "超级管理测试"},
+
           {"value": "100002", "name": "分析报表权限"},
           {"value": "100003", "name": "生产过程权限"},
           {"value": "100004", "name": "质量管理权限"},

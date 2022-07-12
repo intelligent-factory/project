@@ -20,7 +20,7 @@
         </el-form-item>
 
         <el-form-item class="item" label="描述" label-width="100px" prop="role_describe">
-          <el-input style="width: 500px" v-model="currentObj.role_describe" autocomplete="off"></el-input>
+          <el-input  v-model="currentObj.role_describe" autocomplete="off"></el-input>
         </el-form-item>
 
         <el-form-item class="item" label="权限组" label-width="100px" prop="permission">

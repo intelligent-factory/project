@@ -58,17 +58,24 @@ export default {
       defectForm: [],
       currentPage: 1,
       pagesize: 7,
+      company_id:'',
     }
   },
   mounted: function () {
-    this.loadDefects()
+    this.loadDefects();
+    this.company_id = this.$store.getters.userinfo.company_id;
   },
   methods: {
     loadDefects() {
+      //公司id
+      let req = {
+        company_id:this.$store.getters.userinfo.company_id,
+      };
       const _this = this;
       request({
         url: '/defect/all',
         method: 'get',
+        params: req,
       }).then(res => {
         const data = res.data;
         _this.defectForm = data;
@@ -86,11 +93,16 @@ export default {
     },
 
     searchResult() {
+      //添加公司id
+      let req = {
+        company_id:this.$store.getters.userinfo.company_id,
+      };
       const _this = this;
       const url = '/defect/search?keywords=' + _this.$refs.searchBar.keywords;
       request({
         url: url,
-        methods: 'get'
+        methods: 'get',
+        params: req,
       }).then(res => {
         let data = res.data;
         _this.defectForm = data;
@@ -107,7 +119,8 @@ export default {
         request({
             url:'/defect/delete',
             method: 'post',
-            data: {defectCode:defectCode,},
+          //添加公司id
+            data: {defectCode:defectCode,company_id:this.$store.getters.userinfo.company_id,},
           }).then(resp => {
           if (resp && resp.status === 200) {
             this.loadDefects()

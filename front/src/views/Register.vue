@@ -4,7 +4,7 @@
     <div class="box_item">
       <div class="login_box">
         <div class="title">
-          欢迎注册
+          欢迎入驻
         </div>
         <div id="bar"></div>
         <div class="form">
@@ -50,7 +50,7 @@ export default {
       form: {
         company_name: '',
         mail: '',
-        request:'insert',
+        request:'register',
         user:'100000'
       },
       rules: {
@@ -69,19 +69,27 @@ export default {
     }
   },
   methods: {
+    sleep1(numberMillis){
+      var now = new Date();
+      var exitTime = now.getTime() + numberMillis;
+      while (true) {
+        now = new Date();
+        if (now.getTime() > exitTime) return;
+      }
+    },
     register() {
       this.$refs.form.validate((valid) => {
         if (!valid) return;
         return my_request(this, {
-          url: '/data/companyManagement/companyUpdate',
+          url: 'data/companyManagement/companyUpdate',
           method: 'post',
           data: this.form,
         }).then(res => {
           if (res.data.company_id) {
             this.$message.success({
               dangerouslyUseHTMLString: true,
-              message: `注册成功！您的公司编码为：${parseInt(res.data.company_id)}<br/>系统自动为您生成超级管理员<br/>账号为：${parseInt(res.data.company_id)}10000，密码为：100000`,
-              duration: 2000
+              message: "申请已提交！系统管理员将在24小时内处理申请，届时会发送相关邮件，请查收！",
+              duration: 5000
             });
             this.$router.push("/login");
 
