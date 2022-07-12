@@ -27,13 +27,14 @@ public interface CustomOrderFormDao {
             "   product.brand brand ,product.company company," +
             "   product.color color ,product.season season ,plan_demand_form.id id" +
             "   from plan_demand_form, product" +
-            "   where plan_demand_form.is_deleted=0 and plan_demand_form.product_id = product.product_id LIMIT #{limit} OFFSET  #{offset}")
-    List<CustomOrderForm> findCustomOrderFormByLimit(@Param("offset") int offset,@Param("limit") int limit);
+            "   where plan_demand_form.is_deleted=0 and plan_demand_form.product_id = product.product_id and plan_demand_form.company_id = #{company_id} LIMIT #{limit} OFFSET  #{offset}")
+    List<CustomOrderForm> findCustomOrderFormByLimit(@Param("offset") int offset,@Param("limit") int limit,@Param("company_id") String company_id);
     /**
      *
      * 多条件客户订单分页查询
      * @param offset
      * @param limit
+     * @param company_id
      * @return
      */
     @Select("<script>" +
@@ -45,6 +46,7 @@ public interface CustomOrderFormDao {
             "   from plan_demand_form, product where" +
             "   <if test=\"no!= null and no!=''\"> plan_demand_form.no = #{no} and</if>" +
             "   <if test=\"company!= null and company!=''\"> product.company = #{company} and</if>" +
+            "   <if test=\"company_id!= null and company_id!=''\"> product.company_id = #{company_id} and</if>" +
             "   <if test=\"created_time_start!= null and created_time_start!='' \"> " +
             "       plan_demand_form.created_time > #{created_time_start} and </if>" +
             "   <if test=\"created_time_end!= null and created_time_end!='' \"> " +
@@ -58,8 +60,8 @@ public interface CustomOrderFormDao {
     List<CustomOrderForm> searchCustomOrderFormByLimit(
             @Param("no") String no, @Param("company") String company,
             @Param("created_time_start") String created_time_start, @Param("created_time_end") String created_time_end,
-            @Param("expected_time_start") String expected_time_start,@Param("expected_time_end") String expected_time_end,
-            @Param("offset") int offset,@Param("limit") int limit);
+            @Param("expected_time_start") String expected_time_start, @Param("expected_time_end") String expected_time_end,
+            @Param("offset") int offset, @Param("limit") int limit,@Param("company_id") String company_id);
 
     /*
     @Insert("insert into plan_demand_form (gid,wid,max,min,单位) values (#{CustomOrderForm.gid}, #{CustomOrderForm.wid} ,#{CustomOrderForm.max} ,"+

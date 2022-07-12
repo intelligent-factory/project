@@ -139,4 +139,12 @@ public class DemandFormVo {
 	public void setModifiedBy(String modifiedBy) {
 		this.df.setModifiedBy(modifiedBy);
 	}
+
+	public String getCompany_id() {
+		return df.getCompany_id();
+	}
+
+	public void setCompany_id(String company_id) {
+		this.df.setCompany_id(company_id);
+	}
 }

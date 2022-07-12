@@ -27,28 +27,29 @@ public class CustomOrderFormService {
      * @param limit
      * @return
      */
-    public List<CustomOrderForm> selectAllCustomOrderForm(int offset, int limit)
+    public List<CustomOrderForm> selectAllCustomOrderForm(int offset, int limit,String company_id)
     {
-        return customOrderFormDao.findCustomOrderFormByLimit(offset,limit);
+        return customOrderFormDao.findCustomOrderFormByLimit(offset,limit,company_id);
     }
     /**
      *
      * 多条件分页查询
      * @param offset
      * @param limit
+     * @param company_id
      * @return
      */
     public List<CustomOrderForm> searchCustomOrderForm(
             String no, String company,
             String created_time_start, String created_time_end,
-            String expected_time_start,String expected_time_end,
-            int offset, int limit)
+            String expected_time_start, String expected_time_end,
+            int offset, int limit, String company_id)
     {
         return customOrderFormDao.searchCustomOrderFormByLimit(
                 no, company,
                 created_time_start, created_time_end,
                 expected_time_start,expected_time_end,
-                offset, limit);
+                offset, limit,company_id);
     }
     /**
      *
