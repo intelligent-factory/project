@@ -35,6 +35,17 @@ public class DemandForm extends BaseEntity {
 
 	@ApiModelProperty("生产计划单合集")
 	private Set<Plan> planSet;
+
+	public String getCompany_id() {
+		return company_id;
+	}
+
+	public void setCompany_id(String company_id) {
+		this.company_id = company_id;
+	}
+
+	@ApiModelProperty("公司号")
+	private String company_id;
 	
 //	无法做到
 //	@ApiModelProperty("历史修改版本")

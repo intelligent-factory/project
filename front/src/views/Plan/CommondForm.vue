@@ -19,6 +19,7 @@
       <el-button @click="updateNo">申请</el-button>
       <router-view></router-view>
     </div>
+    
     <div>
       <el-table :data="result" border style="margin-left:50px;width:1270px">
         <el-table-column prop="no" label="单号"></el-table-column>
@@ -83,7 +84,8 @@ export default {
     request({
       url: "/demandForm/getDemandFormPageByCriteria",
       params:{
-        pageSize: 10
+        pageSize: 10,
+        company_id:this.$store.getters.userinfo.company_id
       }
     })
       .then((res) => {
@@ -142,7 +144,8 @@ export default {
           no: !this.demandNo ? null : this.demandNo.trim(),
           "product.brand": !this.productBrand ? null : this.productBrand.trim(),
           pageNo: this.page,
-          pageSize: 10
+          pageSize: 10,
+          company_id:this.$store.getters.userinfo.company_id
         },
       })
         .then((res) => {

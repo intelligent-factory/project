@@ -291,7 +291,9 @@
                         expected_time_start: !this.searchForm.expected_time_start ? null : this.searchForm.expected_time_start.trim(),
                         expected_time_end: !this.searchForm.expected_time_end ? null : this.searchForm.expected_time_end.trim(),
                         limit:this.limit,
-                        offset:this.offset
+                        offset:this.offset,
+                        company_id:this.$store.getters.userinfo.company_id
+
                       },
                   })
                       .then((res) => {
@@ -322,7 +324,8 @@
                   url: "/customOrderForm/allCustomOrderForm",
                   params: {
                       limit:this.limit,
-                      offset:this.offset
+                      offset:this.offset,
+                      company_id:this.$store.getters.userinfo.company_id
                       },
                   }).then((res) => {
                       console.log(res);

@@ -47,6 +47,7 @@ public class DemandFormHandler {
 				return demandFormService.saveDemandForm(demandFormVo);
 			}
 		} catch (Exception e) {
+		 	System.out.println(e);
 			return Result.error("保存失败");
 		}
 	 }
