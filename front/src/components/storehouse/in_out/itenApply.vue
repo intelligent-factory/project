@@ -262,6 +262,7 @@ export default {
     return {
       show: false,
       show_e: false,
+      userMsg:'',
 
       activeName: 'second',
       equipmentInfo:{
@@ -294,16 +295,20 @@ export default {
   },
   created() {
     this.userMsg=JSON.parse(sessionStorage.getItem('userinfo'))
+    console.log(this.userMsg)
     this.getWorkshop()
     this.getSecctor()
   },
   methods: {
     //获取车间编号和货架编号
     getWorkshop(){
+      let req = {
+        company_id:this.userMsg.company_id,
+      }
       my_request({
         url:'workshop/all_workshop',
         method:'get',
-        params:''
+        params:req
       }).then(res=>{
         console.log(res)
         //改data
@@ -314,13 +319,15 @@ export default {
       })
     },
     getSecctor(){
+      let req = {
+        company_id:this.userMsg.company_id,
+      }
       my_request({
         url:'storage/all_storage',
         method:'get',
-        params:''
+        params:req
       }).then(res=>{
         console.log(res)
-        //改data
         this.options_sector = res.data
       }).catch(err=>{
         console.log('请求数据getdata的返回值err:',err)
@@ -363,6 +370,7 @@ export default {
     sectorEquipChange(){
       let req = {
         storage_id:this.equipmentInfo.storage_id,
+        company_id:this.userMsg.company_id
       }
       console.log('req:',req)
       my_request({
@@ -380,7 +388,8 @@ export default {
     },
     sectorMaterialChange(){
       let req = {
-        storage_id:this.materialInfo.storage_id
+        storage_id:this.materialInfo.storage_id,
+        company_id:this.userMsg.company_id
       }
       console.log('req:',req)
       my_request({
@@ -451,7 +460,8 @@ export default {
             user: this.$store.getters.userinfo.id,
             //改名字
             storage_id:this.equipmentInfo.storage_id,
-            shelf_id:this.equipmentInfo.shelf_id
+            shelf_id:this.equipmentInfo.shelf_id,
+            company_id:this.userMsg.company_id
             // user: 1
           }
           console.log('申请设备的req：',req)
@@ -493,7 +503,8 @@ export default {
             user: this.$store.getters.userinfo.id,
             //改名字
             storage_id:this.materialInfo.storage_id,
-            shelf_id:this.materialInfo.shelf_id
+            shelf_id:this.materialInfo.shelf_id,
+            company_id:this.userMsg.company_id
             // user: 1
           }
           console.log('申请材料的req：',req)

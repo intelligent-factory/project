@@ -71,9 +71,9 @@ public class StorageController {
     }
 
     @PostMapping(value = "create")
-    public Result<?> create(@RequestBody StoragePara para, String company_id){
+    public Result<?> create(@RequestBody StoragePara para){
         try {
-            storageService.create(para,company_id);
+            storageService.create(para);
         } catch (Exception e) {
             LoggerFactory.getLogger(this.getClass()).error("创建失败",e.getMessage());
             return Result.error("创建失败!");
