@@ -14,6 +14,14 @@ public class StorageVo {
     private String modified_by;
     private int shelf_Num;
     private List<ShelfVo> Shelfs;
+    private String company_id;
+    public String getCompany_id() {
+        return company_id;
+    }
+
+    public void setCompany_id(String company_id) {
+        this.company_id = company_id;
+    }
 
     public List<ShelfVo> getShelfs() {
         return Shelfs;
