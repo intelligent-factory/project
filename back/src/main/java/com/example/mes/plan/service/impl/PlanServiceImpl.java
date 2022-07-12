@@ -112,9 +112,34 @@ public class PlanServiceImpl implements IPlanService {
 		return Result.ok(hashSet);
 	}
 
+
+
 	@Override
 	@Transactional
 	public Result<PageVo<PlanVo>> getPlanPageByCriteria(CriteriaVo<PlanVo> criteria) {
+
+		CriteriaVo<Plan> criteriaVo = new CriteriaVo<>(criteria.getEntityVo().getPlan(), criteria.getPageNo(),
+				criteria.getPageSize(), criteria.getBeginTimestamp(), criteria.getEndTimestamp(),criteria.getCompany_id());
+		List<Plan> list = planMapper.getPlanByCriteria(criteriaVo);
+
+		List<PlanVo> arrayList = new ArrayList<>();
+		for (Plan plan : list) {
+			arrayList.add(new PlanVo(plan));
+		}
+
+		int count = planMapper.getCountByCriteria(criteriaVo);
+
+		int pageCount = (int) Math.ceil((double) count / criteriaVo.getPageSize());
+		int pageSize = criteriaVo.getPageSize();
+		int current = criteriaVo.getPageNo();
+		PageVo<PlanVo> page = new PageVo<>(count, pageSize, pageCount, current, arrayList);
+		return Result.ok(page);
+
+	}
+
+
+	@Override
+	public Result<PageVo<PlanVo>> getPlanPageByCriteriaAndCompany(CriteriaVo<PlanVo> criteria, String company_id) {
 
 		CriteriaVo<Plan> criteriaVo = new CriteriaVo<>(criteria.getEntityVo().getPlan(), criteria.getPageNo(),
 				criteria.getPageSize(), criteria.getBeginTimestamp(), criteria.getEndTimestamp());
@@ -132,7 +157,6 @@ public class PlanServiceImpl implements IPlanService {
 		int current = criteriaVo.getPageNo();
 		PageVo<PlanVo> page = new PageVo<>(count, pageSize, pageCount, current, arrayList);
 		return Result.ok(page);
-
 	}
 
 	@Override
