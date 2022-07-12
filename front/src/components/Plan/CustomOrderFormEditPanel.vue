@@ -339,8 +339,8 @@ export default {
               }
               form+="\n\n品牌：" +
                   info.brand +
-                  "\n季节：" +
-                  info.season +
+                  // "\n季节：" +
+                  // info.season +
                   "\n样式：" +
                   info.style +
                   "\n颜色：" +
@@ -356,7 +356,7 @@ export default {
             request({
               url: "/demandForm/saveDemandForm",
               params: {
-                "product.companyId": this.currentObj.company,
+                "product.company": this.currentObj.company,
                 "product.brand": info.brand,
                 "product.season": info.season,
                 "product.style": info.style,
@@ -368,6 +368,7 @@ export default {
                 deleted: "0",
                 createdBy: user,
                 no: this.currentObj.no,
+                company_id:this.$store.getters.userinfo.company_id
               },
             }).then((res) => {
               this.$message.success("请求成功");
@@ -388,7 +389,7 @@ export default {
               request({
                 url: "/demandForm/saveDemandForm",
                 params: {
-                  "product.companyId": this.currentObj.company,
+                  "product.company": this.currentObj.company,
                   "product.brand": info.brand,
                   "product.season": info.season,
                   "product.style": info.style,
@@ -400,6 +401,7 @@ export default {
                   deleted: "0",
                   createdBy: user,
                   no: this.currentObj.no,
+                  company_id:this.$store.getters.userinfo.company_id
                 },
               }).then((res) => {
                 this.$message.success("请求成功");
@@ -425,8 +427,8 @@ export default {
                 this.currentObj_old.company +
                 "\n品牌：" +
                 info_old.brand +
-                "\n季节：" +
-                info_old.season +
+                // "\n季节：" +
+                // info_old.season +
                 "\n样式：" +
                 info_old.style +
                 "\n颜色：" +
@@ -486,7 +488,7 @@ export default {
         let result = this.currentObj_old.productInfo.split("-")
         let info = {
           brand: result[0],
-          season: result[1],
+         // season: result[1],
           style: result[2],
           color: result[3]
         }
@@ -497,8 +499,8 @@ export default {
             this.currentObj.company +
             "\n品牌：" +
             info.brand +
-            "\n季节：" +
-            info.season +
+            // "\n季节：" +
+            // info.season +
             "\n样式：" +
             info.style +
             "\n颜色：" +
