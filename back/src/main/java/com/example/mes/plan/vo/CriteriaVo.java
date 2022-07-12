@@ -24,8 +24,27 @@ public class CriteriaVo<T> {
     //结束时间
 //    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endTimestamp;
-    
-    public CriteriaVo() {
+
+	public String getCompany_id() {
+		return company_id;
+	}
+
+	public void setCompany_id(String company_id) {
+		this.company_id = company_id;
+	}
+
+	private String company_id;
+
+	public CriteriaVo(T entityVo, Integer pageNo, Integer pageSize, Date beginTimestamp, Date endTimestamp, String company_id) {
+		this.entityVo = entityVo;
+		this.pageNo = pageNo;
+		this.pageSize = pageSize;
+		this.beginTimestamp = beginTimestamp;
+		this.endTimestamp = endTimestamp;
+		this.company_id = company_id;
+	}
+
+	public CriteriaVo() {
 		super();
 	}
 
@@ -87,6 +106,6 @@ public class CriteriaVo<T> {
 	@Override
 	public String toString() {
 		return "CriteriaVo [entityVo=" + entityVo + ", pageNo=" + pageNo + ", pageSize=" + pageSize
-				+ ", beginTimestamp=" + beginTimestamp + ", endTimestamp=" + endTimestamp + "]";
+				+ ", beginTimestamp=" + beginTimestamp + ", endTimestamp=" + endTimestamp +", company_id=" + company_id + "]";
 	}
 }

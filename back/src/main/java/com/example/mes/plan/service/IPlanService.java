@@ -24,4 +24,6 @@ public interface IPlanService extends IService<PlanVo> {
 	Result<?> applyMaterial(String id,String createdBy, String dateStr);
 	
 	Result<Set<PlanVo>> getPlansByDemandForm(DemandFormVo demandFormVo);
+
+    Result<PageVo<PlanVo>> getPlanPageByCriteriaAndCompany(CriteriaVo<PlanVo> criteria, String company_id);
 }
