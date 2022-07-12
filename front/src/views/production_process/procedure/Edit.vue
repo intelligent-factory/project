@@ -61,7 +61,7 @@ export default {
         method: 'get',
         params: {
           procedure_id: this.procedure_id,
-          company_id: 1 ///todo
+          company_id: this.$store.getters.userinfo.company_id
         }
       }).then(res => {
         this.procedure = res.data
@@ -86,7 +86,7 @@ export default {
             comments: this.procedure.comments,
             cost: this.procedure.cost,
             operator_id: this.$store.getters.userinfo.id,
-            company_id: 1 ///todo
+            company_id: this.$store.getters.userinfo.company_id
           }
         }).then(res => {
           console.log(res.data)

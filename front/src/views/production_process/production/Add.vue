@@ -111,7 +111,7 @@ export default {
       this.product.company = product.company
       this.product.color = product.color
       this.product.comments = product.comments
-      this.product.company_id=1
+      this.product.company_id=this.$store.getters.userinfo.company_id
     },
     addProcess() {
       let process = this.$refs.add.process

@@ -62,7 +62,7 @@ export default {
         url: url,
         method: 'get',
         params: {
-          company_id: '',
+          company_id:this.$store.getters.userinfo.company_id ,
         }
       }).then(res => {
         let data = res.data;

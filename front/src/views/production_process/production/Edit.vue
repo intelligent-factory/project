@@ -181,7 +181,7 @@ export default {
         url: '/getProceduresByCompany',
         method: 'get',
         params:{
-          company_id:1,
+          company_id:this.$store.getters.userinfo.company_id,
         }
       }).then(res => {
         this.process_options = res.data
