@@ -1,7 +1,7 @@
 
 <template>
   <div>
-    <search-bar @onSearch="searchResult" ref="searchBar" class="searchBar"></search-bar>
+    <search-bar @onSearch="searchResult" ref="searchBar" class="searchBar" ></search-bar>
 
     <el-row class="el-row1">
       <el-tooltip effect="transparent" placement="bottom"
@@ -52,7 +52,7 @@ export default {
   components: {modelForm, SearchBar,modelSideMenu},
   data() {
     return {
-      classification:'',
+      classification:'material',
       modeldata: [],
       currentPage: 1,
       pagesize: 4,
@@ -64,11 +64,12 @@ export default {
   },
   methods: {
     loadModels() {
+
       request({
         url: '/template/material/all',
         method: 'get',
         params: {
-          company_id: "",
+          company_id: this.$store.getters.userinfo.company_id,
         }
       }).then(res => {
         console.log(res.data.materials)
@@ -88,32 +89,34 @@ export default {
     },
 
     searchResult() {
-      let classification = this.$refs.searchBar.keytype
+      // let classification = this.$refs.searchBar.keytype
+      let classification=this.classification
       let myurl = ""
-      if (classification==="MaterialTemplate"){
+      if (classification==="material"){
         myurl="template/material/getMaterialTemplateByName"
       }
-      if (classification==="EquipmentTemplate"){
+      if (classification==="equipment"){
         myurl="template/equipment/getEquipmentTemplateByName"
       }
-      if (classification==="ProductTemplate"){
-        myurl="/template/product/getProductTemplateByName"
-      }
-      console.log(classification)
-      console.log(myurl)
+      // if (classification==="product"){
+      //   myurl="/template/product/getProductTemplateByName"
+      // }
+      console.log("search"+classification)
+      // console.log(myurl)
+
       request({
         url: myurl,
         methods: 'get',
         params: {
           name: this.$refs.searchBar.keywords,
-          company_id: ""
+          company_id: this.$store.getters.userinfo.company_id,
         }
       }).then(res => {
         let data = res.data;
-        if (classification==='MaterialTemplate'){
+        if (classification==='material'){
           this.modeldata = data.materials;
         }
-        if (classification==='EquipmentTemplate'){
+        if (classification==='equipment'){
           this.modeldata = data.equipments;
         }
         // this.loadModels()
@@ -130,8 +133,8 @@ export default {
         url="template/equipment/deleteEquipmentTemplate"
       }
 
-      console.log(item.type)
-      console.log(url)
+      console.log("delete"+item.type)
+      // console.log(url)
       this.$confirm('此操作将永久删除该模版, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -144,7 +147,7 @@ export default {
                 name:item.name,
                 id:item.id,
                 attribute:item.attribute,
-                company_id:'',
+                company_id: this.$store.getters.userinfo.company_id,
         },
             }).then(resp => {
               if (resp && resp.status === 200) {
@@ -170,7 +173,7 @@ export default {
       let mytype = ""
       if(item.type==="material") {mytype="物料模版"}
       if(item.type==="equipment"){mytype="设备模版"}
-      console.log(myattributes)
+      // console.log(myattributes)
       this.$refs.edit.modelEditForm = {
         templateName: item.name,
         templateId: item.id,

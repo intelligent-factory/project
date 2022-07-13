@@ -36,13 +36,11 @@
     <update id="companyUpdate" parameterType="com.example.mes.system.entity.Vo.CompanyUpdateVo">
         update company
         <set>
-            <if test="n.company_id != null">company_id = #{n.company_id},</if>
-            <if test="n.status != null">status = #{n.status},</if>
-
+            status = #{n.status},
             modified_time = #{n.modified_time},
             modified_by = #{n.modified_by}
             <where>
-                company_name = #{n.company_name}
+                company_id = #{n.company_id}
             </where>
         </set>
     </update>

@@ -12,13 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- *
- * @Author: XiaoYu
- * @Date: 2021/07/13/14:01
- * @Description:质检结果接口
- */
 //@EnableOpenApi
 //@Api(description="瑕疵管理")
 @RestController
@@ -32,6 +25,7 @@ public class QualityController {
     @CrossOrigin
     @PostMapping("/quality/addResults")
     public void addResults(@RequestBody QualityBean qualityBean) throws Exception{
+
         qualityBean.setStatus("1");
         qualityBean.setIsDeleted("0");
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -45,8 +39,8 @@ public class QualityController {
     //    @ApiOperation(value = "返回所有质检结果")
     @CrossOrigin
     @GetMapping("/quality/getResults")
-    public List<QualityBean> getResults() throws Exception{
-        return qualityService.getResults();
+    public List<QualityBean> getResults(@RequestParam("company_id") String company_id) throws Exception{
+        return qualityService.getResults(company_id);
     }
 
     //根据list_id查询质检结果
@@ -59,10 +53,10 @@ public class QualityController {
 
     @CrossOrigin
     @GetMapping("/quality/getDefectCode")
-    public String getDefectCode(@RequestParam("defectType") List<String> list) {
+    public String getDefectCode(@RequestParam("defectType") List<String> list,@RequestParam("company_id") String company_id) {
 
         try {
-            return JSON.toJSONString(qualityService.getDefectCode(list));
+            return JSON.toJSONString(qualityService.getDefectCode(list,company_id));
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("产线下拉框生成失败！");
@@ -77,7 +71,8 @@ public class QualityController {
     @GetMapping("/quality/echarts")
     public List<List<?>> getResultsByDate(@RequestParam("keywords") String keyword) throws Exception{
         String[] str1 = keyword.split("~");
-        String[] str2 = {str1[1],str1[2]};
+        String[] str2 = {str1[1],str1[2],str1[3]};
+        System.out.println(str1[3]);
         //得到某日期某车间某生产线的不合格率的值
         List<Double> list1 = new ArrayList<>();
         List<QualityBean> qualityBeans = null;
@@ -85,7 +80,7 @@ public class QualityController {
         for(int i=0; i<qualityBeans.size();i++){
             Double num = 1-qualityBeans.get(i).getDefectRatio();
             BigDecimal bd = new BigDecimal(num);
-            num = bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            num = bd.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
             list1.add(num);
         }
         //得到某车间某生产线的不合格率的平均值
@@ -94,7 +89,7 @@ public class QualityController {
         for(int i=0; i<qualityBeans.size();i++){
             Double num = 1-qualityBeans.get(i).getDefectRatio();
             BigDecimal bd = new BigDecimal(num);
-            num = bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            num = bd.setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
             list2.add(num);
         }
         //得到某车间某生产线的瑕疵组成

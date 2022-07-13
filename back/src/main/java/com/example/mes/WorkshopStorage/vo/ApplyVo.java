@@ -21,6 +21,14 @@ public class ApplyVo {
     private String modified_by;
     private int quantity_sum;
     private String in_out;
+    private String company_id;
+    public String getCompany_id() {
+        return company_id;
+    }
+
+    public void setCompany_id(String company_id) {
+        this.company_id = company_id;
+    }
 
     public String getIn_out(){return in_out;}
     public void setIn_out(String in_out){this.in_out = in_out;}

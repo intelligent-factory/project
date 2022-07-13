@@ -66,9 +66,13 @@ export default {
       }
 
       const url = '/defect/' + keyword + '/defects';
+      let req = {
+        company_id:this.$store.getters.userinfo.company_id,
+      };
       request({
         url: url,
         method: 'get',
+        params: req,
       }).then(res => {
         let data = res.data;
         _this.$refs.formArea.defectForm = data;

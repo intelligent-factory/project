@@ -291,12 +291,23 @@ export default {
   },
   methods: {
 
+    //时间格式转换
+    formatDate(value) {
+      var year = value.substr(0, 4)
+      var month = value.substr(5, 2)
+      var day = value.substr(8, 2)
+      var hour = value.substr(11, 2)
+      var min = value.substr(14, 2)
+      var second = value.substr(17,2)
+      return year + "-" + month + "-" + day + " " + hour + ":" + min + ":"+second
+    },
+
     //修改车间
     submitToUpdate(id) {
       this.$router.push("/work/apply/workshopInfo")
       let req = {
         workshopId: id,
-        company_id:'111',
+        company_id:this.$store.getters.userinfo.company_id,
         newWorkshopId: this.newWorkshopForm.id,
         newWorkshopName: this.newWorkshopForm.name,
         newFactory: this.newWorkshopForm.factory_name
@@ -313,7 +324,7 @@ export default {
             message: '申请成功'
           })
         }else {
-          this.$message.error('申请失败')
+          this.$message.error('申请失败!车间编号已存在或正在修改中')
         }
         // this.getData()
         // this.nowShopworkId = req.workshopId
@@ -336,10 +347,14 @@ export default {
         },
 
     loadWorkshops() {
+      let req = {
+        company_id:this.$store.getters.userinfo.company_id,
+      };
       const _this = this;
       request({
         url: '/mainInfo',
         method: 'get',
+        params: req,
       }).then(res => {
         const data = res.data;
         _this.workshopForm = data;
@@ -363,7 +378,8 @@ export default {
     //删除车间
     delWrokshop(id) {
       let req = {
-        workshopId: id
+        workshopId: id,
+        company_id:this.$store.getters.userinfo.company_id,
       }
       request({
         url: 'workshop/deleteAll',
@@ -489,7 +505,9 @@ export default {
           //  -----------查询车间内容数据返回。  查询的内容在 obj.data 里面
           this.loading = true
           let req = {
-            info: obj.data
+            info: obj.data,
+            company_id:this.$store.getters.userinfo.company_id,
+
           }
           my_request({
             url: 'workshop/searchWorkshop',
@@ -525,7 +543,8 @@ export default {
 
           let req = {
             currentPage: this.page.curpage,
-            pagesize: this.page.pagesize
+            pagesize: this.page.pagesize,
+            company_id:this.$store.getters.userinfo.company_id,
           }
           this.loading = true
           my_request({
@@ -559,7 +578,8 @@ export default {
             let s = obj.data.split("+")
             let req = {
               Id: s[0],//车间
-              info:s[1]//产线
+              info:s[1],//产线
+              company_id:this.$store.getters.userinfo.company_id,
             }
             this.loading = true
             console.log('搜索',req)
@@ -574,6 +594,11 @@ export default {
                 s.push(res.data.result)
                 this.tableLineData = s
                 this.total = res.data.total;
+
+                for (let item of this.tableLineData) {
+                  item.created_time = this.formatDate(item.created_time)
+                }
+
                 this.$message({
                   type:'success',
                   message:'查询成功'
@@ -597,7 +622,8 @@ export default {
         } else {
           let req = {
             currentPage: this.page.curpage,
-            pagesize: this.page.pagesize
+            pagesize: this.page.pagesize,
+            company_id:this.$store.getters.userinfo.company_id,
           };
           this.loading = true
 
@@ -610,6 +636,11 @@ export default {
             console.log('产线信息',res)
             this.tableLineData = res.data.result.records
             this.total = res.data.result.total
+
+            for (let item of this.tableLineData) {
+              item.created_time = this.formatDate(item.created_time)
+            }
+
           }).catch(err => {
             this.$message.error('服务器异常')
           })

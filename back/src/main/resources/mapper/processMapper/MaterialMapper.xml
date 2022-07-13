@@ -56,7 +56,7 @@
     <update id="deleteMaterialByID" parameterType="com.example.mes.process.Vo.MaterialVo.DeleteMaterialVo">
         UPDATE material
         SET is_deleted='1', modified_time=#{deleteMaterialVo.modified_time}, modified_by=#{deleteMaterialVo.operator_id}
-        WHERE material_id=#{deleteMaterialVo.material_id} and (company_id = #{DeleteMaterialVo.company_id} or #{DeleteMaterialVo.company_id} = 0)
+        WHERE material_id=#{deleteMaterialVo.material_id} and (company_id = #{deleteMaterialVo.company_id} or #{deleteMaterialVo.company_id} = 0)
     </update>
 
 <!--    修改一个物料，status与comments-->
@@ -64,7 +64,7 @@
         UPDATE material
         SET material.status=#{updateMaterialVo.status}, comments=#{updateMaterialVo.comments},
             modified_time=#{updateMaterialVo.modified_time}, modified_by=#{updateMaterialVo.operator_id}
-        WHERE material_id=#{updateMaterialVo.material_id}and (company_id = #{UpdateMaterialVo.company_id} or #{UpdateMaterialVo.company_id} = 0)
+        WHERE material_id=#{updateMaterialVo.material_id}and (company_id = #{updateMaterialVo.company_id} or #{updateMaterialVo.company_id} = 0)
     </update>
 
 

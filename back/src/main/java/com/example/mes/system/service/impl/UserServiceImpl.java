@@ -34,17 +34,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public List<String> queryAllRoleName(UserVo userVo) {
-        return userMapper.queryAllRoleName(userVo);
+        return userMapper.queryAllRoleName(userVo,userVo.user.getCompany_id());
     }
 
     @Override
-    public Integer getLastCount() {
-        return userMapper.getLastCount();
+    public Integer getLastCount(Integer company_id) {
+        return userMapper.getLastCount(company_id);
     }
 
     @Override
-    public List<String> queryAllDepartmentName() {
-        return userMapper.queryAllDepartmentName();
+    public List<String> queryAllDepartmentName(UserVo userVo) {
+        return userMapper.queryAllDepartmentName(userVo,userVo.user.getCompany_id());
     }
 
     @Override
@@ -53,7 +53,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setModified_by(Integer.toString(handler));
         user.setModified_time(MyImplUtils.getCurrentTime());
         int id = user.getId();
-        Integer is_apply = userMapper.getApply(id);
+        Integer is_apply = userMapper.getApply(id,user.getCompany_id());
         if (is_apply == null) {
             userMapper.deleteUsers(user);
             x.put("成功删除", id);
@@ -64,8 +64,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public User findUserById(Integer id) {
-        return userMapper.findUserById(id);
+    public User findUserById(Integer id,Integer company_id) {
+        return userMapper.findUserById(id,company_id);
     }
 
     @Override
@@ -74,7 +74,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         userUpdateVo.created_by = userUpdateVo.modified_by = Integer.toString(userUpdateVo.user.getId());
         userUpdateVo.status = "0";
         userUpdateVo.is_deleted = "0";
-        userUpdateVo.company_id = userUpdateVo.user.getCompany_id();
         userMapper.userAdd(userUpdateVo);
     }
 
@@ -89,7 +88,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public void userApply(UserUpdateVo userUpdateVo) {
         Apply apply = new Apply();
         String toDepartment = userUpdateVo.department;
-        String fromDepartment = userMapper.findUserDepartment(userUpdateVo.id);
+        String fromDepartment = userMapper.findUserDepartment(userUpdateVo.id,userUpdateVo.user.getCompany_id());
         String status = "待审核";
         apply.setIs_deleted("0");
         apply.setFrom_department(fromDepartment);
@@ -98,6 +97,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         apply.setCreated_time(MyImplUtils.getCurrentTime());
         apply.setCreated_by(userUpdateVo.user.getName());
         apply.setTransfer_id(userUpdateVo.id);
+        apply.setCompany_id(userUpdateVo.user.getCompany_id());
         userMapper.createApply(apply);
     }
 
@@ -108,7 +108,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public String findUserDepartment(UserUpdateVo userUpdateVo) {
-        return userMapper.findUserDepartment(userUpdateVo.id);
+        return userMapper.findUserDepartment(userUpdateVo.id,userUpdateVo.user.getCompany_id());
     }
 
 

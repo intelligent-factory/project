@@ -4,7 +4,7 @@
 
 
     <select id="getById" resultType="com.example.mes.WorkshopStorage.vo.WorkshopVo">
-        select id,name,factory_name,verify,created_time,modified_time from workshop_workshop where id =#{workshopId} and is_deleted="0" and (verify="normal" or verify="delete")
+        select id,name,factory_name,verify,created_time,modified_time from workshop_workshop where id =#{workshopId} and is_deleted="0" and (verify="normal" or verify="delete") and company_id=#{company_id}
     </select>
     <select id="selectAll"  resultType="com.example.mes.WorkshopStorage.vo.WorkshopVo">
         select id,name,factory_name,created_time,modified_time from workshop_workshop where is_deleted="0" and (verify="normal" or verify="delete") order by id limit #{start},#{num}
@@ -13,16 +13,16 @@
         select id,name,factory_name,created_time,modified_time from workshop_workshop where is_deleted="0" and (verify="normal" or verify="delete") order by id
     </select>
     <select id="selectApplyAll"  resultType="com.example.mes.WorkshopStorage.vo.WorkshopVo">
-        select id,name,factory_name,created_time,modified_time,created_by,modified_by,verify,pre_id from workshop_workshop where is_deleted="0" and verify!="normal" order by id limit #{start},#{num}
+        select id,name,factory_name,created_time,modified_time,created_by,modified_by,verify,pre_id from workshop_workshop where company_id = #{company_id} and is_deleted="0" and verify!="normal" order by id limit #{start},#{num}
     </select>
     <select id="getByName" resultType="com.example.mes.WorkshopStorage.vo.WorkshopVo">
-        select id,name,factory_name,verify,created_time,modified_time from workshop_workshop where name =#{workshopName} and is_deleted="0" and (verify="normal" or verify="delete")
+        select id,name,factory_name,verify,created_time,modified_time from workshop_workshop where name =#{workshopName} and is_deleted="0" and (verify="normal" or verify="delete")  and company_id=#{company_id}
     </select>
     <select id="getApplyById" resultType="com.example.mes.WorkshopStorage.vo.WorkshopVo">
         select uuid,id,name,factory_name,verify,pre_id,created_time,created_by from workshop_workshop where id =#{workshopId} and is_deleted="0" and verify!="normal"
     </select>
     <select id="checkById" resultType="com.example.mes.WorkshopStorage.vo.WorkshopVo">
-        select uuid from workshop_workshop where id =#{workshopId} and is_deleted="0"
+        select uuid from workshop_workshop where id =#{workshopId} and is_deleted="0" and company_id = #{company_id}
     </select>
     <select id="checkByPre_id" resultType="com.example.mes.WorkshopStorage.vo.WorkshopVo">
         select uuid from workshop_workshop where pre_id =#{workshopId} and verify="insert" and is_deleted="0"
@@ -48,10 +48,10 @@
         delete from workshop_line where workshop_uuid=#{workshop_id} and uuid=#{line_id}
     </delete>
     <select id="getCount" resultType="java.lang.Integer">
-        select count(*) from workshop_workshop where is_deleted="0" and (verify="normal" or verify="delete")
+        select count(*) from workshop_workshop where is_deleted="0" and (verify="normal" or verify="delete") and company_id = #{company_id}
     </select>
     <select id="getApplyCount" resultType="java.lang.Integer">
-        select count(*) from workshop_workshop where is_deleted="0" and verify!="normal"
+        select count(*) from workshop_workshop where is_deleted="0" and verify!="normal" and company_id = #{company_id}
     </select>
     <select id="createInfo" resultType="com.example.mes.WorkshopStorage.vo.WorkshopVo">
         select id,name,factory_name from workshop_workshop where id=#{workshopId} and verify="create" and is_deleted="0"

@@ -18,6 +18,14 @@ public class GoodsVo {
     private String created_by;
     private Timestamp modified_time;
     private String modified_by;
+    private String company_id;
+    public String getCompany_id() {
+        return company_id;
+    }
+
+    public void setCompany_id(String company_id) {
+        this.company_id = company_id;
+    }
 
     public String getGoods_name() {
         return goods_name;

@@ -58,12 +58,12 @@ export default {
   methods: {
     handleSizeChange(val) {
       this.size = val
-      this.getProcedure(this.currentPage, val , 1)
+      this.getProcedure(this.currentPage, val , this.$store.getters.userinfo.company_id)
     },
 
     handleCurrentChange(val) {
       this.currentPage = val
-      this.getProcedure(val, this.size , 1)
+      this.getProcedure(val, this.size , this.$store.getters.userinfo.company_id)
     },
 
     getProcedure(currentPage, size , company_id) {
@@ -96,11 +96,11 @@ export default {
           data: {
             procedure_id: row.procedure_id,
             operator_id: 'CM',
-            company_id:"1" //修改
+            company_id:this.$store.getters.userinfo.company_id
           }
         }).then(res => {
           if (res.data == "删除成功") {
-            this.getProcedure(this.currentPage, this.size , 1) //company-id
+            this.getProcedure(this.currentPage, this.size , this.$store.getters.userinfo.company_id) //company-id
             this.$message({
               type: 'success',
               message: '删除成功'
@@ -134,7 +134,7 @@ export default {
         })
       }
       else {
-        this.getProcedure(this.currentPage, this.size ,1 )
+        this.getProcedure(this.currentPage, this.size ,this.$store.getters.userinfo.company_id)
         done()
       }
       this.isCommit = false
@@ -142,10 +142,10 @@ export default {
 //搜索
       searchResult() {
       const _this = this;
-      const url = '/process/getProcedureInfoByName?name=' + _this.$refs.searchBar.keywords + '&company_id='+ '1';
+      const url = '/process/getProcedureInfoByName?name=' + _this.$refs.searchBar.keywords + '&company_id='+ this.$store.getters.userinfo.company_id;
       if(_this.$refs.searchBar.keywords.length==0){
 
-        this.getProcedure(this.currentPage, this.size ,1)
+        this.getProcedure(this.currentPage, this.size ,this.$store.getters.userinfo.company_id)
 
       }else{
       request({
@@ -170,10 +170,10 @@ export default {
     SearchBar,
   },
   created() {
-    this.getProcedure(this.currentPage, this.size ,1)
+    this.getProcedure(this.currentPage, this.size ,this.$store.getters.userinfo.company_id)
   },
   activated() {
-    this.getProcedure(this.currentPage, this.size , 1)
+    this.getProcedure(this.currentPage, this.size , this.$store.getters.userinfo.company_id)
   }
 }
 </script>

@@ -20,27 +20,27 @@ public interface UserMapper extends BaseMapper<User> {
     //下面这4个方法是查询所需的User
     List<User> queryUserList(@Param("userVo") UserVo userVo, @Param("numStart") int numStart, @Param("numEnd") int numEnd);
 
-    List<String> queryAllDepartmentName();
+    List<String> queryAllDepartmentName(@Param("userVo") UserVo userVo,@Param("company_id") int company_id);
 
-    Integer getLastCount();
+    Integer getLastCount(@Param("company_id") int company_id);
 
-    List<String> queryAllRoleName(UserVo userVo);
+    List<String> queryAllRoleName(@Param("userVo") UserVo userVo,@Param("company_id") int company_id);
 
     //下面这个方法是删除的
     void deleteUsers(@Param("user") User user);
 
     //下面3个方法是更新的
-    User findUserById(Integer id);
+    User findUserById(Integer id,Integer company_id);
 
     void userUpdate(@Param("n") UserUpdateVo userUpdateVo);
 
     void userAdd(@Param("n") UserUpdateVo userUpdateVo);
 
-    String findUserDepartment(Integer id);
+    String findUserDepartment(@Param("id") int id, @Param("company_id") int company_id);
 
     void createApply(@Param("apply") Apply apply);
 
     Apply findApply(UserUpdateVo userUpdateVo);
 
-    Integer getApply(int id);
+    Integer getApply(int id,Integer company_id);
 }

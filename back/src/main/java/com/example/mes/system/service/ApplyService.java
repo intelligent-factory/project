@@ -13,12 +13,12 @@ import java.util.List;
 public interface ApplyService extends IService<Apply> {
     List<Apply> queryApplyList(ApplySelectVo applySelectVo);
 
-    int getLastCount();
+    int getLastCount(Integer company_id);
 
 
-    List<ApplyStatusVo> getStatusList();
+    List<ApplyStatusVo> getStatusList(Integer company_id);
 
-    int getStatus(String s);
+    int getStatus(String s,String company_id);
 
     int applyAddress(ApplyAddressVo applyAddressVo);
 

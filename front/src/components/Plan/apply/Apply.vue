@@ -4,8 +4,8 @@
 
     <div style="display: flex; flex-direction: row;">
       <el-form-item label="公司款号">
-        <el-select v-model="selectCompanyId" @change="getStyle">
-          <el-option v-for="item in productCompanyId" :key="item" :value="item"></el-option>
+        <el-select v-model="selectCompany" @change="getStyle">
+          <el-option v-for="item in productCompany" :key="item" :value="item"></el-option>
         </el-select>
       </el-form-item>
 
@@ -43,8 +43,8 @@ export default {
   name: "Apply",
   data() {
     return {
-      productCompanyId: [],
-      selectCompanyId: "",
+      productCompany: [],
+      selectCompany: "",
       productStyle: [],
       selectStyle: "",
       
@@ -95,7 +95,7 @@ export default {
       url: "/getCompanyIDs",
     })
       .then((res) => {
-        this.productCompanyId = res.data;
+        this.productCompany = res.data;
       })
       .catch((err) => {
         console.log(err);
@@ -106,7 +106,7 @@ export default {
       getProduct({
         url: "/getProductByCompanyID",
         params: {
-          company_id: this.selectCompanyId,
+          company: this.selectCompany,
         },
       })
         .then((res) => {
@@ -121,18 +121,18 @@ export default {
       let result = this.selectStyle.split(",")
       let info = {
         brand:result[0],
-        season:result[1],
+        //season:result[1],
         style:result[2],
         color:result[3]
       }
           
       let form =
         "\n公司款号:"+
-        this.selectCompanyId+
+        this.selectCompany+
         "\n品牌:" +
         info.brand +
-        "\n季节:"+
-        info.season+
+        // "\n季节:"+
+        // info.season+
         "\n样式：" +
         info.style +
         "\n颜色" +
@@ -143,7 +143,7 @@ export default {
         this.dateStr;
 
       if (
-        this.selectCompanyId == "" ||
+        this.selectCompany == "" ||
         this.selectStyle == "" ||
         this.quantity < 1
       ) {
@@ -158,9 +158,9 @@ export default {
       request({
         url: "/demandForm/saveDemandForm",
         params: {
-          "product.companyId":this.selectCompanyId,
+          "product.company":this.selectCompany,
           "product.brand": info.brand,
-          "product.season":info.season,
+          //"product.season":info.season,
           "product.style": info.style,
           "product.color": info.color,
           quantity: this.quantity,
@@ -170,6 +170,8 @@ export default {
           deleted: "0",
           createdBy: user,
           no: this.no,
+          company_id: this.$store.getters.userinfo.company_id
+          
         },
       })
         .then((res) => {

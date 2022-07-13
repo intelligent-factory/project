@@ -25,10 +25,10 @@ public class WorkshopController {
     private StationService stationService;
 
     @GetMapping("/mainInfo")
-    public Result<newWorkshopVo> mainInfo(String workshopId) {
+    public Result<newWorkshopVo> mainInfo(String workshopId,String company_id) {
         Result<newWorkshopVo> result = new Result<>();
         try {
-            result = workshopService.getById(workshopId);
+            result = workshopService.getById(workshopId,company_id);
 
         }catch (Exception e){
             e.printStackTrace();
@@ -101,9 +101,10 @@ public class WorkshopController {
         try {
             workshopService.create(para);
             for(LineVo line: para.getLines()){
+                line.setCompany_id(para.getCompany_id());
                 lineService.create(para.getId() ,line, "create");
                 for(StationVo station : line.getStations()){
-                    stationService.create(para.getId(), line.getId(), station, "create");
+                    stationService.create(para.getId(), line.getId(), station, "create",para.getCompany_id());
                 }
             }
 
@@ -116,10 +117,11 @@ public class WorkshopController {
 
 
     @GetMapping(value = "searchWorkshop")
-    public Result<WorkshopVo> search(String info) {
+    public Result<WorkshopVo> search(String info,String company_id) {
+        System.out.println("车间");
         Result<WorkshopVo> result = new Result<>();
         try {
-            result = workshopService.search(info);
+            result = workshopService.search(info,company_id);
         }catch (Exception e){
             e.printStackTrace();
             LoggerFactory.getLogger(this.getClass()).error(""+e.getMessage());
@@ -129,10 +131,10 @@ public class WorkshopController {
     }
 
     @GetMapping(value = "workshopItem")
-    public Result<PageVo<WorkshopVo>> workshopItem(String currentPage, String pagesize) {
+    public Result<PageVo<WorkshopVo>> workshopItem(String currentPage, String pagesize,String company_id) {
         Result<PageVo<WorkshopVo>> result = new Result<>();
         try {
-            result = workshopService.workshopItem(currentPage, pagesize);
+            result = workshopService.workshopItem(currentPage, pagesize,company_id);
         }catch (Exception e){
             e.printStackTrace();
             LoggerFactory.getLogger(this.getClass()).error(""+e.getMessage());
@@ -156,10 +158,10 @@ public class WorkshopController {
     }
 
     @GetMapping(value = "applyWorkshop")
-    public Result<PageVo<StationVo>> applyWorkshop(String current, String pages){
+    public Result<PageVo<StationVo>> applyWorkshop(String current, String pages,String company_id){
         Result<PageVo<StationVo>> result = new Result<>();
         try {
-            result = workshopService.applyWorkshop(current, pages);
+            result = workshopService.applyWorkshop(current, pages,company_id);
         }catch (Exception e){
             e.printStackTrace();
             LoggerFactory.getLogger(this.getClass()).error(""+e.getMessage());
@@ -182,10 +184,10 @@ public class WorkshopController {
     }
 
     @GetMapping(value = "update_delete_Info")
-    public Result<List<WorkshopVo>> update_delete_Info(String workshopId, String lineId, String stationId){
+    public Result<List<WorkshopVo>> update_delete_Info(String workshopId, String lineId, String stationId,String company_id){
         Result<List<WorkshopVo>> result = new Result<>();
         try {
-            result = workshopService.update_delete_Info(workshopId, lineId, stationId);
+            result = workshopService.update_delete_Info(workshopId, lineId, stationId,company_id);
         }catch (Exception e){
             e.printStackTrace();
             LoggerFactory.getLogger(this.getClass()).error(""+e.getMessage());

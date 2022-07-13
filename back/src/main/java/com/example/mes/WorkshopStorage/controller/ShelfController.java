@@ -23,10 +23,10 @@ public class ShelfController {
     private ShelfService shelfservice;
 
     @GetMapping(value = "shelfItemById")
-    public Result<PageVo<ShelfVo>> shelfItemById(String storage_id, String user, String current, String pages){
+    public Result<PageVo<ShelfVo>> shelfItemById(String storage_id, String user, String current, String pages,String company_id){
         Result<PageVo<ShelfVo>> result = new Result<>();
         try {
-            result = shelfservice.shelfItemById(storage_id, current, pages);
+            result = shelfservice.shelfItemById(storage_id, current, pages,company_id);
         }catch (Exception e){
             e.printStackTrace();
             LoggerFactory.getLogger(this.getClass()).error(""+e.getMessage());
@@ -36,10 +36,10 @@ public class ShelfController {
     }
 
     @GetMapping(value = "shelfById")
-    public String shelfById(String storage_id){
+    public String shelfById(String storage_id,String company_id){
         try {
             HashMap<String, Object> data = new HashMap<>();
-            List<ShelfVo> shelf = shelfservice.shelfById(storage_id);
+            List<ShelfVo> shelf = shelfservice.shelfById(storage_id,company_id);
             data.put("shelf", shelf);
             return(JSON.toJSONString(shelf));
         }catch (Exception e){
@@ -50,10 +50,10 @@ public class ShelfController {
     }
 
     @GetMapping(value = "search")
-    public Result<List<ShelfVo>> searchShelf(String storage_id, String id){
+    public Result<List<ShelfVo>> searchShelf(String storage_id, String id,String company_id){
         Result<List<ShelfVo>> result = new Result<>();
         try {
-            result = shelfservice.search(storage_id, id);
+            result = shelfservice.search(storage_id, id,company_id);
         }catch (Exception e){
             e.printStackTrace();
             LoggerFactory.getLogger(this.getClass()).error(""+e.getMessage());
@@ -64,9 +64,9 @@ public class ShelfController {
 
 
     @GetMapping(value="move")
-    public Result<?> move(GoodsUpdatePara params){
+    public Result<?> move(GoodsUpdatePara params,String company_id){
         try {
-            shelfservice.move(params);
+            shelfservice.move(params,company_id);
         } catch (Exception e) {
             LoggerFactory.getLogger(this.getClass()).error("转移失败",e.getMessage());
             return Result.error("转移失败!");
@@ -75,9 +75,9 @@ public class ShelfController {
     }
 
     @GetMapping(value = "insert")
-    public Result<?> insert(String storage_id, String id, String user){
+    public Result<?> insert(String storage_id, String id, String user,String company_id){
         try {
-            shelfservice.insert(storage_id, id, user);
+            shelfservice.insert(storage_id, id, user,company_id);
         } catch (Exception e) {
             LoggerFactory.getLogger(this.getClass()).error("添加失败",e.getMessage());
             return Result.error("添加失败!");
@@ -86,9 +86,9 @@ public class ShelfController {
     }
 
     @GetMapping(value = "delete")
-    public Result<?> delete(String storage_id, String id, String user){
+    public Result<?> delete(String storage_id, String id, String user,String company_id){
         try {
-            shelfservice.delete(storage_id, id, user);
+            shelfservice.delete(storage_id, id, user,company_id);
         } catch (Exception e) {
             LoggerFactory.getLogger(this.getClass()).error("删除失败",e.getMessage());
             return Result.error("删除失败!");

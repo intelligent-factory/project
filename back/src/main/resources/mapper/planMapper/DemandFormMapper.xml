@@ -33,7 +33,7 @@
 		set is_waiting=#{df.waiting}
 		where id=#{df.id}
 	</update>
-
+	
 	<update id="updateStatus">
 		update plan_demand_form
 		set status = #{status}
@@ -52,8 +52,8 @@
 		)
 		values(#{id},#{no},#{quantity},#{expectedDate},
 		#{readTime},#{waiting},#{originalDemandForm.id},(
-		select product_id from product where brand=#{product.brand} and type=#{product.style} and color=#{product.color} and company_id=#{product.companyId} and season=#{product.season}),
-		#{status},#{deleted},now(),#{createdBy},#{modifiedTime},#{modifiedBy})
+		select distinct product_id from product p where p.brand=#{product.brand} and p.color=#{product.color} and p.company=#{product.company}and p.type=#{product.style}),
+		#{status},#{deleted},now(),#{createdBy},#{modifiedTime},#{modifiedBy},#{company_id})
 
 	</insert>
 	<resultMap type="com.example.mes.plan.entity.DemandForm" id="df">
@@ -66,52 +66,51 @@
 		<result column="modified_time" property="modifiedTime"/>
 		<result column="modified_by" property="modifiedBy"/>
 		<result column="created_time" property="createdTime"/>
-		<result column="company_id" property="companyId"/>
 
 		<association property="originalDemandForm"
 			select="selectById" column="{id=original_demand_form_id}"></association>
-		<association property="product"
-			select="innerQuery" column="{product_id=product_id}"></association>
+<!--		<association property="product"-->
+<!--			select="innerQuery" column="{product_id=product_id}"></association>-->
 
-		<collection property="planSet" ofType="com.example.mes.plan.entity.Plan"
+		<collection property="planSet" ofType="com.example.mes.plan.entity.Plan" 
 			select="com.example.mes.plan.dao.PlanMapper.getPlansByDemandFormId"
 			column="{id=id}"></collection>
 	</resultMap>
-
-	<select id="innerQuery" resultType="com.example.mes.plan.entity.Product">
-		select product_id id,brand, type style, color,company_id companyId,season
-		from product
-		where product_id=#{product_id}
-	</select>
+<!--	-->
+<!--	<select id="innerQuery" resultType="com.example.mes.plan.entity.Product">-->
+<!--		select product_id id,brand, type style, color,company_id companyId,season-->
+<!--		from product-->
+<!--		where product_id=#{product_id}-->
+<!--	</select>-->
 
 	<select id="selectByOriginalDemandFormId" resultMap="df">
 		select <include refid="COLUMNS"></include>
-		from plan_demand_form
-		where original_demand_form_id = #{df.id}
+		from plan_demand_form 
+		where original_demand_form_id = #{df.id} 
 		order by created_time
 	</select>
-
+	
 	<select id="selectById" resultMap="df">
 		select <include refid="COLUMNS"></include>
-		from plan_demand_form
+		from plan_demand_form 
 		where id = #{id}
 	</select>
-
+	
 	<sql id="criteria">
-		<if test="entityVo.no!=null and entityVo.no.trim()!=&quot;&quot;">
-			no like #{entityVo.no}
+		<if test="entityVo.no!=null and entityVo.no.trim()!=&quot;&quot;"> 
+			no like #{entityVo.no} 
 		</if>
 		<if test="entityVo.product!=null">
 			and product_id =any (select product_id from product where brand = #{entityVo.product.brand})
 		</if>
-
+		
 		<if test="entityVo.originalDemandForm==null or entityVo.originalDemandForm.id==null">
 			and original_demand_form_id is null
 		</if>
 		<if test="entityVo.originalDemandForm!=null and entityVo.originalDemandForm.id!=null">
 			and original_demand_form_id is not null and is_waiting = 1
 		</if>
-
+		
 		<if test="beginTimestamp!=null">
 			and created_time &gt; #{beginTimestamp}
 		</if>
@@ -119,25 +118,25 @@
 			and created_time &lt; #{endTimestamp}
 		</if>
 	</sql>
-
+	
 	<select id="getCountByCriteria" resultType="java.lang.Integer">
-		select count(*)
-		from plan_demand_form
-		<where>
+		select count(*) 
+		from plan_demand_form 
+		<where> 
 			<include refid="criteria"></include>
 		</where>
 	</select>
-
+	
 	<select id="getDemandFormByCriteria" resultMap="df">
-		select *
-		from plan_demand_form
-		<where>
+		select <include refid="COLUMNS"></include>
+		from plan_demand_form 
+		<where> 
 			<include refid="criteria"></include>
 		</where>
 		order by is_waiting desc ,expected_date asc
 		limit #{limit},#{pageSize}
 	</select>
-
+	
 	<resultMap type="com.example.mes.plan.entity.Line" id="line">
 		<id column="uuid" property="id"></id>
 		<result column="workshop_id" property="workshopId"/>
@@ -146,21 +145,21 @@
 		<association column="{id=workshop_id}" property="workshopName"
 			select="selectWorkshopNameById"></association>
 	</resultMap>
-
+	
 	<select id="selectWorkshopNameById" resultType="java.lang.String">
 		select name from workshop_workshop where id = #{id}
 	</select>
-
+	
 	<select id="getLinesByProduct" resultMap="line">
 		 select * from workshop_line
-		 where routing = #{product.id}
+		 where routing = #{product.id} 
 		 and is_deleted="0"
 		 and (
 		 	verify="normal"
 		 	or verify ="delete"
 		 )
 	</select>
-
+	
 	<select id="selectLineById" resultMap="line">
     	select uuid, name, workshop_id
     	from workshop_line

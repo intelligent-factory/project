@@ -9,13 +9,13 @@ import java.util.List;
 
 @Repository
 public interface ShelfMapper {
-    Integer getShelfNumByStorageId(@Param("storage_id") String storage_id);
-    Integer getCount();
-    ShelfVo getById(@Param("storage_id")String storage_id, @Param("id") String id);
-    Integer getCountById(@Param("storage_id") String storage_id);
+    Integer getShelfNumByStorageId(@Param("storage_id") String storage_id,String company_id);
+    Integer getCount(String company_id);
+    ShelfVo getById(@Param("storage_id")String storage_id, @Param("id") String id,String company_id);
+    Integer getCountById(@Param("storage_id") String storage_id,String company_id);
     void insert(ShelfVo shelfVo);
-    void delete(String storage_id, String id, String user, Timestamp modified_time);
-    List<ShelfVo> shelfById(@Param("storage_id") String storage_id);
-    List<ShelfVo> selectAll (@Param("start") long start, @Param("num") long num);
-    List<ShelfVo> selectAllById (@Param("storage_id") String storage_id, @Param("start") long start, @Param("num") long num);
+    void delete(String storage_id, String id, String user, Timestamp modified_time,String company_id);
+    List<ShelfVo> shelfById(@Param("storage_id") String storage_id,String company_id);
+    List<ShelfVo> selectAll (@Param("start") long start, @Param("num") long num,String company_id);
+    List<ShelfVo> selectAllById (@Param("storage_id") String storage_id, @Param("start") long start, @Param("num") long num,String company_id);
 }

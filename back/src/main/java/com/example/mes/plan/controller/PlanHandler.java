@@ -82,6 +82,19 @@ public class PlanHandler {
 		try {
 			return planService.getPlanPageByCriteria(criteria);
 		} catch (Exception e) {
+			System.out.println(e);
+			return Result.error("获取失败");
+		}
+	}
+///多公司   代替上面的接口
+	@RequestMapping("/getPlanPageByCriteriaAndCompany")
+	@ResponseBody
+	public Result<PageVo<PlanVo>> getPlanPageByCriteriaAndCompany(PlanVo planVo,CriteriaVo<PlanVo> criteria,String company_id){
+		criteria.setEntityVo(planVo);
+		try {
+			return planService.getPlanPageByCriteriaAndCompany(criteria,company_id);
+		} catch (Exception e) {
+			System.out.println(e);
 			return Result.error("获取失败");
 		}
 	}

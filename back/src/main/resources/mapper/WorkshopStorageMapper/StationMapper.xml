@@ -3,7 +3,7 @@
 <mapper namespace="com.example.mes.WorkshopStorage.mapper.StationMapper">
 
     <select id="getByLine"  resultType="com.example.mes.WorkshopStorage.vo.newStationVo">
-        select workshop_station.id,working_procedure.name,workshop_station.equip_id,workshop_station.stationOrder,workshop_station.user from workshop_station,working_procedure where  workshop_station.id = working_procedure.procedure_id and workshop_station.workshop_id=#{workshop_id} and workshop_station.line_id=#{line_id} and workshop_station.is_deleted="0" and (workshop_station.verify="normal" or workshop_station.verify="delete") order by workshop_station.stationOrder asc
+        select workshop_station.id,working_procedure.name,workshop_station.equip_id,workshop_station.stationOrder,workshop_station.user from workshop_station,working_procedure where  workshop_station.id = working_procedure.procedure_id and workshop_station.company_id = #{company_id} and workshop_station.workshop_id=#{workshop_id} and workshop_station.line_id=#{line_id} and workshop_station.is_deleted="0" and (workshop_station.verify="normal" or workshop_station.verify="delete") order by workshop_station.stationOrder asc
     </select>
     <select id="createInfo"  resultType="com.example.mes.WorkshopStorage.vo.StationVo">id
         select id,equip_id,stationOrder,user from workshop_station where workshop_id=#{workshop_id} and line_id=#{line_id} and is_deleted="0" and verify="create"
@@ -36,19 +36,19 @@
         select uuid from workshop_station where pre_id=#{stationId} and verify="insert" and is_deleted="0"
     </select>
     <select id="getStationNumByworkshopId" resultType="java.lang.Integer">
-        select count(*) from workshop_station where workshop_id=#{workshopId} and is_deleted="0" and (verify="normal" or verify="delete") GROUP BY workshop_id
+        select count(*) from workshop_station where workshop_id=#{workshopId} and is_deleted="0" and (verify="normal" or verify="delete")  and company_id=#{company_id} GROUP BY workshop_id
     </select>
     <select id="getStationNumByLineId" resultType="java.lang.Integer">
-        select count(*) from workshop_station where workshop_id=#{workshopId} and line_id=#{lineId} and is_deleted="0" and (verify="normal" or verify="delete")
+        select count(*) from workshop_station where workshop_id=#{workshopId} and company_id = #{company_id} and line_id=#{lineId} and is_deleted="0" and (verify="normal" or verify="delete")
     </select>
     <select id="getEquipNumByLineId" resultType="java.lang.Integer">
-        select count(*) from workshop_station where workshop_id=#{workshopId} and line_id=#{lineId} and equip_id!="" and is_deleted="0" and (verify="normal" or verify="delete")
+        select count(*) from workshop_station where workshop_id=#{workshopId} and company_id = #{company_id} and line_id=#{lineId} and equip_id!="" and is_deleted="0" and (verify="normal" or verify="delete")
     </select>
     <select id="getApplyCount" resultType="java.lang.Integer">
-        select count(*) from workshop_station where is_deleted="0" and verify!="normal" and verify!="create"
+        select count(*) from workshop_station where is_deleted="0" and company_id = #{company_id} and verify!="normal" and verify!="create"
     </select>
     <select id="selectApplyAll"  resultType="com.example.mes.WorkshopStorage.vo.StationVo">
-        select id,workshop_id,line_id,created_time,created_by,verify,pre_id,modified_by,modified_time from workshop_station where is_deleted="0" and verify!="normal" and verify!="create" order by id limit #{start},#{num}
+        select id,workshop_id,line_id,created_time,created_by,verify,pre_id,modified_by,modified_time from workshop_station where is_deleted="0" and company_id = #{company_id} and verify!="normal" and verify!="create" order by id limit #{start},#{num}
     </select>
     <update id="setNormal">
         update workshop_station set verify="normal",modified_time=#{modified_time},modified_by=#{user} where workshop_id=#{workshopId} and line_id=#{lineId} and id=#{stationId} and verify!="normal" and is_deleted="0"

@@ -77,10 +77,7 @@
                           ]">
               <el-input v-model.trim="workshopInfo.factory_name"></el-input>
             </el-form-item>
-
-            <div style="margin-left: 20px">
-<!--              <el-button  @click="submitFormFirst('workshopInfo')">增加产线</el-button>-->
-            </div>
+            <div style="margin-left: 20px"><el-button  @click="submitFormFirst('workshopInfo')">增加产线</el-button></div>
           </div>
           <div class="item">
           <el-form-item>
@@ -370,7 +367,7 @@ export default {
       //
       workshopInfo: {
        // 改company_id
-        company_id:'111',
+        company_id: this.$store.getters.userinfo.company_id,
         id:'',
         factory_name:'',
         name:'',

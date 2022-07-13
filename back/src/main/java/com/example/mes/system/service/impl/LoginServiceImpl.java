@@ -19,13 +19,13 @@ public class LoginServiceImpl implements LoginService
     LoginMapper loginMapper;
 
     @Override
-    public String getPermissionName(String roleName) {
-        return loginMapper.getPermissionName(roleName);
+    public String getPermissionName(String roleName,Integer company_id) {
+        return loginMapper.getPermissionName(roleName,company_id);
     }
 
     @Override
-    public List<String> getAccessName(String permissionName) {
-        return loginMapper.getAccessName(permissionName);
+    public List<String> getAccessName(String permissionName,Integer company_id) {
+        return loginMapper.getAccessName(permissionName,company_id);
     }
 
     @Override

@@ -1,7 +1,7 @@
 <template>
   <div id="DepartmentManagement" ref="DepartmentManagement">
     <div id="TableHeader">
-      <el-button @click="clearFilter" size="small">清除所有过滤器</el-button>
+      <el-button @click="clearFilter" size="small">清除所有筛选</el-button>
       <el-button @click="handleCreate" size="small">+新建部门</el-button>
       <el-button @click="handleDelete()" size="small" :type="this.multipleSelection.length > 0 ? 'danger':''">删除部门
       </el-button>

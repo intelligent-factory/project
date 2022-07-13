@@ -4,7 +4,7 @@ module.exports = [
         name: 'testComponent1',
         component: () => import('@/views/test/TestComponent1'),
         meta: {
-            title: '欢迎使用箱包管理系统！',
+            title: '欢迎使用车间管理系统！',
         }
     },
     {

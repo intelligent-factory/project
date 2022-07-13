@@ -23,10 +23,10 @@ public class StorageService {
     @Autowired
     private ShelfMapper shelfMapper;
 
-    public Result<PageVo<StorageVo>> storageItem(String page, String page_size) throws SQLException {
+    public Result<PageVo<StorageVo>> storageItem(String page, String page_size,String company_id) throws SQLException {
         Result<PageVo<StorageVo>> result = new Result<>();
         PageVo<StorageVo> pageVo = new PageVo();
-        Integer size = storageMapper.getCount();
+        Integer size = storageMapper.getCount(company_id);
         if(size == null)
             size = 0;
         pageVo.setTotal(size);
@@ -43,10 +43,10 @@ public class StorageService {
             pageVo.setPages(Integer.parseInt(page_size));
         }
         pageVo.setCurrent(Integer.parseInt(page));
-        List<StorageVo> currentlist = storageMapper.selectAll((pageVo.getCurrent() - 1) * Integer.parseInt(page_size), pageVo.getPages());
+        List<StorageVo> currentlist = storageMapper.selectAll((pageVo.getCurrent() - 1) * Integer.parseInt(page_size), pageVo.getPages(),company_id);
         for(StorageVo storageVo : currentlist){
             Integer cnt;
-            cnt = shelfMapper.getShelfNumByStorageId(storageVo.getId());
+            cnt = shelfMapper.getShelfNumByStorageId(storageVo.getId(),company_id);
             if(cnt != null){
                 storageVo.setShelf_Num(cnt);
             }
@@ -56,32 +56,32 @@ public class StorageService {
         return result;
     }
 
-    public void delete(String storage_id, String user) throws SQLException {
-        Integer cnt = shelfMapper.getShelfNumByStorageId(storage_id);
+    public void delete(String storage_id, String user,String company_id) throws SQLException {
+        Integer cnt = shelfMapper.getShelfNumByStorageId(storage_id,company_id);
         if(cnt == 0){
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-            storageMapper.delete(storage_id, user, timestamp);
+            storageMapper.delete(storage_id, user, timestamp,company_id);
         }else{
             throw new SQLException();
         }
     }
 
-    public List<StorageVo> all_storage(){
-        List<StorageVo> list = storageMapper.all_storage();
+    public List<StorageVo> all_storage(String company_id){
+        List<StorageVo> list = storageMapper.all_storage(company_id);
         return list;
     }
 
-    public Result<StorageVo> search(String storage_id){
+    public Result<StorageVo> search(String storage_id,String company_id){
         Result<StorageVo> storageVoResult = new Result<>();
-        StorageVo storageVo = storageMapper.search(storage_id);
-        storageVo.setShelf_Num(shelfMapper.getShelfNumByStorageId(storage_id));
+        StorageVo storageVo = storageMapper.search(storage_id,company_id);
+        storageVo.setShelf_Num(shelfMapper.getShelfNumByStorageId(storage_id,company_id));
         storageVoResult.setResult(storageVo);
         return storageVoResult;
     }
 
     public void create(StoragePara params) throws SQLException {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());;
-        if(storageMapper.search(params.getStorage_id()) != null){
+        if(storageMapper.search(params.getStorage_id(),params.getCompany_id()) != null){
             throw new SQLException();
         }
         String uuid = UUID.randomUUID().toString().replace("-", "");
@@ -94,6 +94,7 @@ public class StorageService {
         storageVo.setCreated_time(timestamp);
         storageVo.setModified_by(params.getUser());
         storageVo.setModified_time(timestamp);
+        storageVo.setCompany_id(params.getCompany_id());
         storageMapper.create(storageVo);
         for(Shelfpara shelfpara : params.getShelfs()){
             ShelfVo shelfVo = new ShelfVo();
@@ -106,6 +107,7 @@ public class StorageService {
             shelfVo.setCreated_time(timestamp);
             shelfVo.setModified_by(params.getUser());
             shelfVo.setModified_time(timestamp);
+            shelfVo.setCompany_id(params.getCompany_id());
             shelfMapper.insert(shelfVo);
         }
     }

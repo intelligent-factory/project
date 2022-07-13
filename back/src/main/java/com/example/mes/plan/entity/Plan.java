@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-@ApiModel(value = "edu.sdu.mes.plan.entity.Plan", description = "生产计划单")
+@ApiModel(description = "生产计划单")
 public class Plan extends BaseEntity {
 
 	/**

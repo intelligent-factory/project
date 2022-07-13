@@ -26,7 +26,7 @@
                 <div>库区id:&nbsp;{{item.storage_id}}</div><br>
                 <div>货架id:&nbsp;{{item.shelf_id}}</div><br>
                 <div>库存:&nbsp;{{item.quantity}}</div><br>
-                <div>所属公司:&nbsp;</div>
+                <div>所属公司:{{userMsg.company_id}}&nbsp;</div>
               </el-card>
             </div>
 
@@ -116,6 +116,7 @@ export default {
   name: "materialInfoDetail",
   data(){
     return {
+      userMsg:'',
       updateFlag:false,
       updateInfo: {
         storage_id:'',
@@ -149,6 +150,8 @@ export default {
     }
   },
   created() {
+    this.userMsg=JSON.parse(sessionStorage.getItem('userinfo'))
+    console.log(this.userMsg)
     this.getData()
   },
   methods:{
@@ -183,7 +186,8 @@ export default {
         type: 'material',
         current: this.page.current,  //页数 从1开始
         pages: this.page.pages,
-        goods_id: this.$route.query.info.material_id
+        goods_id: this.$route.query.info.material_id,
+        company_id:this.userMsg.company_id
       }
       console.log('物料的getdata：req',req)
       my_request({
@@ -217,7 +221,8 @@ export default {
             storage_id:this.jinhuoInfo.storage_id,
             shelf_id:this.jinhuoInfo.shelf_id,
             location:this.jinhuoInfo.location,
-            quantity:this.jinhuoInfo.quantity
+            quantity:this.jinhuoInfo.quantity,
+            company_id:this.userMsg.company_id
           }
           console.log('你也小时啊',req)
           my_request({
@@ -256,7 +261,8 @@ export default {
             quantity:this.updateInfo.quantity,
             update:'increment',
             type:'material',
-            user:this.$store.getters.userinfo.id
+            user:this.$store.getters.userinfo.id,
+            company_id:this.userMsg.company_id
             // user:1
           }
 
@@ -301,7 +307,8 @@ export default {
             quantity:this.updateInfo.quantity,
             update:'decrement',
             type:'material',
-            user:this.$store.getters.userinfo.id
+            user:this.$store.getters.userinfo.id,
+            company_id:this.userMsg.company_id
             // user:1
           }
 

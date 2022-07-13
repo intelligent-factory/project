@@ -25,7 +25,7 @@ public class RoleController {
         HashMap<String, Object> res = new HashMap<>();
         List<Role> roleList = roleService.queryRoleList(roleSelectVo);
         int roleListCount = roleService.getLastCount();
-        List<String> allPermissionName = roleService.queryAllPermissionName();
+        List<String> allPermissionName = roleService.queryAllPermissionName(roleSelectVo.user.getCompany_id());
 
         res.put("roleList", roleList);
         res.put("total", roleListCount);
@@ -85,6 +85,8 @@ public class RoleController {
             @RequestBody RoleUpdateVo roleUpdateVo
     ) {
         HashMap<String, Object> res = new HashMap<>();
+//        System.out.println(roleUpdateVo.getRole_name());
+//        System.out.println(roleUpdateVo.getUser().getCompany_id());
         Role role = roleService.roleFind(roleUpdateVo);
         if (roleUpdateVo.getRequest().equals("update")) {
             if (role == null) {

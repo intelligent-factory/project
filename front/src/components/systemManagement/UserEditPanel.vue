@@ -47,6 +47,7 @@
         <el-form-item class="item" label="职位" label-width="100px" prop="role">
           <el-select v-model="currentObj.role">
             <el-option
+                multiple
                 v-for="item in role_options"
                 :key="item"
                 :label="item"
