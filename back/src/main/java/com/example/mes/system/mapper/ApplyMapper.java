@@ -36,7 +36,12 @@ public interface ApplyMapper extends BaseMapper<Apply> {
 
     String getDepartment(Integer apply_id);
 
+    String getRole(Integer apply_id);
+
     void setUserDepartment(int transfer_id, String department,
+                           @Param("currentTime") Timestamp currentTime,
+                           String handled_by);
+    void setUserRole(int transfer_id, String role,
                            @Param("currentTime") Timestamp currentTime,
                            String handled_by);
 

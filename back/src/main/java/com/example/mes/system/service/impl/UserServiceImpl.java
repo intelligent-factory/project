@@ -93,6 +93,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         apply.setIs_deleted("0");
         apply.setFrom_department(fromDepartment);
         apply.setTo_department(toDepartment);
+        apply.setTo_role(userUpdateVo.role);
         apply.setStatus(status);
         apply.setCreated_time(MyImplUtils.getCurrentTime());
         apply.setCreated_by(userUpdateVo.user.getName());
@@ -109,6 +110,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public String findUserDepartment(UserUpdateVo userUpdateVo) {
         return userMapper.findUserDepartment(userUpdateVo.id,userUpdateVo.user.getCompany_id());
+    }
+
+    @Override
+    public String findUserRole(UserUpdateVo userUpdateVo) {
+        return userMapper.findUserRole(userUpdateVo.id,userUpdateVo.user.getCompany_id());
     }
 
 

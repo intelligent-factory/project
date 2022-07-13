@@ -57,10 +57,22 @@ public class ApplyServiceImpl extends ServiceImpl<ApplyMapper, Apply> implements
     }
 
     @Override
+    public String getRole(Integer apply_id) {
+        return applyMapper.getRole(apply_id);
+    }
+
+    @Override
     public void setUserDepartment(int transfer_id, String getDepartment, int handler) {
         String handled_by = Integer.toString(handler);
         Timestamp currentTime = MyImplUtils.getCurrentTime();
         applyMapper.setUserDepartment(transfer_id, getDepartment, currentTime,handled_by);
+    }
+
+    @Override
+    public void setUserRole(int transfer_id, String getRole, int handler) {
+        String handled_by = Integer.toString(handler);
+        Timestamp currentTime = MyImplUtils.getCurrentTime();
+        applyMapper.setUserRole(transfer_id, getRole, currentTime,handled_by);
     }
 
     @Override

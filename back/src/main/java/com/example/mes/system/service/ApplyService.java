@@ -24,7 +24,11 @@ public interface ApplyService extends IService<Apply> {
 
     String getDepartment(Integer apply_id);
 
+    String getRole(Integer apply_id);
+
     void setUserDepartment(int transfer_id, String getDepartment, int handler);
+
+    void setUserRole(int transfer_id, String getRole, int handler);
 
     void applyRefusal(ApplyAddressVo applyAddressVo);
 

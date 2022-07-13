@@ -38,6 +38,8 @@ public interface UserMapper extends BaseMapper<User> {
 
     String findUserDepartment(@Param("id") int id, @Param("company_id") int company_id);
 
+    String findUserRole(@Param("id") int id, @Param("company_id") int company_id);
+
     void createApply(@Param("apply") Apply apply);
 
     Apply findApply(UserUpdateVo userUpdateVo);
