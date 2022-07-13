@@ -21,9 +21,9 @@ public class DataAnalysisController {
     IDataAnalysisService service;
 
     @GetMapping("getDemandFormNosByDate")
-    public String getDemandFormNosByDate(String date){
+    public String getDemandFormNosByDate(String date,String company_id){
         try {
-            return JSON.toJSONString(service.getDemandFormNosByDate(date));
+            return JSON.toJSONString(service.getDemandFormNosByDate(date,company_id));
         }catch (Exception e){
             e.printStackTrace();
             System.out.println("controller:根据预计完成日期获得预计完成客户订单号失败！");

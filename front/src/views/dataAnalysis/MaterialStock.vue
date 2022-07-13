@@ -101,11 +101,12 @@ export default {
           params: {
             name: event[0],
             size: event[1],
-           
+
           }
         }).then(res => {
           this.count = res.data.count
           this.materials = res.data.materials
+          console.log(this.materials)
         }).catch(err => {
           console.log(err)
         });

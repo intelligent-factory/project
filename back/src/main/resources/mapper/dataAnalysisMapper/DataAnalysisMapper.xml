@@ -40,7 +40,7 @@
     <select id="getDemandFormNosByDate" parameterType="java.lang.String" resultType="java.lang.String">
         SELECT distinct p.no
         FROM plan_demand_form p
-        WHERE convert(p.created_time,date)=#{date}
+        WHERE convert(p.created_time,date)=#{date} AND (p.company_id=#{company_id} OR #{company_id}=0)
     </select>
 
 

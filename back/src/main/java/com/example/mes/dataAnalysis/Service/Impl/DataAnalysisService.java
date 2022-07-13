@@ -6,7 +6,6 @@ import com.example.mes.dataAnalysis.Vo.IDPair;
 import com.example.mes.dataAnalysis.Vo.MaterialStock;
 import com.example.mes.dataAnalysis.Vo.MaterialStockChange;
 import com.example.mes.dataAnalysis.Vo.ProductionSchedule;
-import com.example.mes.plan.entity.Plan;
 import com.example.mes.process.Vo.PageVo.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,9 +19,9 @@ public class DataAnalysisService implements IDataAnalysisService {
     @Autowired(required = false)
     DataAnalysisMapper mapper;
     @Override
-    public List<String> getDemandFormNosByDate(String date) {
+    public List<String> getDemandFormNosByDate(String date,String company_id) {
         try {
-            return mapper.getDemandFormNosByDate(date);
+            return mapper.getDemandFormNosByDate(date,company_id);
         }catch (Exception e){
             e.printStackTrace();
             System.out.println("service:根据预计完成日期获得预计完成客户订单号失败！");
@@ -109,9 +108,14 @@ public class DataAnalysisService implements IDataAnalysisService {
         }
     }
 
+
     @Override
     public HashMap<String, Object> getMaterialStockByInfo(String name, String size) {
         try {
+            size=size.replace(",", "\",\"");
+            size=size.replace(":", "\":\"");
+            size="{\""+size;
+            size=size+"\"}";
             String material_id = mapper.getMaterialIDByInfo(name,size);
             HashMap<String,Object> data = new HashMap<>();
             ArrayList<MaterialStock> materials = new ArrayList<>();
