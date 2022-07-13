@@ -10,7 +10,7 @@
         select id,name,factory_name,created_time,modified_time from workshop_workshop where is_deleted="0" and (verify="normal" or verify="delete") order by id limit #{start},#{num}
     </select>
     <select id="all_workshop"  resultType="com.example.mes.WorkshopStorage.vo.WorkshopVo">
-        select id,name,factory_name,created_time,modified_time from workshop_workshop where is_deleted="0" and (verify="normal" or verify="delete") order by id
+        select id,name,factory_name,created_time,modified_time from workshop_workshop where (company_id = #{company_id} or #{company_id}=0) and is_deleted="0" and (verify="normal" or verify="delete") order by id
     </select>
     <select id="selectApplyAll"  resultType="com.example.mes.WorkshopStorage.vo.WorkshopVo">
         select id,name,factory_name,created_time,modified_time,created_by,modified_by,verify,pre_id from workshop_workshop where company_id = #{company_id} and is_deleted="0" and verify!="normal" order by id limit #{start},#{num}

@@ -16,7 +16,7 @@ public interface WorkshopMapper {
     List<WorkshopVo> selectAll(@Param("start") long start, @Param("num") long num);
     List<WorkshopVo> selectApplyAll(@Param("start") long start, @Param("num") long num,@Param("company_id") String company_id);
 
-    List<WorkshopVo> all_workshop();
+    List<WorkshopVo> all_workshop(String company_id);
     WorkshopVo getById(@Param("workshopId") String workshopId,@Param("company_id") String company_id);
     WorkshopVo getApplyById(@Param("workshopId") String workshopId);
     WorkshopVo getByName(@Param("workshopName") String workshopName,@Param("company_id") String company_id);

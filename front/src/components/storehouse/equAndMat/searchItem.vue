@@ -82,6 +82,7 @@ export default {
   name: "searchItem",
   data(){
     return {
+      userMsg:'',
       updateFlag:false,
       updateInfo: {
         storage_id:'',//仓库号
@@ -110,6 +111,8 @@ export default {
     }
   },
   created(){
+    this.userMsg=JSON.parse(sessionStorage.getItem('userinfo'))
+    console.log(this.userMsg)
 
   },
   methods:{
@@ -147,6 +150,7 @@ export default {
     },
     getData(){
       let req = {
+        company_id:this.userMsg.company_id,
         storage_id: this.input.storage_id,
         shelf_id: this.input.shelf_id,
         current: this.page.current,

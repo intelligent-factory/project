@@ -144,10 +144,10 @@ public class WorkshopController {
     }
 
     @GetMapping(value = "all_workshop")
-    public String all_workshop(){
+    public String all_workshop(String company_id){
         try {
             HashMap<String, Object> data = new HashMap<>();
-            List<WorkshopVo> workshop = workshopService.all_workshop();
+            List<WorkshopVo> workshop = workshopService.all_workshop(company_id);
             data.put("workshop", workshop);
             return(JSON.toJSONString(workshop));
         }catch (Exception e){

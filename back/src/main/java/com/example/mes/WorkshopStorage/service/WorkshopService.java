@@ -263,8 +263,8 @@ public class WorkshopService {
         return workshopVoResult;
     }
 
-    public List<WorkshopVo> all_workshop(){
-        return workshopMapper.all_workshop();
+    public List<WorkshopVo> all_workshop(String company_id){
+        return workshopMapper.all_workshop(company_id);
     }
 
     public Result<List<WorkshopVo>> update_delete_Info(String workshopId, String lineId, String stationId,String company_id){
