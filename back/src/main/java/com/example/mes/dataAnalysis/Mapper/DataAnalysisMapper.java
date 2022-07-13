@@ -3,7 +3,6 @@ package com.example.mes.dataAnalysis.Mapper;
 import com.example.mes.dataAnalysis.Vo.IDPair;
 import com.example.mes.dataAnalysis.Vo.MaterialStock;
 import com.example.mes.dataAnalysis.Vo.MaterialStockChange;
-import com.example.mes.plan.entity.Plan;
 import com.example.mes.process.Vo.PageVo.PageVo;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,7 +12,7 @@ public interface DataAnalysisMapper {
 
 
     //根据完成日期，获得客户需求单号
-    List<String> getDemandFormNosByDate(@Param("date") String date);
+    List<String> getDemandFormNosByDate(@Param("date") String date,String company_id);
     //跟据客户需求单号，获得需求单号，获得需求单中的产品合对应的生产订单
     List<IDPair> getIDPairs(@Param("no") String no);
     //根据需求单号，获得该需求单号的完成情况
