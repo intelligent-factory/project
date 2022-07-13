@@ -1,5 +1,5 @@
 <template>
-  <div id="ProductionSchedule">
+  <div id="ProductionPLanSchedule">
     <div id="searchBar">
       <form style="width: 400px;float: left">
         <label style="float: left;margin-left: 20px;font-size: 20px">
@@ -13,7 +13,6 @@
       </select>
     </div>
     <div id="canvas" style="width: 800px;height:500px;margin-top: 30px"></div>
-
   </div>
 </template>
 
@@ -21,63 +20,42 @@
 import {request} from "@/network/request";
 
 export default {
-  name: "ProductionSchedule",
+  name: "ProductionPlanSchedule",
   data(){
     return {
-      currentDate: '',
-      demand_ids: [],
-      demand_id: '请选择客户需求订单编号',
-      categorys: ['A','B'],
+
+      product_id:this.$route.params.id,
+      plan_ids: [],
+      plan_id: '请选择产品计划订单编号',
+      categorys: ['产线1','产线2'],
       realCounts: [1,2],
       planCounts: [1,2],
-      product_ids:[]
     }
   },
   mounted() {
     this.drawChart();
   },
   methods: {
-    getDemand_ids(date){
-      this.demand_id = '请选择客户需求订单编号'
-      this.categorys = []
+
+    //把值赋给category、realCount、planCount
+      getPlan_ids(product_id){
+        if (product_id=== undefined){
+      this.product_id = this.$route.params.id
+      this.plan_ids = []
       this.realCounts = []
       this.planCounts = []
-      this.product_ids = []
       this.drawChart()
-      request({
-        url: '/dataAnalysis/getDemandFormNosByDate',
-        method: 'get',
-        params: {
-          date: date
-        }
-      }).then(res => {
-        this.demand_ids = res.data
-        console.log(this.demand_ids)
-      }).catch(err =>{
-        console.log(err)
-      })
-    },
-    //把值赋给category、realCount、planCount
-    getData(demand_id){
-      if (demand_id === '请选择客户需求订单编号'){
-        this.categorys = []
-        this.realCounts = []
-        this.planCounts = []
-        this.product_ids = []
-        this.drawChart()
       } else {
         request({
-          url: '/dataAnalysis/getFinishInfoById',
+          url: '/dataAnalysis/getPlanByProductId',
           method: 'get',
           params: {
-            demand_id: demand_id
+            product_id: product_id
           }
         }).then(res => {
-          this.categorys = res.data.categorys
+          this.plan_ids = res.data.plan_ids
           this.realCounts = res.data.realCounts
           this.planCounts = res.data.planCounts
-          this.product_ids = res.data.product_ids
-          console.log(this.product_ids)
           this.drawChart()
         }).catch(err =>{
           console.log(err)
@@ -95,8 +73,8 @@ export default {
       // 指定图表的配置项和数据
       let option = {
         title: {
-          text: '生产计划进度',
-          subtext: '需求单号：'+this.demand_id
+          text: '产品生产计划进度',
+          subtext: '产品号：'+this.product_id
         },
         tooltip: {
           trigger: 'axis'
@@ -115,8 +93,8 @@ export default {
         calculable: true,
         xAxis: [
           {
-            type: 'category',
-            data: this.categorys,
+            type: 'plan_id',
+            data: this.plan_ids,
           }
         ],
         yAxis: [
@@ -137,30 +115,24 @@ export default {
           }
         ]
       };
-      
       // 使用刚指定的配置项和数据显示图表。
-      myChart.setOption(option,true);
+      myChart.setOption(option);
       myChart.on('click',  (param)=> {
        
-        console.log(this.product_ids)
-        var productid;
+        console.log(this.plan_ids)
+        var planid;
         console.log(param.dataIndex)
-        productid = this.product_ids[param.dataIndex];
-        console.log(productid)
-        parent.location.href = "/productionPlanSchedule/" + productid;
+        planid = this.plan_ids[param.dataIndex];
+        console.log(planid)
+        parent.location.href = "/productionPlanSchedule/" + planid;
 
        });
-
-
-
-
     }
 
     },
 
 
   };
-
 </script>
 
 <style scoped>
@@ -168,7 +140,8 @@ export default {
   margin: 0px;
   padding: 0px;
 }
-#ProductionSchedule {
+
+#ProductionPLanSchedule{
 
 }
 #searchBar{

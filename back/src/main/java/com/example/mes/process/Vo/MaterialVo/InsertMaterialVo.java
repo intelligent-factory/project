@@ -18,8 +18,7 @@ public class InsertMaterialVo {
     String name;
     //物料规格
     String size;
-    //物料颜色
-    String color;
+
     //物料描述
     String comments;
     //创建人的id
@@ -42,10 +41,10 @@ public class InsertMaterialVo {
     public InsertMaterialVo() {
     }
 
-    public InsertMaterialVo(String name, String size, String color, String comments, String operator_id) {
+    public InsertMaterialVo(String name, String size,  String comments, String operator_id) {
         this.name = name;
         this.size = size;
-        this.color = color;
+
         this.comments = comments;
         this.operator_id = operator_id;
         //this.company_id = company_id;
@@ -69,13 +68,7 @@ public class InsertMaterialVo {
         this.size = size;
     }
 
-    public String getColor() {
-        return color;
-    }
 
-    public void setColor(String color) {
-        this.color = color;
-    }
 
     public String getComments() {
         return comments;
@@ -115,7 +108,6 @@ public class InsertMaterialVo {
                 "material_id='" + material_id + '\'' +
                 ", name='" + name + '\'' +
                 ", size='" + size + '\'' +
-                ", color='" + color + '\'' +
                 ", comments='" + comments + '\'' +
                 ", operator_id='" + operator_id + '\'' +
                 ", status='" + status + '\'' +

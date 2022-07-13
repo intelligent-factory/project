@@ -21,7 +21,11 @@
         )
 
     </select>
-
+    <select id=" getProductPlanId(product_id)" parameterType="java .lang.String" resultType="java.lang. String">
+        SELECT  p.no
+        FROM plan_plan p JOIN workshop_line w
+        WHERE w.routing = #{product_id} AND w.is_deleted = '0' AND w.uuid = p.production_line_id
+    </select>
     <select id="getDemandQuantity" parameterType="java.lang.String" resultType="java.lang.Integer">
         SELECT quantity as demand_quantity
         FROM plan_demand_form
@@ -68,7 +72,11 @@
         FROM storage_goods
         WHERE goods_id=#{material_id} AND is_deleted='0' AND types='material' AND (verify='normal' OR verify='delete')
     </select>
-
+    <select id="getDemandPlanId" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT no
+        FROM plan_plan
+        WHERE demand_form_id = #{demand_form_id} AND is_deleted = '0'
+    </select>
     <select id="getMaterialStockChangeByID" parameterType="java.lang.String" resultType="java.lang.Integer">
         SELECT quantity
         FROM storage_goods
@@ -78,11 +86,11 @@
     <select id="getMaterialIDByInfo" parameterType="java.lang.String" resultType="java.lang.String">
         SELECT material_id
         FROM material m
-        WHERE m.name=#{name} AND m.size=#{size} AND m.color=#{color} AND is_deleted='0'
+        WHERE m.name=#{name} AND m.size=#{size} AND is_deleted='0'
     </select>
 
     <select id="getMaterialInfoByID" parameterType="java.lang.String" resultType="com.example.mes.dataAnalysis.Vo.MaterialStock">
-        SELECT m.name,m.size,m.color
+        SELECT m.name,m.size
         FROM material m
         WHERE material_id=#{material_id}
     </select>

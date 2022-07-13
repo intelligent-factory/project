@@ -12,13 +12,12 @@
         </el-form-item>
       </div>
     </el-form>
-<!--    单号-->
     <div id="list-main" style="float: left;margin-top: 20px">
       <el-table :data="materials" border style="margin-left: 20px;width: 581px">
         <el-table-column prop="material_id" label="编号" width="100" align="center" :show-overflow-tooltip="true"></el-table-column>
         <el-table-column prop="name" label="名称" width="100" align="center"></el-table-column>
         <el-table-column prop="size" label="规格" width="100" align="center"></el-table-column>
-        <el-table-column prop="color" label="颜色" width="100" align="center"></el-table-column>
+       
         <el-table-column prop="count" label="库存" width="100" align="center"></el-table-column>
         <el-table-column label="查看" id="tool" width="80" align="center">
           <template slot-scope="scope">
@@ -59,12 +58,12 @@ export default {
       material: {
         name: '',
         size: '',
-        color: ''
+        
       },
       options: [],
       materials: [],
-      dates: ['开始','结束'],
-      stocks: [0,100],
+      dates: ['第1天','第2天','第3天','第4天','第5天','第6天','第7天',],
+      stocks: [0,10,20,30,40,50,60],
       material_id: ''
     }
   },
@@ -102,7 +101,7 @@ export default {
           params: {
             name: event[0],
             size: event[1],
-            color: event[2]
+           
           }
         }).then(res => {
           this.count = res.data.count
@@ -132,8 +131,8 @@ export default {
           material_id: this.material_id
         }
       }).then(res =>{
-        this.dates = res.data.dates
-        this.stocks = res.data.stocks
+        this.dates =['7-1','7-2','7-3','7-4','7-5','7-6','当前',],
+        this.stocks = res.data.stocks,
         this.drawChart()
       }).catch(err =>{
         console.log(err)
@@ -147,7 +146,7 @@ export default {
       }
       let option = {
         title: {
-          text: '过去七天物料库存变化',
+          text: '过去几天物料库存变化',
           subtext: '物料编号： '+this.material_id
 
         },
@@ -163,7 +162,7 @@ export default {
         },
         xAxis: {
           type: 'category',
-          data: this.dates
+          data: this.dates,
         },
         yAxis: {
           type: 'value'

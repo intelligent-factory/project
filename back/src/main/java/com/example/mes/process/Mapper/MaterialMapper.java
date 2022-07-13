@@ -42,7 +42,7 @@ public interface MaterialMapper {
 
     int getCount();
 
-    int checkDuplicate(@Param("name") String name,@Param("size") String size,@Param("color") String color);
+    int checkDuplicate(@Param("name") String name,@Param("size") String size);
 
     int getIndex();
 
