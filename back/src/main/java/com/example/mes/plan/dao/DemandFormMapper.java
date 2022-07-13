@@ -6,10 +6,11 @@ import com.example.mes.plan.entity.Line;
 import com.example.mes.plan.entity.Product;
 import com.example.mes.plan.vo.CriteriaVo;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Set;
-
+@Repository
 public interface DemandFormMapper extends MesBaseMapper<DemandForm> {
 	
 	List<DemandForm> getDemandFormByCriteria(CriteriaVo<DemandForm> criteria);

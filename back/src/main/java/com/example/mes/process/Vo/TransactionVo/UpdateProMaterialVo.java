@@ -4,16 +4,16 @@ public class UpdateProMaterialVo {
 
     String name;
     String size;
-    String color;
+
     String count;
 
     public UpdateProMaterialVo() {
     }
 
-    public UpdateProMaterialVo(String name, String size, String color, String count) {
+    public UpdateProMaterialVo(String name, String size, String count) {
         this.name = name;
         this.size = size;
-        this.color = color;
+
         this.count = count;
     }
 
@@ -33,13 +33,6 @@ public class UpdateProMaterialVo {
         this.size = size;
     }
 
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
 
     public String getCount() {
         return count;
@@ -54,7 +47,6 @@ public class UpdateProMaterialVo {
         return "UpdateProMaterialVo{" +
                 "name='" + name + '\'' +
                 ", size='" + size + '\'' +
-                ", color='" + color + '\'' +
                 ", count='" + count + '\'' +
                 '}';
     }

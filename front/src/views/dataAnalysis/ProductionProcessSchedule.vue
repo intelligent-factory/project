@@ -1,5 +1,5 @@
 <template>
-  <div id="ProductionSchedule">
+  <div id="ProductionProcessSchedule">
     <div id="searchBar">
       <form style="width: 400px;float: left">
         <label style="float: left;margin-left: 20px;font-size: 20px">
@@ -7,13 +7,12 @@
           <input type="date" v-model="currentDate" style="font-size: 20px" @input="getDemand_ids(currentDate)"></input>
         </label>
       </form>
-      <select style="width: 400px;height:34px;font-size: 20px;float: left" v-model="demand_id" @change="getData(demand_id)">
-        <option>请选择客户需求订单编号</option>
-        <option v-for="item in demand_ids">{{item}}</option>
+      <select style="width: 400px;height:34px;font-size: 20px;float: left" v-model="process_id" @change="getData(process_id)">
+        <option>请选择客户过程单编号</option>
+        <option v-for="item in process_ids">{{item}}</option>
       </select>
     </div>
     <div id="canvas" style="width: 800px;height:500px;margin-top: 30px"></div>
-
   </div>
 </template>
 
@@ -29,8 +28,7 @@ export default {
       demand_id: '请选择客户需求订单编号',
       categorys: ['A','B'],
       realCounts: [1,2],
-      planCounts: [1,2],
-      product_ids:[]
+      planCounts: [1,2]
     }
   },
   mounted() {
@@ -42,7 +40,6 @@ export default {
       this.categorys = []
       this.realCounts = []
       this.planCounts = []
-      this.product_ids = []
       this.drawChart()
       request({
         url: '/dataAnalysis/getDemandFormNosByDate',
@@ -63,7 +60,6 @@ export default {
         this.categorys = []
         this.realCounts = []
         this.planCounts = []
-        this.product_ids = []
         this.drawChart()
       } else {
         request({
@@ -76,8 +72,6 @@ export default {
           this.categorys = res.data.categorys
           this.realCounts = res.data.realCounts
           this.planCounts = res.data.planCounts
-          this.product_ids = res.data.product_ids
-          console.log(this.product_ids)
           this.drawChart()
         }).catch(err =>{
           console.log(err)
@@ -137,30 +131,11 @@ export default {
           }
         ]
       };
-      
       // 使用刚指定的配置项和数据显示图表。
-      myChart.setOption(option,true);
-      myChart.on('click',  (param)=> {
-       
-        console.log(this.product_ids)
-        var productid;
-        console.log(param.dataIndex)
-        productid = this.product_ids[param.dataIndex];
-        console.log(productid)
-        parent.location.href = "/productionPlanSchedule/" + productid;
-
-       });
-
-
-
-
+      myChart.setOption(option);
     }
-
-    },
-
-
-  };
-
+  },
+};
 </script>
 
 <style scoped>

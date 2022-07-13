@@ -6,11 +6,11 @@ import com.example.mes.dataAnalysis.Vo.IDPair;
 import com.example.mes.dataAnalysis.Vo.MaterialStock;
 import com.example.mes.dataAnalysis.Vo.MaterialStockChange;
 import com.example.mes.dataAnalysis.Vo.ProductionSchedule;
+import com.example.mes.plan.entity.Plan;
 import com.example.mes.process.Vo.PageVo.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -29,7 +29,32 @@ public class DataAnalysisService implements IDataAnalysisService {
             return null;
         }
     }
-
+    //计划单完成状况的方法
+    @Override
+    public  HashMap<String,Object> getPlanByProductId(String product_id) {
+        try {
+            ArrayList<String> plan_ids = new ArrayList<>();
+            ArrayList<Integer> realCounts = new ArrayList<>();
+            ArrayList<Integer> planCounts = new ArrayList<>();
+            plan_ids.addAll(mapper.getProductPlanId(product_id));
+            int i;
+        for ( i =0;i <plan_ids.size();i++)
+        {
+            ProductionSchedule productionSchedule = new ProductionSchedule(mapper.getPlanProducedQuantity(plan_ids.get(i)),mapper.getPlanProducedQuantity(plan_ids.get(i)));
+            realCounts.add(productionSchedule.getProduced_quantity());
+            planCounts.add(productionSchedule.getDemand_quantity());
+        }
+            HashMap<String,Object> data = new HashMap<>();
+            data.put("realCounts",realCounts);
+            data.put("planCounts",planCounts);
+            data.put("plan_ids",plan_ids);
+            return data;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("获取计划单信息失败");
+            return null;
+        }
+    }
     @Override
     public HashMap<String, Object> getFinishInfoById(String no) {
         try {
@@ -37,17 +62,23 @@ public class DataAnalysisService implements IDataAnalysisService {
             ArrayList<String> categorys = new ArrayList<>();
             ArrayList<Integer> realCounts = new ArrayList<>();
             ArrayList<Integer> planCounts = new ArrayList<>();
+            ArrayList<String> plan_ids = new ArrayList<>();
+            ArrayList<String> product_ids = new ArrayList<>();
             for(IDPair idPair:idPairs){
                 String name = mapper.getProductNameByID(idPair.getProduct_id());
                 ProductionSchedule productionSchedule = new ProductionSchedule(mapper.getDemandQuantity(idPair.getId()),mapper.getProducedQuantity(idPair.getId()));
                 categorys.add(name);
                 realCounts.add(productionSchedule.getProduced_quantity());
                 planCounts.add(productionSchedule.getDemand_quantity());
+                product_ids.add(idPair.getProduct_id());
+                plan_ids.addAll(mapper.getDemandPlanId(idPair.getId()));
             }
             HashMap<String,Object> data = new HashMap<>();
             data.put("categorys",categorys);
             data.put("realCounts",realCounts);
             data.put("planCounts",planCounts);
+            data.put("plan_ids",plan_ids);
+            data.put("product_ids",product_ids);
             return data;
         }catch (Exception e){
             e.printStackTrace();
@@ -64,7 +95,7 @@ public class DataAnalysisService implements IDataAnalysisService {
             for(MaterialStock materialStock:materials){
                 MaterialStock i = mapper.getMaterialInfoByID(materialStock.getMaterial_id());
                 materialStock.setName(i.getName());
-                materialStock.setColor(i.getColor());
+
                 materialStock.setSize(i.getSize());
             }
             int count = mapper.getCount();
@@ -79,18 +110,18 @@ public class DataAnalysisService implements IDataAnalysisService {
     }
 
     @Override
-    public HashMap<String, Object> getMaterialStockByInfo(String name, String size, String color) {
+    public HashMap<String, Object> getMaterialStockByInfo(String name, String size) {
         try {
-            String material_id = mapper.getMaterialIDByInfo(name,size,color);
+            String material_id = mapper.getMaterialIDByInfo(name,size);
             HashMap<String,Object> data = new HashMap<>();
             ArrayList<MaterialStock> materials = new ArrayList<>();
             MaterialStock materialStock = mapper.getMaterialStockByID(material_id);
             if (materialStock == null){
-                materialStock = new MaterialStock(material_id,name,size,color,0);
+                materialStock = new MaterialStock(material_id,name,size,0);
             }else{
                 materialStock.setName(name);
                 materialStock.setSize(size);
-                materialStock.setColor(color);
+
             }
             materials.add(materialStock);
             data.put("materials",materials);

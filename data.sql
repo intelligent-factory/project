@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v12.08 (64 bit)
-MySQL - 8.0.19 : Database - mes0
+MySQL - 8.0.19 : Database - mes
 *********************************************************************
 */
 
