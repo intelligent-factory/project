@@ -1,18 +1,10 @@
 <template>
   <div id="ProductionProcessSchedule">
-    <div id="searchBar">
-      <form style="width: 400px;float: left">
-        <label style="float: left;margin-left: 20px;font-size: 20px">
-          请选择日期：
-          <input type="date" v-model="currentDate" style="font-size: 20px" @input="getDemand_ids(currentDate)"></input>
-        </label>
-      </form>
-      <select style="width: 400px;height:34px;font-size: 20px;float: left" v-model="process_id" @change="getData(process_id)">
-        <option>请选择客户过程单编号</option>
-        <option v-for="item in process_ids">{{item}}</option>
-      </select>
-    </div>
+    <el-row>
+      <el-button @click="getData(plan_id)"type="primary">更新</el-button>
+    </el-row>
     <div id="canvas" style="width: 800px;height:500px;margin-top: 30px"></div>
+
   </div>
 </template>
 
@@ -23,53 +15,39 @@ export default {
   name: "ProductionSchedule",
   data(){
     return {
-      currentDate: '',
-      demand_ids: [],
-      demand_id: '请选择客户需求订单编号',
-      categorys: ['A','B'],
+      plan_id:this.$route.params.id,
+
+      process_ids: ['A','B'],
       realCounts: [1,2],
-      planCounts: [1,2]
+      planCounts: [1,2],
+
+
     }
   },
   mounted() {
     this.drawChart();
   },
   methods: {
-    getDemand_ids(date){
-      this.demand_id = '请选择客户需求订单编号'
-      this.categorys = []
-      this.realCounts = []
-      this.planCounts = []
-      this.drawChart()
-      request({
-        url: '/dataAnalysis/getDemandFormNosByDate',
-        method: 'get',
-        params: {
-          date: date
-        }
-      }).then(res => {
-        this.demand_ids = res.data
-        console.log(this.demand_ids)
-      }).catch(err =>{
-        console.log(err)
-      })
-    },
     //把值赋给category、realCount、planCount
-    getData(demand_id){
-      if (demand_id === '请选择客户需求订单编号'){
-        this.categorys = []
+    getData(plan_id){
+
+      if (plan_id=== 'undefined'){
+        this.plan_id = "空"
+        this.process_ids = []
         this.realCounts = []
         this.planCounts = []
         this.drawChart()
       } else {
         request({
-          url: '/dataAnalysis/getFinishInfoById',
+          url: '/dataAnalysis/getProcessByPlanId',
           method: 'get',
+
           params: {
-            demand_id: demand_id
+            plan_id: this.$route.params.id
           }
         }).then(res => {
-          this.categorys = res.data.categorys
+
+          this.process_ids = res.data.process_ids
           this.realCounts = res.data.realCounts
           this.planCounts = res.data.planCounts
           this.drawChart()
@@ -89,8 +67,8 @@ export default {
       // 指定图表的配置项和数据
       let option = {
         title: {
-          text: '生产计划进度',
-          subtext: '需求单号：'+this.demand_id
+          text: '过程单完成情况',
+          subtext: '计划单号：'+this.plan_id
         },
         tooltip: {
           trigger: 'axis'
@@ -110,7 +88,7 @@ export default {
         xAxis: [
           {
             type: 'category',
-            data: this.categorys,
+            data: this.process_ids,
           }
         ],
         yAxis: [
@@ -130,6 +108,7 @@ export default {
             data: this.planCounts
           }
         ]
+
       };
       // 使用刚指定的配置项和数据显示图表。
       myChart.setOption(option);
@@ -143,14 +122,12 @@ export default {
   margin: 0px;
   padding: 0px;
 }
-#ProductionSchedule {
+#ProductionProcessSchedule {
 
 }
-#searchBar{
-  padding-top: 20px;
-  height: 50px;
-}
+
 #canvas{
   margin-left: 50px;
 }
+
 </style>

@@ -21,10 +21,10 @@
         )
 
     </select>
-    <select id=" getProductPlanId(product_id)" parameterType="java.lang.String" resultType="java.lang.String">
-        SELECT  p.no
+    <select id="getPlanProductId" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT  p.id
         FROM plan_plan p JOIN workshop_line w
-        WHERE w.routing = #{product_id} AND w.is_deleted = '0' AND w.uuid = p.production_line_id
+        WHERE w.routing = #{product_id}  AND w.uuid = p.production_line_id
     </select>
     <select id="getDemandQuantity" parameterType="java.lang.String" resultType="java.lang.Integer">
         SELECT quantity as demand_quantity
@@ -42,8 +42,6 @@
         FROM plan_demand_form p
         WHERE convert(p.created_time,date)=#{date} AND (p.company_id=#{company_id} OR #{company_id}=0)
     </select>
-
-
 
     <select id="getProductNameByID" parameterType="java.lang.String" resultType="java.lang.String">
         SELECT concat(brand,season,p.type) as name
@@ -66,7 +64,21 @@
         FROM material
         WHERE is_deleted='0'
     </select>
-    
+    <select id="getProcessPlanId" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT no
+        FROM plan_process
+        WHERE plan_id = #{plan_id}
+    </select>
+    <select id="getProcessDemandQuantity" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT  demand_quantity
+        FROM plan_process
+        WHERE no=#{process_id}
+    </select>
+    <select id="getProcessProducedQuantity" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT produced_quantity
+        FROM plan_process
+        WHERE no=#{process_id}
+    </select>
     <select id="getMaterialStockByID" parameterType="java.lang.String" resultType="com.example.mes.dataAnalysis.Vo.MaterialStock">
         SELECT goods_id as material_id,sum(quantity) as 'count'
         FROM storage_goods
@@ -112,5 +124,14 @@
         FROM material
         WHERE is_deleted='0'
     </select>
-
+    <select id="getPlanProducedQuantity" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT min(produced_quantity)
+        FROM plan_process
+        WHERE plan_id=#{plan_id}
+    </select>
+    <select id="getPlanDemandQuantity" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT demand_quantity
+        FROM plan_process
+        WHERE plan_id=#{plan_id}
+    </select>
 </mapper>

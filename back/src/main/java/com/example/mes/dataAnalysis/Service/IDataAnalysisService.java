@@ -19,8 +19,8 @@ public interface IDataAnalysisService {
     //根据客户订单号获得订单项的完成情况
     HashMap<String,Object>getFinishInfoById(String no);
 
-
-
+   //根据计划单号获得订单项的完成情况
+    HashMap<String,Object>getProcessByPlanId(String plan_id);
     //获得库存信息
     HashMap<String,Object> getMaterialStock(int pageOffset,int pageSize);
     //根据物料信息获取库存信息

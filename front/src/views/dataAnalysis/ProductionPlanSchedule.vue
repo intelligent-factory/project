@@ -1,17 +1,8 @@
 <template>
   <div id="ProductionPLanSchedule">
-    <div id="searchBar">
-      <form style="width: 400px;float: left">
-        <label style="float: left;margin-left: 20px;font-size: 20px">
-          请选择日期：
-          <input type="date" v-model="currentDate" style="font-size: 20px" @input="getDemand_ids(currentDate)"></input>
-        </label>
-      </form>
-      <select style="width: 400px;height:34px;font-size: 20px;float: left" v-model="demand_id" @change="getData(demand_id)">
-        <option>请选择客户需求订单编号</option>
-        <option v-for="item in demand_ids">{{item}}</option>
-      </select>
-    </div>
+    <el-row>
+      <el-button @click="getData(product_id)">更新</el-button>
+    </el-row>
     <div id="canvas" style="width: 800px;height:500px;margin-top: 30px"></div>
   </div>
 </template>
@@ -25,11 +16,12 @@ export default {
     return {
 
       product_id:this.$route.params.id,
-      plan_ids: [],
-      plan_id: '请选择产品计划订单编号',
-      categorys: ['产线1','产线2'],
+
+      plan_ids: ['A','B'],
       realCounts: [1,2],
       planCounts: [1,2],
+
+
     }
   },
   mounted() {
@@ -38,9 +30,10 @@ export default {
   methods: {
 
     //把值赋给category、realCount、planCount
-      getPlan_ids(product_id){
-        if (product_id=== undefined){
-      this.product_id = this.$route.params.id
+      getData(product_id){
+
+        if (product_id=== 'undefined'){console.log(product_id)
+      this.product_id = "空"
       this.plan_ids = []
       this.realCounts = []
       this.planCounts = []
@@ -49,10 +42,12 @@ export default {
         request({
           url: '/dataAnalysis/getPlanByProductId',
           method: 'get',
+
           params: {
-            product_id: product_id
+            product_id: this.$route.params.id
           }
         }).then(res => {
+
           this.plan_ids = res.data.plan_ids
           this.realCounts = res.data.realCounts
           this.planCounts = res.data.planCounts
@@ -93,7 +88,7 @@ export default {
         calculable: true,
         xAxis: [
           {
-            type: 'plan_id',
+            type: 'category',
             data: this.plan_ids,
           }
         ],
@@ -124,7 +119,10 @@ export default {
         console.log(param.dataIndex)
         planid = this.plan_ids[param.dataIndex];
         console.log(planid)
-        parent.location.href = "/productionPlanSchedule/" + planid;
+        this.$router.push({
+          path: '/productionProcessSchedule/' + planid,
+
+        });
 
        });
     }
@@ -144,10 +142,7 @@ export default {
 #ProductionPLanSchedule{
 
 }
-#searchBar{
-  padding-top: 20px;
-  height: 50px;
-}
+
 #canvas{
   margin-left: 50px;
 }
