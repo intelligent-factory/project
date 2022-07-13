@@ -166,4 +166,11 @@
     	where uuid=#{id}
 	</select>
 
+
+	<select id="getProductPlanId(product_id)" parameterType="java.lang.String" resultType="java.lang.String">
+	SELECT  p.no
+	FROM plan_plan p JOIN workshop_line w
+	WHERE w.routing = #{product_id} AND w.is_deleted = '0' AND w.uuid = p.production_line_id
+	</select>
+
 </mapper>

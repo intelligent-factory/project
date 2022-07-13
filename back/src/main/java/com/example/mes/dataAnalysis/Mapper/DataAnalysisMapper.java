@@ -34,14 +34,14 @@ public interface DataAnalysisMapper {
 
 
     //获得库存信息
-    List<MaterialStock> getMaterialStock(@Param("pageVo")PageVo pageVo);
-    int getCount();
+    List<MaterialStock> getMaterialStock(@Param("pageVo") PageVo pageVo, @Param("company_id")String company_id);
+    int getCount(@Param("company_id")String company_id);
     //根据物料id获得物料库存信息
     MaterialStock getMaterialStockByID(@Param("material_id") String material_id);
     //根据物料信息获取物料id
     String getMaterialIDByInfo(@Param("name") String name, @Param("size") String size);
     //
-    MaterialStock getMaterialInfoByID(@Param("material_id") String material_id);
+    MaterialStock getMaterialInfoByID(@Param("material_id") String material_id, @Param("company_id")String company_id);
 
     List<MaterialStockChange> getMaterialStockChanges(@Param("material_id") String material_id);
 

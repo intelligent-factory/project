@@ -46,7 +46,7 @@ public class ProcedureController {
         try {
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             String status = "正常";
-            insertProcedureVo.setProcedure_id(service.getIndex(insertProcedureVo.getCompany_id())+1+"");
+            insertProcedureVo.setProcedure_id(service.getIndex(Integer.parseInt(insertProcedureVo.getProcedure_id()))+1+"");
             insertProcedureVo.setCreated_time(timestamp);
             insertProcedureVo.setStatus(status);
             return service.addProcedure(insertProcedureVo);
