@@ -13,6 +13,7 @@ public class Apply {
     private Integer transfer_id;
     private String from_department;
     private String to_department;
+    private String to_role;
     private String status;
     private String is_deleted;
     private Timestamp created_time;

@@ -49,8 +49,11 @@ public class ApplyController {
         String isAccept = applyAddressVo.getIsAccept();
         if (isAccept.equals("1")) {
             String getDepartment = applyService.getDepartment(applyAddressVo.getApply_id());
+            String getRole = applyService.getRole(applyAddressVo.getApply_id());
+
             int transfer_id = applyService.applyAddress(applyAddressVo);
             applyService.setUserDepartment(transfer_id, getDepartment,applyAddressVo.getUser().getId());
+            applyService.setUserRole(transfer_id, getRole,applyAddressVo.getUser().getId());
             MyUtils.successMsg(res, "成功,同意部门转换");
         } else if (isAccept.equals("0")) {
             applyService.applyRefusal(applyAddressVo);
@@ -71,8 +74,13 @@ public class ApplyController {
             String isAccept = applyAddressVo.getIsAccept();
             if (isAccept.equals("1")) {
                 String getDepartment = applyService.getDepartment(applyAddressVo.getApply_id());
+                String getRole = applyService.getRole(applyAddressVo.getApply_id());
+
                 int transfer_id = applyService.applyAddress(applyAddressVo);
+
                 applyService.setUserDepartment(transfer_id, getDepartment,applyAddressVo.getUser().getId());
+                applyService.setUserRole(transfer_id, getRole,applyAddressVo.getUser().getId());
+
                 MyUtils.successMsg(res, "成功,同意" + transfer_id + "部门转换");
             } else if (isAccept.equals("0")) {
                 int transfer_id = applyService.getTransferId(applyAddressVo);

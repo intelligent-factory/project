@@ -59,9 +59,9 @@
 
     <insert id="roleInsert" parameterType="com.example.mes.system.entity.Vo.RoleUpdateVo">
         insert into
-        role (role_name, role_id, role_describe, permission, status, is_deleted, created_time, created_by,
+        role (role_name, role_id,department_name, role_describe, permission, status, is_deleted, created_time, created_by,
         modified_time, modified_by,company_id)
-        values (#{n.role_name}, #{n.role_id}, #{n.role_describe}, #{n.permission}, #{n.status}, #{n.is_deleted},
+        values (#{n.role_name}, #{n.role_id},#{n.department_name} ,#{n.role_describe}, #{n.permission}, #{n.status}, #{n.is_deleted},
         #{n.created_time}, #{n.created_by}, #{n.modified_time}, #{n.modified_by},#{n.company_id});
     </insert>
 

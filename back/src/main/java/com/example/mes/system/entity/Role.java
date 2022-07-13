@@ -12,6 +12,7 @@ public class Role implements Serializable {
     @TableId(value = "role_name")
     private String role_name;
     private String role_id;
+    private String department_name;
     private String role_describe;
     private String permission;
     private Timestamp created_time;
@@ -20,6 +21,7 @@ public class Role implements Serializable {
     private String created_by;
     private Timestamp modified_time;
     private String modified_by;
+
 
 
 }

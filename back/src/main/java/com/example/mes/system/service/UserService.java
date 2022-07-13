@@ -36,4 +36,6 @@ public interface UserService extends IService<User> {
 
     String findUserDepartment(UserUpdateVo userUpdateVo);
 
+    String findUserRole(UserUpdateVo userUpdateVo);
+
 }

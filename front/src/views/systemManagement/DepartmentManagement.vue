@@ -88,6 +88,16 @@
       </el-table-column>
 
       <el-table-column
+          width="130"
+          column-key="departmentRole"
+          prop="departmentRole"
+          label="部门角色">
+        <template slot-scope="scope">
+          <span>{{ roleParse(scope.row.roleList) }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column
           prop="department_describe"
           min-width="100"
           column-key="department_describe"
@@ -134,6 +144,7 @@
         :dialog-visible="dialogVisible"
         :is-id-editable="isIdEditable"
         :mode="mode"
+        :role-list="roleList"
         @close="closeDialog"
     >
     </DepartmentEditPanel>
@@ -159,6 +170,7 @@ export default {
       loading: false,
       mode: 'update',
       departmentCount: {},
+      roleList:{},
       statusCount: 0,
 
       currentTime: new Date(),
@@ -209,8 +221,9 @@ export default {
         data: params,
       }).then(res => {
         console.log(res.data);
-        let {total, departmentList, departmentCount} = res.data;
+        let {total, departmentList, departmentCount,roleList} = res.data;
         this.tableData = departmentList;
+        this.roleList = roleList;
         let dict = {};
         for (let i = 0; i < departmentCount.length; i++) {
           dict[departmentCount[i].department] = departmentCount[i]['count'];
@@ -228,7 +241,10 @@ export default {
     formatter(time) {
       return time_formatter(time);
     },
+    roleParse(roleList) {
 
+      return roleList.join("， ");
+    },
 
     //filter
     clearFilter() {

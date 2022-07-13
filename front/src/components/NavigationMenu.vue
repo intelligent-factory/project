@@ -147,6 +147,16 @@
         <el-menu-item index="/modelManagement/modelManagementComponent">模版管理</el-menu-item>
         <el-menu-item index="/modelManagement/modelAdd">模版添加</el-menu-item>
       </el-submenu>
+
+      <el-submenu index="modelManagement"
+                  v-if="isValidAccess(['模板管理'])">
+        <template slot="title">
+          <i class="el-icon-reading"></i>
+          <span>模版管理</span>
+        </template>
+        <el-menu-item index="/modelManagement/modelManagementComponent">模版管理</el-menu-item>
+        <el-menu-item index="/modelManagement/modelAdd">模版添加</el-menu-item>
+      </el-submenu>
       <!--   end    -->
 
     </el-menu>
@@ -181,7 +191,6 @@ export default {
       }
       return flag
     }
-
   }
 }
 </script>
@@ -190,38 +199,30 @@ export default {
 #NavigationMenu {
   height: 100%;
 }
-
 #el-menu {
   width: 100%;
   height: 100%;
   text-align: left;
 }
-
 .el-menu-item {
   min-width: auto;
 }
-
-
 .icon-name-slot {
   display: flex;
   justify-content: flex-start;
   align-items: center;
 }
-
 .icon-slot {
 }
-
 .name-slot {
   padding-left: 5px;
 }
-
 .submenu-item-double {
   display: flex;
   width: 100%;
   align-items: center;
   justify-content: flex-start;
 }
-
 /*.double-submenu-item {*/
 /*  padding: 5px 5px !important;*/
 /*  width: 100%;*/

@@ -92,6 +92,7 @@ public class UserController {
                         userUpdateVo.company_id = userUpdateVo.user.getCompany_id();
                         userService.userApply(userUpdateVo);
                         userUpdateVo.department = userService.findUserDepartment(userUpdateVo);
+                        userUpdateVo.role = userService.findUserRole(userUpdateVo);
                         userService.userUpdate(userUpdateVo);
                         MyUtils.successMsg(res, "申请成功");
                     }

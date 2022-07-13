@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 public class RoleUpdateVo {
     private String role_name;
     private String role_id;
+    private String department_name;
     private String role_describe;
     private String permission;
     private Timestamp created_time;

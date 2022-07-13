@@ -17,7 +17,7 @@ import java.util.List;
 public interface DepartmentMapper extends BaseMapper<Department> {
     List<Department> queryDepartmentList(@Param("DepartmentSelectVo") DepartmentSelectVo departmentSelectVo, @Param("numStart") int numStart, @Param("numEnd") int numEnd);
 
-    int getLastCount();
+    int getLastCount(Integer company_id);
 
     void departmentDelete(@Param("department") Department department);
 
@@ -27,7 +27,7 @@ public interface DepartmentMapper extends BaseMapper<Department> {
 
     void departmentInsert(@Param("n") DepartmentUpdateVo departmentUpdateVo);
 
-    List<DepartmentCountVo> getDepartmentCount();
+    List<DepartmentCountVo> getDepartmentCount(Integer company_id);
 
     Department newdepartmentFind(@Param("department_name") String department_name, @Param("company_id") String company_id);
 

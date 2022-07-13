@@ -101,13 +101,14 @@ public class CompanyController {
                 new_user.user = companyUpdateVo.getUser();
                 new_user.user.setId(100000);
                 userService.userAdd(new_user);
+
                 //3.自动生成默认的权限、角色、部门等
                 //生成默认权限
                 permissionService.setDefaultPermission(new_user.id,new_company_id);
                 //生成默认角色
                 roleService.setDefaultRole(new_user.id,new_company_id);
                 //生成默认部门
-                departmentService.setDefaultDepartment(new_user.id,new_company_id);
+                departmentService.setDefaultDepartment(new_user.id,new_company_id,new_user_id);
                 res.put("company_id", new_company_id);
                 MyUtils.success(res);
             }
@@ -152,7 +153,7 @@ public class CompanyController {
             //生成默认角色
             roleService.setDefaultRole(new_user.id,new_company_id);
             //生成默认部门
-            departmentService.setDefaultDepartment(new_user.id,new_company_id);
+            departmentService.setDefaultDepartment(new_user.id,new_company_id,new_user_id);
             MyUtils.success(res);
         }else  if (companyUpdateVo.getRequest().equals("refuse")){
             companyUpdateVo.setStatus("审核不通过");
