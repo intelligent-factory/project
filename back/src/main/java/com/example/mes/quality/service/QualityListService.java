@@ -25,20 +25,20 @@ public interface QualityListService {
     //分页查询质检任务
     List<QualityListBean> queryQualityList(QualityListVo qualityListVo);
 
-    Integer getLastCount();
+    Integer getLastCount(QualityListVo qualityListVo);
 
     //根据list_id查询质检任务
-    QualityListBean queryQualityByList(String list_id);
+    QualityListBean queryQualityByList(String list_id,String company_id);
 
     //修改状态
-    void updateQualityListStatus(String list_id);
+    void updateQualityListStatus(String list_id,String company_id);
 
     //查询所有质检任务中的车间
-    List<String> getAllWorkshop();
+    List<String> getAllWorkshop(String company_id);
 
     //查询所有质检任务中的产线
-    List<String> getAllLine();
+    List<String> getAllLine(String company_id);
 
     //查询对应车间中的产线
-    List<String> getAllLinesByWorkshop(String workshop_id);
+    List<String> getAllLinesByWorkshop(String workshop_id,String company_id);
 }

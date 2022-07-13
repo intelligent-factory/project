@@ -70,7 +70,7 @@ export default {
                 comments: this.procedure.comments,
                 cost: this.procedure.cost,
                 operator_id: this.$store.getters.userinfo.id,
-                company_id: 1
+                company_id: this.$store.getters.userinfo.company_id
               }
             }).then(res => {
               if (res.data != "更新失败") {

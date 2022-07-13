@@ -37,7 +37,15 @@ public class Line extends BaseEntity {
 	{
 		return workshopId;
 	}
-
+	private String uuid;
+	public String getUuid()
+	{
+		return uuid;
+	}
+	public void setUuid(String uuid)
+	{
+		this.uuid = uuid;
+	}
 	public void setWorkshopId(String workshopId)
 	{
 		this.workshopId = workshopId;

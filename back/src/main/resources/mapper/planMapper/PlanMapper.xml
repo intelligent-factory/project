@@ -84,6 +84,9 @@
 		<if test="endTimestamp!=null">
 			and created_time &lt; #{endTimestamp}
 		</if>
+		<if test="company_id!=null">
+			and company_id = #{company_id}
+		</if>
 		<if test="true">
 			and distribute_time is not null
 		</if>

@@ -198,6 +198,7 @@ export default {
         label: '其他'
       },
       ],
+      company_id:'',
       options2: [],
       value: [],
       list: [],
@@ -246,6 +247,7 @@ export default {
 
 
   mounted() {
+    this.company_id = this.$store.getters.userinfo.company_id;
     this.loadCode();
     //this.getDefectCodes();
     this.qualityForm.staff = this.$store.getters.userinfo.name;
@@ -277,8 +279,11 @@ export default {
     },
 
     setList_id() {
+
       let req = {
-        list_id: this.list_id
+        list_id: this.list_id,
+        //加公司id
+        company_id:this.$store.getters.userinfo.company_id,
       }
       request({
         url: '/qualityList/updateStatus',
@@ -327,6 +332,8 @@ export default {
             method:'post',
 
             data:{
+              //加公司id
+              company_id:this.$store.getters.userinfo.company_id,
               checkTime: this.qualityForm.checkTime,//质检日期时间
               orderNum: parseInt(this.qualityForm.orderNum),//订单数量
               checkNum: parseInt(this.qualityForm.checkNum),//样品数量
@@ -396,9 +403,14 @@ export default {
       })
     },
     loadCode(){
+      //加公司id
+      let req = {
+        company_id:this.$store.getters.userinfo.company_id,
+      };
       request({
         url:'/defect/typeAndCode',
         method:'get',
+        params: req,
       }).then(resp =>{
           if(resp && resp.status === 200){
             let data = resp.data;

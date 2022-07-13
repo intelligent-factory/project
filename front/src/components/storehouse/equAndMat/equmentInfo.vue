@@ -191,6 +191,7 @@ export default {
   name: "equipmentInfo",
   data(){
     return {
+      userMsg:'',
       showData:[],
       shitVue:[{}],
       opt:[{
@@ -217,6 +218,7 @@ export default {
       updateInfo:{
         equipment_id:'',
         operator_id:'',
+        company_id:'',
         status:'',
         comments:'',
       },
@@ -238,6 +240,8 @@ export default {
     }
   },
   created() {
+    this.userMsg=JSON.parse(sessionStorage.getItem('userinfo'))
+    console.log(this.userMsg)
     this.getData()
     this.getTemplate()
   },
@@ -267,7 +271,7 @@ export default {
     },
     getTemplate(){
       my_request({
-        url:'/template/equipment/all?company_id=1',
+        url:'/template/equipment/all?company_id='+this.userMsg.company_id,
         method:'get',
 
       }).then(res=>{
@@ -305,7 +309,8 @@ export default {
       this.loading = true
       let req = {
         pageOffset: this.page.current,
-        pageSize: this.page.pages
+        pageSize: this.page.pages,
+          company_id:this.userMsg.company_id
       }
       console.log("???")
       my_request({
@@ -342,6 +347,7 @@ export default {
             purpose: JSON.stringify(this.incrementM.purpose),
             status:this.incrementM.status,
             comments: this.incrementM.comments,
+            company_id: this.userMsg.company_id,
             operator_id: 1,
           }
             console.log(req.purpose)
@@ -436,6 +442,7 @@ export default {
       this.loading = true
       let req = {
         equipment_id : row.equipment_id,
+        company_id:row.company_id,
         operator_id : '1',
       }
 
@@ -463,6 +470,7 @@ export default {
     edit(row){
       this.updateM = true
       this.updateInfo.equipment_id = row.equipment_id
+
       this.updateInfo.operator_id = '1'
     },
     updateThis(formName){

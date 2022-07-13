@@ -178,6 +178,7 @@ export default {
     getData() {
 
       let req = {
+        company_id:this.$store.getters.userinfo.company_id,
         workshopId: this.nowWorkshopId,
         workshopName: this.nowWorkshopName
       }
@@ -250,6 +251,7 @@ export default {
       this.isDisabled = !this.isDisabled
 
       let req = {
+        company_id:this.$store.getters.userinfo.company_id,
         workshopid:this.workshop.id,
         newWorkshopId : this.theId,
         workshopName : this.theName,

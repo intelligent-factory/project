@@ -17,6 +17,14 @@ public class GoodsMessageVo {
     private Timestamp modified_time;
     private String modified_by;
     private int quantity;
+    private String company_id;
+    public String getCompany_id() {
+        return company_id;
+    }
+
+    public void setCompany_id(String company_id) {
+        this.company_id = company_id;
+    }
 
     public int getQuantity() {
         return quantity;

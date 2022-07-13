@@ -17,11 +17,11 @@ public interface RoleMapper extends BaseMapper<Role> {
 
     Integer getLastCount();
 
-    List<String> queryAllPermissionName();
+    List<String> queryAllPermissionName(Integer company_id);
 
     void roleDelete(@Param("role") Role role);
 
-    Role roleFind(String role_name);
+    Role roleFind(@Param("role_name") String role_name,@Param("company_id") Integer company_id);
 
     void roleUpdate(@Param("n") RoleUpdateVo roleUpdateVo);
 
@@ -29,7 +29,8 @@ public interface RoleMapper extends BaseMapper<Role> {
 
     List<String> getRoles(@Param("company_id") String company_id);
 
-    void insertdepartmentName(@Param("department_name") String department_name, @Param("role_name") String role_name, @Param("company_id") String company_id);
-
+    void updateDepartmentName(@Param("role_name") String role_name, @Param("company_id") String company_id, @Param("department_name") String department_name);
     List<String> getRolesByDepartment(@Param("department_name") String department_name, @Param("company_id") String company_id);
+
+    List<Role> getDefaultRole();
 }

@@ -1,26 +1,32 @@
 <template>
   <div id="modelAddForm-r">
-    <el-form :model="modelAddForm" ref="model-add" label-position="right" label-width="80px" >
+    <el-form :model="modelAddForm" ref="model-add" label-position="right" label-width="100px" >
       <el-form-item label="模版分类" prop="classification"
                     :rules="{required: true, message: '请选择分类', trigger: 'blur'}">
-        <el-select v-model="modelAddForm.classification" filterable placeholder="请选择" style="width: 325px;">
-          <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-          </el-option>
-        </el-select>
+        <el-col :span="15">
+          <el-select v-model="modelAddForm.classification" filterable placeholder="请选择" style="width: 100%">
+            <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+            </el-option>
+          </el-select>
+        </el-col>
       </el-form-item>
 
       <el-form-item label="模版号" prop="templateId"
                     :rules="{required: true, message: '请输入模板号', trigger: 'change'}">
-        <el-input v-model="modelAddForm.templateId" style="width: 325px;"></el-input>
+        <el-col :span="15">
+          <el-input v-model="modelAddForm.templateId" ></el-input>
+        </el-col>
       </el-form-item>
 
       <el-form-item label="模版名称" prop="templateName"
                     :rules="{required: true, message: '请输入名称', trigger: 'blur'}">
-        <el-input v-model="modelAddForm.templateName" style="width: 325px;"></el-input>
+        <el-col :span="15">
+          <el-input v-model="modelAddForm.templateName" ></el-input>
+        </el-col>
       </el-form-item>
 
       <el-form-item v-for="(item, index) in modelAddForm.data"
@@ -28,20 +34,24 @@
                         :key="item.id"
                         :prop="'data.' + index + '.content'"
                         :rules="{required: true, message: '请输入属性', trigger: 'blur'}">
-        <el-input v-model="modelAddForm.data[index].content"
-                  style="width: 250px"
-                  placeholder="请输入属性"
-                  filterable>
-        </el-input>
+        <el-col :span="15">
+          <el-input v-model="modelAddForm.data[index].content"
+                    placeholder="请输入属性"
+                    style="width:75%;margin-right:5%"
+                    filterable>
+          </el-input>
 
-        <el-button size="mini"
-                   style="color: red; margin-left: 10px;width:65px;"
-                   @click="del(index)">删除</el-button>
+          <el-button size="mini"
+                     style="color: red;width:20%;"
+                     @click="del(index)">删除</el-button>
+        </el-col>
       </el-form-item>
 
       <el-form-item>
-        <el-button @click="add">添 加</el-button>
-        <el-button type="primary" @click="onSubmit()">确 定</el-button>
+        <el-col :span="15">
+          <el-button @click="add">添 加</el-button>
+          <el-button type="primary" @click="onSubmit()">确 定</el-button>
+        </el-col>
       </el-form-item>
     </el-form>
 
@@ -134,7 +144,7 @@ export default {
                 id:Number(this.modelAddForm.templateId),//模板号
                 name:this.modelAddForm.templateName,//模板名
                 attribute:attributedata,//属性
-                company_id:'',//公司
+                company_id:this.$store.getters.userinfo.company_id,//公司
               }
             }).then(res => {
               if(res.data === 'id_error') {
@@ -176,8 +186,9 @@ export default {
 
 <style scoped>
 #modelAddForm-r {
-  margin-top: 50px;
-  margin-left: 5%;
+  margin-top: 8%;
+  margin-left: 16%;
   margin-right: 40%;
 }
+
 </style>

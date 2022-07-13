@@ -19,7 +19,9 @@
       <!-- isValidAccess(数组) : 至少拥有数组中的任意一个权限，返回true-->
       <el-submenu index="system"
                   v-if="isValidAccess(
-                      ['系统用户管理',
+                      [
+                  '公司管理',
+                  '系统用户管理',
                   '系统角色管理',
                   '系统部门管理',
                   '系统人员审批',
@@ -33,6 +35,11 @@
             <span class="name-slot">系统管理</span>
           </div>
         </template>
+        <el-menu-item
+            v-if="isValidAccess(['公司管理'])"
+            class="double-submenu-item"
+            index="/system/companyManagement">公司管理
+        </el-menu-item>
         <el-menu-item
             v-if="isValidAccess(['系统用户管理'])"
             class="double-submenu-item"
@@ -130,9 +137,9 @@
         <el-menu-item index="/dataAnalysis/materialStock">物料库存</el-menu-item>
         <el-menu-item index="/dataAnalysis/badStatistics">不良统计</el-menu-item>
       </el-submenu>
-      <!--   end    -->
+
       <el-submenu index="modelManagement"
-                  v-if="isValidAccess(['数据分析报表'])">
+                  v-if="isValidAccess(['生产过程管理'])">
         <template slot="title">
           <i class="el-icon-reading"></i>
           <span>模版管理</span>
@@ -140,7 +147,7 @@
         <el-menu-item index="/modelManagement/modelManagementComponent">模版管理</el-menu-item>
         <el-menu-item index="/modelManagement/modelAdd">模版添加</el-menu-item>
       </el-submenu>
-
+      <!--   end    -->
 
     </el-menu>
   </div>

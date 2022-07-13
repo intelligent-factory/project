@@ -5,9 +5,11 @@
       <h3>需求单</h3>
       <ul>
         <li>单号：{{ item.no }}</li>
-        <li>品牌：{{ item.product.brand }}</li>
-        <li>样式：{{ item.product.style }}</li>
-        <li>颜色：{{ item.product.color }}</li>
+        <li>产品编号：{{ item.product.id }}</li>
+        <li>产品品牌：{{ item.product.brand}}</li>
+        <li>产品季节：{{ item.product.season}}</li>
+        <li>产品样式：{{ item.product.style }}</li>
+        <li>产品颜色：{{ item.product.color }}</li>
         <li>数量：{{ item.quantity }}</li>
       </ul>
     </div>
@@ -82,6 +84,53 @@ export default {
     }
   },
   activated() {
+    try{
+      this.productionLine=[]
+      request({
+        url: "/demandForm/getLinesByProduct",
+        params: {
+          id: this.item.product.id
+        },
+      })
+          .then((res) => {
+            console.log('生产线')
+            console.log(res)
+            if(res.data.result.length==0){
+              this.$message.error("该产品无对应生产线")
+              return
+            }
+            for(let i = 0;i<res.data.result.length;i++){
+              let line = res.data.result[i]
+              let lineDesc = "车间名:"+line.workshopName+"  生产线名:"+line.name
+
+              line.desc=lineDesc
+              this.productionLine.push(line)
+            }
+            //console.log(this.productionLine);
+          })
+          .catch((err) => {
+
+            console.log("请求生产线错误");
+          });
+      request({
+        url: "/plan/getPlansByDemandForm",
+        params: {
+          id: this.item.id,
+        },
+      })
+          .then((res) => {
+            this.plan = res.data.result;
+          })
+          .catch((err) => {
+            console.log("请求计划单出错");
+          });
+    }catch (e){
+      this.$message.error('发生错误');
+      console.log(e);
+    }
+    /*
+    //原查询方法，因为新需求单页面有产品id，可少一次查询
+    console.log('id为'+this.item.id)
     request({
       url: "/demandForm/getDemandFormById",
       params: {
@@ -89,9 +138,11 @@ export default {
       },
     })
       .then((res) => {
-        
+        console.log('查询需求单')
+        console.log(res)
+        //productionLine=[]
         let productId = res.data.result.product.id
-        console.log(productId);
+        console.log('产品id为'+productId);
         request({
           url: "/demandForm/getLinesByProduct",
           params: {
@@ -99,6 +150,8 @@ export default {
           },
         })
           .then((res) => {
+            console.log('生产线')
+            console.log(res)
             for(let i = 0;i<res.data.result.length;i++){
               let line = res.data.result[i]
               let lineDesc = "车间名:"+line.workshopName+"  生产线名:"+line.name
@@ -106,14 +159,16 @@ export default {
               line.desc=lineDesc
               this.productionLine.push(line)
             }
-            console.log(this.productionLine);
+            //console.log(this.productionLine);
           })
           .catch((err) => {
-            console.log("错误");
+
+            console.log("请求生产线错误");
           });
       })
       .catch((err) => {
-        console.log("错误");
+
+        console.log("请求需求单错误");
       });
     request({
       url: "/plan/getPlansByDemandForm",
@@ -125,8 +180,10 @@ export default {
         this.plan = res.data.result;
       })
       .catch((err) => {
-        console.log("错误");
+        console.log("请求计划单出错");
       });
+    */
+
   },
 
   methods: {
@@ -208,35 +265,42 @@ export default {
         });
     },
     getPlan() {
-      request({
-        url: "/plan/queryLoad",
-        params: {
-          id: this.selectProductionLine,
-        },
-      })
-        .then((res) => {
-          console.log(this.selectProductionLine);
-          let planList = res.data.result;
-
-          for (let i = 0; i < planList.length; i++) {
-            for (let j = 0; j < planList[i].processesList.length; j++) {
-              
-              let process = planList[i].processesList[j];
-              if(process.demandQuantity == process.producedQuantity){
-                continue
-              }
-
-              if (!process.plan) {
-                process.plan = {};
-              }
-              process.plan.no = planList[i].no;
-              this.processesList.push(process);
-            }
-          }
+      console.log(this.selectProductionLine)
+      try {
+        request({
+          url: "/plan/queryLoad",
+          params: {
+            id: this.selectProductionLine,
+          },
         })
-        .catch((err) => {
-          console.log("错误");
-        });
+            .then((res) => {
+              console.log('选择的生产线为'+this.selectProductionLine);
+              let planList = res.data.result;
+              console(planList)
+              for (let i = 0; i < planList.length; i++) {
+                for (let j = 0; j < planList[i].processesList.length; j++) {
+
+                  let process = planList[i].processesList[j];
+                  if(process.demandQuantity == process.producedQuantity){
+                    continue
+                  }
+
+                  if (!process.plan) {
+                    process.plan = {};
+                  }
+                  process.plan.no = planList[i].no;
+                  this.processesList.push(process);
+                }
+              }
+            })
+            .catch((err) => {
+              console.log("请求计划单错误");
+            });
+      }catch (e) {
+        console.log("发生错误");
+        console.log(e);
+      }
+
     },
     commit() {
       if (this.selectProductionLine == "" || this.quantity < 1) {

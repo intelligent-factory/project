@@ -20,6 +20,15 @@ public class DefectBean implements Serializable{
     String createdBy;
     String modifiedTime;
     String ModifiedBy;
+    Integer company_id;
+
+    public Integer getCompany_id() {
+        return company_id;
+    }
+
+    public void setCompany_id(Integer company_id) {
+        this.company_id = company_id;
+    }
 
     public void setDefectType(String defectType) {
         this.defectType = defectType;

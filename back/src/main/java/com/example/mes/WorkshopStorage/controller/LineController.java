@@ -99,10 +99,10 @@ public class LineController {
 
 
     @GetMapping(value = "searchLineItem")
-    public Result<PageVo<LineVo>> searchLineItem(String currentPage, String pagesize) {
+    public Result<PageVo<LineVo>> searchLineItem(String currentPage, String pagesize,String company_id) {
         Result<PageVo<LineVo>> result = new Result<>();
         try {
-            result = lineService.searchLineItem(currentPage, pagesize);
+            result = lineService.searchLineItem(currentPage, pagesize,company_id);
         }catch (Exception e){
             e.printStackTrace();
             LoggerFactory.getLogger(this.getClass()).error(""+e.getMessage());
@@ -113,12 +113,12 @@ public class LineController {
 
     //车间里产线的分页
     @GetMapping(value = "getLineItem")
-    public Result<PageVo<newLineVo>> getLineItem(String workshopId, String currentPage, String pagesize) {
+    public Result<PageVo<newLineVo>> getLineItem(String workshopId, String currentPage, String pagesize,String company_id) {
 
         Result<PageVo<newLineVo>> result = new Result<>();
         try {
             //result = lineService.searchLineItem(currentPage, pagesize);
-            result = lineService.getLineItem(workshopId, currentPage, pagesize);
+            result = lineService.getLineItem(workshopId, currentPage, pagesize,company_id);
         }catch (Exception e){
             e.printStackTrace();
             LoggerFactory.getLogger(this.getClass()).error(""+e.getMessage());
@@ -129,10 +129,10 @@ public class LineController {
 
 
     @GetMapping("applyLine")
-    public Result<PageVo<StationVo>> applyWorkshop(String current, String pages){
+    public Result<PageVo<StationVo>> applyWorkshop(String current, String pages,String company_id){
         Result<PageVo<StationVo>> result = new Result<>();
         try {
-            result = lineService.applyLine(current, pages);
+            result = lineService.applyLine(current, pages,company_id);
         }catch (Exception e){
             e.printStackTrace();
             LoggerFactory.getLogger(this.getClass()).error(""+e.getMessage());
@@ -142,10 +142,10 @@ public class LineController {
     }
 
     @GetMapping(value = "searchLine")
-    public Result<LineVo> searchLine(String Id, String info){
+    public Result<LineVo> searchLine(String Id, String info,String company_id){
         Result<LineVo> result = new Result<>();
         try {
-            result = lineService.searchLine(Id, info);
+            result = lineService.searchLine(Id, info,company_id);
         }catch (Exception e){
             e.printStackTrace();
             LoggerFactory.getLogger(this.getClass()).error(""+e.getMessage());
@@ -156,9 +156,9 @@ public class LineController {
 
     //产品id边输入边搜索
     @GetMapping(value = "searchProductId")
-    public List<QueryProductVo> searchProductId() throws Exception{
+    public List<QueryProductVo> searchProductId(String company_id) throws Exception{
 
-        return lineService.searchProductId();
+        return lineService.searchProductId(company_id);
     }
 
 

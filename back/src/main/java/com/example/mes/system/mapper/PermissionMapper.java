@@ -23,15 +23,18 @@ public interface PermissionMapper extends BaseMapper<Permission> {
 
     void permissionDelete(String permission_name, Timestamp modified_time, String modified_by);
 
-    String permissionFind(String permission_name);
+    String permissionFind(String permission_name,Integer company_id);
 
     void permissionUpdate(@Param("permission_name") String permissionName,
                           @Param("access_name") String access_name,
                           @Param("modified_time") Timestamp modified_time,
                           @Param("modified_by") String modified_by,
                           @Param("status") String status,
-                          @Param("is_deleted") String is_deleted
+                          @Param("is_deleted") String is_deleted,
+                          @Param("company_id") Integer company_id
     );
 
-    void permissionAllDelete(String name);
+    void permissionAllDelete(@Param("name") String name,@Param("company_id") Integer company_id);
+
+    List<Permission> getDefaultPermission();
 }

@@ -35,7 +35,7 @@ public class DemandFormServiceImpl implements IDemandFormService {
 		CriteriaVo<DemandForm> criteriaVo = 
 				new CriteriaVo<DemandForm>(criteria.getEntityVo().getDf(), 
 						criteria.getPageNo(), criteria.getPageSize(), 
-						criteria.getBeginTimestamp(), criteria.getEndTimestamp());
+						criteria.getBeginTimestamp(), criteria.getEndTimestamp(),criteria.getCompany_id());
 		
 		List<DemandForm> list = demandFormMapper.getDemandFormByCriteria(criteriaVo);
 		
@@ -77,6 +77,7 @@ public class DemandFormServiceImpl implements IDemandFormService {
 		demandForm.setId(UUID.randomUUID().toString().replace("-", ""));
 		
 		DemandForm target = demandForm.getDf();
+		target.setCompany_id(demandForm.getCompany_id());
 		target.getExpectedDate().setDate(target.getExpectedDate().getDate()+1);
 		demandFormMapper.insert(target);
 		

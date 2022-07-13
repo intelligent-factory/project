@@ -71,6 +71,7 @@ export default {
   name: "itemapproval",
   data(){
     return {
+      userMsg:'',
       enough:true,
       input:'',
       tableData:[],
@@ -83,6 +84,8 @@ export default {
     }
   },
   created() {
+    this.userMsg=JSON.parse(sessionStorage.getItem('userinfo'))
+    console.log(this.userMsg)
     this.getData()
   },
   methods:{
@@ -124,7 +127,8 @@ export default {
     getData(){
       let req = {
         current: this.page.current,
-        pages:this.page.pages
+        pages:this.page.pages,
+        company_id:this.userMsg.company_id
       }
       console.log('请求数据getdata的参数req99:',req)
       my_request({
@@ -153,7 +157,10 @@ export default {
       let req = {
         uuid : row.uuid,
         message: 1,  //1为同意 0 为拒绝
-        in_out: row.in_out
+        user :this.$store.getters.userinfo.id,
+        in_out : row.in_out,
+        // 也可能是 company_id : row.company_id,
+        company_id:this.userMsg.company_id
         // user :1
       }
       console.log('批准的req',req)
@@ -183,7 +190,10 @@ export default {
       let req = {
         uuid : row.uuid,
         message: 0,  //1为同意 0 为拒绝
-        in_out: row.in_out
+        user :this.$store.getters.userinfo.id,
+        in_out : row.in_out,
+        // 也可能是 company_id : row.company_id,
+        company_id:this.userMsg.company_id
         // user :1
       }
       console.log('批准的req',req)

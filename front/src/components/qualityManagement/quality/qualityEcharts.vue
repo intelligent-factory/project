@@ -53,6 +53,7 @@ export default {
   name: 'qualityEcharts',
   data() {
     return {
+      company_id:'',
       workshop_id_terms: [],
       //对应的产线
       corLines:[],
@@ -60,6 +61,7 @@ export default {
         date:'',
         workshop:'',
         productionLine:'',
+       // company_id:'',
       },
       pickerBeginDateBefore:{
         disabledDate(time) {
@@ -315,6 +317,7 @@ export default {
     }
   },
   mounted() {
+    this.company_id = this.$store.getters.userinfo.company_id;
     this.loadEcharts();
     this.getWorkshopIdTerms();
   },
@@ -322,7 +325,8 @@ export default {
     //查询车间对应产线
     getLines(workshopId) {
       let req = {
-        corWorkShopId: workshopId
+        corWorkShopId: workshopId,
+        company_id:this.$store.getters.userinfo.company_id,
       };
       request({
         url: '/qualityList/getAllLinesByWorkshop',
@@ -335,9 +339,13 @@ export default {
       });
     },
     getWorkshopIdTerms() {
+      let req = {
+        company_id:this.$store.getters.userinfo.company_id,
+      };
       request({
         url: '/qualityList/getAllWorkshop',
         method: 'get',
+        params: req,
       }).then(res => {
         this.workshop_id_terms = res.data
       }).catch(err => {
@@ -358,8 +366,9 @@ export default {
           const date = this.echartsForm.date;
           const workshop = this.echartsForm.workshop;
           const productionLine = this.echartsForm.productionLine;
+          const company_id = this.$store.getters.userinfo.company_id;
           request({
-            url:'/quality/echarts?keywords=' + date +'~'+workshop+'~'+productionLine,
+            url:'/quality/echarts?keywords=' + date +'~'+workshop+'~'+productionLine +'~'+company_id,
             methods: 'get',
           }).then(resp => {
             this.$emit('onSubmit')

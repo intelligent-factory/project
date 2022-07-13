@@ -228,12 +228,14 @@ export default {
       //sort
       sort: "workshop_id",
       sortMethod: "asc",
+      company_id:'',
     };
   },
   created() {
     this.getData();
     this.getWorkshopIdTerms();
-    this.getLineIdTerms()
+    this.getLineIdTerms();
+    this.company_id = this.$store.getters.userinfo.company_id;
   },
 
   methods: {
@@ -241,6 +243,7 @@ export default {
     //查询车间对应产线(记得改URL)
     getLines(workshopId) {
       let req = {
+        company_id:this.$store.getters.userinfo.company_id,
         corWorkShopId: workshopId
       };
       request({
@@ -257,9 +260,13 @@ export default {
 
 
     getWorkshopIdTerms() {
+      let req = {
+        company_id:this.$store.getters.userinfo.company_id,
+      };
       request({
         url: '/qualityList/getAllWorkshop',
         method: 'get',
+        params: req,
       }).then(res => {
         this.workshop_id_terms = res.data
       }).catch(err => {
@@ -268,9 +275,13 @@ export default {
     },
 
     getLineIdTerms() {
+      let req = {
+        company_id:this.$store.getters.userinfo.company_id,
+      };
       request({
         url: '/qualityList/getAllLine',
         method: 'get',
+        params: req,
       }).then(res => {
         this.line_id_terms = res.data
       }).catch(err => {
@@ -293,6 +304,7 @@ export default {
       params.pageNum = this.pageNum;
       params.sort = this.sort;
       params.sortMethod = this.sortMethod;
+      params.company_id =this.$store.getters.userinfo.company_id;
 
 
     //   my_request({

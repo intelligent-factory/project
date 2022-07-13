@@ -6,6 +6,7 @@ import com.example.mes.system.entity.Vo.RoleSelectVo;
 import com.example.mes.system.entity.Vo.RoleUpdateVo;
 import com.example.mes.system.mapper.RoleMapper;
 import com.example.mes.system.service.RoleService;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +30,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     }
 
     @Override
-    public List<String> queryAllPermissionName() {
-        return roleMapper.queryAllPermissionName();
+    public List<String> queryAllPermissionName(Integer company_id) {
+        return roleMapper.queryAllPermissionName(company_id);
     }
 
     @Override
@@ -43,7 +44,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     @Override
     public Role roleFind(RoleUpdateVo roleUpdateVo) {
-        return roleMapper.roleFind(roleUpdateVo.getRole_name());
+        return roleMapper.roleFind(roleUpdateVo.getRole_name(),roleUpdateVo.getUser().getCompany_id());
     }
 
     @Override
@@ -59,6 +60,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         roleUpdateVo.setModified_time(roleUpdateVo.getCreated_time());
         roleUpdateVo.setCreated_by(Integer.toString(roleUpdateVo.getUser().getId()));
         roleUpdateVo.setModified_by(roleUpdateVo.getCreated_by());
+        roleUpdateVo.setCompany_id(roleUpdateVo.getUser().getCompany_id());
         roleUpdateVo.setStatus("0");
         roleUpdateVo.setIs_deleted("0");
         roleMapper.roleInsert(roleUpdateVo);
@@ -72,5 +74,25 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     @Override
     public List<String> getRolesByDepartment(String department_name, String company_id) {
         return roleMapper.getRolesByDepartment(department_name,company_id);
+    }
+
+    @Override
+    public void setDefaultRole(Integer user_id, Integer company_id){
+        List<Role> roleList = roleMapper.getDefaultRole();
+        RoleUpdateVo roleUpdateVo = new RoleUpdateVo();
+        for(Role role : roleList){
+            roleUpdateVo.setRole_name(role.getRole_name());
+            roleUpdateVo.setRole_id(role.getRole_id());
+            roleUpdateVo.setRole_describe(role.getRole_describe());
+            roleUpdateVo.setPermission(role.getPermission());
+            roleUpdateVo.setStatus(role.getStatus());
+            roleUpdateVo.setIs_deleted(role.getIs_deleted());
+            roleUpdateVo.setCreated_time(MyImplUtils.getCurrentTime());
+            roleUpdateVo.setModified_time(roleUpdateVo.getCreated_time());
+            roleUpdateVo.setCreated_by(Integer.toString(user_id));
+            roleUpdateVo.setModified_by(roleUpdateVo.getCreated_by());
+            roleUpdateVo.setCompany_id(company_id);
+            roleMapper.roleInsert(roleUpdateVo);
+        }
     }
 }

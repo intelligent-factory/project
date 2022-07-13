@@ -27,7 +27,7 @@ module.exports = [
 {
   path: '/commondform',
   name: '生产计划管理-客户需求单管理',
-  component: () => import('@/views/Plan/CommondForm'),
+  component: () => import('@/views/Plan/CustomOrderFormManage'),
   children: [
     {
       path: 'apply/:formNo',

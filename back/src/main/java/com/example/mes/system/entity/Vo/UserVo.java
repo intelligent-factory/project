@@ -1,6 +1,7 @@
 package com.example.mes.system.entity.Vo;
 
 
+import com.example.mes.system.entity.User;
 import lombok.Data;
 
 import java.util.List;
@@ -17,11 +18,12 @@ public class UserVo {
     public Integer pageNum;
     public String sort;
     public String sortMethod;
+    public User user;
 
     public UserVo() {
     }
 
-    public UserVo(String filter_name, Integer filter_id, String filter_user_name, List<String> filter_department, List<String> filter_role, Integer pageSize, Integer pageNum, String sort, String sortMethod) {
+    public UserVo(String filter_name, Integer filter_id, String filter_user_name, List<String> filter_department, List<String> filter_role, Integer pageSize, Integer pageNum, String sort, String sortMethod,User user) {
         this.filter_name = filter_name;
         this.filter_id = filter_id;
         this.filter_user_name = filter_user_name;
@@ -31,6 +33,7 @@ public class UserVo {
         this.pageNum = pageNum;
         this.sort = sort;
         this.sortMethod = sortMethod;
+        this.user = user;
     }
 
     @Override

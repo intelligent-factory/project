@@ -45,6 +45,7 @@ export default {
   name: 'defectForm',
   data() {
     return {
+      company_id:'',
       dialogFormVisible: false,
       defectForm: {
         classification: '',//瑕疵分类
@@ -106,6 +107,7 @@ export default {
             url: '/defect/add',
             method:'post',
             data:{
+              company_id:this.$store.getters.userinfo.company_id,
               classification: this.defectForm.classification,
               defectCode: this.defectForm.defectCode,
               defectType: this.defectForm.defectType,

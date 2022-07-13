@@ -8,7 +8,10 @@
         <el-table-column prop="producedQuantity" label="完成数量"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button v-if="!scope.row.materialArriveTime" @click="begin(scope.row.id)">
+            <el-button v-if="!scope.row.materialArriveTime && underwaystep==scope.row.step" @click="begin(scope.row.id)">
+              开始生产
+            </el-button>
+            <el-button disabled v-else-if="!scope.row.materialArriveTime " >
               开始生产
             </el-button>
             <div
@@ -46,6 +49,7 @@ export default {
       result: {},
       planId: this.$route.params.id,
       count: {},
+      underwaystep:0,//正在进行生产或将要进行生产的工序号
     };
   },
   watch:{
@@ -62,8 +66,10 @@ export default {
     })
       .then((res) => {
         this.result = res.data.result;
+        this.underwaystep=0;
         for (let i = 0; i < this.result.length; i++) {
           Vue.set(this.count, this.result[i].id, 0);
+          if(this.result[i].materialArriveTime)this.underwaystep=i+1;
         }
       })
       .catch((err) => {
@@ -79,7 +85,7 @@ export default {
       }
       },
     begin(val) {
-      if (!confirm("确认收到物料了？")) return;
+      //if (!confirm("确认收到物料了？")) return;
       
       request({
         url: "/process/materialArrive",
@@ -97,8 +103,10 @@ export default {
           })
             .then((res) => {
               this.result = res.data.result;
+              this.underwaystep=0;
               for (let i = 0; i < this.result.length; i++) {
                 Vue.set(this.count, this.result[i].id, 0);
+                if(this.result[i].materialArriveTime)this.underwaystep=i+1;
               }
             })
             .catch((err) => {
@@ -138,6 +146,7 @@ export default {
               this.result = res.data.result;
               for (let i = 0; i < this.result.length; i++) {
                 Vue, set(this.count, this.result[i].id, 0);
+                if(this.result[i].demandQuantity==this.result[i].producedQuantity)this.underwaystep=i+1;
               }
             })
             .catch((err) => {

@@ -16,8 +16,8 @@ import java.util.List;
 public interface LoginMapper extends BaseMapper<Permission> {
     User getUser(@Param("loginVo") LoginVo loginVo);
 
-    String getPermissionName(String roleName);
+    String getPermissionName(String roleName, Integer company_id);
 
-    List<String> getAccessName(String permissionName);
+    List<String> getAccessName(String permissionName, Integer company_id);
 
 }

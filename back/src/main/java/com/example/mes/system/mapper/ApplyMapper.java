@@ -18,13 +18,14 @@ public interface ApplyMapper extends BaseMapper<Apply> {
 
     List<Apply> queryApplyList(@Param("applySelectVo") ApplySelectVo applySelectVo,
                                @Param("numStart") int numStart,
-                               @Param("numEnd") int numEnd);
+                               @Param("numEnd") int numEnd,
+                               @Param("company_id") int company_id);
 
-    int getLastCount();
+    int getLastCount(@Param("company_id") int company_id);
 
-    List<ApplyStatusVo> getStatusList();
+    List<ApplyStatusVo> getStatusList(@Param("company_id") int company_id);
 
-    int getStatus(String status);
+    int getStatus(String status,String company_id);
 
     void applyAddress(@Param("n") ApplyAddressVo applyAddressVo,
                       @Param("currentTime") Timestamp currentTime,

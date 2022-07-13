@@ -10,6 +10,7 @@ export function my_request(vue, config) {
   }
   config.timeout = config.timeout ? config.timeout : 2500;
   // config.baseURL = 'dev-api/';
+  config.baseURL = '/api/';
   return new Promise(((resolve, reject) => {
     request(config)
       .then(res => {

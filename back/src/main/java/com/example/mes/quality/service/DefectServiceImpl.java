@@ -15,28 +15,28 @@ public class DefectServiceImpl implements DefectService {
     DefectMapper defectMapper;
 
     @Override
-    public List<DefectBean> getAllDefect() {
-        return defectMapper.getInfo();
+    public List<DefectBean> getAllDefect(String company_id) {
+        return defectMapper.getInfo(company_id);
     }
 
     @Override
-    public List<DefectBean> getSearchDefect(String keyword) {
-        return defectMapper.getByDefectTypeOrCode(keyword);
+    public List<DefectBean> getSearchDefect(String keyword,String company_id) {
+        return defectMapper.getByDefectTypeOrCode(keyword,company_id);
     }
 
     @Override
-    public List<DefectBean> getDefectByClassification(String keyword) {
-        return defectMapper.getByClassification(keyword);
+    public List<DefectBean> getDefectByClassification(String keyword,String company_id) {
+        return defectMapper.getByClassification(keyword,company_id);
     }
 
     @Override
-    public List<DefectBean> getDefectTypeAndCode() {
-        return defectMapper.getTypeAndCode();
+    public List<DefectBean> getDefectTypeAndCode(String company_id) {
+        return defectMapper.getTypeAndCode(company_id);
     }
 
     @Override
-    public void deleteByCode(String defectCode) {
-        defectMapper.deleteByCode(defectCode);
+    public void deleteByCode(String defectCode,String company_id) {
+        defectMapper.deleteByCode(defectCode,company_id);
     }
 
     @Override

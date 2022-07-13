@@ -20,10 +20,10 @@ public class StorageController {
     private StorageService storageService;
 
     @GetMapping(value = "storageItem")
-    public Result<PageVo<StorageVo>> storageItem(String current, String pages){
+    public Result<PageVo<StorageVo>> storageItem(String current, String pages, String company_id){
         Result<PageVo<StorageVo>> result = new Result<>();
         try {
-            result = storageService.storageItem(current, pages);
+            result = storageService.storageItem(current, pages,company_id);
         }catch (Exception e){
             e.printStackTrace();
             LoggerFactory.getLogger(this.getClass()).error(""+e.getMessage());
@@ -33,10 +33,10 @@ public class StorageController {
     }
 
     @GetMapping(value = "all_storage")
-    public String all_storage(){
+    public String all_storage(String company_id){
         try {
             HashMap<String, Object> data = new HashMap<>();
-            List<StorageVo> storage = storageService.all_storage();
+            List<StorageVo> storage = storageService.all_storage(company_id);
             data.put("storage", storage);
             return(JSON.toJSONString(storage));
         }catch (Exception e){
@@ -47,9 +47,9 @@ public class StorageController {
     }
 
     @GetMapping(value = "delete")
-    public Result<?> deleteWorkshop(String storage_id, String user){
+    public Result<?> deleteWorkshop(String storage_id, String user, String company_id){
         try {
-            storageService.delete(storage_id, user);
+            storageService.delete(storage_id, user,company_id);
         } catch (Exception e) {
             LoggerFactory.getLogger(this.getClass()).error("申请提交失败",e.getMessage());
             return Result.error("申请提交失败!");
@@ -58,10 +58,10 @@ public class StorageController {
     }
 
     @GetMapping(value = "search")
-    public Result<StorageVo> searchLine(String storage_id){
+    public Result<StorageVo> searchLine(String storage_id, String company_id){
         Result<StorageVo> result = new Result<>();
         try {
-            result = storageService.search(storage_id);
+            result = storageService.search(storage_id,company_id);
         }catch (Exception e){
             e.printStackTrace();
             LoggerFactory.getLogger(this.getClass()).error(""+e.getMessage());

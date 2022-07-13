@@ -10,6 +10,15 @@ public class QualityListVo {
     private Integer pageNum;
     private String sort;
     private String sortMethod;
+    private Integer company_id;
+
+    public Integer getCompany_id() {
+        return company_id;
+    }
+
+    public void setCompany_id(Integer company_id) {
+        this.company_id = company_id;
+    }
 
     public String getFilter_workshopID() {
         return filter_workshopID;

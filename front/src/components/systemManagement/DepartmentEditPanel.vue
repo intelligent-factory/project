@@ -24,7 +24,7 @@
         </el-form-item>
 
         <el-form-item class="item" label="角色" label-width="100px" prop="role_name">
-          <el-select v-model="currentObj.role_name" style="width: 100%">
+          <el-select  multiple v-model="currentObj.role_name" style="width: 100%">
             <el-option
                 v-for="item in options"
                 :key="item"
@@ -92,6 +92,7 @@ export default {
   },
   methods: {
     loadOptions() {
+
       my_request(this, {
         url: 'data/roleManagement/getRoles',
         method: 'get',
@@ -101,10 +102,19 @@ export default {
       })
     },
     dialogConfirm() {
+
+      let i;
+      const type = this.currentObj.role_name;
+      let role_name = "";
+      for(i = 0; i< type.length; i++)
+        role_name += type[i] + ",";
+
       let data = this.currentObj;
       data.request = this.mode;
       data.department_describe = data.department_describe ? data.department_describe : "";
       data.company_id = this.userinfo.company_id;
+      data.role_name = role_name;
+
       this.$refs["elementForm"].validate((valid) => {
         if (valid) {
           my_request(this, {

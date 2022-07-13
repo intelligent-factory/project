@@ -68,7 +68,7 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
 
         for(String r:roleName){
             //将部门所属角色加上部门名
-            roleMapper.insertdepartmentName(newdepartmentUpdateVo.getDepartment_name(),r,newdepartmentUpdateVo.getCompany_id());
+            roleMapper.updateDepartmentName(r,Integer.toString(newdepartmentUpdateVo.getCompany_id()),newdepartmentUpdateVo.getDepartment_name());
         }
     }
 
@@ -107,14 +107,17 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         String []roleName = AllRoleName.split(",");
 
         for(String role_name:roleName){
+
             System.out.println(role_name);
             System.out.println(newdepartmentUpdateVo.getDepartment_name());
             System.out.println(newdepartmentUpdateVo.getCompany_id());
+
             //将部门所属角色加上部门名
-            roleMapper.insertdepartmentName(newdepartmentUpdateVo.getDepartment_name(),role_name,newdepartmentUpdateVo.getCompany_id());
+            roleMapper.updateDepartmentName(role_name,Integer.toString(newdepartmentUpdateVo.getCompany_id()),newdepartmentUpdateVo.getDepartment_name());
         }
 
     }
+
 
     @Override
     public List<DepartmentCountVo> getDepartmentCount() {
@@ -124,8 +127,27 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
 
     @Override
     public Department newdepartmentFind(newDepartmentUpdateVo newdepartmentUpdateVo) {
-        return departmentMapper.newdepartmentFind(newdepartmentUpdateVo.getDepartment_name(),newdepartmentUpdateVo.getCompany_id());
+        return departmentMapper.newdepartmentFind(newdepartmentUpdateVo.getDepartment_name(),Integer.toString(newdepartmentUpdateVo.getCompany_id()));
     }
 
+    @Override
+    public  void setDefaultDepartment(Integer user_id, Integer company_id){
+        List<Department> departmentList = departmentMapper.getDefaultDepartment();
+        newDepartmentUpdateVo newDepartmentUpdateVo = new newDepartmentUpdateVo();
+        for(Department department : departmentList){
+            newDepartmentUpdateVo.setDepartment_name(department.getDepartment_name());
+            newDepartmentUpdateVo.setCompany_id(company_id);
+            newDepartmentUpdateVo.setManager_name(department.getManager_name());
+            newDepartmentUpdateVo.setManager_id(department.getManager_id());
+            newDepartmentUpdateVo.setDepartment_describe(department.getDepartment_describe());
+            newDepartmentUpdateVo.setStatus("0");
+            newDepartmentUpdateVo.setIs_deleted("0");
+            newDepartmentUpdateVo.setCreated_time(MyImplUtils.getCurrentTime());
+            newDepartmentUpdateVo.setModified_time(newDepartmentUpdateVo.getCreated_time());
+            newDepartmentUpdateVo.setCreated_by(Integer.toString(user_id));
+            newDepartmentUpdateVo.setModified_by(newDepartmentUpdateVo.getCreated_by());
+            departmentMapper.newdepartmentInsert(newDepartmentUpdateVo);
+        }
+    }
 
 }

@@ -19,4 +19,5 @@ public class Apply {
     private String created_by;
     private Timestamp handled_time;
     private String handled_by;
+    private Integer company_id;
 }

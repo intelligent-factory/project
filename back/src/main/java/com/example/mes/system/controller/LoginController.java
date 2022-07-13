@@ -30,10 +30,11 @@ public class LoginController
         }
         else
         {
+            Integer company_id = user.getCompany_id();
             HashMap<String, Object> userinfo = new HashMap<>();
             String roleName = user.getRole();
-            String permissionName = loginService.getPermissionName(roleName);
-            List<String> accessList = loginService.getAccessName(permissionName);
+            String permissionName = loginService.getPermissionName(roleName,company_id);
+            List<String> accessList = loginService.getAccessName(permissionName,company_id);
 
             userinfo.put("accessList",accessList);
             userinfo.put("id", user.getId());
@@ -43,6 +44,7 @@ public class LoginController
             userinfo.put("company_id",user.getCompany_id());
             userinfo.put("username", user.getUser_name());
             userinfo.put("status", user.getStatus());
+
             res.put("userinfo", userinfo);
             MyUtils.success(res);
         }

@@ -76,7 +76,8 @@ export default {
     request({
       url: "/plan/getPlanPageByCriteria",
       params:{
-        pageSize: 10
+        pageSize: 10,
+        company_id: this.$store.getters.userinfo.company_id
       }
     })
       .then((res) => {

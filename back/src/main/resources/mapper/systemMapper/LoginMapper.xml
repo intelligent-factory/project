@@ -8,17 +8,23 @@
         select * from user
         where user_name = #{loginVo.user_name}
         and pwd = #{loginVo.password}
+        and is_deleted = '0'
+
     </select>
 
     <select id="getPermissionName" resultType="string">
         select permission from role
         where role_name = #{roleName}
+        and company_id = #{company_id}
+        and is_deleted = '0'
+
     </select>
 
     <select id="getAccessName" resultType="string">
         select DISTINCT access_name
         from permission
         where permission_name = #{permissionName}
+          and company_id = #{company_id}
           and is_deleted = '0'
     </select>
 

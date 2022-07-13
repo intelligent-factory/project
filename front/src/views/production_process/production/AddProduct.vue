@@ -68,7 +68,7 @@ export default {
         company: "",
         color: "",
         comments: "",
-        company_id:1,
+        company_id:this.$store.getters.userinfo.company_id,
       },
       rules: {
         brand: [
