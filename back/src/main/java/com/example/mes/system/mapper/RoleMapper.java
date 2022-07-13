@@ -33,4 +33,6 @@ public interface RoleMapper extends BaseMapper<Role> {
     List<String> getRolesByDepartment(@Param("department_name") String department_name, @Param("company_id") String company_id);
 
     List<Role> getDefaultRole();
+
+//    List<String> findRoleNameByDepartment(@Param("department_name") String department_name, @Param("company_id") String company_id);
 }

@@ -14,7 +14,7 @@ import java.util.List;
 public interface DepartmentService extends IService<Department> {
     List<Department> queryDepartmentList(DepartmentSelectVo departmentSelectVo);
 
-    int getLastCount();
+    int getLastCount(Integer company_id);
 
     void departmentDelete(Department department, int handler);
 
@@ -25,7 +25,7 @@ public interface DepartmentService extends IService<Department> {
     void departmentAdd(DepartmentUpdateVo departmentUpdateVo);
 
 
-    List<DepartmentCountVo> getDepartmentCount();
+    List<DepartmentCountVo> getDepartmentCount(Integer company_id);
 
     Department newdepartmentFind(newDepartmentUpdateVo newdepartmentUpdateVo);
 
@@ -33,5 +33,5 @@ public interface DepartmentService extends IService<Department> {
 
     void newDepartmentUpdate(newDepartmentUpdateVo newdepartmentUpdateVo);
 
-    void setDefaultDepartment(Integer user_id, Integer company_id);
+    void setDefaultDepartment(Integer user_id, Integer company_id,Integer new_user_id);
 }

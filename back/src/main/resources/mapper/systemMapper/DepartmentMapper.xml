@@ -14,7 +14,7 @@
         limit #{numStart}, #{numEnd}
     </select>
     <select id="getLastCount" resultType="integer">
-        select FOUND_ROWS()
+        select count(*) from department where company_id = #{company_id}
     </select>
     <update id="departmentDelete">
         update department
@@ -26,7 +26,7 @@
         </set>
         where department_name = #{department.department_name}
     </update>
-    <select id="departmentFind" resultType="com.example.mes.system.entity.Department" parameterType="string">
+    <select id="departmentFgetLastCountind" resultType="com.example.mes.system.entity.Department" parameterType="string">
         select *
         from department
         where department_name = #{department_name};
@@ -80,6 +80,7 @@
 
     <select id="getDepartmentCount" resultType="com.example.mes.system.entity.Vo.DepartmentCountVo">
         select department,count(*) as count from user
+        where company_id = #{company_id}
         group by department
     </select>
 

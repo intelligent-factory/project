@@ -15,9 +15,9 @@ import java.util.List;
 public interface PermissionMapper extends BaseMapper<Permission> {
     List<String> findByName(@Param("permissionSelectVo") PermissionSelectVo permissionSelectVo, @Param("numStart") int numStart, @Param("numEnd") int numEnd);
 
-    List<String> findAccessName(String permission_name);
+    List<String> findAccessName(String permission_name,Integer company_id);
 
-    int getLastCount();
+    int getLastCount(Integer company_id);
 
     List<String> FindAllAccessName();
 

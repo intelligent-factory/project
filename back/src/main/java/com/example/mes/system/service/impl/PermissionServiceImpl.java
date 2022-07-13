@@ -26,13 +26,13 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     }
 
     @Override
-    public int getLastCount() {
-        return permissionMapper.getLastCount();
+    public int getLastCount(Integer company_id) {
+        return permissionMapper.getLastCount(company_id);
     }
 
     @Override
-    public List<String> findAccessName(String permission_name) {
-        return permissionMapper.findAccessName(permission_name);
+    public List<String> findAccessName(String permission_name,Integer company_id) {
+        return permissionMapper.findAccessName(permission_name,company_id);
     }
 
     @Override

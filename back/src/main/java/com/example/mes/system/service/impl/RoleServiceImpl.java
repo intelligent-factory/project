@@ -83,6 +83,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         for(Role role : roleList){
             roleUpdateVo.setRole_name(role.getRole_name());
             roleUpdateVo.setRole_id(role.getRole_id());
+            roleUpdateVo.setDepartment_name(role.getDepartment_name());
             roleUpdateVo.setRole_describe(role.getRole_describe());
             roleUpdateVo.setPermission(role.getPermission());
             roleUpdateVo.setStatus(role.getStatus());
@@ -95,4 +96,9 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
             roleMapper.roleInsert(roleUpdateVo);
         }
     }
+
+//    @Override
+//    public List<String> findRoleNameByDepartment(String department_name, Integer company_id) {
+//        return roleMapper.findRoleNameByDepartment(department_name,company_id);
+//    }
 }

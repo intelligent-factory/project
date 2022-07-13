@@ -30,8 +30,8 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
     }
 
     @Override
-    public int getLastCount() {
-        return departmentMapper.getLastCount();
+    public int getLastCount(Integer company_id) {
+        return departmentMapper.getLastCount(company_id);
     }
 
     @Override
@@ -120,8 +120,8 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
 
 
     @Override
-    public List<DepartmentCountVo> getDepartmentCount() {
-        return departmentMapper.getDepartmentCount();
+    public List<DepartmentCountVo> getDepartmentCount(Integer company_id) {
+        return departmentMapper.getDepartmentCount(company_id);
     }
 
 
@@ -131,14 +131,15 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
     }
 
     @Override
-    public  void setDefaultDepartment(Integer user_id, Integer company_id){
+    public  void setDefaultDepartment(Integer user_id, Integer company_id,Integer new_user_id){
         List<Department> departmentList = departmentMapper.getDefaultDepartment();
         newDepartmentUpdateVo newDepartmentUpdateVo = new newDepartmentUpdateVo();
         for(Department department : departmentList){
             newDepartmentUpdateVo.setDepartment_name(department.getDepartment_name());
             newDepartmentUpdateVo.setCompany_id(company_id);
             newDepartmentUpdateVo.setManager_name(department.getManager_name());
-            newDepartmentUpdateVo.setManager_id(department.getManager_id());
+            //该公司超管的id
+            newDepartmentUpdateVo.setManager_id(new_user_id);
             newDepartmentUpdateVo.setDepartment_describe(department.getDepartment_describe());
             newDepartmentUpdateVo.setStatus("0");
             newDepartmentUpdateVo.setIs_deleted("0");

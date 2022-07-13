@@ -29,11 +29,11 @@ public class PermissionController {
 
 
         List<String> permission_name = permissionService.findByName(permissionSelectVo);
-        int permissionListCount = permissionService.getLastCount();
+        int permissionListCount = permissionService.getLastCount(permissionSelectVo.getUser().getCompany_id());
         int size = permission_name.size();
         for (int i = 0; i < size; i++) {
             HashMap<String, Object> f = new HashMap<>();
-            List<String> accessList = permissionService.findAccessName(permission_name.get(i));
+            List<String> accessList = permissionService.findAccessName(permission_name.get(i),permissionSelectVo.getUser().getCompany_id());
             f.put("permission_name", permission_name.get(i));
             f.put("accessList", accessList);
             temp.add(i, f);

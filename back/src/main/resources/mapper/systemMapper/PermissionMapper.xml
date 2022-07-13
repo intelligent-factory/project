@@ -14,12 +14,12 @@
         limit #{numStart}, #{numEnd}
     </select>
     <select id="getLastCount" resultType="integer">
-        select FOUND_ROWS();
+        select count(distinct permission_name) from permission where company_id = #{company_id}
     </select>
     <select id="findAccessName" resultType="string">
         select access_name
         from permission
-        where permission_name = #{permission_name}
+        where permission_name = #{permission_name} and company_id = #{company_id}
         order by access_name
     </select>
 

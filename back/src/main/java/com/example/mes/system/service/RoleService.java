@@ -29,4 +29,6 @@ public interface RoleService extends IService<Role> {
     List<String> getRolesByDepartment(String department_name, String company_id);
 
     void setDefaultRole(Integer user_id, Integer company_id);
+
+//    List<String> findRoleNameByDepartment(String filter_department_name, Integer company_id);
 }

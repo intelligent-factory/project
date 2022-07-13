@@ -12,9 +12,9 @@ import java.util.List;
 public interface PermissionService extends IService<Permission> {
     List<String> findByName(PermissionSelectVo permissionSelectVo);
 
-    List<String> findAccessName(String permission_name);
+    List<String> findAccessName(String permission_name,Integer company_id);
 
-    int getLastCount();
+    int getLastCount(Integer company_id);
 
     List<String> findAllAccessName();
 

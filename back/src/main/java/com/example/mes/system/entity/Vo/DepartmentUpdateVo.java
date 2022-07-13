@@ -18,6 +18,7 @@ public class DepartmentUpdateVo {
     private Timestamp modified_time;
     private String modified_by;
     private String request;
+
     private User user;
     private String company_id;
 }
