@@ -3,7 +3,7 @@ package com.example.mes.process.Vo.TransactionVo;
 public class InsertProMaterialVo {
 
     String name;
-
+    String color;
     String size;
     int count;
 
@@ -12,7 +12,7 @@ public class InsertProMaterialVo {
 
     public InsertProMaterialVo(String name, String color, String size, int count) {
         this.name = name;
-
+        this.color = color;
         this.size = size;
         this.count = count;
     }
@@ -25,7 +25,13 @@ public class InsertProMaterialVo {
         this.name = name;
     }
 
+    public String getColor() {
+        return color;
+    }
 
+    public void setColor(String color) {
+        this.color = color;
+    }
 
     public String getSize() {
         return size;
@@ -47,6 +53,7 @@ public class InsertProMaterialVo {
     public String toString() {
         return "InsertProMaterialVo{" +
                 "name='" + name + '\'' +
+                ", color='" + color + '\'' +
                 ", size='" + size + '\'' +
                 ", count=" + count +
                 '}';

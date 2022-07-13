@@ -5,17 +5,17 @@ public class MaterialStock {
     String material_id;
     String name;
     String size;
-
+    String color;
     int count;
 
     public MaterialStock() {
     }
 
-    public MaterialStock(String material_id, String name, String size, int count) {
+    public MaterialStock(String material_id, String name, String size, String color, int count) {
         this.material_id = material_id;
         this.name = name;
         this.size = size;
-
+        this.color = color;
         this.count = count;
     }
 
@@ -43,7 +43,13 @@ public class MaterialStock {
         this.size = size;
     }
 
+    public String getColor() {
+        return color;
+    }
 
+    public void setColor(String color) {
+        this.color = color;
+    }
 
     public int getCount() {
         return count;
@@ -59,6 +65,7 @@ public class MaterialStock {
                 "material_id='" + material_id + '\'' +
                 ", name='" + name + '\'' +
                 ", size='" + size + '\'' +
+                ", color='" + color + '\'' +
                 ", count=" + count +
                 '}';
     }

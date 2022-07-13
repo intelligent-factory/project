@@ -78,7 +78,7 @@ public class TransactionService implements ITransactionService {
             ArrayList<com.example.mes.process.Vo.MaterialVo.InsertProMaterialVo> insertProMaterialVos = new ArrayList<>();
             for(InsertProMaterialVo item:material){
 
-                String material_id = nameIDMapper.getMaterialIDByNameSizeColor(item.getName(),item.getSize());
+                String material_id = nameIDMapper.getMaterialIDByNameSizeColor(item.getName(),item.getSize(),item.getColor());
                 insertProMaterialVos.add(new com.example.mes.process.Vo.MaterialVo.InsertProMaterialVo(uuid,material_id,item.getCount()));
             }
             mapper.addProMaterialLists(insertProMaterialVos);
@@ -257,7 +257,7 @@ public class TransactionService implements ITransactionService {
             ArrayList<InsertProMaterialVo> material = updateVo.getMaterial();
             ArrayList<com.example.mes.process.Vo.MaterialVo.InsertProMaterialVo> insertProMaterialVos = new ArrayList<>();
             for(InsertProMaterialVo item:material){
-                String material_id = nameIDMapper.getMaterialIDByNameSizeColor(item.getName(),item.getSize());
+                String material_id = nameIDMapper.getMaterialIDByNameSizeColor(item.getName(),item.getSize(),item.getColor());
                 insertProMaterialVos.add(new com.example.mes.process.Vo.MaterialVo.InsertProMaterialVo(product_id,material_id,item.getCount()));
             }
             mapper.deleteProMaterialLists(product_id);

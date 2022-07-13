@@ -54,9 +54,9 @@ public class DataAnalysisController {
     }
 
     @GetMapping("/getMaterialStockByInfo")
-    public String getMaterialStockByInfo(String name,String size){
+    public String getMaterialStockByInfo(String name,String size,String color){
         try {
-            return JSON.toJSONString(service.getMaterialStockByInfo(name,size));
+            return JSON.toJSONString(service.getMaterialStockByInfo(name,size,color));
         }catch (Exception e){
             e.printStackTrace();
             System.out.println("controller:根据物料信息获取库存失败！");

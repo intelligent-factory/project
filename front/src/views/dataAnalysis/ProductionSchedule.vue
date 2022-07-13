@@ -13,7 +13,6 @@
       </select>
     </div>
     <div id="canvas" style="width: 800px;height:500px;margin-top: 30px"></div>
-
   </div>
 </template>
 
@@ -29,8 +28,7 @@ export default {
       demand_id: '请选择客户需求订单编号',
       categorys: ['A','B'],
       realCounts: [1,2],
-      planCounts: [1,2],
-      product_ids:[]
+      planCounts: [1,2]
     }
   },
   mounted() {
@@ -42,7 +40,6 @@ export default {
       this.categorys = []
       this.realCounts = []
       this.planCounts = []
-      this.product_ids = []
       this.drawChart()
       request({
         url: '/dataAnalysis/getDemandFormNosByDate',
@@ -63,7 +60,6 @@ export default {
         this.categorys = []
         this.realCounts = []
         this.planCounts = []
-        this.product_ids = []
         this.drawChart()
       } else {
         request({
@@ -76,8 +72,6 @@ export default {
           this.categorys = res.data.categorys
           this.realCounts = res.data.realCounts
           this.planCounts = res.data.planCounts
-          this.product_ids = res.data.product_ids
-          console.log(this.product_ids)
           this.drawChart()
         }).catch(err =>{
           console.log(err)
@@ -116,7 +110,7 @@ export default {
         xAxis: [
           {
             type: 'category',
-            data: this.categorys,
+            data: this.categorys
           }
         ],
         yAxis: [
@@ -137,30 +131,11 @@ export default {
           }
         ]
       };
-      
       // 使用刚指定的配置项和数据显示图表。
-      myChart.setOption(option,true);
-      myChart.on('click',  (param)=> {
-       
-        console.log(this.product_ids)
-        var productid;
-        console.log(param.dataIndex)
-        productid = this.product_ids[param.dataIndex];
-        console.log(productid)
-        parent.location.href = "/productionPlanSchedule/" + productid;
-
-       });
-
-
-
-
+      myChart.setOption(option);
     }
-
-    },
-
-
-  };
-
+  },
+};
 </script>
 
 <style scoped>
