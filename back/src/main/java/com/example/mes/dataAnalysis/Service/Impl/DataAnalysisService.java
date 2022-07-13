@@ -87,17 +87,17 @@ public class DataAnalysisService implements IDataAnalysisService {
     }
 
     @Override
-    public HashMap<String,Object> getMaterialStock(int pageOffset, int pageSize) {
+    public HashMap<String,Object> getMaterialStock(int pageOffset, int pageSize, String company_id) {
         try {
             HashMap<String,Object> data = new HashMap<>();
-            List<MaterialStock> materials = mapper.getMaterialStock(new PageVo(pageOffset,pageSize));
+            List<MaterialStock> materials = mapper.getMaterialStock(new PageVo(pageOffset,pageSize),company_id);
             for(MaterialStock materialStock:materials){
-                MaterialStock i = mapper.getMaterialInfoByID(materialStock.getMaterial_id());
+                MaterialStock i = mapper.getMaterialInfoByID(materialStock.getMaterial_id(),company_id);
                 materialStock.setName(i.getName());
 
                 materialStock.setSize(i.getSize());
             }
-            int count = mapper.getCount();
+            int count = mapper.getCount(company_id);
             data.put("materials",materials);
             data.put("count",count);
             return data;

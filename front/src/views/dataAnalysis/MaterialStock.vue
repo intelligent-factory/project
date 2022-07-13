@@ -82,7 +82,8 @@ export default {
         method: 'get',
         params: {
           pageOffset: pageOffset,
-          pageSize: pageSize
+          pageSize: pageSize,
+          company_id:this.$store.getters.userinfo.company_id
         }
       }).then(res => {
         this.count = res.data.count
