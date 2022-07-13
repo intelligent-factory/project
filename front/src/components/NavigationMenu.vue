@@ -135,6 +135,16 @@
         <el-menu-item index="/dataAnalysis/productionSchedule">生产计划进度</el-menu-item>
         <el-menu-item index="/dataAnalysis/materialStock">物料库存</el-menu-item>
       </el-submenu>
+
+      <el-submenu index="modelManagement"
+                  v-if="isValidAccess(['生产过程管理'])">
+        <template slot="title">
+          <i class="el-icon-reading"></i>
+          <span>模版管理</span>
+        </template>
+        <el-menu-item index="/modelManagement/modelManagementComponent">模版管理</el-menu-item>
+        <el-menu-item index="/modelManagement/modelAdd">模版添加</el-menu-item>
+      </el-submenu>
       <!--   end    -->
 
     </el-menu>

@@ -52,7 +52,7 @@
 		)
 		values(#{id},#{no},#{quantity},#{expectedDate},
 		#{readTime},#{waiting},#{originalDemandForm.id},(
-		select distinct product_id from product p where p.brand=#{product.brand} and p.color=#{product.color} and p.company=#{product.company}),
+		select distinct product_id from product p where p.brand=#{product.brand} and p.color=#{product.color} and p.company=#{product.company}and p.type=#{product.style}),
 		#{status},#{deleted},now(),#{createdBy},#{modifiedTime},#{modifiedBy},#{company_id})
 
 	</insert>
