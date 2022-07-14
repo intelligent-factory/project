@@ -30,6 +30,7 @@ public interface DataAnalysisMapper {
     //根据产品号，获得对应的计划单号
     List<String> getPlanProductId(@Param("product_id") String product_id);
     //getPlanByProductId
+    List<String> getPlanProductno(@Param("product_id")String product_id);
     String getProductNameByID(@Param("product_id") String product_id);
 
 
@@ -55,4 +56,7 @@ public interface DataAnalysisMapper {
 
 
     List<Integer> getProcessDemandQuantity(String process_id);
+
+
+    List<String> getProcessPlanName(String plan_id);
 }

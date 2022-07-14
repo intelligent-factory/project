@@ -32,10 +32,11 @@ public class DataAnalysisService implements IDataAnalysisService {
    public HashMap<String,Object>getProcessByPlanId(String plan_id){
         try {System.out.println(plan_id);
             ArrayList<String> process_ids = new ArrayList<>();
+            ArrayList<String> process_names = new ArrayList<>();
             ArrayList<Integer> realCounts = new ArrayList<>();
             ArrayList<Integer> planCounts = new ArrayList<>();
             process_ids.addAll(mapper.getProcessPlanId(plan_id));
-            System.out.println(process_ids);
+            process_names.addAll(mapper.getProcessPlanName(plan_id));
             int i;
             for ( i =0;i <process_ids.size();i++)
             {
@@ -47,6 +48,7 @@ public class DataAnalysisService implements IDataAnalysisService {
             data.put("realCounts",realCounts);
             data.put("planCounts",planCounts);
             data.put("process_ids",process_ids);
+            data.put("process_names",process_names);
             return data;
         } catch (Exception e) {
             e.printStackTrace();
@@ -59,10 +61,12 @@ public class DataAnalysisService implements IDataAnalysisService {
     public  HashMap<String,Object> getPlanByProductId(String product_id) {
         try {System.out.println(product_id);
             ArrayList<String> plan_ids = new ArrayList<>();
+            ArrayList<String> plan_nos = new ArrayList<>();
             ArrayList<Integer> realCounts = new ArrayList<>();
             ArrayList<Integer> planCounts = new ArrayList<>();
             plan_ids.addAll(mapper.getPlanProductId(product_id));
-
+            plan_nos.addAll(mapper.getPlanProductno(product_id));
+            System.out.println(plan_nos);
             int i;
         for ( i =0;i <plan_ids.size();i++)
         {
@@ -74,6 +78,7 @@ public class DataAnalysisService implements IDataAnalysisService {
             data.put("realCounts",realCounts);
             data.put("planCounts",planCounts);
             data.put("plan_ids",plan_ids);
+            data.put("plan_nos",plan_nos);
             return data;
         } catch (Exception e) {
             e.printStackTrace();
