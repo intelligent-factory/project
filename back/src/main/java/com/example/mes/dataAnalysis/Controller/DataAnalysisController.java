@@ -30,7 +30,29 @@ public class DataAnalysisController {
             return "";
         }
     }
-
+    @GetMapping("getPlanByProductId")
+    public String getPlanByProductId(String product_id){
+        try {
+            System.out.println(product_id);
+            return JSON.toJSONString(service.getPlanByProductId(product_id));
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("controller:根据产品号获取生产进度失败！");
+            return "";
+        }
+    }
+    @GetMapping("/getProcessByPlanId")
+    public String getProcessByPlanId(String plan_id)
+    {
+        try {
+            System.out.println(plan_id);
+            return JSON.toJSONString(service.getProcessByPlanId(plan_id));
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("controller:根据产品号获取生产进度失败！");
+            return "";
+        }
+    }
     @GetMapping("/getFinishInfoById")
     public String getFinishInfoById(String demand_id){
         try {

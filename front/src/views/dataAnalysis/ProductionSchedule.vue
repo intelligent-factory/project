@@ -144,13 +144,16 @@ export default {
       // 使用刚指定的配置项和数据显示图表。
       myChart.setOption(option,true);
       myChart.on('click',  (param)=> {
-       
+
         console.log(this.product_ids)
         var productid;
         console.log(param.dataIndex)
         productid = this.product_ids[param.dataIndex];
         console.log(productid)
-        parent.location.href = "/productionPlanSchedule/" + productid;
+        this.$router.push({
+          path: '/productionPlanSchedule/' + productid,
+
+        });
 
        });
 

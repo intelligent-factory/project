@@ -28,7 +28,7 @@ module.exports = [
         name: '产品计划单情况-数据分析报表-生产计划进度',
         component: () => import('@/views/dataAnalysis/ProductionPlanSchedule'),
         meta: {
-            title: '生产计划进度-数据分析报表-计划单'
+            title: '计划单-数据分析报表-生产计划进度'
         },
     },
     {
@@ -36,7 +36,7 @@ module.exports = [
         name: '对应过程单情况-数据分析报表-生产计划进度',
         component: () => import('@/views/dataAnalysis/ProductionProcessSchedule'),
         meta: {
-            title: '生产计划进度-数据分析报表-对应过程单情况'
+            title: '对应过程单情况-数据分析报表-生产计划进度'
         },
     }
 
