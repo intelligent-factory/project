@@ -10,13 +10,10 @@ public class MaterialStock {
 
     public MaterialStock() {
     }
+
     public MaterialStock(String material_id, String name, String size, int count) {
         this.material_id = material_id;
         this.name = name;
-        size=size.replace(",", "\",\"");
-        size=size.replace(":", "\":\"");
-        size="{\""+size;
-        size=size+"\"}";
         this.size = size;
 
         this.count = count;
