@@ -4,7 +4,7 @@
       <form style="width: 400px;float: left">
         <label style="float: left;margin-left: 20px;font-size: 20px">
           请选择日期：
-          <input type="date" v-model="currentDate" style="font-size: 20px" @input="getDemand_ids(currentDate)"></input>
+          <input type="date" v-model="currentDate" style="font-size: 20px" @input="getDemand_ids(currentDate,company_id)"></input>
         </label>
       </form>
       <select style="width: 400px;height:34px;font-size: 20px;float: left" v-model="demand_id" @change="getData(demand_id)">
@@ -30,14 +30,16 @@ export default {
       categorys: ['A','B'],
       realCounts: [1,2],
       planCounts: [1,2],
-      product_ids:[]
+      product_ids:[],
+      company_id:this.$store.getters.userinfo.company_id
+
     }
   },
   mounted() {
     this.drawChart();
   },
   methods: {
-    getDemand_ids(date){
+    getDemand_ids(date,company_id){
       this.demand_id = '请选择客户需求订单编号'
       this.categorys = []
       this.realCounts = []
@@ -48,7 +50,8 @@ export default {
         url: '/dataAnalysis/getDemandFormNosByDate',
         method: 'get',
         params: {
-          date: date
+          date: date,
+          company_id:company_id
         }
       }).then(res => {
         this.demand_ids = res.data
@@ -141,13 +144,16 @@ export default {
       // 使用刚指定的配置项和数据显示图表。
       myChart.setOption(option,true);
       myChart.on('click',  (param)=> {
-       
+
         console.log(this.product_ids)
         var productid;
         console.log(param.dataIndex)
         productid = this.product_ids[param.dataIndex];
         console.log(productid)
-        parent.location.href = "/productionPlanSchedule/" + productid;
+        this.$router.push({
+          path: '/productionPlanSchedule/' + productid,
+
+        });
 
        });
 

@@ -21,16 +21,38 @@ public class DataAnalysisController {
     IDataAnalysisService service;
 
     @GetMapping("getDemandFormNosByDate")
-    public String getDemandFormNosByDate(String date){
+    public String getDemandFormNosByDate(String date,String company_id){
         try {
-            return JSON.toJSONString(service.getDemandFormNosByDate(date));
+            return JSON.toJSONString(service.getDemandFormNosByDate(date,company_id));
         }catch (Exception e){
             e.printStackTrace();
             System.out.println("controller:根据预计完成日期获得预计完成客户订单号失败！");
             return "";
         }
     }
-
+    @GetMapping("getPlanByProductId")
+    public String getPlanByProductId(String product_id){
+        try {
+            System.out.println(product_id);
+            return JSON.toJSONString(service.getPlanByProductId(product_id));
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("controller:根据产品号获取生产进度失败！");
+            return "";
+        }
+    }
+    @GetMapping("/getProcessByPlanId")
+    public String getProcessByPlanId(String plan_id)
+    {
+        try {
+            System.out.println(plan_id);
+            return JSON.toJSONString(service.getProcessByPlanId(plan_id));
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("controller:根据产品号获取生产进度失败！");
+            return "";
+        }
+    }
     @GetMapping("/getFinishInfoById")
     public String getFinishInfoById(String demand_id){
         try {

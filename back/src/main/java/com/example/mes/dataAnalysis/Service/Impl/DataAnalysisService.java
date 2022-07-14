@@ -19,29 +19,56 @@ public class DataAnalysisService implements IDataAnalysisService {
     @Autowired(required = false)
     DataAnalysisMapper mapper;
     @Override
-    public List<String> getDemandFormNosByDate(String date) {
+    public List<String> getDemandFormNosByDate(String date,String company_id) {
         try {
-            return mapper.getDemandFormNosByDate(date);
+            return mapper.getDemandFormNosByDate(date,company_id);
         }catch (Exception e){
             e.printStackTrace();
             System.out.println("service:根据预计完成日期获得预计完成客户订单号失败！");
             return null;
         }
     }
+    @Override
+   public HashMap<String,Object>getProcessByPlanId(String plan_id){
+        try {System.out.println(plan_id);
+            ArrayList<String> process_ids = new ArrayList<>();
+            ArrayList<Integer> realCounts = new ArrayList<>();
+            ArrayList<Integer> planCounts = new ArrayList<>();
+            process_ids.addAll(mapper.getProcessPlanId(plan_id));
+            System.out.println(process_ids);
+            int i;
+            for ( i =0;i <process_ids.size();i++)
+            {
+
+                realCounts.addAll(mapper.getProcessProducedQuantity(process_ids.get(i)));
+                planCounts.addAll(mapper.getProcessDemandQuantity(process_ids.get(i)));
+            }
+            HashMap<String,Object> data = new HashMap<>();
+            data.put("realCounts",realCounts);
+            data.put("planCounts",planCounts);
+            data.put("process_ids",process_ids);
+            return data;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("获取计划单信息失败");
+            return null;
+        }
+    }
     //计划单完成状况的方法
     @Override
     public  HashMap<String,Object> getPlanByProductId(String product_id) {
-        try {
+        try {System.out.println(product_id);
             ArrayList<String> plan_ids = new ArrayList<>();
             ArrayList<Integer> realCounts = new ArrayList<>();
             ArrayList<Integer> planCounts = new ArrayList<>();
-            plan_ids.addAll(mapper.getProductPlanId(product_id));
+            plan_ids.addAll(mapper.getPlanProductId(product_id));
+
             int i;
         for ( i =0;i <plan_ids.size();i++)
         {
-            ProductionSchedule productionSchedule = new ProductionSchedule(mapper.getPlanProducedQuantity(plan_ids.get(i)),mapper.getPlanProducedQuantity(plan_ids.get(i)));
-            realCounts.add(productionSchedule.getProduced_quantity());
-            planCounts.add(productionSchedule.getDemand_quantity());
+
+            realCounts.addAll(mapper.getPlanProducedQuantity(plan_ids.get(i)));
+            planCounts.addAll(mapper.getPlanDemandQuantity(plan_ids.get(i)));
         }
             HashMap<String,Object> data = new HashMap<>();
             data.put("realCounts",realCounts);
@@ -107,6 +134,7 @@ public class DataAnalysisService implements IDataAnalysisService {
             return null;
         }
     }
+
 
     @Override
     public HashMap<String, Object> getMaterialStockByInfo(String name, String size) {
