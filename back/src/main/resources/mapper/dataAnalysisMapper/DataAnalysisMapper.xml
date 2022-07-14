@@ -26,6 +26,11 @@
         FROM plan_plan p JOIN workshop_line w
         WHERE w.routing = #{product_id}  AND w.uuid = p.production_line_id
     </select>
+    <select id="getPlanProductno" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT  p.no
+        FROM plan_plan p JOIN workshop_line w
+        WHERE w.routing = #{product_id}  AND w.uuid = p.production_line_id
+    </select>
     <select id="getDemandQuantity" parameterType="java.lang.String" resultType="java.lang.Integer">
         SELECT quantity as demand_quantity
         FROM plan_demand_form
@@ -68,6 +73,11 @@
         SELECT no
         FROM plan_process
         WHERE plan_id = #{plan_id}
+    </select>
+    <select id="getProcessPlanName" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT w.name
+        FROM plan_process p JOIN working_procedure w
+        WHERE p.plan_id = #{plan_id} AND p.step = w.procedure_id-1
     </select>
     <select id="getProcessDemandQuantity" parameterType="java.lang.String" resultType="java.lang.Integer">
         SELECT  demand_quantity
