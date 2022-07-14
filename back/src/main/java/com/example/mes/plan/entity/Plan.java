@@ -35,6 +35,16 @@ public class Plan extends BaseEntity {
 	@ApiModelProperty("物料申请单")
 	private Set<MaterialApplication> maSet;
 
+	public String getCompany_id() {
+		return company_id;
+	}
+
+	public void setCompany_id(String company_id) {
+		this.company_id = company_id;
+	}
+	@ApiModelProperty("id")
+	private  String  company_id;
+
 	public Plan() {
 		super();
 	}
@@ -129,7 +139,7 @@ public class Plan extends BaseEntity {
 	public String toString() {
 		return "Plan [no=" + no + ", expectedQuantity=" + expectedQuantity + ", distributeTime=" + distributeTime
 				+ ", productionLine=" + productionLine + ", demandForm=" + demandForm + ", processesList="
-				+ processesList + ", maSet=" + maSet + "]";
+				+ processesList + ", maSet=" + maSet +", company_id=" + company_id + "]";
 	}
 
 }

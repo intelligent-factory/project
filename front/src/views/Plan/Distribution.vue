@@ -333,6 +333,7 @@ export default {
           status: "0",
           deleted: "0",
           createdBy: user,
+          company_id:this.$store.getters.userinfo.company_id
         },
       })
         .then((res) => {

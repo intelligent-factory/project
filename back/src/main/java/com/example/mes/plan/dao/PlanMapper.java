@@ -3,6 +3,7 @@ package com.example.mes.plan.dao;
 import com.example.mes.plan.common.MesBaseMapper;
 import com.example.mes.plan.entity.Plan;
 import com.example.mes.plan.vo.CriteriaVo;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -24,4 +25,6 @@ public interface PlanMapper extends MesBaseMapper<Plan>{
 	Integer getCountByCriteria(CriteriaVo<Plan> criteria);
 
 	Set<Plan> getPlansByDemandFormId(String id);
+
+
 }

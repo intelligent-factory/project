@@ -70,6 +70,7 @@ public class PlanServiceImpl implements IPlanService {
 		plan.getPlan().setId(UUID.randomUUID().toString().replace("-", ""));
 
 		planMapper.insert(plan.getPlan());
+
 		return Result.ok();
 	}
 

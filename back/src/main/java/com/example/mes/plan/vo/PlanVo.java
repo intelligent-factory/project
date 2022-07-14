@@ -138,6 +138,14 @@ public class PlanVo  {
 	public void setMaSet(Set<MaterialApplication> maSet) {
 		this.plan.setMaSet(maSet);
 	}
+
+	public String getCompany_id() {
+		return plan.getCompany_id();
+	}
+
+	public void setCompany_id(String company_id) {
+		this.plan.setCompany_id(company_id);
+	}
 	
 	
 }

@@ -8,7 +8,7 @@
     	id,
     	no,demand_form_id,expected_quantity,distribute_time,production_line_id,
     	
-    	status,is_deleted,created_time,created_by,modified_time,modified_by
+    	status,is_deleted,created_time,created_by,modified_time,modified_by,company_id
     </sql>
     
     
@@ -28,7 +28,7 @@
     	insert into plan_plan (<include refid="COLUMNS"></include>)
     	values (#{id},#{no},#{demandForm.id},#{expectedQuantity},
     	#{distributeTime},#{productionLine.id},#{status},#{deleted},
-    	now(),#{createdBy},#{modifiedTime},#{modifiedBy})
+    	now(),#{createdBy},#{modifiedTime},#{modifiedBy},#{company_id})
     </insert>
     <resultMap type="com.example.mes.plan.entity.Plan" id="plan">
     	<result column="is_deleted" property="deleted"/>
