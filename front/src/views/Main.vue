@@ -18,11 +18,9 @@
         <!--其他视图内容-->
         <div id="content">
           <transition mode="out-in" name="fade-transform">
-            <keep-alive>
-<!--              <scroll-lock>-->
-              <router-view></router-view>
-<!--              </scroll-lock>-->
-            </keep-alive>
+<!--            <keep-alive>-->
+              <router-view v-if="isReloadAlive"></router-view>
+<!--            </keep-alive>-->
           </transition>
         </div>
       </div>
@@ -37,14 +35,27 @@ import HeaderBar from "@/components/HeaderBar";
 export default {
   name: "Main",
   components: {HeaderBar, NavigationMenu},
+  provide() {
+    return {
+      reload: this.reload
+    }
+  },
   data() {
     return {
-      menuRoutes: []
+      menuRoutes: [],
+      isReloadAlive : true
+
     }
   },
   methods: {
     setMenuRoutes(routes) {
       this.menuRoutes = routes;
+    },
+    reload() {
+      this.isReloadAlive = false;
+      this.$nextTick(function(){
+        this.isReloadAlive = true;
+      })
     }
   }
 
