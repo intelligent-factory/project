@@ -17,10 +17,10 @@ export default {
     return {
       plan_id:this.$route.params.id,
 
-      process_ids: ['A','B'],
+      process_names: ['A','B'],
       realCounts: [1,2],
       planCounts: [1,2],
-
+      process_ids:[]
 
     }
   },
@@ -36,6 +36,7 @@ export default {
         this.process_ids = []
         this.realCounts = []
         this.planCounts = []
+        this.process_names = []
         this.drawChart()
       } else {
         request({
@@ -48,6 +49,7 @@ export default {
         }).then(res => {
 
           this.process_ids = res.data.process_ids
+          this.process_names = res.data.process_names
           this.realCounts = res.data.realCounts
           this.planCounts = res.data.planCounts
           this.drawChart()
@@ -88,7 +90,7 @@ export default {
         xAxis: [
           {
             type: 'category',
-            data: this.process_ids,
+            data: this.process_names,
           }
         ],
         yAxis: [
