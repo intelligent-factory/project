@@ -46,7 +46,7 @@ export default {
   name: "Process",
   data() {
     return {
-      result: {},
+      result: [],
       planId: this.$route.params.id,
       count: {},
       underwaystep:0,//正在进行生产或将要进行生产的工序号
@@ -57,7 +57,30 @@ export default {
       this.planId = newval.id
     }
   },
+   created() {
+
+    console.log("created")
+    request({
+      url: "/process/getProcessesByPlan",
+      params: {
+        id: this.planId,
+      },
+    })
+      .then((res) => {
+        this.result = res.data.result;
+        this.underwaystep=0;
+        for (let i = 0; i < this.result.length; i++) {
+          Vue.set(this.count, this.result[i].id, 0);
+          if(this.result[i].materialArriveTime)this.underwaystep=i+1;
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
   activated() {
+
+    console.log("activated")
     request({
       url: "/process/getProcessesByPlan",
       params: {

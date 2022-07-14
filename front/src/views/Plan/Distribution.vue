@@ -128,6 +128,8 @@ export default {
       this.$message.error('发生错误');
       console.log(e);
     }
+
+    
     /*
     //原查询方法，因为新需求单页面有产品id，可少一次查询
     console.log('id为'+this.item.id)
@@ -185,6 +187,53 @@ export default {
     */
 
   },
+  created() {
+    try{
+      this.productionLine=[]
+      request({
+        url: "/demandForm/getLinesByProduct",
+        params: {
+          id: this.item.product.id
+        },
+      })
+          .then((res) => {
+            console.log('生产线')
+            console.log(res)
+            if(res.data.result.length==0){
+              this.$message.error("该产品无对应生产线")
+              return
+            }
+            for(let i = 0;i<res.data.result.length;i++){
+              let line = res.data.result[i]
+              let lineDesc = "车间名:"+line.workshopName+"  生产线名:"+line.name
+
+              line.desc=lineDesc
+              this.productionLine.push(line)
+            }
+            //console.log(this.productionLine);
+          })
+          .catch((err) => {
+
+            console.log("请求生产线错误");
+          });
+      request({
+        url: "/plan/getPlansByDemandForm",
+        params: {
+          id: this.item.id,
+        },
+      })
+          .then((res) => {
+            this.plan = res.data.result;
+          })
+          .catch((err) => {
+            console.log("请求计划单出错");
+          });
+    }catch (e){
+      this.$message.error('发生错误');
+      console.log(e);
+    }
+  },
+
 
   methods: {
     deletePlan(val) {
