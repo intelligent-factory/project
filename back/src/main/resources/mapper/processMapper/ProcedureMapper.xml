@@ -22,7 +22,7 @@
     <select id="getIndex" resultType="java.lang.Integer">
         SELECT max(procedure_id)
         FROM working_procedure
-        WHERE is_deleted='0' and (company_id = #{company_id} or #{company_id} = 0)
+        WHERE is_deleted=0 and (company_id = #{company_id} or #{company_id} = 0)
     </select>
 <!--    根据id获取工序信息-->
     <select id="getProcedureInfoByID" resultType="com.example.mes.process.Vo.ProcedureVo.QueryProcedureVo">
