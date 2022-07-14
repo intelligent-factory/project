@@ -19,6 +19,16 @@ public class InsertMaterialVo {
     //物料规格
     String size;
 
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    String color;
+
     //物料描述
     String comments;
     //创建人的id
