@@ -92,7 +92,7 @@
 
       <el-form :model="incrementM" ref="incrementM" label-width="100px" class="demo-ruleForm">
           <el-form-item
-              label="物料模板"
+              label="设备模板"
               prop="purpose"
               :rules="[
                         { required: true, message: '设备模板不能为空'},
@@ -165,7 +165,14 @@
             :rules="[
                         { required: true, message: '物料状态不能为空'},
                       ]">
-          <el-input v-model.trim="updateInfo.status" autocomplete="off"></el-input>
+          <el-select v-model.trim="updateInfo.status" autocomplete="off" placeholder="请选择状态参数"  style="width: 100%">
+            <el-option
+                v-for="item in optionStatus"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item
             label="描述"
@@ -191,6 +198,14 @@ export default {
   name: "equipmentInfo",
   data(){
     return {
+      optionStatus:[{
+        value:"正常",
+        label:"正常"
+      },
+        {value:"禁用",
+          label:"禁用"
+
+        }],
       userMsg:'',
       showData:[],
       shitVue:[{}],
@@ -233,7 +248,7 @@ export default {
       ],
       total: 1,
       page:{
-        pages: 13,
+        pages: 10,
         current: 1,
       },
 
@@ -381,7 +396,10 @@ export default {
           this.$message.error('服务器异常')
         }
       });
-
+      this.incrementM.purpose={}
+      this.incrementM.status=''
+      this.incrementM.name=''
+      this.incrementM.comments=''
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -510,7 +528,7 @@ export default {
 </script>
 
 <style scoped>
-/deep/  td {
+ td {
   padding:3px !important;
   /*border: 1px solid blue;*/
   height: 6px;

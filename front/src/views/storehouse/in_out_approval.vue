@@ -10,13 +10,12 @@
         default-active="1"
         @select="handleSelect">
       <el-menu-item index="/storehouse/inOutApproval/itemapproval">申请信息</el-menu-item>
-<!--      <el-menu-item index="/storehouse/inOutApproval/equipmentInfoDetail">请求信息</el-menu-item> -->
+<!--      <el-menu-item index="/storehouse/inOutApproval/equipmentInfoDetail">请求信息</el-menu-item>-->
 
 
     </el-menu>
 
     <router-view></router-view>
-
     <div id="theBaseMain">
 
     </div>
@@ -25,6 +24,8 @@
 
 <script>
 export default {
+  inject: ['reload'],
+
   name: "in_out_storage",
   data(){
     return {
@@ -33,8 +34,9 @@ export default {
   },
   methods:{
     handleSelect(key, keyPath) {
+      this.reload()
       console.log(key, keyPath);
-    }
+    },
   }
 }
 </script>

@@ -88,7 +88,7 @@
     </div>
 
     <el-dialog
-        title="提示"
+        title="添加物料"
         :visible.sync="addMaterial"
         width="30%"
         :before-close="handleClose">
@@ -123,14 +123,14 @@
                       ]">
           <el-input v-model.trim="incrementM.name" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item
-            label="物料颜色"
-            prop="color"
-            :rules="[
-                        { required: true, message: '物料颜色不能为空'},
-                      ]">
-          <el-input  v-model.trim="incrementM.color" autocomplete="off"></el-input>
-        </el-form-item>
+<!--        <el-form-item-->
+<!--            label="物料颜色"-->
+<!--            prop="color"-->
+<!--            :rules="[-->
+<!--                        { required: true, message: '物料颜色不能为空'},-->
+<!--                      ]">-->
+<!--          <el-input  v-model.trim="incrementM.color" autocomplete="off"></el-input>-->
+<!--        </el-form-item>-->
         <el-form-item
             label="物料描述"
             prop="comments"
@@ -158,7 +158,7 @@
             :rules="[
                         { required: true, message: '物料状态不能为空'},
                       ]">
-          <el-select v-model.trim="updateInfo.status" autocomplete="off" placeholder="请选择状态参数"  style="width: 292px">
+          <el-select v-model.trim="updateInfo.status" autocomplete="off" placeholder="请选择状态参数"  style="width: 100%">
             <el-option
                 v-for="item in optionStatus"
                 :key="item.value"
@@ -211,7 +211,7 @@ export default {
       incrementM:{
         name:'默认',
         size:{},
-        color:'默认',
+        color:'',
         comments:'无',
         operator_id:'',
       },
@@ -229,7 +229,6 @@ export default {
         {
           material_id:'2',
           name:1,
-          color:'红色',
           size:'',
           status:'iasd',
           comments:'s',
@@ -240,7 +239,6 @@ export default {
         {
           material_id:'2',
           name:'1',
-          color:'红色',
           size:{},
           status:'iasd',
           comments:'s',
@@ -249,7 +247,7 @@ export default {
       ],
       total: 1,
       page:{
-        pages: 13,
+        pages: 10,
         current: 1,
       },
 
@@ -357,6 +355,7 @@ export default {
           })
           .catch(_ => {});
     },
+    //
     incrementThis(formName){
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -364,7 +363,7 @@ export default {
           let req = {
             name: this.incrementM.name,
             size:JSON.stringify(this.incrementM.size),
-            //color: this.incrementM.color,
+            // color: this.incrementM.color,
             comments: this.incrementM.comments,
             company_id:this.userMsg.company_id,
             operator_id: 1,
@@ -397,6 +396,10 @@ export default {
           return false;
         }
       });
+      this.incrementM.name="默认"
+      this.incrementM.comments="无"
+      this.incrementM.operator_id=1
+      this.incrementM.size={}
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -501,6 +504,7 @@ export default {
           console.log('!')
         }
       });
+
     }
   }
 }

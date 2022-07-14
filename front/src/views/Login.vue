@@ -12,16 +12,14 @@
             <el-form-item class="input_content" prop="username">
               <img class="icon" src="@/assets/icon/user2.svg" alt="">
               <div class="bar2"></div>
-              <el-autocomplete v-model="form.username" size="large"
-                               placeholder="点我选择测试账号"
-                               :fetch-suggestions="querySearch"
-                               @select="handleSelect"
-              >
-                <template slot-scope="{ item }">
-                  <div class="name">{{ item.name + "  " + item.value }}</div>
-                </template>
+              <el-input v-model="form.username" size="large"
+                               placeholder="点我选择测试账号">
 
-              </el-autocomplete>
+<!--                <template slot-scope="{ item }">-->
+<!--                  <div class="name">{{ item.name + "  " + item.value }}</div>-->
+<!--                </template>-->
+
+              </el-input>
             </el-form-item>
             <el-form-item class="input_content" prop="password">
               <img class="icon" src="@/assets/icon/lock.svg" alt="">
@@ -110,19 +108,19 @@ export default {
       this.$refs.form.resetFields();
     }
     ,
-    handleSelect(item) {
-      this.form.password = "100001"
-    }
-    ,
-    querySearch(queryString, cb) {
-      cb([
-
-          {"value": "100002", "name": "分析报表权限"},
-          {"value": "100003", "name": "生产过程权限"},
-          {"value": "100004", "name": "质量管理权限"},
-      ]);
-    }
-    ,
+    // handleSelect(item) {
+    //   this.form.password = "100001"
+    // }
+    // ,
+    // querySearch(queryString, cb) {
+    //   cb([
+    //
+    //       {"value": "100002", "name": "分析报表权限"},
+    //       {"value": "100003", "name": "生产过程权限"},
+    //       {"value": "100004", "name": "质量管理权限"},
+    //   ]);
+    // }
+    // ,
 
   },
   // created() {
@@ -187,11 +185,12 @@ export default {
 .login_container .bg {
   flex-basis: 60%;
   height: 100%;
-  background: url("../assets/pic/login_background.jpg");
+  display: flex;
+  background: url("../assets/pic/ganyu.jpg");
 }
 
 .login_container .box_item {
-  display: flex;
+
   align-items: center;
   justify-content: center;
   flex-basis: 40%;
