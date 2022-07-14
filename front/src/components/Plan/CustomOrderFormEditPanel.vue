@@ -350,9 +350,9 @@ export default {
               let result = domain.productInfo.split("-")
               let info = {
                 brand: result[0],
-                season: result[1],
-                style: result[2],
-                color: result[3]
+                //season: result[1],
+                style: result[1],
+                color: result[2]
               }
               form+="\n\n品牌：" +
                   info.brand +
@@ -375,7 +375,7 @@ export default {
               params: {
                 "product.company": this.currentObj.company,
                 "product.brand": info.brand,
-                "product.season": info.season,
+                //"product.season": info.season,
                 "product.style": info.style,
                 "product.color": info.color,
                 quantity: this.currentObj.quantity,
@@ -399,16 +399,16 @@ export default {
               let result = domain.productInfo.split("-")
               let info = {
                 brand: result[0],
-                season: result[1],
-                style: result[2],
-                color: result[3]
+                //season: result[1],
+                style: result[1],
+                color: result[2]
               }
               request({
                 url: "/demandForm/saveDemandForm",
                 params: {
                   "product.company": this.currentObj.company,
                   "product.brand": info.brand,
-                  "product.season": info.season,
+                  //"product.season": info.season,
                   "product.style": info.style,
                   "product.color": info.color,
                   quantity: domain.quantity,
@@ -435,9 +435,9 @@ export default {
             let result_old = this.currentObj_old.productInfo.split("-")
             let info_old = {
               brand: result_old[0],
-              season: result_old[1],
-              style: result_old[2],
-              color: result_old[3]
+              //season: result_old[1],
+              style: result_old[1],
+              color: result_old[2]
             }
             let form_old =
                 "\n公司款号：" +
