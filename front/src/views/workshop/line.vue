@@ -507,7 +507,12 @@ export default {
 
   },
   name: "workshopDetail",
-
+  created () {
+    this.nowShopworkId = this.$route.query.workshopId
+    this.getData();
+    this.loadCode();
+    this.getLineData();
+  },
 
   activated () {
     this.nowShopworkId = this.$route.query.workshopId

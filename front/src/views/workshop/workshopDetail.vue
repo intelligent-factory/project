@@ -170,6 +170,11 @@ export default {
   },
   name: "workshopDetail",
 
+
+  created() {
+    // ---------------------------  要根据这个 查询对应仓库的信息
+    this.getData()
+  },
   activated() {
     // ---------------------------  要根据这个 查询对应仓库的信息
     this.getData()
