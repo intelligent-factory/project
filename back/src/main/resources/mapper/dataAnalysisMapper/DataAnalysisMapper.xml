@@ -60,14 +60,14 @@
               FROM storage_goods s
               WHERE s.is_deleted='0' AND types='material' AND (verify='normal' OR verify='delete')
               GROUP BY goods_id) AS a RIGHT JOIN material m ON a.material_id=m.material_id
-        WHERE m.is_deleted='0'
+        WHERE m.is_deleted='0' and m.company_id = #{company_id}
         ORDER BY m.material_id ASC
         LIMIT ${pageVo.startOffset}, ${pageVo.pageSize}
     </select>
     <select id="getCount" resultType="java.lang.Integer">
         SELECT count(material_id)
         FROM material
-        WHERE is_deleted='0'
+        WHERE is_deleted='0' and company_id = #{company_id}
     </select>
     <select id="getProcessPlanId" parameterType="java.lang.String" resultType="java.lang.String">
         SELECT no
@@ -114,7 +114,7 @@
     <select id="getMaterialInfoByID" parameterType="java.lang.String" resultType="com.example.mes.dataAnalysis.Vo.MaterialStock">
         SELECT m.name,m.size
         FROM material m
-        WHERE material_id=#{material_id}
+        WHERE material_id=#{material_id} and company_id = #{company_id}
     </select>
 
     <select id="getMaterialStockChanges" parameterType="java.lang.String" resultType="com.example.mes.dataAnalysis.Vo.MaterialStockChange">

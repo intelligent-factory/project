@@ -143,7 +143,8 @@
                 highlight-current-row
                 style="quantityth: 100% ;margin-top: 20px"
                 :key="tablekey"
-                :data="tableData">
+                :data="tableData"
+                :default-sort = "{prop: 'no', order: 'descending'}">
                 <el-table-column type="expand">
                     <template slot-scope="props">
                         <el-form label-position="left" inline class="demo-table-expand">
@@ -153,8 +154,8 @@
                             <el-form-item label="产品颜色">
                                 <span>{{ props.row.color }}</span>
                             </el-form-item>
-                            <el-form-item label="产品季节">
-                                <span>{{ props.row.season }}</span>
+                            <!-- <el-form-item label="产品季节">
+                                <span>{{ props.row.season }}</span> -->
                             </el-form-item>
                             <el-form-item label="公司款号">
                                 <span>{{ props.row.company }}</span>
@@ -318,59 +319,72 @@
               }
           },
           async initData(){
-              //查询全体数据
-              try{
-                  request({
-                  url: "/customOrderForm/allCustomOrderForm",
-                  params: {
-                      limit:this.limit,
-                      offset:this.offset,
-                      company_id:this.$store.getters.userinfo.company_id
-                      },
-                  }).then((res) => {
-                      console.log(res);
-                      let CustomOrderForm = res.data;
-                      this.tableData = CustomOrderForm;
-                      this.count = CustomOrderForm.length;
-                      this.autocompleteDataList1=[];
-                      this.autocompleteDataList2=[];
-                      /*更新自动填充的数据*/
-                      var array1=[],array2=[];//临时存放数据
-                      for(var i=0;i<this.count;i++){
-                          array1.push(this.tableData[i].no)
-                          array2.push(this.tableData[i].company)
-                      }
-                      array1=Array.from(new Set(array1)).sort()//去重&排序
-                      array2=Array.from(new Set(array2)).sort()
-                      for(var i=0;i<array1.length;i++){//整合成[{'value':'data'}]形式
-                          const autoCompleteData={};
-                          autoCompleteData.value=array1[i]
-                          this.autocompleteDataList1.push(autoCompleteData);
-                      }
-                      for(var i=0;i<array2.length;i++){
-                          const autoCompleteData={};
-                          autoCompleteData.value=array2[i]
-                          this.autocompleteDataList2.push(autoCompleteData);
-                      }
-                      /*
-                      for(var i=0;i<this.count;i++){
-                          const autoCompleteData1={};
-                          const autoCompleteData2={};
-                          autoCompleteData1.value =this.tableData[i].no;
-                          if(!this.autocompleteDataList1.includes(autoCompleteData1))//如果没有重复，则插入
-                            this.autocompleteDataList1.push(autoCompleteData1);
-                          autoCompleteData2.value =this.tableData[i].company;
-                          if(!this.autocompleteDataList2.includes(autoCompleteData2))
-                            this.autocompleteDataList2.push(autoCompleteData2);
-                      }*/
-                      console.log(this.autocompleteDataList1)
-                      this.$message({
-                          type: 'success',
-                          message: '获取数据成功'
-                      });
-                  }).catch((err) => {
-                      console.log(err);
-                      });
+            console.log("初始化数据")
+            //查询全体数据
+            try{
+              //查询全部产品数据
+              request({
+                url: "/process/getProductsByCompany",
+                params: {
+                  pageSize:this.limit,
+                  pageOffset:this.offset+1,
+                  company_id:this.$store.getters.userinfo.company_id
+                },
+              }).then((res) => {
+                console.log("全部产品信息");
+                console.log(res);
+                var count_p=res.data.count;
+                var products=res.data.products;
+                /*更新自动填充的数据*/
+                this.autocompleteDataList2=[];
+                var array2=[];//临时存放数据
+                for(var i=0;i<count_p;i++){
+                  array2.push(products[i].company)
+                }
+                array2=Array.from(new Set(array2)).sort()//去重&排序
+                for(var i=0;i<array2.length;i++){//整合成[{'value':'data'}]形式
+                  const autoCompleteData={};
+                  autoCompleteData.value=array2[i]
+                  this.autocompleteDataList2.push(autoCompleteData);
+                }
+                console.log(this.autocompleteDataList2)
+              }).catch((err) => {
+                console.log(err);
+              });
+              //获取全部需求单
+              request({
+              url: "/customOrderForm/allCustomOrderForm",
+              params: {
+                  limit:this.limit,
+                  offset:this.offset,
+                  company_id:this.$store.getters.userinfo.company_id
+                  },
+              }).then((res) => {
+                  console.log(res);
+                  let CustomOrderForm = res.data;
+                  this.tableData = CustomOrderForm;
+                  this.count = CustomOrderForm.length;
+                  this.autocompleteDataList1=[];
+                  /*更新自动填充的数据*/
+                  var array1=[];//临时存放数据
+                  for(var i=0;i<this.count;i++){
+                      array1.push(this.tableData[i].no)
+                  }
+                  array1=Array.from(new Set(array1)).sort()//去重&排序
+
+                  for(var i=0;i<array1.length;i++){//整合成[{'value':'data'}]形式
+                      const autoCompleteData={};
+                      autoCompleteData.value=array1[i]
+                      this.autocompleteDataList1.push(autoCompleteData);
+                  }
+
+                  this.$message({
+                      type: 'success',
+                      message: '获取数据成功'
+                  });
+              }).catch((err) => {
+                  console.log(err);
+                  });
               }catch(err){
                   this.$message({
                       type: 'error',

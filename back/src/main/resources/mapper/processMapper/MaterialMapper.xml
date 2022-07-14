@@ -14,10 +14,10 @@
         LIMIT ${pageVo.startOffset}, ${pageVo.pageSize}
     </select>
     
-    <select id="checkDuplicate" resultType="java.lang.Integer" parameterType="java.lang.String">
+    <select id="check" resultType="java.lang.Integer" parameterType="java.lang.String">
         SELECT count(*)
         FROM material m
-        WHERE m.name=#{name} AND m.size=#{size} AND m.color=#{color} AND is_deleted='0'
+        WHERE m.name=#{name} AND m.size=#{size} AND is_deleted='0'
     </select>
 
 <!--    跟据物料id查询对应物料的信息-->

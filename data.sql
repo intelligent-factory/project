@@ -320,7 +320,7 @@ CREATE TABLE `material` (
   `material_id` int NOT NULL,
   `name` varchar(45) NOT NULL,
   `size` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `color` varchar(20) NOT NULL,
+  `color` varchar(20) DEFAULT NULL,
   `comments` varchar(45) NOT NULL,
   `status` varchar(5) NOT NULL,
   `is_deleted` varchar(5) NOT NULL,

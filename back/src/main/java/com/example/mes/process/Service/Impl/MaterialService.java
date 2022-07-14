@@ -203,7 +203,7 @@ public class MaterialService implements IMaterialService {
             //用于检验用户权限
             String operator_id = insertMaterialVo.getOperator_id();
             //return "无权限";
-            if (mapper.checkDuplicate(insertMaterialVo.getName(),insertMaterialVo.getSize())!=0){
+            if (mapper.check(insertMaterialVo.getName(),insertMaterialVo.getSize())!=0){
                 return "添加失败";
             }
 
