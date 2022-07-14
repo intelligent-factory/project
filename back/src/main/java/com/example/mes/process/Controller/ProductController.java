@@ -42,6 +42,17 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/getProductsByCompanyAndCompany")
+    public String getProductsByCompany(int pageOffset,int pageSize,String company_id, String company){
+        try {
+            return JSON.toJSONString(service.getProducts(new PageVo(pageOffset,pageSize),company_id,company));
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("controller:查询产品信息失败");
+            return "";
+        }
+    }
+
 
 
     @GetMapping("/getProductsByCompanyAndType")
