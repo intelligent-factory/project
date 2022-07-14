@@ -42,7 +42,7 @@
     <select id="permissionFind" resultType="string">
         select DISTINCT permission_name
         from permission
-        where permission_name = #{permission_name} and company_id = #{company_id}
+        where permission_name = #{permission_name} and company_id = #{company_id} and is_deleted = "0"
     </select>
 
     <select id="findAllAccessName" resultType="string">

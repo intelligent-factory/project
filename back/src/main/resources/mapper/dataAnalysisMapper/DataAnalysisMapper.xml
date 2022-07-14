@@ -58,7 +58,7 @@
         SELECT m.material_id,ifnull(a.count,0) AS count
         FROM (SELECT goods_id material_id,sum(quantity) AS 'count'
               FROM storage_goods s
-              WHERE s.is_deleted='0' AND types='material' AND (verify='normal' OR verify='delete')
+              WHERE s.is_deleted='0' AND types='material'  AND (verify='normal' OR verify='delete')
               GROUP BY goods_id) AS a RIGHT JOIN material m ON a.material_id=m.material_id
         WHERE m.is_deleted='0' and m.company_id = #{company_id}
         ORDER BY m.material_id ASC

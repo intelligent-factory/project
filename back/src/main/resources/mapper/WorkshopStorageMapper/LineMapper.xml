@@ -16,13 +16,13 @@
         select uuid,id,workshop_id,name,verify,created_time,modified_time,routing from workshop_line where workshop_id=#{workshopId} and id=#{lineId} and is_deleted="0" and (verify="normal" or verify="delete")
     </select>
     <select id="getApplyById" resultType="com.example.mes.WorkshopStorage.vo.LineVo">
-        select uuid,id,workshop_id,name,verify,created_time,modified_time,pre_id,routing from workshop_line where workshop_id=#{workshopId} and id=#{lineId} and is_deleted="0" and verify!="normal"
+        select uuid,id,workshop_id,name,verify,created_time,modified_time,pre_id,routing from workshop_line where workshop_id=#{workshopId} and company_id = #{company_id} and id=#{lineId} and is_deleted="0" and verify!="normal"
     </select>
     <select id="getByName" resultType="com.example.mes.WorkshopStorage.vo.LineVo">
         select uuid,id,workshop_id,name,verify,created_time,modified_time from workshop_line where workshop_id=#{workshopId} and name=#{lineName} and is_deleted="0" and (verify="normal" or verify="delete")
     </select>
     <update id="updateByWorkshop">
-        update workshop_line set workshop_id=#{workshopId} where workshop_id=#{pre_id} and is_deleted="0"
+        update workshop_line set workshop_id=#{workshopId} where workshop_id=#{pre_id} and is_deleted="0" and company_id = #{company_id}
     </update>
     <select id="checkById" resultType="com.example.mes.WorkshopStorage.vo.LineVo">
         select id,workshop_id,name from workshop_line where workshop_id=#{workshopId} and company_id = #{company_id} and id=#{lineId} and is_deleted="0"
@@ -55,19 +55,19 @@
         select id,name,workshop_id,routing,created_time,modified_time,created_by,modified_by,verify,pre_id from workshop_line where is_deleted="0" and company_id = #{company_id} and verify!="normal" and verify!="create" order by id limit #{start},#{num}
     </select>
     <update id="setNormal">
-        update workshop_line set verify="normal",modified_time=#{modified_time},modified_by=#{user} where workshop_id=#{workshopId} and id=#{lineId} and verify!="normal" and is_deleted="0"
+        update workshop_line set verify="normal",modified_time=#{modified_time},modified_by=#{user} where workshop_id=#{workshopId} and company_id = #{company_id} and id=#{lineId} and verify!="normal" and is_deleted="0"
     </update>
     <update id="setDelete">
-        update workshop_line set is_deleted="1",modified_time=#{modified_time},modified_by=#{user} where workshop_id=#{workshopId} and id=#{lineId} and verify="normal" and is_deleted="0"
+        update workshop_line set is_deleted="1",modified_time=#{modified_time},modified_by=#{user} where workshop_id=#{workshopId} and company_id = #{company_id} and id=#{lineId} and verify="normal" and is_deleted="0"
     </update>
     <update id="setNormalDelete">
-        update workshop_line set is_deleted="1",verify="normal",modified_time=#{modified_time},modified_by=#{user} where workshop_id=#{workshopId} and id=#{lineId} and verify!="normal" and is_deleted="0"
+        update workshop_line set is_deleted="1",verify="normal",modified_time=#{modified_time},modified_by=#{user} where workshop_id=#{workshopId} and company_id = #{company_id} and id=#{lineId} and verify!="normal" and is_deleted="0"
     </update>
     <update id="setNormalByWorkshop">
-        update workshop_line set verify="normal",modified_time=#{modified_time},modified_by=#{user} where workshop_id=#{workshopId} and verify="create" and is_deleted="0"
+        update workshop_line set verify="normal",modified_time=#{modified_time},modified_by=#{user} where workshop_id=#{workshopId} and verify="create" and is_deleted="0" and company_id = #{company_id}
     </update>
     <update id="setDeleteByWorkshop">
-        update workshop_line set is_deleted="1",verify="normal",modified_time=#{modified_time},modified_by=#{user} where workshop_id=#{workshopId} and verify="create" and is_deleted="0"
+        update workshop_line set is_deleted="1",verify="normal",modified_time=#{modified_time},modified_by=#{user} where workshop_id=#{workshopId} and company_id = #{company_id} and verify="create" and is_deleted="0"
     </update>
 
     <select id="selectAllLine"  resultType="com.example.mes.WorkshopStorage.vo.LineVo">
@@ -79,7 +79,7 @@
     </update>
 
     <update id="setNormalByWorkshop2">
-        update workshop_line set is_deleted="0",verify="normal",modified_time=#{modified_time},modified_by=#{user} where workshop_id=#{workshopId} and verify="normal" and is_deleted="1"
+        update workshop_line set is_deleted="0",verify="normal",modified_time=#{modified_time},modified_by=#{user} where workshop_id=#{workshopId} and company_id = #{company_id} and verify="normal" and is_deleted="1"
     </update>
 
     <select id="searchProductId" resultType="com.example.mes.process.Vo.ProductVo.QueryProductVo">

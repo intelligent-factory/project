@@ -41,4 +41,10 @@ public interface QualityListService {
 
     //查询对应车间中的产线
     List<String> getAllLinesByWorkshop(String workshop_id,String company_id);
+
+//    List<QualityListBean> getPlanList2(Integer company_id);
+//
+//    List<String> getListId(Integer company_id);
+//
+//    void insertQuality(QualityListBean list, Integer company_id);
 }

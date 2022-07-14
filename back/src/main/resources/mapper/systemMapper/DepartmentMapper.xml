@@ -22,9 +22,9 @@
             is_deleted = "1",
             modified_time = #{department.modified_time},
             modified_by = #{department.modified_by},
-            status = #{department.status}
+
         </set>
-        where department_name = #{department.department_name}
+        where department_name = #{department.department_name} and company_id = #{department.company_id}
     </update>
     <select id="departmentFgetLastCountind" resultType="com.example.mes.system.entity.Department" parameterType="string">
         select *
@@ -65,9 +65,9 @@
     </update>
 
     <insert id="departmentInsert">
-        insert into department (department_name,company_id, role_id, manager_name, manager_id, department_describe, status, is_deleted,
+        insert into department (department_name,company_id,  manager_name, manager_id, department_describe, status, is_deleted,
         created_time, created_by, modified_time, modified_by,company_id)
-        values (#{n.department_name},#{n.company_id},#{n.role_id}, #{n.manager_name}, #{n.manager_id},
+        values (#{n.department_name},#{n.company_id},#{n.manager_name}, #{n.manager_id},
         #{n.department_describe},#{n.status},#{n.is_deleted},#{n.created_time},#{n.created_by},#{n.modified_time},#{n.modified_by},#{n.company_id})
     </insert>
 

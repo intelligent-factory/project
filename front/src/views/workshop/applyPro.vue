@@ -41,10 +41,11 @@ export default {
     }
   },
   activated() {
-    this.$router.push(this.path)
+    this.$router.push(this.path);
+    this.getData();
   },
   created() {
-    // this.getData()
+    this.getData()
   },
   beforeRouteLeave(to, from, next){
     this.path = this.$route.path;

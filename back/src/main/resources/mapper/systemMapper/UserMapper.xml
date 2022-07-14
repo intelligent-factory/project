@@ -61,7 +61,7 @@
 
     <select id="findUserById" resultType="com.example.mes.system.entity.User">
         select * from user
-        where id = #{id} and company_id = #{company_id}
+        where id = #{id} and company_id = #{company_id} and is_deleted = "0"
     </select>
 
     <update id="userUpdate" parameterType="com.example.mes.system.entity.Vo.UserUpdateVo">
@@ -95,10 +95,15 @@
         where id = #{id} and company_id = #{company_id}
     </select>
 
+    <select id="findUserRole" resultType="string">
+        select role from user
+        where id = #{id} and company_id = #{company_id}
+    </select>
+
     <insert id="createApply">
-        insert into apply (transfer_id, from_department, to_department, status, is_deleted, created_time, created_by,
+        insert into apply (transfer_id, from_department, to_department,to_role, status, is_deleted, created_time, created_by,
         handled_time, handled_by,company_id)
-        VALUES (#{apply.transfer_id},#{apply.from_department},#{apply.to_department},
+        VALUES (#{apply.transfer_id},#{apply.from_department},#{apply.to_department},#{apply.to_role},
         #{apply.status},#{apply.is_deleted},#{apply.created_time},#{apply.created_by},
         #{apply.handled_time},#{apply.handled_by},#{apply.company_id})
     </insert>

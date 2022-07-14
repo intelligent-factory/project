@@ -54,6 +54,26 @@ public class QualityListController {
     @PostMapping("/queryQualityList")
     public Object queryQualityList(@RequestBody QualityListVo qualityListVo) {
 
+//        //查询完成未加入的计划单
+//        List<QualityListBean> qualityListBeanList = qualitylistService.getPlanList2(qualityListVo.getCompany_id());
+//
+//        //查现有的list_id
+//        List<String> list_id = qualitylistService.getListId(qualityListVo.getCompany_id());
+//
+//        //插入质检任务
+//        for(QualityListBean list: qualityListBeanList){
+//
+//            System.out.println(list.getList_id());
+//            for(String id: list_id){
+//                if(!list.getList_id().equals(id)){
+//                    list.setStatus("0");
+//                    qualitylistService.insertQuality(list,qualityListVo.getCompany_id());
+//                }
+//
+//                }
+//            }
+
+
         List<QualityListBean> qualityList = qualitylistService.queryQualityList(qualityListVo);
         int qualityListCount = qualitylistService.getLastCount(qualityListVo);
 

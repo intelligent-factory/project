@@ -307,7 +307,7 @@ export default {
     },
     selectionChange(selectList) {
       this.multipleSelection = selectList;
-
+      this.getData();
     },
 
 
@@ -381,6 +381,7 @@ export default {
     this.$nextTick(() => {
       this.$refs.elementTable.doLayout(); //解决表格错位asd
     });
+    this.getData();
   }
 }
 </script>
