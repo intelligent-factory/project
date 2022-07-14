@@ -32,4 +32,6 @@ public interface ProductMapper {
                        @Param("style") String style,@Param("color") String color);
 
     List<QueryProductVo> getProductsByCompanyAndType(@Param("pageVo")PageVo pageVo, @Param("company_id")String company_id, @Param("type")String type);
+
+    List<QueryProductVo> getProductsByCompanyAndCompany(@Param("pageVo")PageVo pageVo, @Param("company_id")String company_id,@Param("company")String company);
 }

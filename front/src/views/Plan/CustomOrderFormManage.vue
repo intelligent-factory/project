@@ -154,8 +154,8 @@
                             <el-form-item label="产品颜色">
                                 <span>{{ props.row.color }}</span>
                             </el-form-item>
-                            <el-form-item label="产品季节">
-                                <span>{{ props.row.season }}</span>
+                            <!-- <el-form-item label="产品季节">
+                                <span>{{ props.row.season }}</span> -->
                             </el-form-item>
                             <el-form-item label="公司款号">
                                 <span>{{ props.row.company }}</span>

@@ -20,5 +20,5 @@ public interface IProductService {
     List<String> getProductIdsByDate(String date);
 
 
-
+    HashMap<String,Object> getProducts(PageVo pageVo, String company_id, String company);
 }

@@ -228,21 +228,37 @@ export default {
       if (this.currentObj.company!=null)
         try{
           request({
-            url: "/customOrderForm/searchCustomOrderForm",
-            params: {
-              no: null,
-              company: !this.currentObj.company ? null : this.currentObj.company.trim(),
-              created_time_start: null,
-              created_time_end: null,
-              expected_time_start: null,
-              expected_time_end: null,
-              limit:2142,
-              offset:0
-            },
-          })
+
+
+            // url: "/customOrderForm/searchCustomOrderForm",
+            // params: {
+            //   no: null,
+            //   company: !this.currentObj.company ? null : this.currentObj.company.trim(),
+            //   created_time_start: null,
+            //   created_time_end: null,
+            //   expected_time_start: null,
+            //   expected_time_end: null,
+            //   limit:2142,
+            //   offset:0
+            // },
+
+                url: "/process/getProductsByCompanyAndCompany",
+                params: {
+                  company: !this.currentObj.company ? null : this.currentObj.company.trim(),
+                  pageSize: 2142,
+                  pageOffset: 1,
+                  company_id:this.$store.getters.userinfo.company_id
+                },
+
+
+
+          }
+          
+          )
             .then((res) => {
               //console.log(res);
-              let CustomOrderForm = res.data;
+              // let CustomOrderForm = res.data;
+              let CustomOrderForm = res.data.products;
               this.tableData = CustomOrderForm;
 
               this.productInfoList=[];//清空产品信息列表
@@ -252,7 +268,8 @@ export default {
               var array1=[];//临时存放数据，用于排序
               for(var i=0;i<this.tableData.length;i++){
                 var row=this.tableData[i];
-                var product_info_tmp=row.brand+'-'+row.season+'-'+row.type+'-'+row.color;//构造产品信息
+                // var product_info_tmp=row.brand+'-'+row.season+'-'+row.type+'-'+row.color;//构造产品信息
+                var product_info_tmp=row.brand+'-'+row.type+'-'+row.color;//构造产品信息
                 array1.push(product_info_tmp);
                 this.productInfoMap.set(product_info_tmp,row.product_id);//创建映射
               }
@@ -294,17 +311,17 @@ export default {
           let result = this.currentObj.productInfo.split("-")
           let info = {
             brand: result[0],
-            season: result[1],
-            style: result[2],
-            color: result[3]
+            //season: result[1],
+            style: result[1],
+            color: result[2]
           }
           let form =
               "\n公司款号：" +
               this.currentObj.company +
               "\n\n品牌：" +
               info.brand +
-              "\n季节：" +
-              info.season +
+              // "\n季节：" +
+              // info.season +
               "\n样式：" +
               info.style +
               "\n颜色：" +
