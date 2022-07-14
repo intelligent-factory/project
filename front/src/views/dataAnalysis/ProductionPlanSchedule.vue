@@ -17,10 +17,10 @@ export default {
 
       product_id:this.$route.params.id,
 
-      plan_ids: ['A','B'],
+      plan_nos: ['A','B'],
       realCounts: [1,2],
       planCounts: [1,2],
-
+      plan_ids:[]
 
     }
   },
@@ -34,9 +34,10 @@ export default {
 
         if (product_id=== 'undefined'){console.log(product_id)
       this.product_id = "空"
-      this.plan_ids = []
+      this.plan_nos = []
       this.realCounts = []
       this.planCounts = []
+      this.plan_ids =[]
       this.drawChart()
       } else {
         request({
@@ -49,6 +50,7 @@ export default {
         }).then(res => {
 
           this.plan_ids = res.data.plan_ids
+          this.plan_nos = res.data.plan_nos
           this.realCounts = res.data.realCounts
           this.planCounts = res.data.planCounts
           this.drawChart()
@@ -89,7 +91,7 @@ export default {
         xAxis: [
           {
             type: 'category',
-            data: this.plan_ids,
+            data: this.plan_nos,
           }
         ],
         yAxis: [
