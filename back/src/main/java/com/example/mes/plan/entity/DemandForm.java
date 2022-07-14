@@ -167,7 +167,7 @@ public class DemandForm extends BaseEntity {
 				+ product + ", planSet=" + planSet + ", getId()=" + getId()
 				+ ", getStatus()=" + getStatus() + ", getIsDeleted()=" + getDeleted() + ", getCreatedTime()="
 				+ getCreatedTime() + ", getCreatedBy()=" + getCreatedBy() + ", getModifiedTime()=" + getModifiedTime()
-				+ ", getModifiedBy()=" + getModifiedBy() + "]";
+				+ ", getModifiedBy()=" + getModifiedBy() + ", getCompany_id()=" + getCompany_id() + "]";
 	}
 
 }
