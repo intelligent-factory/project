@@ -364,7 +364,7 @@ export default {
           let req = {
             name: this.incrementM.name,
             size:JSON.stringify(this.incrementM.size),
-            color: this.incrementM.color,
+            //color: this.incrementM.color,
             comments: this.incrementM.comments,
             company_id:this.userMsg.company_id,
             operator_id: 1,
