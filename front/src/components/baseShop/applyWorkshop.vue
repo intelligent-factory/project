@@ -89,7 +89,8 @@ export default {
     this.getData()
   },
   activated() {
-    this.$router.push(this.path)
+    this.$router.push(this.path);
+    this.getData()
   },
   beforeRouteLeave(to, from, next){
     this.path = this.$route.path;

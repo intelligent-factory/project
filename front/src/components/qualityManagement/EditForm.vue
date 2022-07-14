@@ -18,7 +18,7 @@
                             style="width: 100%;"></el-date-picker>
         </el-form-item>
 <!--      订单数量、样品数量、瑕疵数量-->
-        <el-form-item label="订单数量" required>
+        <el-form-item label="产品数量" required>
           <el-col :span="6">
             <el-form-item prop="orderNum">
               <el-input v-model="qualityForm.orderNum" disabled style="width: 100%;"></el-input>

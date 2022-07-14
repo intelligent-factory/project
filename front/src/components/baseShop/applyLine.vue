@@ -72,6 +72,7 @@
 import {request} from "@/network/request";
 
 export default {
+  inject: ['reload'], // 引入方法
   name: "applyLine",
   data(){
     return {
@@ -90,9 +91,13 @@ export default {
   },
   created() {
     this.getData()
+
   },
+
   activated() {
-    this.$router.push(this.path)
+    this.$router.push(this.path);
+    this.getData()
+
   },
   beforeRouteLeave(to, from, next){
     this.path = this.$route.path;
@@ -136,6 +141,7 @@ export default {
         //          }
         //      ]
         // ]
+
         this.total = res.data.result.total
         this.tableData = res.data.result.records
         for (let item of this.tableData) {

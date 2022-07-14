@@ -240,7 +240,7 @@ export default {
         return;
       }
       let count = user.length;
-      this.$confirm(`确定删除选择的${count}个部门？`, '提示', {
+      this.$confirm(`确定删除选择的${count}个权限？`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -300,6 +300,7 @@ export default {
     this.$nextTick(() => {
       this.$refs.elementTable.doLayout(); //解决表格错位asd
     });
+    this.getData();
   }
 }
 </script>

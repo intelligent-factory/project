@@ -3,6 +3,11 @@
     <div style="height: 20px"></div>
 
     <div id="theBaseHeader">
+      <div>
+        <el-button style="margin-left: 55%" type="primary" @click="clearFilter" >清除所有过滤器</el-button>
+
+      </div>
+
       <!--实现查询的输入框和按钮    start-->
       <div id="theLeftBase">
         <el-form :inline="true" :model="formInline" class="demo-form-inline" ref="formInline" :rules="rules">
@@ -17,7 +22,8 @@
             <el-input v-model.trim="formInline.info" :placeholder="this.showLine===false?'车间编号/名称':'车间编号/名称+产线编号/名称'"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button style="margin-left: 70%" type="primary" @click="search(formInline)">查询</el-button>
+            <el-button style="margin-left: 10%" type="primary" @click="search(formInline)">查询</el-button>
+
           </el-form-item>
         </el-form>
 
@@ -283,13 +289,18 @@ export default {
     this.getData()
   },
   activated() {
-    this.$router.push(this.path)
+    this.$router.push(this.path);
+    this.getData()
   },
   beforeRouteLeave(to, from, next) {
     this.path = this.$route.path;
     next();
   },
   methods: {
+
+    clearFilter() {
+      this.getData();
+    },
 
     //时间格式转换
     formatDate(value) {
@@ -324,7 +335,7 @@ export default {
             message: '申请成功'
           })
         }else {
-          this.$message.error('申请失败!车间编号已存在或正在修改中')
+          this.$message.error('申请失败！车间编号已存在或正在修改中')
         }
         // this.getData()
         // this.nowShopworkId = req.workshopId
@@ -700,7 +711,7 @@ export default {
 }
 
 #theLeftBase {
-  width: 70%;
+  width: 100%;
   display: flex;
   justify-content: space-around;
   align-items: center;

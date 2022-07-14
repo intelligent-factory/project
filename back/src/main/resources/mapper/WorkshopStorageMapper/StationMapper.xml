@@ -12,7 +12,7 @@
         select id,equip_id,stationOrder from workshop_station where workshop_id=#{workshop_id} and line_id=#{line_id} and is_deleted="0"
     </select>
     <select id="getApplyById" resultType="com.example.mes.WorkshopStorage.vo.StationVo">
-        select uuid,id,equip_id,stationOrder,verify,user,pre_id from workshop_station where workshop_id=#{workshop_id} and line_id=#{line_id} and id=#{station_id} and is_deleted="0" and verify!="normal"
+        select uuid,id,equip_id,stationOrder,verify,user,pre_id from workshop_station where workshop_id=#{workshop_id} and company_id = #{company_id} and line_id=#{line_id} and id=#{station_id} and is_deleted="0" and verify!="normal"
     </select>
     <select id="getById" resultType="com.example.mes.WorkshopStorage.vo.StationVo">
         select uuid,id,equip_id,stationOrder,verify from workshop_station where workshop_id=#{workshop_id} and line_id=#{line_id} and id=#{station_id} and is_deleted="0" and (verify="normal" or verify="delete")
@@ -21,10 +21,10 @@
         select id,equip_id,stationOrder from workshop_station where workshop_id=#{workshop_id} and line_id=#{line_id} and id=#{station_id} and is_deleted="0"
     </select>
     <update id="updateByWorkshop">
-        update workshop_station set workshop_id=#{workshopId} where workshop_id=#{pre_id} and is_deleted="0"
+        update workshop_station set workshop_id=#{workshopId} where workshop_id=#{pre_id} and company_id = #{company_id} and is_deleted="0"
     </update>
     <update id="updateByLine">
-        update workshop_line set line_id=#{lineId} where workshop_id=#{workshopId} and line_id=#{pre_id} and is_deleted="0"
+        update workshop_line set id=#{lineId} where workshop_id=#{workshopId} and company_id = #{company_id} and id=#{pre_id} and is_deleted="0"
     </update>
     <insert id="insert" parameterType="com.example.mes.WorkshopStorage.entity.Station">
         insert into workshop_station values (#{uuid}, #{id}, #{workshop_id}, #{line_id}, #{user},#{equip_id},#{stationOrder},#{verify},#{pre_id},#{status},#{is_deleted},#{created_time},#{created_by},#{modified_time},#{modified_by},#{company_id})
@@ -51,19 +51,19 @@
         select id,workshop_id,line_id,created_time,created_by,verify,pre_id,modified_by,modified_time from workshop_station where is_deleted="0" and company_id = #{company_id} and verify!="normal" and verify!="create" order by id limit #{start},#{num}
     </select>
     <update id="setNormal">
-        update workshop_station set verify="normal",modified_time=#{modified_time},modified_by=#{user} where workshop_id=#{workshopId} and line_id=#{lineId} and id=#{stationId} and verify!="normal" and is_deleted="0"
+        update workshop_station set verify="normal",modified_time=#{modified_time},modified_by=#{user} where workshop_id=#{workshopId} and company_id = #{company_id} and line_id=#{lineId} and id=#{stationId} and verify!="normal" and is_deleted="0"
     </update>
     <update id="setDelete">
-        update workshop_station set is_deleted="1",modified_time=#{modified_time},modified_by=#{user} where workshop_id=#{workshopId} and line_id=#{lineId} and id=#{stationId} and verify="normal" and is_deleted="0"
+        update workshop_station set is_deleted="1",modified_time=#{modified_time},modified_by=#{user} where workshop_id=#{workshopId} and company_id = #{company_id} and line_id=#{lineId} and id=#{stationId} and verify="normal" and is_deleted="0"
     </update>
     <update id="setNormalDelete">
-        update workshop_station set is_deleted="1",verify="normal",modified_time=#{modified_time},modified_by=#{user} where workshop_id=#{workshopId} and line_id=#{lineId} and id=#{stationId} and verify!="normal" and is_deleted="0"
+        update workshop_station set is_deleted="1",verify="normal",modified_time=#{modified_time},modified_by=#{user} where workshop_id=#{workshopId} and company_id = #{company_id} and line_id=#{lineId} and id=#{stationId} and verify!="normal" and is_deleted="0"
     </update>
     <update id="setNormalByWorkshop">
-        update workshop_station set verify="normal",modified_time=#{modified_time},modified_by=#{user} where workshop_id=#{workshopId} and verify="create" and is_deleted="0"
+        update workshop_station set verify="normal",modified_time=#{modified_time},modified_by=#{user} where workshop_id=#{workshopId} and verify="create" and is_deleted="0" and company_id = #{company_id}
     </update>
     <update id="setDeleteByWorkshop">
-        update workshop_station set is_deleted="1",verify="normal",modified_time=#{modified_time},modified_by=#{user} where workshop_id=#{workshopId} and verify="create" and is_deleted="0"
+        update workshop_station set is_deleted="1",verify="normal",modified_time=#{modified_time},modified_by=#{user} where workshop_id=#{workshopId} and company_id = #{company_id} and verify="create" and is_deleted="0"
     </update>
     <select id="checkByPre_id" resultType="com.example.mes.WorkshopStorage.vo.StationVo">
         select uuid from workshop_station where pre_id =#{stationId} and line_id=#{lineId} and workshop_id=#{workshopId} and verify="insert" and is_deleted="0"
@@ -74,11 +74,11 @@
     </select>
 
     <update id="setNormalByWorkshop2">
-        update workshop_station set is_deleted="0",modified_time=#{modified_time},modified_by=#{user} where workshop_id=#{workshopId} and verify="normal" and is_deleted="1"
+        update workshop_station set is_deleted="0",modified_time=#{modified_time},modified_by=#{user} where workshop_id=#{workshopId} and company_id = #{company_id} and verify="normal" and is_deleted="1"
     </update>
 
     <update id="setNormal2">
-        update workshop_station set is_deleted="0",modified_time=#{modified_time},modified_by=#{user} where workshop_id=#{workshopId} and line_id=#{lineId} and verify="normal" and is_deleted="1"
+        update workshop_station set is_deleted="0",modified_time=#{modified_time},modified_by=#{user} where workshop_id=#{workshopId} and company_id = #{company_id} and line_id=#{lineId} and verify="normal" and is_deleted="1"
     </update>
 
     <insert id="insertStations" parameterType="com.example.mes.WorkshopStorage.vo.StationVo">

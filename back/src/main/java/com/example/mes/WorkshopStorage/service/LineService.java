@@ -358,6 +358,7 @@ public class LineService {
     public Result<LineVo> searchLine(String workshopId, String lineId, String company_id) throws SQLException{
         Result<LineVo> result = new Result<>();
         WorkshopVo workshopVo = workshopMapper.getById(workshopId,company_id);
+        System.out.println(workshopVo.getId());
         if(workshopVo == null){
             workshopVo = workshopMapper.getByName(workshopId,company_id);
             workshopId = workshopVo.getId();

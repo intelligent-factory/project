@@ -95,4 +95,21 @@ public class QualityListServiceImpl implements QualityListService {
             return null;
         }
     }
+
+//    @Override
+//    public List<QualityListBean> getPlanList(Integer company_id) {
+//        return qualitylistMapper.getPlanList2(company_id);
+//    }
+//
+//    @Override
+//    public List<String> getListId(Integer company_id) {
+//        return qualitylistMapper.getListId(company_id);
+//    }
+//
+//    @Override
+//    public void insertQuality(QualityListBean list, Integer company_id) {
+//        qualitylistMapper.insertQuality(list,company_id);
+//    }
+
+
 }
