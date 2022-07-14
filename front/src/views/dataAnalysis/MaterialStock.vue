@@ -133,7 +133,7 @@ export default {
           material_id: this.material_id
         }
       }).then(res =>{
-        this.dates =['7-1','7-2','7-3','7-4','7-5','7-6','当前',],
+        this.dates =['7-9','7-10','7-11','7-12','7-13','7-14','当前',],
         this.stocks = res.data.stocks,
         this.drawChart()
       }).catch(err =>{

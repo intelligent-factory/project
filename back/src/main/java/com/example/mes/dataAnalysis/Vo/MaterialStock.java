@@ -15,7 +15,6 @@ public class MaterialStock {
         this.material_id = material_id;
         this.name = name;
         this.size = size;
-
         this.count = count;
     }
 
