@@ -59,8 +59,10 @@ public class DepartmentController {
             ) {
         HashMap<String, Object> res = new HashMap<>();
         List<Department> departmentList = departmentDeleteVo.getDepartmentList();
+
         for (Department department : departmentList) {
-            departmentService.departmentDelete(department,departmentDeleteVo.getUser().getId());
+
+            departmentService.departmentDelete(department,departmentDeleteVo.getUser().getId(),departmentDeleteVo.getUser().getCompany_id());
         }
         MyUtils.success(res);
         return res;
@@ -78,6 +80,7 @@ public class DepartmentController {
                 MyUtils.fail(res, "该部门不存在,无法更新");
             } else {
 //                departmentService.departmentUpdate(newdepartmentUpdateVo);
+
                 departmentService.newDepartmentUpdate(newdepartmentUpdateVo);
                 MyUtils.success(res);
             }

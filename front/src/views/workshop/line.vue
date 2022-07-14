@@ -523,7 +523,7 @@ export default {
         currentPage: this.page.curpage,
         pagesize: this.page.pagesize,
         workshopId: this.nowShopworkId,
-        company_id: this.$store.getters.userinfo.company_id,
+        company_id: this.$store.getters.userinfo.company_id
       };
       this.loading = true
       my_request({
@@ -598,7 +598,7 @@ export default {
           request({
             url:'/line/searchProductId',
             method:'get',
-            params:req,
+            params: req,
           }).then(resp =>{
             if(resp && resp.status === 200){
               let data = resp.data;
@@ -690,8 +690,7 @@ export default {
     getData() {
       // 获取当前传送来的信息的数据，
       let req = {
-        workshopId: this.nowShopworkId,
-        company_id: this.$store.getters.userinfo.company_id,
+        workshopId: this.nowShopworkId
       }
       console.log('...',req)
       // my_request({
@@ -868,7 +867,7 @@ export default {
                 message:'申请成功'
               })
             }else {
-              this.$message.error('申请失败!产线编号已存在或正在修改中')
+              this.$message.error('申请失败！产线编号已存在或正在修改中')
             }
 
           }).catch(err => {

@@ -38,7 +38,7 @@
 
     <select id="roleFind" resultType="com.example.mes.system.entity.Role">
         select * from role
-        where role_name = #{role_name} and company_id = #{company_id}
+        where role_name = #{role_name} and company_id = #{company_id} and is_deleted = "0"
     </select>
 
     <update id="roleUpdate" parameterType="com.example.mes.system.entity.Vo.RoleUpdateVo">

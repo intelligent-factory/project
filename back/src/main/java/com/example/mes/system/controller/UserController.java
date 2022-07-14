@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/data/systemManagement")
@@ -56,14 +57,27 @@ public class UserController {
         return res;
     }
 
+    //随机生成5位数字符串
+    public static String getFourRandom(){
+        Random random = new Random();
+        String fourRandom = random.nextInt(10000) + "";
+        int randLength = fourRandom.length();
+        if(randLength<5){
+            for(int i=1; i<=5-randLength; i++)
+                fourRandom = "0" + fourRandom ;
+        }
+        return fourRandom;
+    }
+
     @PostMapping("/userUpdate")
     public Object userUpdate(
             @RequestBody UserUpdateVo userUpdateVo
     ) {
         HashMap<String, Object> res = new HashMap<>();
         String Method = userUpdateVo.request;
-        int id = userUpdateVo.id;
-        User user = userService.findUserById(id,userUpdateVo.user.getCompany_id());
+        String id = userUpdateVo.user.getCompany_id()+getFourRandom();
+        userUpdateVo.id = Integer.parseInt(id);
+        User user = userService.findUserById(userUpdateVo.id,userUpdateVo.user.getCompany_id());
         if (Method.equals("insert")) {
             if (user != null) {
                 MyUtils.fail(res, "该id已经占用，请勿重复创建");

@@ -12,7 +12,7 @@
       >
 
         <el-form-item class="item" label="id" label-width="100px" prop="id">
-          <el-input v-model.number="currentObj.id" autocomplete="off" :disabled="!isIdEditable"></el-input>
+          <el-input v-model.number="currentObj.id" autocomplete="off" disabled>0</el-input>
         </el-form-item>
         <el-form-item class="item" label="用户名" label-width="100px" prop="name">
           <el-input v-model="currentObj.name" autocomplete="off"></el-input>
@@ -79,10 +79,10 @@ export default {
       role_options: [],
       originDepartment: "",
       rules: {
-        id: [
-          {required: true, message: '请输入id', trigger: 'blur'},
-          {type: "number", message: 'id必须为数字', trigger: 'blur'},
-        ],
+        // id: [
+        //   {required: true, message: '请输入id', trigger: 'blur'},
+        //   {type: "number", message: 'id必须为数字', trigger: 'blur'},
+        // ],
         name: [
           {required: true, message: '请输入用户名', trigger: 'blur'},
           {max: 4, message: '用户名过长', trigger: 'blur'},

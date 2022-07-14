@@ -58,9 +58,24 @@
         and status = '待审核'
         and is_deleted = '0'
     </select>
+    <select id="getRole" resultType="string">
+        select to_role
+        from apply
+        where log_id = #{apply_id}
+        and status = '待审核'
+        and is_deleted = '0'
+    </select>
     <update id="setUserDepartment">
         update user
         set department = #{department},
+        modified_time = #{currentTime},
+        modified_by = #{handled_by}
+        where id = #{transfer_id}
+    </update>
+
+    <update id="setUserRole">
+        update user
+        set role = #{role},
         modified_time = #{currentTime},
         modified_by = #{handled_by}
         where id = #{transfer_id}

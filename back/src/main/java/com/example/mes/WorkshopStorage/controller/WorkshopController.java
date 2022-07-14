@@ -197,11 +197,12 @@ public class WorkshopController {
     }
 
     @GetMapping(value = "confirm")
-    public Result<?> confirm(String user, String info, String workshop_id, String line_id, String id){
+    public Result<?> confirm(String user, String info, String workshop_id, String line_id, String id,String company_id){
         //TODO:权限判断
         try {
-            workshopService.confirm(user, info, workshop_id, line_id, id);
+            workshopService.confirm(user, info, workshop_id, line_id, id,company_id);
         } catch (Exception e) {
+            e.printStackTrace();
             LoggerFactory.getLogger(this.getClass()).error("申请失败",e.getMessage());
             return Result.error("申请失败!");
         }

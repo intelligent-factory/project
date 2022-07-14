@@ -18,15 +18,15 @@ public interface WorkshopMapper {
 
     List<WorkshopVo> all_workshop();
     WorkshopVo getById(@Param("workshopId") String workshopId,@Param("company_id") String company_id);
-    WorkshopVo getApplyById(@Param("workshopId") String workshopId);
+    WorkshopVo getApplyById(@Param("workshopId") String workshopId,@Param("company_id") String company_id);
     WorkshopVo getByName(@Param("workshopName") String workshopName,@Param("company_id") String company_id);
     WorkshopVo createInfo(@Param("workshopId") String workshopId);
     Integer getCount(@Param("company_id") String company_id);
     Integer getApplyCount(@Param("company_id") String company_id);
     void insert(Workshop params);
-    void setNormal(@Param("workshopId") String workshopId, @Param("modified_time") Timestamp modified_time, @Param("user") String user);
-    void setNormalDelete(@Param("workshopId") String workshopId, @Param("modified_time") Timestamp modified_time, @Param("user") String user);
-    void setDelete(@Param("workshopId") String workshopId, @Param("modified_time") Timestamp modified_time, @Param("user") String user);
+    void setNormal(@Param("workshopId") String workshopId, @Param("modified_time") Timestamp modified_time, @Param("user") String user,@Param("company_id") String company_id);
+    void setNormalDelete(@Param("workshopId") String workshopId, @Param("modified_time") Timestamp modified_time, @Param("user") String user,@Param("company_id") String company_id);
+    void setDelete(@Param("workshopId") String workshopId, @Param("modified_time") Timestamp modified_time, @Param("user") String user,@Param("company_id") String company_id);
     WorkshopVo checkById(@Param("workshopId") String workshopId,@Param("company_id") String company_id);
     WorkshopVo checkByPre_id(@Param("workshopId") String workshopId);
     //TODO :add modified user

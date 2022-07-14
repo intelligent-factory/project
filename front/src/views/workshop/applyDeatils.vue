@@ -320,6 +320,9 @@ export default {
     this.getData()
     console.log(this.$route.query)
   },
+  activated() {
+    this.getData()
+  },
   methods: {
     getData() {
       let req = {
@@ -366,7 +369,7 @@ export default {
           workshopId: this.$route.query.workshop_id,
           lineId: this.$route.query.line_id,
           stationId: this.$route.query.id,
-          company_id: this.$store.getters.userinfo.company_id,
+          company_id:this.$store.getters.userinfo.company_id
         }
         my_request({
           url: 'workshop/update_delete_Info',
@@ -427,6 +430,7 @@ export default {
         id: this.$route.query.id,
         user: this.$store.getters.userinfo.id,
         info: mess,
+        company_id: this.$store.getters.userinfo.company_id
         //  1 是 true同意  0是false拒绝
       }
       console.log('req::',req)

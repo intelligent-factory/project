@@ -311,6 +311,7 @@ export default {
     this.$nextTick(() => {
       this.$refs.elementTable.doLayout(); //解决表格错位asd
     });
+    this.getData();
   }
 }
 </script>

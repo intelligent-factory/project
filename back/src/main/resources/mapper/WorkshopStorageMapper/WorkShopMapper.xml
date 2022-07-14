@@ -19,7 +19,7 @@
         select id,name,factory_name,verify,created_time,modified_time from workshop_workshop where name =#{workshopName} and is_deleted="0" and (verify="normal" or verify="delete")  and company_id=#{company_id}
     </select>
     <select id="getApplyById" resultType="com.example.mes.WorkshopStorage.vo.WorkshopVo">
-        select uuid,id,name,factory_name,verify,pre_id,created_time,created_by from workshop_workshop where id =#{workshopId} and is_deleted="0" and verify!="normal"
+        select uuid,id,name,factory_name,verify,pre_id,created_time,created_by from workshop_workshop where id =#{workshopId} and is_deleted="0" and verify!="normal" and company_id=#{company_id}
     </select>
     <select id="checkById" resultType="com.example.mes.WorkshopStorage.vo.WorkshopVo">
         select uuid from workshop_workshop where id =#{workshopId} and is_deleted="0" and company_id = #{company_id}
@@ -31,13 +31,13 @@
         update workshop_workshop set verify="delete",modified_time=#{modified_time} where id=#{workshopId} and verify="normal" and is_deleted="0"
     </update>
     <update id="setNormal">
-        update workshop_workshop set verify="normal",modified_time=#{modified_time},modified_by=#{user} where id=#{workshopId} and verify!="normal" and is_deleted="0"
+        update workshop_workshop set verify="normal",modified_time=#{modified_time},modified_by=#{user} where id=#{workshopId} and verify!="normal" and is_deleted="0" and company_id = #{company_id}
     </update>
     <update id="setNormalDelete">
-        update workshop_workshop set verify="normal",is_deleted="1",modified_time=#{modified_time},modified_by=#{user} where id=#{workshopId} and verify!="normal" and is_deleted="0"
+        update workshop_workshop set verify="normal",is_deleted="1",modified_time=#{modified_time},modified_by=#{user} where id=#{workshopId} and verify!="normal" and is_deleted="0" and company_id = #{company_id}
     </update>
     <update id="setDelete">
-        update workshop_workshop set is_deleted="1",modified_time=#{modified_time},modified_by=#{user} where id=#{workshopId} and verify="normal" and is_deleted="0"
+        update workshop_workshop set is_deleted="1",modified_time=#{modified_time},modified_by=#{user} where id=#{workshopId} and verify="normal" and is_deleted="0" and company_id = #{company_id}
     </update>
     <!--删除用户信息-->
     <!--    记得加上company_id！！！！！-->

@@ -35,9 +35,10 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
     }
 
     @Override
-    public void departmentDelete(Department department,int handler) {
+    public void departmentDelete(Department department,int handler,int company_id) {
         department.setModified_by(Integer.toString(handler));
         department.setModified_time(MyImplUtils.getCurrentTime());
+        department.setCompany_id(company_id);
         departmentMapper.departmentDelete(department);
     }
 

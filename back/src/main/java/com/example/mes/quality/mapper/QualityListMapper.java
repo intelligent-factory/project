@@ -42,4 +42,10 @@ public interface QualityListMapper {
 
     //查询车间中的产线
     List<String> getAllLinesByWorkshop(@Param("workshop_id") String workshop_id,@Param("company_id") String company_id);
+
+//    List<QualityListBean> getPlanList2(@Param("company_id") Integer company_id);
+//
+//    List<String> getListId(@Param("company_id") Integer company_id);
+//
+//    void insertQuality(@Param("list") QualityListBean list,@Param("company_id") Integer company_id);
 }
