@@ -9,7 +9,7 @@
         </div>
         <div style="display: flex;width: 60%;flex-direction: row-reverse">
           <div style="height: 40px;line-height: 40px;margin-top: 40px;display: flex;">
-            <el-button @click="increment">增加</el-button>
+
           </div>
         </div>
       </div>
